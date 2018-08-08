@@ -1,0 +1,100 @@
+// ----------------------------------------------------------------------
+// -----                                                            -----
+// -----                     R3BFrsHit2AnaS4                        -----
+// -----             Created 29/07/18  by J.L. Rodriguez-Sanchez    -----
+// ----------------------------------------------------------------------
+
+#ifndef R3BFrsHit2AnaS4_H
+#define R3BFrsHit2AnaS4_H
+
+#include "FairTask.h"
+#include "TH1F.h"
+#include "TF1.h"
+#include "R3BFrsData.h"
+#include <TRandom.h>
+
+class TClonesArray;
+
+class R3BFrsHit2AnaS4 : public FairTask {
+  
+ public:
+  /** Default constructor **/
+  R3BFrsHit2AnaS4();
+
+  /** Standard constructor **/
+  R3BFrsHit2AnaS4(const char* name, Int_t iVerbose=1);
+  
+  /** Destructor **/
+  virtual ~R3BFrsHit2AnaS4();
+  
+  /** Virtual method Exec **/
+  virtual void Exec(Option_t* option);
+  
+  /** Virtual method Reset **/
+  virtual void Reset();
+  
+  //Fair specific
+  /** Virtual method Init **/
+  virtual InitStatus Init();
+  
+  /** Virtual method ReInit **/
+  virtual InitStatus ReInit();
+  
+  /** Virtual method Finish **/
+  virtual void Finish();
+
+  /** Accessor functions **/  
+  //const Int_t GetNumDetectors(){return fNumDets;}
+  //void SetNumDetectors(Int_t numberDet){fNumDets=numberDet;}
+
+
+  void SetMagnificationS2S4(Double_t theMag){fMagS2S4=theMag;}
+  void SetDispersionS2S4(Double_t theDisp){fDispS2S4=theDisp;}
+  void SetPathS2S4(Double_t thePath){fPathS2S4=thePath;}
+  void SetTOFS2S4(Double_t theTOF){fTOFS2S4=theTOF;}
+  void SetDistTpcS2(Double_t theDis){fDisTpcS2=theDis;}
+  void SetDistTpcS4(Double_t theDis){fDisTpcS4=theDis;}
+
+  void SetRhos(TArrayF* theRhos) {
+    fRhos = theRhos;
+    fNbRhos = theRhos->GetSize();
+  }
+
+  void SetBfieds(TArrayF* theBfield) {
+    fBfields = theBfield;
+    fNbBfiels = theBfield->GetSize();
+  }
+  
+ private:
+
+  void SetParameter();
+
+  Double_t fMagS2S4;
+  Double_t fDispS2S4;
+  Double_t fPathS2S4, fTOFS2S4;
+  Double_t fDisTpcS2, fDisTpcS4;
+  Double_t frho_S0_S2, fBfield_S0_S2, frho_S2_S4, fBfield_S2_S4;
+
+  TArrayF* fRhos;
+  Int_t fNbRhos;
+  TArrayF* fBfields;
+  Int_t fNbBfiels;
+
+  TF1 *fitXposS2_S4, *fitXposS2_S4b;
+  TF1 *fitAoQ_ToF;
+  
+  TClonesArray* fFrsMappedDataCA; /**< Array with FRS mapped- input data. >*/
+  TClonesArray* fMusicHitDataCA; /**< Array with MUSIC Hit- input data. >*/
+  TClonesArray* fTpcHitDataCA;   /**< Array with TPC Hit- input data.   >*/
+  TClonesArray* fFrsDataCA;      /**< Array with FRS data- output data. >*/
+  
+  /** Private method FrsData **/
+  //** Adds a FrsData to the analysis
+  R3BFrsData* AddData(Double_t z, Double_t aq);
+
+ public:
+  //Class definition
+  ClassDef(R3BFrsHit2AnaS4, 1)
+    };
+
+#endif
