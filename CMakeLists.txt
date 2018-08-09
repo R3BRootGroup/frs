@@ -13,4 +13,5 @@ Set(R3BFRS_SOURCE_DIR ${R3BROOT_SOURCE_DIR}/frs/)
 #FRS specific
 add_subdirectory (frsdata)
 add_subdirectory (frsdetectors)
+add_subdirectory (frssource)
 add_subdirectory (macros)
