@@ -9,6 +9,8 @@ For the software-related user support you can post a new topic on our [forum](ht
 
 ~~~bash
 git clone https://github.com/R3BRootGroup/frs.git
+cd frs
+git checkout dev
 ~~~
 
 # Install
@@ -16,6 +18,42 @@ git clone https://github.com/R3BRootGroup/frs.git
 ### Required software
 
 First, you will need to install FairSoft and FairRoot. For more details: [instructions](https://www.r3broot.gsi.de/installation).
+
+### Installation of UCESB
+
+Checkout the most recent version of ucesb from the git repository:
+~~~bash
+git clone http://fy.chalmers.se/~f96hajo/ucesb/ucesb.git
+~~~
+And also checkout the git repository with experiment unpackers:
+~~~bash
+git clone lx-pool.gsi.de:/u/johansso/upexps
+~~~
+Check that
+~~~bash
+which root
+~~~
+points to your FAIRROOT installation directory!
+
+Compile the empty ucesb unpacker *using the same version of ROOT* as you used for FAIRROOT.
+~~~bash
+make empty/empty
+~~~
+After compilation finished, make sure that the file
+~~~bash
+hbook/ext_data_clnt.o
+~~~
+exists. Set the environment variable UCESB_DIR to the 'unpacker' directory, e.g.
+~~~bash
+export UCESB_DIR=/u/$USER/path/to/unpacker
+~~~
+Put this in your .bashrc to make it permanent. R3BRoot will look for ucesb at this location.
+
+Compile then your experiment specific unpacker (also use *the same* ROOT version here).
+~~~bash
+cd upexps/sNameExperiment
+make
+~~~
 
 ### Installation of R3BRoot and FRS (as part of R3BRoot)
 
@@ -37,7 +75,6 @@ cmake ../R3BRoot/
 make -j4
 ~~~
 
-
 # Data Analysis
 
 Data analysis is included inside the frs directory, where you can find the next subdirectories:
@@ -54,5 +91,7 @@ This directory contains all the readers needed to analize the data obained from 
 
 This directory contains all the classes for the mapping, calibration, and hit reconstructions of physical events as well as some classes for the analysis of the FRS experiments (S0 to S4). The identification from S0 to S8 is ongoing!
 
+### macros
 
+This contains all the macros needed for the unpacking and analysis of data.
 
