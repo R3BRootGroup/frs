@@ -66,6 +66,10 @@ export FAIRROOTPATH=%PATH_TO_FAIRROOT%
 git clone https://github.com/R3BRootGroup/R3BRoot.git
 cd R3BRoot
 git checkout dev
+git clone https://github.com/R3BRootGroup/macros.git
+cd macros
+git checkout dev
+cd ..
 git clone https://github.com/R3BRootGroup/frs.git
 cd frs
 git checkout dev
