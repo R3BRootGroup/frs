@@ -14,6 +14,7 @@
 #include <array>
 #include "TMath.h"
 #include <cstdlib>
+#include "TH1.h"
 #include "TH2F.h"
 #include "TCanvas.h"
 
@@ -96,22 +97,30 @@ class R3BFrsOnlineSpectra : public FairTask {
   Int_t fTrigger;                       /**< Trigger value. */
   Int_t fNEvents;        	   	/**< Event counter. */
   
-  TCanvas* cMus1,* cMus2,*c2ID,*c1ID,*cSCI21,*cSCI41;
+  //Canvas
+  TCanvas* cMus1,* cMus2,*c2ID,*c1ID,*cSCI21,*cSCI41,*cSCI81;
   TCanvas* cTpcCal[4], *cCalx;
-  TCanvas* cHit;
+  TCanvas* cHitx,* cHity,* cHitxy;
 
-  TH2F* fh_Ams_energy_allStrips[4];
+  //TPCs
   TH1F* fh_tpc_csum[24];//max 6 tpcs * 4DT
   TH1F* fh_tpc_deltax[6];//max 6 tpcs
-  TH1F* fh_Tpc_hit[4];
+  TH1F* fh_Tpc_hitx[4];
+  TH1F* fh_Tpc_hity[4];
+  TH2F* fh_Tpc_hitxy[4];
+
+  //SCI
   TH1F* fh_sci21le, *fh_sci21re;
   TH2F* fh_sci21lere;
   TH1F* fh_sci41le, *fh_sci41re;
   TH2F* fh_sci41lere;
+  TH1F* fh_sci81le, *fh_sci81re;
+  TH2F* fh_sci81lere;
 
+  //MUSICs
   TH1F* fh_music_energy_per_anode[16];
 
-  //FRS histograms
+  //FRS ID histograms
   TH1F* fh_Frs_Z;
   TH1F* fh_Frs_Aq;
   TH2F* fh_Frs_ID;
