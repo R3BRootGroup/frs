@@ -1,4 +1,4 @@
-# Create a library called "libR3BFRSDATA" which includes the source files given in
+# Create a library called "libR3BFRS" which includes the source files given in
 # the array .
 # The extension is already found.  Any number of sources could be listed here.
 
@@ -10,9 +10,8 @@ ${BASE_INCLUDE_DIRECTORIES}
 set(INCLUDE_DIRECTORIES
 ${R3BROOT_SOURCE_DIR}/r3bdata
 ${R3BROOT_SOURCE_DIR}/r3bbase
-${R3BROOT_SOURCE_DIR}/frs/frsdata
-#${R3BROOT_SOURCE_DIR}/frs/frssource
-${R3BROOT_SOURCE_DIR}/frs/frsdetectors
+${R3BFRS_SOURCE_DIR}/frsdata
+${R3BFRS_SOURCE_DIR}/frsdetectors
 )
 
 include_directories( ${INCLUDE_DIRECTORIES})
