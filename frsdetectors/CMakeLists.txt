@@ -26,7 +26,8 @@ link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
 R3BFrsContFact.cxx
-#R3BSeetramCalPar.cxx
+R3BSeetramMapped2Cal.cxx
+R3BSeetramCalPar.cxx
 R3BMusicMapped2CalPar.cxx
 R3BMusicMapped2Cal.cxx
 R3BMusicCalPar.cxx

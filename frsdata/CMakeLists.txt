@@ -1,4 +1,4 @@
-# Create a library called "libR3BFRSDATA" which includes the source files given in
+# Create a library called "libR3BFRSData" which includes the source files given in
 # the array .
 # The extension is already found.  Any number of sources could be listed here.
 
@@ -9,8 +9,6 @@ ${BASE_INCLUDE_DIRECTORIES}
 
 set(INCLUDE_DIRECTORIES
 ${R3BROOT_SOURCE_DIR}/r3bdata
-${R3BROOT_SOURCE_DIR}/r3bdata/califaData
-${R3BROOT_SOURCE_DIR}/r3bdata/neulandData
 ${R3BFRS_SOURCE_DIR}/frsdata
 )
 
@@ -25,6 +23,7 @@ ${FAIRROOT_LIBRARY_DIR}
 link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
+R3BSeetramCalData.cxx
 R3BFrsMappedData.cxx
 R3BMusicMappedData.cxx
 R3BMusicCalData.cxx

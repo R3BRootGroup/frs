@@ -78,29 +78,35 @@ class R3BFrsOnlineSpectra : public FairTask {
   /**
    * Methods to clean histograms.
    */
+  void Reset_SEETRAM_Histo();
   void Reset_FRS_Histo();
   void Reset_MUSIC_Histo();
   void Reset_TPC_Histo();
   void Reset_SCI_Histo();
   
- private:
+  private:
   
   TClonesArray* fMappedItemsFrs;     /**< Array with mapped items. */
   TClonesArray* fCalItemsMusic;      /**< Array with cal items for musics. */
   TClonesArray* fHitItemsMusic;      /**< Array with hit items for musics. */
   TClonesArray* fCalItemsTpc;        /**< Array with cal items for tpcs. */
   TClonesArray* fHitItemsTpc;        /**< Array with hit items for tpcs. */
+  TClonesArray* fCalItemsSeetram;    /**< Array with cal items for Seetram. */
   TClonesArray* fAnaItemsFrs;        /**< Array with analysis items for frs. */
   
   // check for trigger should be done globablly (somewhere else)
   R3BEventHeader* header;               /**< Event header. */
   Int_t fTrigger;                       /**< Trigger value. */
   Int_t fNEvents;        	   	/**< Event counter. */
+  Int_t fOffsetSeetram;
   
   //Canvas
   TCanvas* cMus1,* cMus2,*c2ID,*c1ID,*cSCI21,*cSCI41,*cSCI81;
-  TCanvas* cTpcCal[4], *cCalx;
+  TCanvas* cTpcCal[4], *cCalx, *cSee;
   TCanvas* cHitx,* cHity,* cHitxy;
+  
+  //Seetram
+  TH1F* fh_Seetram;
 
   //TPCs
   TH1F* fh_tpc_csum[24];//max 6 tpcs * 4DT
@@ -125,7 +131,7 @@ class R3BFrsOnlineSpectra : public FairTask {
   TH1F* fh_Frs_Aq;
   TH2F* fh_Frs_ID;
   
- public:
+  public:
   ClassDef(R3BFrsOnlineSpectra, 1)
 };
 

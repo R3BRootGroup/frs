@@ -10,6 +10,7 @@
 
 #include "R3BFrsOnlineSpectra.h"
 #include "R3BFrsMappedData.h"
+#include "R3BSeetramCalData.h"
 #include "R3BMusicCalData.h"
 #include "R3BMusicHitData.h"
 #include "R3BTpcCalData.h"
@@ -43,12 +44,14 @@ using namespace std;
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
   : FairTask("FrsOnlineSpectra", 1)
   , fMappedItemsFrs(NULL)
+  , fCalItemsSeetram(NULL)
   , fCalItemsMusic(NULL)
   , fHitItemsMusic(NULL)
   , fHitItemsTpc(NULL)
   , fCalItemsTpc(NULL)
   , fAnaItemsFrs(NULL)
   , fTrigger(-1)
+  , fOffsetSeetram(0)
   , fNEvents(0) 
 {
 }
@@ -56,12 +59,14 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
   : FairTask(name, iVerbose)
   , fMappedItemsFrs(NULL)
+  , fCalItemsSeetram(NULL)
   , fCalItemsMusic(NULL)
   , fHitItemsMusic(NULL)
   , fHitItemsTpc(NULL)
   , fCalItemsTpc(NULL)
   , fAnaItemsFrs(NULL)
   , fTrigger(-1)
+  , fOffsetSeetram(0)
   , fNEvents(0)
 {
 }
@@ -87,6 +92,9 @@ InitStatus R3BFrsOnlineSpectra::Init() {
   //get access to Mapped data
   fMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsMappedData");
   if (!fMappedItemsFrs) { return kFATAL;}
+
+  //get access to Cal Seetram data
+  fCalItemsSeetram = (TClonesArray*)mgr->GetObject("SeetramCalData");  
 
   //get access to Cal Music data
   fCalItemsMusic = (TClonesArray*)mgr->GetObject("MusicCalData");  
@@ -219,7 +227,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
 
     //Hit TPC data
     for(Int_t i=0;i<4;i++){//one histo per detector
-     sprintf(Name1, "fh_Tpc_hitx_%d", i+1);	  
+     sprintf(Name1, "fh_Tpc_hity_%d", i+1);	  
      if(i<2)sprintf(Name2, "Y for TPC 2%d at S2", i+1);
      else   sprintf(Name2, "Y for TPC 4%d at S4", i-1);
      fh_Tpc_hity[i] = new TH1F(Name1, Name2, 500, -100, 100.);    
@@ -239,7 +247,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
      fh_Tpc_hity[i]->Draw(""); 
     }
 
-
+  
     //  CANVAS 5  -------------------------------     
     cHitxy = new TCanvas("TPC_position_XY", "TPC Hit info", 10, 10, 800, 700);
     cHitxy->Divide(2,2);
@@ -534,6 +542,24 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     cSCI81->cd();
 
 
+    //  CANVAS 10  -------------------------------       
+    cSee = new TCanvas("SEETRAM", "seetram info", 10, 10, 800, 700);
+
+    fh_Seetram = new TH1F("fh_Seetram", "Seetram intensity", 600, 0, 600);
+    fh_Seetram->GetXaxis()->SetTitle("Time [s]");
+    fh_Seetram->GetYaxis()->SetTitle("Counts");
+    fh_Seetram->GetXaxis()->CenterTitle(true);
+    fh_Seetram->GetYaxis()->CenterTitle(true);
+    fh_Seetram->GetYaxis()->SetTitleOffset(1.1);
+    fh_Seetram->GetXaxis()->SetTitleOffset(1.1);
+    fh_Seetram->GetXaxis()->SetLabelSize(0.045);
+    fh_Seetram->GetXaxis()->SetTitleSize(0.045);
+    fh_Seetram->GetYaxis()->SetLabelSize(0.045);
+    fh_Seetram->GetYaxis()->SetTitleSize(0.045);
+    fh_Seetram->SetFillColor(kGreen-3);
+    fh_Seetram->Draw();
+    cSee->cd();
+
     //MAIN FOLDER-FRS
     TFolder* mainfolFrs = new TFolder("FRS","FRS info");      
     mainfolFrs->Add(c1ID);
@@ -550,15 +576,25 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     mainfolFrs->Add(cSCI21);
     mainfolFrs->Add(cSCI41);
     mainfolFrs->Add(cSCI81);
+    mainfolFrs->Add(cSee);
     run->AddObject(mainfolFrs);
 
     //Register command to reset histograms
+    run->GetHttpServer()->RegisterCommand("Reset_SEETRAM", Form("/Objects/%s/->Reset_SEETRAM_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_MUSICs", Form("/Objects/%s/->Reset_MUSIC_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_TPCs", Form("/Objects/%s/->Reset_TPC_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_SCIs", Form("/Objects/%s/->Reset_SCI_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_FRS_ID", Form("/Objects/%s/->Reset_FRS_Histo()", GetName()));    
 
   return kSUCCESS;
+}
+
+void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
+{
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_SEETRAM_Histo" << FairLogger::endl;
+
+    fh_Seetram->Reset();
+
 }
 
 void R3BFrsOnlineSpectra::Reset_FRS_Histo()
@@ -636,6 +672,22 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option) {
        fh_sci81le->Fill(hit->GetSCI81LE());
        fh_sci81re->Fill(hit->GetSCI81RE());
        fh_sci81lere->Fill(hit->GetSCI81RE(),hit->GetSCI81LE());
+    }
+  }
+
+  //Fill cal seetram data
+  if(fCalItemsSeetram && fCalItemsSeetram->GetEntriesFast()){
+    Int_t nHits = fCalItemsSeetram->GetEntriesFast();
+       // std::cout << "hit:"<<nHits << std::endl;
+    for (Int_t ihit = 0; ihit < nHits; ihit++){
+      R3BSeetramCalData* hit = 
+	(R3BSeetramCalData*)fCalItemsSeetram->At(ihit);
+      if (!hit) continue;
+        //std::cout << "hit:"<<hit->GetDetectorId() << " " << hit->GetEnergy() << std::endl;
+       if(hit->GetClock1seg()+fOffsetSeetram>600)
+        for(int j=0;j<10000;j++)
+         if(hit->GetClock1seg()>600*j && hit->GetClock1seg()<600*(j+1)){fOffsetSeetram=-600*j;fh_Seetram->Reset();continue;}
+       for(Int_t j=0;j<hit->GetSeeCounts();j++)fh_Seetram->Fill(hit->GetClock1seg()+fOffsetSeetram);
     }
   }
 

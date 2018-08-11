@@ -8,6 +8,7 @@
 
 
 #pragma link C++ class R3BFrsMappedData+;
+#pragma link C++ class R3BSeetramCalData+;
 #pragma link C++ class R3BMusicMappedData+;
 #pragma link C++ class R3BMusicCalData+;
 #pragma link C++ class R3BMusicHitData+;
