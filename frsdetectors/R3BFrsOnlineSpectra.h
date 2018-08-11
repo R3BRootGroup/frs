@@ -14,6 +14,7 @@
 #include <array>
 #include "TMath.h"
 #include <cstdlib>
+#include "TH1.h"
 #include "TH2F.h"
 #include "TCanvas.h"
 
@@ -77,46 +78,60 @@ class R3BFrsOnlineSpectra : public FairTask {
   /**
    * Methods to clean histograms.
    */
+  void Reset_SEETRAM_Histo();
   void Reset_FRS_Histo();
   void Reset_MUSIC_Histo();
   void Reset_TPC_Histo();
   void Reset_SCI_Histo();
   
- private:
+  private:
   
   TClonesArray* fMappedItemsFrs;     /**< Array with mapped items. */
   TClonesArray* fCalItemsMusic;      /**< Array with cal items for musics. */
   TClonesArray* fHitItemsMusic;      /**< Array with hit items for musics. */
   TClonesArray* fCalItemsTpc;        /**< Array with cal items for tpcs. */
   TClonesArray* fHitItemsTpc;        /**< Array with hit items for tpcs. */
+  TClonesArray* fCalItemsSeetram;    /**< Array with cal items for Seetram. */
   TClonesArray* fAnaItemsFrs;        /**< Array with analysis items for frs. */
   
   // check for trigger should be done globablly (somewhere else)
   R3BEventHeader* header;               /**< Event header. */
   Int_t fTrigger;                       /**< Trigger value. */
   Int_t fNEvents;        	   	/**< Event counter. */
+  Int_t fOffsetSeetram;
   
-  TCanvas* cMus1,* cMus2,*c2ID,*c1ID,*cSCI21,*cSCI41;
-  TCanvas* cTpcCal[4], *cCalx;
-  TCanvas* cHit;
+  //Canvas
+  TCanvas* cMus1,* cMus2,*c2ID,*c1ID,*cSCI21,*cSCI41,*cSCI81;
+  TCanvas* cTpcCal[4], *cCalx, *cSee;
+  TCanvas* cHitx,* cHity,* cHitxy;
+  
+  //Seetram
+  TH1F* fh_Seetram;
 
-  TH2F* fh_Ams_energy_allStrips[4];
+  //TPCs
   TH1F* fh_tpc_csum[24];//max 6 tpcs * 4DT
   TH1F* fh_tpc_deltax[6];//max 6 tpcs
-  TH1F* fh_Tpc_hit[4];
+  TH1F* fh_Tpc_hitx[4];
+  TH1F* fh_Tpc_hity[4];
+  TH2F* fh_Tpc_hitxy[4];
+
+  //SCI
   TH1F* fh_sci21le, *fh_sci21re;
   TH2F* fh_sci21lere;
   TH1F* fh_sci41le, *fh_sci41re;
   TH2F* fh_sci41lere;
+  TH1F* fh_sci81le, *fh_sci81re;
+  TH2F* fh_sci81lere;
 
+  //MUSICs
   TH1F* fh_music_energy_per_anode[16];
 
-  //FRS histograms
+  //FRS ID histograms
   TH1F* fh_Frs_Z;
   TH1F* fh_Frs_Aq;
   TH2F* fh_Frs_ID;
   
- public:
+  public:
   ClassDef(R3BFrsOnlineSpectra, 1)
 };
 

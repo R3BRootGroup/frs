@@ -60,7 +60,7 @@ void online_frs() {
   FairRunOnline* run = new FairRunOnline(source);
   run->SetRunId(1);
   run->SetOutputFile(outputFileName);
-  Int_t refresh = 2000;
+  Int_t refresh = 1;
   Int_t port=8044;
   run->ActivateHttpServer(refresh, port);
 
@@ -79,21 +79,25 @@ void online_frs() {
   rtdb->setFirstInput(parIo1);
 
 
-  /* Add analysis task ------------------------------------ */  
+  /* Add analysis task ------------------------------------ */ 
+  //Seetram
+  R3BSeetramMapped2Cal* SeeMap2Cal = new R3BSeetramMapped2Cal();
+  SeeMap2Cal->SetOnline(true);
+  run->AddTask(SeeMap2Cal);
   //Musics
-  R3BMusicMapped2Cal* Map2Cal = new R3BMusicMapped2Cal();
-  Map2Cal->SetOnline(true);
-  run->AddTask(Map2Cal);
-  R3BMusicCal2Hit* Cal2Hit = new R3BMusicCal2Hit();
-  Cal2Hit->SetOnline(true);
-  run->AddTask(Cal2Hit);
+  R3BMusicMapped2Cal* MusMap2Cal = new R3BMusicMapped2Cal();
+  MusMap2Cal->SetOnline(true);
+  run->AddTask(MusMap2Cal);
+  R3BMusicCal2Hit* MusCal2Hit = new R3BMusicCal2Hit();
+  MusCal2Hit->SetOnline(true);
+  run->AddTask(MusCal2Hit);
   //Tpcs
-  R3BTpcMapped2Cal* Map2Caltpc = new R3BTpcMapped2Cal();
-  Map2Caltpc->SetOnline(true);
-  run->AddTask(Map2Caltpc);
-  R3BTpcCal2Hit* Cal2Hittpc = new R3BTpcCal2Hit();
-  Cal2Hittpc->SetOnline(true);
-  run->AddTask(Cal2Hittpc);
+  R3BTpcMapped2Cal* TpcMap2Cal = new R3BTpcMapped2Cal();
+  TpcMap2Cal->SetOnline(true);
+  run->AddTask(TpcMap2Cal);
+  R3BTpcCal2Hit* TpcCal2Hit = new R3BTpcCal2Hit();
+  TpcCal2Hit->SetOnline(true);
+  run->AddTask(TpcCal2Hit);
   //Analysis S4
   R3BFrsHit2AnaS4* AnaFrsS4 = new R3BFrsHit2AnaS4();
   AnaFrsS4->SetOnline(true);
