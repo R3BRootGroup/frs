@@ -9,10 +9,7 @@ ${BASE_INCLUDE_DIRECTORIES}
 
 set(INCLUDE_DIRECTORIES
 ${R3BROOT_SOURCE_DIR}/r3bdata
-${R3BROOT_SOURCE_DIR}/r3bdata/califaData
-${R3BROOT_SOURCE_DIR}/r3bdata/neulandData
-${R3BROOT_SOURCE_DIR}/frs/frsdata
-${R3BROOT_SOURCE_DIR}/frs/frsdetectors
+${R3BFRS_SOURCE_DIR}/frsdata
 )
 
 include_directories( ${INCLUDE_DIRECTORIES})

@@ -247,7 +247,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
      fh_Tpc_hity[i]->Draw(""); 
     }
 
-
+  
     //  CANVAS 5  -------------------------------     
     cHitxy = new TCanvas("TPC_position_XY", "TPC Hit info", 10, 10, 800, 700);
     cHitxy->Divide(2,2);
@@ -559,7 +559,6 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     fh_Seetram->SetFillColor(kGreen-3);
     fh_Seetram->Draw();
     cSee->cd();
-
 
     //MAIN FOLDER-FRS
     TFolder* mainfolFrs = new TFolder("FRS","FRS info");      

@@ -1,7 +1,0 @@
-#Readme about the macros for the analysis of FRS experiments 
-
-- Look at mapped data from reader:
->> root -l unpack_gsi2018_frs_mapped.C
-
-- FRS Online:
->> root -b online_frs.C

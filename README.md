@@ -1,4 +1,5 @@
 # Purpose
+--------
 
 FRS folder inside R3BRoot describes the FRS detectors which are going to be employed for the FRS and R3B experiments.
 The R3BRoot software is based on the FairRoot framework and can be used to perform Monte Carlo simulations and experimental data analysis of the R3B (Reactions with Relativistic Radioactive Beams) nuclear physics experiments at the FAIR research center (Facility for Antiproton and Ion Research).
@@ -6,6 +7,7 @@ The R3BRoot software is based on the FairRoot framework and can be used to perfo
 For the software-related user support you can post a new topic on our [forum](https://forum.gsi.de/index.php?t=index&cat=40&).
 
 # Download
+--------
 
 ~~~bash
 git clone https://github.com/R3BRootGroup/frs.git
@@ -14,6 +16,7 @@ git checkout dev
 ~~~
 
 # Install
+--------
 
 ### Required software
 
@@ -63,6 +66,10 @@ export FAIRROOTPATH=%PATH_TO_FAIRROOT%
 git clone https://github.com/R3BRootGroup/R3BRoot.git
 cd R3BRoot
 git checkout dev
+git clone https://github.com/R3BRootGroup/macros.git
+cd macros
+git checkout dev
+cd ..
 git clone https://github.com/R3BRootGroup/frs.git
 cd frs
 git checkout dev
@@ -76,6 +83,7 @@ make -j4
 ~~~
 
 # Data Analysis
+--------
 
 Data analysis is included inside the frs directory, where you can find the next subdirectories:
 
