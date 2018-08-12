@@ -11,7 +11,8 @@
 #pragma link C++ class R3BTpcMapped2Cal+;
 #pragma link C++ class R3BTpcCal2Hit+;
 #pragma link C++ class R3BMusicCalPar+;
-//#pragma link C++ class R3BSeetramCalPar+;
+#pragma link C++ class R3BSeetramCalPar+;
+#pragma link C++ class R3BSeetramMapped2Cal+;
 #pragma link C++ class R3BMusicMapped2Cal+;
 #pragma link C++ class R3BMusicHitPar+;
 #pragma link C++ class R3BMusicCal2HitPar+;

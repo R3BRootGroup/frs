@@ -10,6 +10,7 @@
 
 #include "R3BFrsOnlineSpectra.h"
 #include "R3BFrsMappedData.h"
+#include "R3BSeetramCalData.h"
 #include "R3BMusicCalData.h"
 #include "R3BMusicHitData.h"
 #include "R3BTpcCalData.h"
@@ -43,12 +44,14 @@ using namespace std;
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
   : FairTask("FrsOnlineSpectra", 1)
   , fMappedItemsFrs(NULL)
+  , fCalItemsSeetram(NULL)
   , fCalItemsMusic(NULL)
   , fHitItemsMusic(NULL)
   , fHitItemsTpc(NULL)
   , fCalItemsTpc(NULL)
   , fAnaItemsFrs(NULL)
   , fTrigger(-1)
+  , fOffsetSeetram(0)
   , fNEvents(0) 
 {
 }
@@ -56,12 +59,14 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
   : FairTask(name, iVerbose)
   , fMappedItemsFrs(NULL)
+  , fCalItemsSeetram(NULL)
   , fCalItemsMusic(NULL)
   , fHitItemsMusic(NULL)
   , fHitItemsTpc(NULL)
   , fCalItemsTpc(NULL)
   , fAnaItemsFrs(NULL)
   , fTrigger(-1)
+  , fOffsetSeetram(0)
   , fNEvents(0)
 {
 }
@@ -88,6 +93,9 @@ InitStatus R3BFrsOnlineSpectra::Init() {
   fMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsMappedData");
   if (!fMappedItemsFrs) { return kFATAL;}
 
+  //get access to Cal Seetram data
+  fCalItemsSeetram = (TClonesArray*)mgr->GetObject("SeetramCalData");  
+
   //get access to Cal Music data
   fCalItemsMusic = (TClonesArray*)mgr->GetObject("MusicCalData");  
 
@@ -103,69 +111,8 @@ InitStatus R3BFrsOnlineSpectra::Init() {
   //get access to Analysis Frs data
   fAnaItemsFrs = (TClonesArray*)mgr->GetObject("FrsData");
 
-  //create histograms of all detectors  
 
-/*  
-    //Energy range for strips
-    Double_t bins=200;
-    Double_t maxE=3500;
-    Double_t minE=0;
-    
-
-
-
-    char Name1[255]; 
-    char Name2[255];
-
-    //Mapped data
-    for(Int_t i=0;i<4;i++){//one histo per detector
-     sprintf(Name1, "fh_Ams_energy_allStrips_%d", i+1);	  
-     sprintf(Name2, "Energy vs strip number for AMS Det: %d", i+1);
-     fh_Ams_energy_allStrips[i] = new TH2F(Name1, Name2, 1024, 0, 1024, bins, minE, maxE);    
-     fh_Ams_energy_allStrips[i]->GetXaxis()->SetTitle("Strip number");
-     fh_Ams_energy_allStrips[i]->GetYaxis()->SetTitle("Energy [channels]");
-     fh_Ams_energy_allStrips[i]->GetYaxis()->SetTitleOffset(1.4);
-     fh_Ams_energy_allStrips[i]->GetXaxis()->CenterTitle(true);
-     fh_Ams_energy_allStrips[i]->GetYaxis()->CenterTitle(true);
-     cMap->cd(i+1);
-     fh_Ams_energy_allStrips[i]->Draw("col"); 
-    }
-
-    //Cal data
-    for(Int_t i=0;i<4;i++){//two histo per detector
-     for(Int_t j=0;j<2;j++){
-      sprintf(Name1, "fh_Ams_energy_allCalStrips_%d", i*2+j);	  
-      sprintf(Name2, "Cal_Energy vs strip number for AMS Det: %d and Side: %d", i+1, j);
-      if(j==0)
-      fh_Ams_energy_allCalStrips[i*2+j] = new TH2F(Name1, Name2, 640, 0, 640, bins, minE, maxE);
-      else
-      fh_Ams_energy_allCalStrips[i*2+j] = new TH2F(Name1, Name2, 384, 0, 384, bins, minE, maxE);
-      fh_Ams_energy_allCalStrips[i*2+j]->GetXaxis()->SetTitle("Strip number");
-      fh_Ams_energy_allCalStrips[i*2+j]->GetYaxis()->SetTitle("Energy [channels]");
-      fh_Ams_energy_allCalStrips[i*2+j]->GetYaxis()->SetTitleOffset(1.4);
-      fh_Ams_energy_allCalStrips[i*2+j]->GetXaxis()->CenterTitle(true);
-      fh_Ams_energy_allCalStrips[i*2+j]->GetYaxis()->CenterTitle(true);
-      cCal->cd(i*2+1+j);
-      fh_Ams_energy_allCalStrips[i*2+j]->Draw("col");
-     }
-    }
-
-    //Hit data
-    for(Int_t i=0;i<4;i++){//one histo per detector
-     sprintf(Name1, "fh_Ams_hit_%d", i+1);	  
-     sprintf(Name2, "Y vs X for AMS Det: %d", i+1);
-     fh_Ams_hit[i] = new TH2F(Name1, Name2, 350, 0, 70., 200, 0, 40.);    
-     fh_Ams_hit[i]->GetXaxis()->SetTitle("X [mm]");
-     fh_Ams_hit[i]->GetYaxis()->SetTitle("Y [mm]");
-     fh_Ams_hit[i]->GetXaxis()->CenterTitle(true);
-     fh_Ams_hit[i]->GetYaxis()->CenterTitle(true);
-     fh_Ams_hit[i]->GetYaxis()->SetTitleOffset(1.1);
-     fh_Ams_hit[i]->GetXaxis()->SetTitleOffset(1.1);
-     cHit->cd(i+1);
-     fh_Ams_hit[i]->Draw("col"); 
-    }
-*/
-
+  //create histograms of all detectors 
 
     char Name1[255];
     char Name2[255];
@@ -192,7 +139,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
       fh_music_energy_per_anode[i*8+j]->GetXaxis()->SetTitleSize(0.045);
       if(i==0)cMus1->cd(j+1);
       else cMus2->cd(j+1);
-      fh_music_energy_per_anode[i*8+j]->SetFillColor(3);
+      fh_music_energy_per_anode[i*8+j]->SetFillColor(kGreen-3);
       fh_music_energy_per_anode[i*8+j]->SetLineColor(1);
       fh_music_energy_per_anode[i*8+j]->Draw("");
      }
@@ -224,7 +171,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
       fh_tpc_deltax[i]->GetXaxis()->SetLabelSize(0.045);
       fh_tpc_deltax[i]->GetXaxis()->SetTitleSize(0.045);
       cCalx->cd(i+1);
-      fh_tpc_deltax[i]->SetFillColor(3);
+      fh_tpc_deltax[i]->SetFillColor(kGreen-3);
       fh_tpc_deltax[i]->SetLineColor(1);
       fh_tpc_deltax[i]->Draw("");
      for(Int_t j=0;j<4;j++){//4 histo per detector
@@ -240,42 +187,93 @@ InitStatus R3BFrsOnlineSpectra::Init() {
       fh_tpc_csum[i*4+j]->GetXaxis()->SetLabelSize(0.045);
       fh_tpc_csum[i*4+j]->GetXaxis()->SetTitleSize(0.045);
       cTpcCal[i]->cd(j+1);
-      fh_tpc_csum[i*4+j]->SetFillColor(3);
+      fh_tpc_csum[i*4+j]->SetFillColor(kGreen-3);
       fh_tpc_csum[i*4+j]->SetLineColor(1);
       fh_tpc_csum[i*4+j]->Draw("");
      }
     }
 
 
-    //  CANVAS 3  -------------------------------     
-
-    cHit = new TCanvas("TPC_position_X", "TPC Hit info", 10, 10, 800, 700);
-    cHit->Divide(2,2);
+    //  CANVAS 3  -------------------------------
+    cHitx = new TCanvas("TPC_position_X", "TPC Hit info", 10, 10, 800, 700);
+    cHitx->Divide(2,2);
 
     //Hit TPC data
     for(Int_t i=0;i<4;i++){//one histo per detector
-     sprintf(Name1, "fh_Tpc_hit_%d", i+1);	  
+     sprintf(Name1, "fh_Tpc_hitx_%d", i+1);	  
      if(i<2)sprintf(Name2, "X for TPC 2%d at S2", i+1);
      else   sprintf(Name2, "X for TPC 4%d at S4", i-1);
-     fh_Tpc_hit[i] = new TH1F(Name1, Name2, 500, -100, 100.);    
-     fh_Tpc_hit[i]->GetXaxis()->SetTitle("X [mm]");
-     fh_Tpc_hit[i]->GetYaxis()->SetTitle("Counts");
-     fh_Tpc_hit[i]->GetXaxis()->CenterTitle(true);
-     fh_Tpc_hit[i]->GetYaxis()->CenterTitle(true);
-     fh_Tpc_hit[i]->GetYaxis()->SetTitleOffset(1.15);
-     fh_Tpc_hit[i]->GetXaxis()->SetTitleOffset(1.1);
-     fh_Tpc_hit[i]->GetXaxis()->SetLabelSize(0.045);
-     fh_Tpc_hit[i]->GetXaxis()->SetTitleSize(0.045);
-     fh_Tpc_hit[i]->GetYaxis()->SetLabelSize(0.045);
-     fh_Tpc_hit[i]->GetYaxis()->SetTitleSize(0.045);
-     fh_Tpc_hit[i]->SetFillColor(2);
-     fh_Tpc_hit[i]->SetLineColor(1);
-     cHit->cd(i+1);
-     fh_Tpc_hit[i]->Draw("col"); 
+     fh_Tpc_hitx[i] = new TH1F(Name1, Name2, 500, -100, 100.);    
+     fh_Tpc_hitx[i]->GetXaxis()->SetTitle("X [mm]");
+     fh_Tpc_hitx[i]->GetYaxis()->SetTitle("Counts");
+     fh_Tpc_hitx[i]->GetXaxis()->CenterTitle(true);
+     fh_Tpc_hitx[i]->GetYaxis()->CenterTitle(true);
+     fh_Tpc_hitx[i]->GetYaxis()->SetTitleOffset(1.15);
+     fh_Tpc_hitx[i]->GetXaxis()->SetTitleOffset(1.1);
+     fh_Tpc_hitx[i]->GetXaxis()->SetLabelSize(0.045);
+     fh_Tpc_hitx[i]->GetXaxis()->SetTitleSize(0.045);
+     fh_Tpc_hitx[i]->GetYaxis()->SetLabelSize(0.045);
+     fh_Tpc_hitx[i]->GetYaxis()->SetTitleSize(0.045);
+     fh_Tpc_hitx[i]->SetFillColor(2);
+     fh_Tpc_hitx[i]->SetLineColor(1);
+     cHitx->cd(i+1);
+     fh_Tpc_hitx[i]->Draw(""); 
     }
 
 
-    //  CANVAS 4  -------------------------------         
+    //  CANVAS 4  -------------------------------
+    cHity = new TCanvas("TPC_position_Y", "TPC Hit info", 10, 10, 800, 700);
+    cHity->Divide(2,2);
+
+    //Hit TPC data
+    for(Int_t i=0;i<4;i++){//one histo per detector
+     sprintf(Name1, "fh_Tpc_hity_%d", i+1);	  
+     if(i<2)sprintf(Name2, "Y for TPC 2%d at S2", i+1);
+     else   sprintf(Name2, "Y for TPC 4%d at S4", i-1);
+     fh_Tpc_hity[i] = new TH1F(Name1, Name2, 500, -100, 100.);    
+     fh_Tpc_hity[i]->GetXaxis()->SetTitle("Y [mm]");
+     fh_Tpc_hity[i]->GetYaxis()->SetTitle("Counts");
+     fh_Tpc_hity[i]->GetXaxis()->CenterTitle(true);
+     fh_Tpc_hity[i]->GetYaxis()->CenterTitle(true);
+     fh_Tpc_hity[i]->GetYaxis()->SetTitleOffset(1.15);
+     fh_Tpc_hity[i]->GetXaxis()->SetTitleOffset(1.1);
+     fh_Tpc_hity[i]->GetXaxis()->SetLabelSize(0.045);
+     fh_Tpc_hity[i]->GetXaxis()->SetTitleSize(0.045);
+     fh_Tpc_hity[i]->GetYaxis()->SetLabelSize(0.045);
+     fh_Tpc_hity[i]->GetYaxis()->SetTitleSize(0.045);
+     fh_Tpc_hity[i]->SetFillColor(2);
+     fh_Tpc_hity[i]->SetLineColor(1);
+     cHity->cd(i+1);
+     fh_Tpc_hity[i]->Draw(""); 
+    }
+
+  
+    //  CANVAS 5  -------------------------------     
+    cHitxy = new TCanvas("TPC_position_XY", "TPC Hit info", 10, 10, 800, 700);
+    cHitxy->Divide(2,2);
+
+    //Hit TPC data
+    for(Int_t i=0;i<4;i++){//one histo per detector
+     sprintf(Name1, "fh_Tpc_hitxy_%d", i+1);	  
+     if(i<2)sprintf(Name2, "XY for TPC 2%d at S2", i+1);
+     else   sprintf(Name2, "XY for TPC 4%d at S4", i-1);
+     fh_Tpc_hitxy[i] = new TH2F(Name1, Name2, 500, -100, 100., 500, -100, 100.);    
+     fh_Tpc_hitxy[i]->GetXaxis()->SetTitle("X [mm]");
+     fh_Tpc_hitxy[i]->GetYaxis()->SetTitle("Y [mm]");
+     fh_Tpc_hitxy[i]->GetXaxis()->CenterTitle(true);
+     fh_Tpc_hitxy[i]->GetYaxis()->CenterTitle(true);
+     fh_Tpc_hitxy[i]->GetYaxis()->SetTitleOffset(1.15);
+     fh_Tpc_hitxy[i]->GetXaxis()->SetTitleOffset(1.1);
+     fh_Tpc_hitxy[i]->GetXaxis()->SetLabelSize(0.045);
+     fh_Tpc_hitxy[i]->GetXaxis()->SetTitleSize(0.045);
+     fh_Tpc_hitxy[i]->GetYaxis()->SetLabelSize(0.045);
+     fh_Tpc_hitxy[i]->GetYaxis()->SetTitleSize(0.045);
+     cHitxy->cd(i+1);
+     fh_Tpc_hitxy[i]->Draw("col"); 
+    }
+
+
+    //  CANVAS 6  -------------------------------         
     c1ID = new TCanvas("FRS_ID", "frs info", 10, 10, 800, 700);
 
     //Analysis FRS data
@@ -342,7 +340,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     c1ID->cd();
 
 
-    //  CANVAS 5  -------------------------------        
+    //  CANVAS 7  -------------------------------        
     cSCI21 = new TCanvas("SCI21_E", "sci21 info", 10, 10, 800, 700);
 
     //Analysis SCI21 data
@@ -357,7 +355,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     fh_sci21le->GetXaxis()->SetTitleSize(0.045);
     fh_sci21le->GetYaxis()->SetLabelSize(0.045);
     fh_sci21le->GetYaxis()->SetTitleSize(0.045);
-    fh_sci21le->SetFillColor(3);
+    fh_sci21le->SetFillColor(kGreen-3);
     fh_sci21le->SetLineColor(1);
 
     TPad *c21 = new TPad("c21",fh_sci21le->GetName(),0.,0.51,0.49,0.98);
@@ -378,7 +376,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     fh_sci21re->GetXaxis()->SetTitleSize(0.045);
     fh_sci21re->GetYaxis()->SetLabelSize(0.045);
     fh_sci21re->GetYaxis()->SetTitleSize(0.045);
-    fh_sci21re->SetFillColor(3);
+    fh_sci21re->SetFillColor(kGreen-3);
     fh_sci21re->SetLineColor(1);
 
     TPad *c22 = new TPad("c22",fh_sci21re->GetName(),0.,0.01,0.49,0.49);
@@ -409,7 +407,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     cSCI21->cd();
 
 
-   //  CANVAS 6  -------------------------------        
+    //  CANVAS 8  -------------------------------        
     cSCI41 = new TCanvas("SCI41_E", "sci41 info", 10, 10, 800, 700);
 
     //Analysis SCI41 data
@@ -424,7 +422,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     fh_sci41le->GetXaxis()->SetTitleSize(0.045);
     fh_sci41le->GetYaxis()->SetLabelSize(0.045);
     fh_sci41le->GetYaxis()->SetTitleSize(0.045);
-    fh_sci41le->SetFillColor(3);
+    fh_sci41le->SetFillColor(kGreen-3);
     fh_sci41le->SetLineColor(1);
 
     TPad *c41 = new TPad("c41",fh_sci41le->GetName(),0.,0.51,0.49,0.98);
@@ -445,7 +443,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     fh_sci41re->GetXaxis()->SetTitleSize(0.045);
     fh_sci41re->GetYaxis()->SetLabelSize(0.045);
     fh_sci41re->GetYaxis()->SetTitleSize(0.045);
-    fh_sci41re->SetFillColor(3);
+    fh_sci41re->SetFillColor(kGreen-3);
     fh_sci41re->SetLineColor(1);
 
     TPad *c42 = new TPad("c42",fh_sci41re->GetName(),0.,0.01,0.49,0.49);
@@ -476,12 +474,100 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     cSCI41->cd();
 
 
+
+    //  CANVAS 9  -------------------------------        
+    cSCI81 = new TCanvas("SCI81_E", "sci81 info", 10, 10, 800, 700);
+
+    //Analysis SCI81 data
+    fh_sci81le = new TH1F("fh_sci81le", "SCI81-Left-Energy", 500, 0, 4092);
+    fh_sci81le->GetXaxis()->SetTitle("Channels");
+    fh_sci81le->GetYaxis()->SetTitle("Counts");
+    fh_sci81le->GetXaxis()->CenterTitle(true);
+    fh_sci81le->GetYaxis()->CenterTitle(true);
+    fh_sci81le->GetYaxis()->SetTitleOffset(1.1);
+    fh_sci81le->GetXaxis()->SetTitleOffset(1.1);
+    fh_sci81le->GetXaxis()->SetLabelSize(0.045);
+    fh_sci81le->GetXaxis()->SetTitleSize(0.045);
+    fh_sci81le->GetYaxis()->SetLabelSize(0.045);
+    fh_sci81le->GetYaxis()->SetTitleSize(0.045);
+    fh_sci81le->SetFillColor(kGreen-3);
+    fh_sci81le->SetLineColor(1);
+
+    TPad *c81 = new TPad("c81",fh_sci81le->GetName(),0.,0.51,0.49,0.98);
+    c81->Draw();
+    c81->cd();
+    fh_sci81le->Draw("");
+    c81->Modified();
+    cSCI81->cd();
+
+    fh_sci81re = new TH1F("fh_sci81re", "SCI81-Right-Energy", 500, 0, 4092);
+    fh_sci81re->GetXaxis()->SetTitle("Channels");
+    fh_sci81re->GetYaxis()->SetTitle("Counts");
+    fh_sci81re->GetXaxis()->CenterTitle(true);
+    fh_sci81re->GetYaxis()->CenterTitle(true);
+    fh_sci81re->GetYaxis()->SetTitleOffset(1.1);
+    fh_sci81re->GetXaxis()->SetTitleOffset(1.1);
+    fh_sci81re->GetXaxis()->SetLabelSize(0.045);
+    fh_sci81re->GetXaxis()->SetTitleSize(0.045);
+    fh_sci81re->GetYaxis()->SetLabelSize(0.045);
+    fh_sci81re->GetYaxis()->SetTitleSize(0.045);
+    fh_sci81re->SetFillColor(kGreen-3);
+    fh_sci81re->SetLineColor(1);
+
+    TPad *c82 = new TPad("c82",fh_sci81re->GetName(),0.,0.01,0.49,0.49);
+    c82->Draw();
+    c82->cd();
+    fh_sci81re->Draw("");
+    c82->Modified();
+    cSCI81->cd();
+
+    fh_sci81lere = new TH2F("fh_sci81lere", "SCI81-Energy", 200, 0, 4092, 200, 0, 4092);
+    fh_sci81lere->GetXaxis()->SetTitle("Right [Channels]");
+    fh_sci81lere->GetYaxis()->SetTitle("Left [Channels]");
+    fh_sci81lere->GetXaxis()->CenterTitle(true);
+    fh_sci81lere->GetYaxis()->CenterTitle(true);
+    fh_sci81lere->GetXaxis()->SetLabelSize(0.03);
+    fh_sci81lere->GetXaxis()->SetTitleSize(0.04);
+    fh_sci81lere->GetYaxis()->SetTitleOffset(1.45);
+    fh_sci81lere->GetXaxis()->SetTitleOffset(1.1);
+    fh_sci81lere->GetYaxis()->SetLabelSize(0.03);
+    fh_sci81lere->GetYaxis()->SetTitleSize(0.04);
+
+    TPad *c83 = new TPad("c83",fh_sci81lere->GetName(),0.51,0.01,0.98,0.98);
+    c83->Draw();
+    c83->cd();
+    c83->SetLeftMargin(0.14);
+    fh_sci81lere->Draw("col"); 
+    c83->Modified();
+    cSCI81->cd();
+
+
+    //  CANVAS 10  -------------------------------       
+    cSee = new TCanvas("SEETRAM", "seetram info", 10, 10, 800, 700);
+
+    fh_Seetram = new TH1F("fh_Seetram", "Seetram intensity", 600, 0, 600);
+    fh_Seetram->GetXaxis()->SetTitle("Time [s]");
+    fh_Seetram->GetYaxis()->SetTitle("Counts");
+    fh_Seetram->GetXaxis()->CenterTitle(true);
+    fh_Seetram->GetYaxis()->CenterTitle(true);
+    fh_Seetram->GetYaxis()->SetTitleOffset(1.1);
+    fh_Seetram->GetXaxis()->SetTitleOffset(1.1);
+    fh_Seetram->GetXaxis()->SetLabelSize(0.045);
+    fh_Seetram->GetXaxis()->SetTitleSize(0.045);
+    fh_Seetram->GetYaxis()->SetLabelSize(0.045);
+    fh_Seetram->GetYaxis()->SetTitleSize(0.045);
+    fh_Seetram->SetFillColor(kGreen-3);
+    fh_Seetram->Draw();
+    cSee->cd();
+
     //MAIN FOLDER-FRS
     TFolder* mainfolFrs = new TFolder("FRS","FRS info");      
     mainfolFrs->Add(c1ID);
     mainfolFrs->Add(cMus1);
     mainfolFrs->Add(cMus2);
-    mainfolFrs->Add(cHit);
+    mainfolFrs->Add(cHitx);
+    mainfolFrs->Add(cHity);
+    mainfolFrs->Add(cHitxy);
     mainfolFrs->Add(cTpcCal[0]);
     mainfolFrs->Add(cTpcCal[1]);
     mainfolFrs->Add(cTpcCal[2]);
@@ -489,15 +575,26 @@ InitStatus R3BFrsOnlineSpectra::Init() {
     mainfolFrs->Add(cCalx);
     mainfolFrs->Add(cSCI21);
     mainfolFrs->Add(cSCI41);
+    mainfolFrs->Add(cSCI81);
+    mainfolFrs->Add(cSee);
     run->AddObject(mainfolFrs);
 
     //Register command to reset histograms
-    run->GetHttpServer()->RegisterCommand("Reset_FRS_ID", Form("/Objects/%s/->Reset_FRS_Histo()", GetName()));
+    run->GetHttpServer()->RegisterCommand("Reset_SEETRAM", Form("/Objects/%s/->Reset_SEETRAM_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_MUSICs", Form("/Objects/%s/->Reset_MUSIC_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_TPCs", Form("/Objects/%s/->Reset_TPC_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_SCIs", Form("/Objects/%s/->Reset_SCI_Histo()", GetName()));
-    
+    run->GetHttpServer()->RegisterCommand("Reset_FRS_ID", Form("/Objects/%s/->Reset_FRS_Histo()", GetName()));    
+
   return kSUCCESS;
+}
+
+void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
+{
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_SEETRAM_Histo" << FairLogger::endl;
+
+    fh_Seetram->Reset();
+
 }
 
 void R3BFrsOnlineSpectra::Reset_FRS_Histo()
@@ -520,6 +617,9 @@ void R3BFrsOnlineSpectra::Reset_SCI_Histo()
     fh_sci41le->Reset();
     fh_sci41re->Reset();
     fh_sci41lere->Reset();
+    fh_sci81le->Reset();
+    fh_sci81re->Reset();
+    fh_sci81lere->Reset();
 
 }
 
@@ -539,7 +639,9 @@ void R3BFrsOnlineSpectra::Reset_TPC_Histo()
 
     //Hit data
     for(Int_t i=0;i<4;i++){
-     fh_Tpc_hit[i]->Reset();
+     fh_Tpc_hitx[i]->Reset();
+     fh_Tpc_hity[i]->Reset();
+     fh_Tpc_hitxy[i]->Reset();
      fh_tpc_deltax[i]->Reset();
     }
     //Cal data
@@ -567,6 +669,25 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option) {
        fh_sci41le->Fill(hit->GetSCI41LE());
        fh_sci41re->Fill(hit->GetSCI41RE());
        fh_sci41lere->Fill(hit->GetSCI41RE(),hit->GetSCI41LE());
+       fh_sci81le->Fill(hit->GetSCI81LE());
+       fh_sci81re->Fill(hit->GetSCI81RE());
+       fh_sci81lere->Fill(hit->GetSCI81RE(),hit->GetSCI81LE());
+    }
+  }
+
+  //Fill cal seetram data
+  if(fCalItemsSeetram && fCalItemsSeetram->GetEntriesFast()){
+    Int_t nHits = fCalItemsSeetram->GetEntriesFast();
+       // std::cout << "hit:"<<nHits << std::endl;
+    for (Int_t ihit = 0; ihit < nHits; ihit++){
+      R3BSeetramCalData* hit = 
+	(R3BSeetramCalData*)fCalItemsSeetram->At(ihit);
+      if (!hit) continue;
+        //std::cout << "hit:"<<hit->GetDetectorId() << " " << hit->GetEnergy() << std::endl;
+       if(hit->GetClock1seg()+fOffsetSeetram>600)
+        for(int j=0;j<10000;j++)
+         if(hit->GetClock1seg()>600*j && hit->GetClock1seg()<600*(j+1)){fOffsetSeetram=-600*j;fh_Seetram->Reset();continue;}
+       for(Int_t j=0;j<hit->GetSeeCounts();j++)fh_Seetram->Fill(hit->GetClock1seg()+fOffsetSeetram);
     }
   }
 
@@ -588,13 +709,9 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option) {
     Int_t nHits = fHitItemsMusic->GetEntriesFast();
        // std::cout << "hit:"<<nHits << std::endl;
   /*  for (Int_t ihit = 0; ihit < nHits; ihit++){
-      R3BAmsStripCalData* hit = 
-	(R3BAmsStripCalData*)fCalItemsAms->At(ihit);
-      if (!hit) continue;
-        //std::cout << "hit:"<<hit->GetDetId() << " " << hit->GetSideId() << std::endl;
-       fh_Ams_energy_allCalStrips[hit->GetDetId()*2+hit->GetSideId()]->Fill(hit->GetStripId(),hit->GetEnergy());
+
     }
-*/
+  */
   }
 
   //Fill cal tpc data
@@ -640,7 +757,9 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option) {
       R3BTpcHitData* hit = 
 	(R3BTpcHitData*)fHitItemsTpc->At(ihit);
       if (!hit) continue;
-      fh_Tpc_hit[hit->GetDetectorId()]->Fill(hit->GetX());
+      fh_Tpc_hitx[hit->GetDetectorId()]->Fill(hit->GetX());
+      fh_Tpc_hity[hit->GetDetectorId()]->Fill(hit->GetY());
+      fh_Tpc_hitxy[hit->GetDetectorId()]->Fill(hit->GetX(), hit->GetY());
     }
   }
 
@@ -678,6 +797,7 @@ void R3BFrsOnlineSpectra::FinishTask() {
     if (fMappedItemsFrs){
 	cSCI21->Write();
 	cSCI41->Write();
+        cSCI81->Write();
     }
     if(fCalItemsMusic){
 	cMus1->Write();
@@ -686,14 +806,15 @@ void R3BFrsOnlineSpectra::FinishTask() {
     if (fCalItemsTpc)
     {  
         cCalx->Write();
-	cTpcCal[0]->Write();
-	cTpcCal[1]->Write();
-	cTpcCal[2]->Write();
-	cTpcCal[3]->Write();
+        for (Int_t i = 0; i < 4; i++){
+	  cTpcCal[i]->Write();
+        }
     }
     if (fHitItemsTpc)
     {
-	cHit->Write();
+	cHitx->Write();
+        cHity->Write();
+        cHitxy->Write();
     }
     if (fAnaItemsFrs)
     {
