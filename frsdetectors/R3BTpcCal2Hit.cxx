@@ -49,6 +49,8 @@ R3BTpcCal2Hit::R3BTpcCal2Hit(const char* name, Int_t iVerbose) :
 R3BTpcCal2Hit::~R3BTpcCal2Hit()
 {
   LOG(INFO) << "R3BTpcCal2Hit: Delete instance" << FairLogger::endl;
+  if(fTpcCalDataCA) delete fTpcCalDataCA;
+  if(fTpcHitDataCA) delete fTpcHitDataCA;
 }
 
 void R3BTpcCal2Hit::SetParContainers() {
@@ -133,9 +135,9 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
   Double_t tpc_x[fNumDets],tpc_y[fNumDets];
   Int_t count_x[fNumDets],count_y[fNumDets];
   for(Int_t i = 0; i < fNumDets; i++){
-   tpc_x[i]=0.;
+   tpc_x[i]=-500.;
    count_x[i]=0;
-   tpc_y[i]=0.;
+   tpc_y[i]=-500.;
    count_y[i]=0;
   }
 
@@ -148,12 +150,14 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
     //std::cout << detId << " " << secId << " " << xyId << std::endl;
  
     if(xyId==0){//for X
-     if(CalDat[i]->GetPosition()>-500.){
+     if(CalDat[i]->GetPosition()>=-100. && CalDat[i]->GetPosition()<=100.){
+      if(tpc_x[detId]==-500)tpc_x[detId]=0.;
       tpc_x[detId] = tpc_x[detId] + CalDat[i]->GetPosition();
       count_x[detId]++;
      }
     }else{//for Y
-     if(CalDat[i]->GetPosition()>-500.){
+     if(CalDat[i]->GetPosition()>=-100. && CalDat[i]->GetPosition()<=100.){
+      if(tpc_y[detId]==-500)tpc_y[detId]=0.;
       tpc_y[detId] = tpc_y[detId] + CalDat[i]->GetPosition();
       count_y[detId]++;
      }
@@ -162,7 +166,7 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
   }
 
   for(Int_t i = 0; i < fNumDets; i++){
-    if(count_x[i]>0 && count_y[i]>0){
+    if(count_x[i]>0 && count_y[i]>0 && tpc_x[i]>-500){
      fx = tpc_x[i]/count_x[i];
      fy = tpc_y[i]/count_y[i];
      //std::cout << i << " " << fx << " " << fy << std::endl;

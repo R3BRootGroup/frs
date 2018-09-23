@@ -8,6 +8,7 @@
 
 #include "FairTask.h"
 #include "TH1F.h"
+#include "TH2F.h"
 
 class TClonesArray;
 class R3BTpcCalPar;
@@ -46,6 +47,8 @@ class R3BTpcMapped2CalPar : public FairTask {
   
   /** Virtual method Search parameters **/
   virtual void SearchCalParXY();
+
+  void SearchMax(double *xpeaks, double *ypeaks, int nf, double *xpos);
   
   void SetOutputFile(const char *outFile);
   
@@ -72,6 +75,7 @@ class R3BTpcMapped2CalPar : public FairTask {
   void SetDeltaX(Double_t x){fDeltaX=x;}
   void SetDeltaY(Double_t y){fDeltaY=y;}
   void SetMinStatistics(Int_t minstat){fMinStatistics=minstat;}
+  void SetMaxXCal(Int_t max){fMaxX=max;}
 
   void SetMaxCsum(TArrayF* theCsum) {
     fLim_Csum_Max = theCsum;
@@ -91,6 +95,7 @@ class R3BTpcMapped2CalPar : public FairTask {
   Int_t fMapHistos_left;		
   Int_t fMapHistos_right;
   Int_t fMapHistos_bins;
+  Int_t fMaxX;
 
   TArrayF* fLim_Csum_Max;
   Int_t fNbCsumLines;
@@ -105,14 +110,16 @@ class R3BTpcMapped2CalPar : public FairTask {
 
   // TPC part
   Float_t lim_csum[6][6][2];
-      Float_t lim_csum1[6][2];
-      Float_t lim_csum2[6][2];// = {{1530,1800},{1430,1800},{1545,1800},{1575,1800},{1440,1800},{1410,1800}};
-      Float_t lim_csum3[6][2];// = {{1540,1800},{1490,1840},{1540,1820},{1475,1840},{1410,1875},{1450,1820}};
-      Float_t lim_csum4[6][2];// = {{1510,1880},{1460,1810},{1545,1885},{1520,1880},{1480,1840},{1470,1870}};
+  Float_t lim_csum1[6][2];
+  Float_t lim_csum2[6][2];// = {{1530,1800},{1430,1800},{1545,1800},{1575,1800},{1440,1800},{1410,1800}};
+  Float_t lim_csum3[6][2];// = {{1540,1800},{1490,1840},{1540,1820},{1475,1840},{1410,1875},{1450,1820}};
+  Float_t lim_csum4[6][2];// = {{1510,1880},{1460,1810},{1545,1885},{1520,1880},{1480,1840},{1470,1870}};
 
   Bool_t b_tpc_csum[4];//for tpcs
   Bool_t b_tpc_xy[6];
   Float_t tpc_csum[4];
+
+  Int_t fTpcdt[4], fTpclt[2], fTpcrt[2];
 
   R3BTpcCalPar* fTpc_Par;         /**< Parameter container. >*/ 
   TClonesArray* fTpcMappedDataCA; /**< Array with Tpc Mapped- input data. >*/
@@ -120,6 +127,7 @@ class R3BTpcMapped2CalPar : public FairTask {
   TH1F** fh_Map_dt_y;
   TH1F** fh_Map_dt_x;
   TH1F** fh_Map_csum;
+  TH2F** fh_Map_xy;
   char *fOutputFile;
   
  public:

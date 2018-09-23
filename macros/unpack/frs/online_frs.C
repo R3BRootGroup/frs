@@ -1,9 +1,9 @@
 /* Additional info:
- * To generate the header file used for the R3BUcesbSource (ext_h101.h), use:
+ * To generate the header file used for the UcesbSource (ext_h101.h), use:
  *
- * ./frs_jul2018 --ntuple=RAW,id=h101_FRS,ext_h101_frs.h
+ * ./frs_april2019 --ntuple=RAW,id=h101_FRS,ext_h101_frs.h
  *
- * at $UCESB_DIR/upexps/frs_jul2018
+ * at $UCESB_DIR/upexps/frs_april2019
  *
  * Put this header file into the 'frs/frssource' directory and recompile.
  *
@@ -13,6 +13,7 @@
 
 typedef struct EXT_STR_h101_t {
   EXT_STR_h101_unpack_t unpack;
+  EXT_STR_h101_WRMASTER_t wrm;
   EXT_STR_h101_FRS_t frs;
 } EXT_STR_h101;
 
@@ -25,15 +26,16 @@ void online_frs() {
   
   /* Create source using ucesb for input ------------------ */
   
-  //TString filename = "--stream=lxg0898:6002";
-  TString filename = "~/lmd/Ag107_1000AMeV_001*.lmd";
+  TString filename = "--stream=lxg1266:8000";
+  //TString filename = "/home/joseluis/lmd/frsapril19/run_0183.lmd";
+
+  TString outputFileName = "data_frs_online.root";
   
-  TString outputFileName = "data_online.root";
-  
-  TString ntuple_options = "UNPACK:EVENTNO,UNPACK:TRIGGER,RAW";
+  TString ntuple_options = "RAW";
   TString ucesb_dir = getenv("UCESB_DIR");
   
-  TString ucesb_path = ucesb_dir + "/../upexps/frs_jul2018/frs_jul2018";
+  TString ucesb_path = ucesb_dir + "/../upexps/frs_april2019/frs_april2019  --input-buffer=100Mi";
+  ucesb_path.ReplaceAll("//","/");
   
   EXT_STR_h101 ucesb_struct;
   
@@ -43,8 +45,11 @@ void online_frs() {
   
 
   /* Definition of reader --------------------------------- */
-  R3BUnpackReader* unpackreader = new R3BUnpackReader((EXT_STR_h101_unpack*)&ucesb_struct,
+  R3BUnpackReader* unpackreader = new R3BUnpackReader((EXT_STR_h101_unpack*)&ucesb_struct.unpack,
 					offsetof(EXT_STR_h101, unpack));
+
+  R3BWhiterabbitMasterReader* unpackWRM = new R3BWhiterabbitMasterReader((EXT_STR_h101_WRMASTER*)&ucesb_struct.wrm,
+                                             offsetof(EXT_STR_h101, wrm), 0x100);
 
   R3BFrsReader* unpackfrs= new R3BFrsReader((EXT_STR_h101_FRS*)&ucesb_struct.frs,
 					     offsetof(EXT_STR_h101, frs));
@@ -52,6 +57,8 @@ void online_frs() {
 
   /* Add readers ------------------------------------------ */
   source->AddReader(unpackreader);
+  unpackWRM->SetOnline(true);
+  source->AddReader(unpackWRM);
   unpackfrs->SetOnline(true);
   source->AddReader(unpackfrs);
 
@@ -59,9 +66,9 @@ void online_frs() {
   /* Create online run ------------------------------------ */
   FairRunOnline* run = new FairRunOnline(source);
   run->SetRunId(1);
-  run->SetOutputFile(outputFileName);
+  run->SetSink(new FairRootFileSink(outputFileName));       // Output file
   Int_t refresh = 1;
-  Int_t port=8044;
+  Int_t port=8888;
   run->ActivateHttpServer(refresh, port);
 
 
@@ -84,6 +91,10 @@ void online_frs() {
   R3BSeetramMapped2Cal* SeeMap2Cal = new R3BSeetramMapped2Cal();
   SeeMap2Cal->SetOnline(true);
   run->AddTask(SeeMap2Cal);
+  //MWPCs
+  R3BMWMapped2Hit* MwMap2Hit = new R3BMWMapped2Hit();
+  MwMap2Hit->SetOnline(true);
+  run->AddTask(MwMap2Hit);
   //Musics
   R3BMusicMapped2Cal* MusMap2Cal = new R3BMusicMapped2Cal();
   MusMap2Cal->SetOnline(true);
@@ -106,6 +117,7 @@ void online_frs() {
   run->AddTask(AnaFrsS4);
 
 
+
   /* Add online task ------------------------------------ */  
   R3BFrsOnlineSpectra* online= new R3BFrsOnlineSpectra();
   run->AddTask(online);
@@ -123,14 +135,25 @@ void online_frs() {
   run->Run((nev < 0) ? nev : 0, (nev < 0) ? 0 : nev);
 
 
-  /* Finish ----------------------------------------------- */
+  // -----   Finish   -------------------------------------------------------
+  cout << endl << endl;
+  // Extract the maximal used memory an add is as Dart measurement
+  // This line is filtered by CTest and the value send to CDash
+  FairSystemInfo sysInfo;
+  Float_t maxMemory=sysInfo.GetMaxMemory();
+  cout << "MaxMemory: ";
+  cout << maxMemory<< endl;
+
   timer.Stop();
   Double_t rtime = timer.RealTime();
   Double_t ctime = timer.CpuTime();
-  std::cout << std::endl << std::endl;
-  std::cout << "Macro finished succesfully." << std::endl;
+  Float_t cpuUsage=ctime/rtime;
+  cout << "CPU used: " << cpuUsage << endl;
+
+  cout << endl;
   std::cout << "Output file is " << outputFileName << std::endl;
-  std::cout << "Real time " << rtime << " s, CPU time " << ctime << " s"
-            << std::endl << std::endl;
+  cout << "Real time " << rtime << " s, CPU time " << ctime << "s" 
+       << endl << endl;
+  cout << "Macro finished successfully." << endl;
   //gApplication->Terminate();
 }

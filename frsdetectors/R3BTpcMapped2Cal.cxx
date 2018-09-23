@@ -6,7 +6,6 @@
 //ROOT headers
 #include "TClonesArray.h"
 #include "TMath.h"
-#include "TRandom.h"
 
 //Fair headers
 #include "FairRootManager.h"
@@ -64,6 +63,8 @@ R3BTpcMapped2Cal::R3BTpcMapped2Cal(const char* name, Int_t iVerbose) :
 R3BTpcMapped2Cal::~R3BTpcMapped2Cal()
 {
   LOG(INFO) << "R3BTpcMapped2Cal: Delete instance" << FairLogger::endl;
+  if(fTpcMappedDataCA) delete fTpcMappedDataCA;
+  if(fTpcCalDataCA) delete fTpcCalDataCA;
 }
 
 
@@ -171,21 +172,19 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
   R3BTpcMappedData* MapHit;
   Int_t detId,xyId,secId;
 
-  TArrayI* fTpcdt;
-  TArrayI* fTpclt;
-  TArrayI* fTpcrt;
-
   Double_t x0, x0cal, x1, x1cal, y;
   for(Int_t i = 0; i < nHits; i++) {
     MapHit = (R3BTpcMappedData*)(fTpcMappedDataCA->At(i));
     detId = MapHit->GetDetectorId();
-    fTpcdt = new TArrayI(*(MapHit->GetTpcdt()));
-    fTpcrt = new TArrayI(*(MapHit->GetTpcrt()));
-    fTpclt = new TArrayI(*(MapHit->GetTpclt()));
 
-    //std::cout << detId << " " << fTpclt->GetAt(0) <<" "<< fTpclt->GetAt(1)<<" "<< fTpcrt->GetAt(0)<<" "<< fTpcrt->GetAt(1) << std::endl;
-    //std::cout << fTpclt->GetAt(0) <<" "<< fTpclt->GetAt(1) << std::endl;
-    // std::cout << fTpcrt->GetAt(0) <<" "<< fTpcrt->GetAt(1) << std::endl;
+    fTpcdt[0]=(MapHit->GetTpcdt())[0];
+    fTpcdt[1]=(MapHit->GetTpcdt())[1];
+    fTpcdt[2]=(MapHit->GetTpcdt())[2];
+    fTpcdt[3]=(MapHit->GetTpcdt())[3];
+    fTpcrt[0]=(MapHit->GetTpcrt())[0];
+    fTpcrt[1]=(MapHit->GetTpcrt())[1];
+    fTpclt[0]=(MapHit->GetTpclt())[0];
+    fTpclt[1]=(MapHit->GetTpclt())[1];
 
     //Init control sum for TPC
     for (int j=0;j<fNumAnodesY;j++){
@@ -195,10 +194,10 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
 
     for(Int_t j=0;j<fNumAnodesY;j++){
       // calculate control sums
-      if(j<2){ 
-          tpc_csum[j] = abs( fTpclt->GetAt(0)+fTpcrt->GetAt(0) -2*fTpcdt->GetAt(j));
-      }else{ 
-          tpc_csum[j] = abs( fTpclt->GetAt(1)+fTpcrt->GetAt(1) -2*fTpcdt->GetAt(j));
+      if(j<2){
+          tpc_csum[j] = ( fTpclt[0]+fTpcrt[0] -2* fTpcdt[j]);
+      }else{
+          tpc_csum[j] = ( fTpclt[1]+fTpcrt[1] -2*fTpcdt[j]);
       }
 
      // std::cout<<CsumMinParams->GetAt(detId*fNumAnodesY+j)<<" "<<tpc_csum[j]<<" "<<CsumMaxParams->GetAt(detId*fNumAnodesY+j)<<std::endl;
@@ -206,14 +205,14 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
       if(tpc_csum[j]>CsumMinParams->GetAt(detId*fNumAnodesY+j) && tpc_csum[j]<CsumMaxParams->GetAt(detId*fNumAnodesY+j))
          b_tpc_csum[j] = kTRUE;
 
-      if((fTpclt->GetAt(0)==0 && fTpcrt->GetAt(0)==0 && j<2) || 
-         (fTpclt->GetAt(1)==0 && fTpcrt->GetAt(1)==0 && j>1)){
+      if((fTpclt[0]==0 && fTpcrt[0]==0 && j<2) || 
+         (fTpclt[1]==0 && fTpcrt[1]==0 && j>1)){
          b_tpc_csum[j]=kFALSE;
       }
 
       if (b_tpc_csum[j]){
         //if(tpc_csum[j]<CsumMinParams->GetAt(detId*fNumAnodesY+j))std::cout <<" det: "<<detId<<" j;"<<j<< " "<<  CsumMinParams->GetAt(detId*fNumAnodesY+j) <<" "<< tpc_csum[j] << std::endl;
-        y= CalParams->GetAt(NumParams*j+detId*NumParams*NumAnodes)+fTpcdt->GetAt(j)*CalParams->GetAt(NumParams*j+detId*NumParams*NumAnodes+1);
+        y= CalParams->GetAt(NumParams*j+detId*NumParams*NumAnodes)+fTpcdt[j]*CalParams->GetAt(NumParams*j+detId*NumParams*NumAnodes+1);
         AddCalData(detId,1,j,y,tpc_csum[j]);
       }
 
@@ -222,7 +221,7 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
     Int_t index=fNumAnodesY;
     if (b_tpc_csum[0] || b_tpc_csum[1]){
       //fh_Map_dt_x[2*detId]->Fill(fTpclt->GetAt(0)-fTpcrt->GetAt(0));
-      x0 =fTpclt->GetAt(0)-fTpcrt->GetAt(0);
+      x0 =fTpclt[0]-fTpcrt[0];
       x0cal = CalParams->GetAt(NumParams*index+detId*NumParams*NumAnodes) + x0*CalParams->GetAt(NumParams*index+detId*NumParams*NumAnodes+1);
       AddCalData(detId,0,0,x0cal,x0);
     }
@@ -230,7 +229,7 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
     index++;
     if (b_tpc_csum[2] || b_tpc_csum[3]){
       //fh_Map_dt_x[1+2*detId]->Fill(fTpclt->GetAt(1)-fTpcrt->GetAt(1));
-      x1 = fTpclt->GetAt(1)-fTpcrt->GetAt(1);
+      x1 = fTpclt[1]-fTpcrt[1];
       x1cal = CalParams->GetAt(NumParams*index+detId*NumParams*NumAnodes) + x1*CalParams->GetAt(NumParams*index+detId*NumParams*NumAnodes+1);
       AddCalData(detId,0,1,x1cal,x1);
     }
@@ -241,7 +240,6 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
 // -----   Protected method Finish   --------------------------------------------
 void R3BTpcMapped2Cal::Finish()
 {
-  
 }
 
 // -----   Public method Reset   ------------------------------------------------

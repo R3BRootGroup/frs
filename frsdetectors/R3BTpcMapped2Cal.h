@@ -11,7 +11,6 @@
 #include "TH1F.h"
 #include "R3BTpcCalData.h"
 #include "R3BTpcMappedData.h"
-#include <TRandom.h>
 
 class TClonesArray;
 class R3BTpcCalPar;
@@ -73,6 +72,8 @@ class R3BTpcMapped2Cal : public FairTask {
   Bool_t b_tpc_csum[4];//for tpcs control sum
   Bool_t b_tpc_xy[6];
   Float_t tpc_csum[4];
+
+  Int_t fTpcdt[4], fTpclt[2], fTpcrt[2];
 
   /** Private method AddCalData **/
   //** Adds a TpcCalData to the anodeCalCollection

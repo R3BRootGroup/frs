@@ -56,6 +56,8 @@ R3BMusicMapped2Cal::R3BMusicMapped2Cal(const char* name, Int_t iVerbose) :
 R3BMusicMapped2Cal::~R3BMusicMapped2Cal()
 {
   LOG(INFO) << "R3BMusicMapped2Cal: Delete instance" << FairLogger::endl;
+  if(fMusicMappedDataCA) delete fMusicMappedDataCA;
+  if(fMusicCalDataCA) delete fMusicCalDataCA;
 }
 
 

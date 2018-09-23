@@ -16,5 +16,12 @@
 #pragma link C++ class R3BTpcCalData+;
 #pragma link C++ class R3BTpcHitData+;
 #pragma link C++ class R3BFrsData+;
+#pragma link C++ class R3BMwHitData+;
+#pragma link C++ class R3BMwMappedData+;
+
+#pragma link C++ class R3BMdcMappedData+;
+
+#pragma link C++ class WASATofPoint+;
+#pragma link C++ class WASAMdcPoint+;
 
 #endif
