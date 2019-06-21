@@ -32,6 +32,11 @@ R3BTpcMappedData.cxx
 R3BTpcCalData.cxx
 R3BTpcHitData.cxx
 R3BFrsData.cxx
+R3BMwMappedData.cxx
+R3BMwHitData.cxx
+R3BMdcMappedData.cxx
+WASATofPoint.cxx
+WASAMdcPoint.cxx
 )
 
 # fill list of header files from list of source files

@@ -12,6 +12,8 @@ set(INCLUDE_DIRECTORIES
 #put here all directories where header files are located
 ${R3BROOT_SOURCE_DIR}/r3bsource
 ${R3BROOT_SOURCE_DIR}/r3bbase
+${R3BROOT_SOURCE_DIR}/r3bdata
+${R3BROOT_SOURCE_DIR}/r3bdata/wrData
 ${R3BFRS_SOURCE_DIR}/frssource
 ${R3BFRS_SOURCE_DIR}/frsdata
 )
@@ -28,10 +30,12 @@ link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
 R3BFrsReader.cxx
+R3BWasaReader.cxx
 )
 
 Set(STRUCT_HEADERS
 ext_h101_frs.h
+ext_h101_wasa.h
 )
 
 # fill list of header files from list of source files

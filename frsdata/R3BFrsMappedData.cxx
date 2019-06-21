@@ -7,13 +7,15 @@
 
 R3BFrsMappedData::R3BFrsMappedData()
     : fAccTrig(0),
-      fClock100Hz(0),
+      fClock100kHz(0),
       fClock10Hz(0),
       fClock1Hz(0),
-      fDeadTime(0),
+      fTrigger(-1),
       fFreeTrig(0),
       fSpill(0),
       fSeenew(0),
+      fSeeold(0),
+      fIc(0),
       fSCI00(0),
       fSCI01(0),
       fSCI02(0),
@@ -24,7 +26,20 @@ R3BFrsMappedData::R3BFrsMappedData()
 {
 }
 
-R3BFrsMappedData::R3BFrsMappedData(Int_t AccTrig,Int_t Clock100Hz,Int_t Clock1Hz,Int_t Clock10Hz,Int_t DeadTime,Int_t FreeTrig, Int_t Spill, Int_t Seenew, Int_t SCI00, Int_t SCI01, Int_t SCI02
+R3BFrsMappedData::R3BFrsMappedData(
+  Int_t AccTrig
+, Int_t Clock100kHz
+, Int_t Clock1Hz
+, Int_t Clock10Hz
+, Int_t Trigger
+, Int_t FreeTrig
+, Int_t Spill
+, Int_t Seenew
+, Int_t Seeold
+, Int_t Ic
+, Int_t SCI00
+, Int_t SCI01
+, Int_t SCI02
 , Int_t SCI21LE
 , Int_t SCI21RE
 , Int_t SCI21LT
@@ -47,20 +62,22 @@ R3BFrsMappedData::R3BFrsMappedData(Int_t AccTrig,Int_t Clock100Hz,Int_t Clock1Hz
 , Int_t SCI81RT
 )
     : fAccTrig(AccTrig),
-      fClock100Hz(Clock100Hz),
+      fClock100kHz(Clock100kHz),
       fClock10Hz(Clock10Hz),
       fClock1Hz(Clock1Hz),
-      fDeadTime(DeadTime),
+      fTrigger(Trigger),
       fFreeTrig(FreeTrig),
       fSpill(Spill),
       fSeenew(Seenew),
+      fSeeold(Seeold),
+      fIc(Ic),
       fSCI00(SCI00),
       fSCI01(SCI01),
       fSCI02(SCI02),
       fSCI21LE(SCI21LE),
       fSCI21RE(SCI21RE),
       fSCI21LT(SCI21LT),
-      fSCI21RT(SCI21RE),
+      fSCI21RT(SCI21RT),
       fSCI41LE(SCI41LE),
       fSCI41RE(SCI41RE),
       fSCI41LT(SCI41LT),
@@ -82,13 +99,15 @@ R3BFrsMappedData::R3BFrsMappedData(Int_t AccTrig,Int_t Clock100Hz,Int_t Clock1Hz
 
 R3BFrsMappedData::R3BFrsMappedData(const R3BFrsMappedData& right)
     : fAccTrig(right.fAccTrig),
-      fClock100Hz(right.fClock100Hz),
+      fClock100kHz(right.fClock100kHz),
       fClock10Hz(right.fClock10Hz),
       fClock1Hz(right.fClock1Hz),
-      fDeadTime(right.fDeadTime),
+      fTrigger(right.fTrigger),
       fFreeTrig(right.fFreeTrig),
       fSpill(right.fSpill),
       fSeenew(right.fSeenew),
+      fSeeold(right.fSeeold),
+      fIc(right.fIc),
       fSCI00(right.fSCI00),
       fSCI01(right.fSCI01),
       fSCI02(right.fSCI02),

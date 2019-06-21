@@ -9,6 +9,7 @@ ${BASE_INCLUDE_DIRECTORIES}
 
 set(INCLUDE_DIRECTORIES
 ${R3BROOT_SOURCE_DIR}/r3bdata
+${R3BROOT_SOURCE_DIR}/r3bdata/wrData
 ${R3BROOT_SOURCE_DIR}/r3bbase
 ${R3BFRS_SOURCE_DIR}/frsdata
 ${R3BFRS_SOURCE_DIR}/frsdetectors
@@ -41,6 +42,7 @@ R3BTpcCal2Hit.cxx
 R3BFrsHit2AnaS4.cxx
 R3BFrsHit2AnaS4Par.cxx
 R3BFrsAnaPar.cxx
+R3BMWMapped2Hit.cxx
 R3BFrsOnlineSpectra.cxx
 )
 

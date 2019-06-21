@@ -55,10 +55,52 @@ class R3BSeetramMapped2Cal : public FairTask {
 
   Int_t NumParams;
 
-  Int_t fclock1seg;
+  //clocks
+  Int_t fclock1hz;
+  Int_t fclock10hz;
+  Int_t fclock100khz;
+  Int_t firstclock1hz;
+  Int_t firstclock10hz;
+  Int_t firstclock100khz;
+
+  //Triggers
+  Int_t faceptrigcounts;
+  Int_t faceptrigcounter;
+  Int_t ffreetrigcounts;
+  Int_t ffreetrigcounter;
+
+  //seetram
   Int_t fseecounts;
   Int_t fseecounter;
-  Int_t firstclock1seg;
+
+  //IC
+  Int_t ficcounts;
+  Int_t ficcounter;
+
+  //sci00
+  Int_t fsci00counts;
+  Int_t fsci00counter;
+
+  //sci01
+  Int_t fsci01counts;
+  Int_t fsci01counter;
+
+  //sci02
+  Int_t fsci02counts;
+  Int_t fsci02counter;
+
+  //dummy
+  Int_t fdumcounts;
+  Int_t fdumcounter;
+
+  //sci21
+  Int_t fsci21counts;
+  Int_t fsci21counter;
+
+  //sci41
+  Int_t fsci41counts;
+  Int_t fsci41counter;
+
   Bool_t firstEvt;
 
   TArrayF* CalParams;
@@ -71,7 +113,7 @@ class R3BSeetramMapped2Cal : public FairTask {
   
   /** Private method AddCalData **/
   //** Adds a SeetramCalData to the CalCollection
-  R3BSeetramCalData* AddCalData(Int_t Seecounts, Int_t clock1seg);
+  R3BSeetramCalData* AddCalData(Int_t acctrigger, Int_t freetrigger, Int_t Seecounts, Int_t IcCounts, Int_t DumCounts, Int_t Sci00Counts, Int_t Sci01Counts, Int_t Sci02Counts, Int_t clock1seg);
 
  public:
   //Class definition
