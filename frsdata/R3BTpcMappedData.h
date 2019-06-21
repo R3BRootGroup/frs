@@ -9,8 +9,6 @@
 #define R3BTpcMappedData_H
 #include "TObject.h"
 
-class TArrayI;
-
 class R3BTpcMappedData : public TObject {
 
 public:
@@ -18,36 +16,29 @@ public:
   R3BTpcMappedData();
   
   /** Standard Constructor
-   *@param detId       Detector unique identifier
-   *@param      Anode unique identifier
-   *@param       Total energy deposited in the anode
+   *@param detId    Detector unique identifier
+   *@param tpc_ae, tpc_le and tpc_re    Energy per anode
+   *@param tpc_dt, tpc_lt and tpc_rt    Drift times per anode
    **/
-   R3BTpcMappedData(Int_t detId, TArrayI* tpc_ae, TArrayI* tpc_le, TArrayI* tpc_re, TArrayI* tpc_dt, TArrayI* tpc_lt, TArrayI* tpc_rt);
-  
+   R3BTpcMappedData(Int_t detId, Int_t tpc_ae[4], Int_t tpc_le[2], Int_t tpc_re[2], Int_t tpc_dt[4], Int_t tpc_lt[2], Int_t tpc_rt[2]);
+
   //Destructor
   ~R3BTpcMappedData() { }
   
   //Getters
-  inline const Int_t& GetDetectorId() const { return fDetId;   }
-  TArrayI* GetTpcdt() const { return fTpc_dt; }
-  TArrayI* GetTpcrt() const { return fTpc_rt; }
-  TArrayI* GetTpclt() const { return fTpc_lt; }
-  TArrayI* GetTpcae() const { return fTpc_ae; }
-  TArrayI* GetTpcre() const { return fTpc_re; }
-  TArrayI* GetTpcle() const { return fTpc_le; }
-  
+  inline const Int_t GetDetectorId() const { return fDetId;}
+  inline const Int_t* GetTpcdt()   const { return ftpc_dt; }
+  inline const Int_t* GetTpcrt()   const { return ftpc_rt; }
+  inline const Int_t* GetTpclt()   const { return ftpc_lt; }
+  inline const Int_t* GetTpcae()   const { return ftpc_ae; }
+  inline const Int_t* GetTpcre()   const { return ftpc_re; }
+  inline const Int_t* GetTpcle()   const { return ftpc_le; }
+
 protected:
-  Int_t fDetId;  // detector and anode unique identifiers
+  Int_t fDetId;      // detector unique identifier
+  Int_t ftpc_ae[4], ftpc_le[2], ftpc_re[2]; 
+  Int_t ftpc_dt[4], ftpc_lt[2], ftpc_rt[2];
 
-  /** Arrays **/
-  TArrayI* fTpc_ae;
-  TArrayI* fTpc_le;
-  TArrayI* fTpc_re;
-  TArrayI* fTpc_dt;
-  TArrayI* fTpc_rt;
-  TArrayI* fTpc_lt;
-
-   
 public:
   ClassDef(R3BTpcMappedData,1)
 };

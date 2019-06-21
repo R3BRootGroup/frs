@@ -71,6 +71,18 @@ R3BFrsHit2AnaS4::R3BFrsHit2AnaS4(const char* name, Int_t iVerbose) :
 R3BFrsHit2AnaS4::~R3BFrsHit2AnaS4()
 {
   LOG(INFO) << "R3BFrsHit2AnaS4: Delete instance" << FairLogger::endl;
+  if (fFrsMappedDataCA){
+      delete fFrsMappedDataCA;
+  }
+  if (fMusicHitDataCA){
+      delete fMusicHitDataCA;
+  }
+  if (fTpcHitDataCA){
+      delete fTpcHitDataCA;
+  }
+  if (fFrsDataCA){
+      delete fFrsDataCA;
+  }
 }
 
 
@@ -113,7 +125,7 @@ void R3BFrsHit2AnaS4::SetParameter(){
   LOG(INFO)<<"R3BFrsHit2AnaS4: B (S2-S4): "<< fBfield_S2_S4 <<FairLogger::endl;
   LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S2[mm]: "<< fDisTpcS2 <<FairLogger::endl;
   LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S4[mm]: "<< fDisTpcS4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S4[mm]: "<< fPosFocalS2 <<FairLogger::endl;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S2[mm]: "<< fPosFocalS2 <<FairLogger::endl;
   LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S4[mm]: "<< fPosFocalS4 <<FairLogger::endl;
 
   Int_t NumParams=fFrs_Par->GetNumParameters();//Number of Parameters
@@ -232,7 +244,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
   //Velocity S2-S4
   double TAC_CAL_SC24_LL=-0.01045;
   double TAC_CAL_SC24_RR=-0.01095;
-  double ToF_star_S2_S4 =0.5*(TAC_CAL_SC24_LL*SCI24_TofLL + TAC_CAL_SC24_RR*SCI24_TofRR);
+  double ToF_star_S2_S4 =-0.5*(SCI24_TofLL*11.0988+538.608 + SCI24_TofRR*10.9513-559.745);
   double Beta_S2_S4 = ((fPathS2S4/( fTOFS2S4 +ToF_star_S2_S4))*pow(10.,7))/c;
   double Gamma_S2_S4 =1./(sqrt(1.-(Beta_S2_S4)*(Beta_S2_S4)));
 
@@ -244,10 +256,11 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
   fAq = (fAq-fParm1)*cos(-1.*fRotS4)+(angle_S4_mrad-fParm0)*sin(-1.*fRotS4) + fParm1;
 
   //Fill the data
-  AddData(fZ+fOffsetZ, fAq+fOffsetAq);
+  AddData(fZ+fOffsetZ, fAq+fOffsetAq, x_position_focal_S2,angle_S2_mrad,x_position_focal_S4,angle_S4_mrad);
 
   if(HitMusic) delete HitMusic;
   if(HitTpc) delete HitTpc;
+  if(MapFrs) delete MapFrs;
   return;
 }
 
@@ -266,11 +279,11 @@ void R3BFrsHit2AnaS4::Reset()
 
 
 // -----   Private method AddData  --------------------------------------------
-R3BFrsData* R3BFrsHit2AnaS4::AddData(Double_t z, Double_t aq)
+R3BFrsData* R3BFrsHit2AnaS4::AddData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4)
 {
   //It fills the R3BFrsData
   TClonesArray& clref = *fFrsDataCA;
   Int_t size = clref.GetEntriesFast();
-  return new(clref[size]) R3BFrsData(z,aq);
+  return new(clref[size]) R3BFrsData(z,aq,xs2,as2,xs4,as4);
 }
 

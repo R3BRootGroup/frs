@@ -16,7 +16,17 @@ class R3BFrsMappedData : public TObject
 
     /** Standard Constructor
      **/
-    R3BFrsMappedData( Int_t AccTrig,Int_t Clock100Hz,Int_t Clock1Hz,Int_t Clock10Hz,Int_t DeadTime,Int_t FreeTrig, Int_t Spill, Int_t Seenew
+    R3BFrsMappedData( 
+  Int_t AccTrig
+, Int_t Clock100kHz
+, Int_t Clock1Hz
+, Int_t Clock10Hz
+, Int_t Trigger
+, Int_t FreeTrig
+, Int_t Spill
+, Int_t Seenew
+, Int_t Seeold
+, Int_t Ic
 , Int_t SCI00
 , Int_t SCI01
 , Int_t SCI02
@@ -50,12 +60,14 @@ class R3BFrsMappedData : public TObject
 
   //Getters
   inline  Int_t GetSeetramNew() { return fSeenew;   }
-  inline  Int_t GetSpill()      { return fSpill;  } 
+  inline  Int_t GetSeetramOld() { return fSeeold;   }
+  inline  Int_t GetIc()         { return fIc;       }
+  inline  Int_t GetSpill()      { return fSpill;    } 
   inline  Int_t GetAccTrig()    { return fAccTrig;  } 
-  inline  Int_t GetDeadTime()   { return fDeadTime;  } 
-  inline  Int_t GetFreeTrig()   { return fFreeTrig;  } 
-  inline  Int_t GetClock100Hz() { return fClock100Hz;  } 
-  inline  Int_t GetClock10Hz()  { return fClock10Hz;  } 
+  inline  Int_t GetTrigger()    { return fTrigger;  } 
+  inline  Int_t GetFreeTrig()   { return fFreeTrig; } 
+  inline  Int_t GetClock100kHz(){ return fClock100kHz;} 
+  inline  Int_t GetClock10Hz()  { return fClock10Hz; } 
   inline  Int_t GetClock1Hz()   { return fClock1Hz;  } 
 
   inline  Int_t GetSCI00()      { return fSCI00; }
@@ -91,13 +103,15 @@ class R3BFrsMappedData : public TObject
   protected:
 
     Int_t fAccTrig;
-    Int_t fClock100Hz;
+    Int_t fClock100kHz;
     Int_t fClock1Hz;
     Int_t fClock10Hz;
-    Int_t fDeadTime;
+    Int_t fTrigger;
     Int_t fFreeTrig;
     Int_t fSpill;
     Int_t fSeenew;
+    Int_t fSeeold;
+    Int_t fIc;
 
     Int_t fSCI00,fSCI01,fSCI02;//plastics at S0
 

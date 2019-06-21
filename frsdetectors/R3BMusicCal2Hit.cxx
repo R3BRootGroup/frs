@@ -56,6 +56,8 @@ R3BMusicCal2Hit::R3BMusicCal2Hit(const char* name, Int_t iVerbose) :
 R3BMusicCal2Hit::~R3BMusicCal2Hit()
 {
   LOG(INFO) << "R3BMusicCal2Hit: Delete instance" << FairLogger::endl;
+  if(fMusicHitDataCA) delete fMusicHitDataCA;
+  if(fMusicCalDataCA) delete fMusicCalDataCA;
 }
 
 
