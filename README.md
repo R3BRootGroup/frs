@@ -30,7 +30,7 @@ git clone http://fy.chalmers.se/~f96hajo/ucesb/ucesb.git
 ~~~
 And also checkout the git repository with experiment unpackers:
 ~~~bash
-git clone lx-pool.gsi.de:/u/johansso/upexps
+git clone https://github.com/jose-luis-rs/frsexp.git
 ~~~
 Check that
 ~~~bash
@@ -54,8 +54,8 @@ Put this in your .bashrc to make it permanent. R3BRoot will look for ucesb at th
 
 Compile then your experiment specific unpacker (also use *the same* ROOT version here).
 ~~~bash
-cd upexps/sNameExperiment
-make
+cd frsexp/name_of_experiment
+make -j8
 ~~~
 
 ### Installation of R3BRoot and FRS (as part of R3BRoot)

@@ -62,13 +62,13 @@ void WASATof::Initialize()
 {
     FairDetector::Initialize();
 
-    LOG(INFO) << "WASATof: initialisation" << FairLogger::endl;
-    LOG(DEBUG) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog") << FairLogger::endl;
+    LOG(INFO) << "WASATof: initialisation" ;
+    LOG(DEBUG) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog") ;
 }
 
 void WASATof::SetSpecialPhysicsCuts()
 {
-    LOG(INFO) << "-I- WASATof: Adding customized Physics cut ... " << FairLogger::endl;
+    LOG(INFO) << "-I- WASATof: Adding customized Physics cut ... " ;
 /*
     if (gGeoManager)
     {
@@ -93,7 +93,7 @@ void WASATof::SetSpecialPhysicsCuts()
             Double_t cutE = fCutE; // GeV-> 1 keV
 
             LOG(INFO) << "-I- WASATof: plasticForTOF Medium Id " << pSi->GetId() << " Energy Cut-Off : " << cutE
-                      << " GeV" << FairLogger::endl;
+                      << " GeV" ;
 
             // Si
             gMC->Gstpar(pSi->GetId(), "CUTGAM", cutE); /** gammas (GeV)*/
@@ -134,7 +134,7 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
     // Sum energy loss for all steps in the active volume
     fELoss += gMC->Edep();
 
-    std::cout << "-: " << gMC->GetStack()->GetCurrentTrack()->GetPdgCode() << ", "<< gMC->GetStack()->GetCurrentTrackNumber() << "," << vol->getMCid() << "," << vol->getCopyNo() << ", " << fELoss << std::endl;
+    //std::cout << "-: " << gMC->GetStack()->GetCurrentTrack()->GetPdgCode() << ", "<< gMC->GetStack()->GetCurrentTrackNumber() << "," << vol->getMCid() << "," << vol->getCopyNo() << ", " << fELoss << std::endl;
 
     // Set additional parameters at exit of active volume. Create WASATofPoint.
     if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared())
@@ -264,7 +264,7 @@ TClonesArray* WASATof::GetCollection(Int_t iColl) const
 void WASATof::Print(Option_t* option) const
 {
     Int_t nHits = fTofCollection->GetEntriesFast();
-    LOG(INFO) << "WASATof: " << nHits << " points registered in this event" << FairLogger::endl;
+    LOG(INFO) << "WASATof: " << nHits << " points registered in this event" ;
 }
 // ----------------------------------------------------------------------------
 
@@ -280,7 +280,7 @@ void WASATof::Reset()
 void WASATof::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
 {
     Int_t nEntries = cl1->GetEntriesFast();
-    LOG(INFO) << "WASATof: " << nEntries << " entries to add" << FairLogger::endl;
+    LOG(INFO) << "WASATof: " << nEntries << " entries to add" ;
     TClonesArray& clref = *cl2;
     WASATofPoint* oldpoint = NULL;
     for (Int_t i = 0; i < nEntries; i++)
@@ -291,7 +291,7 @@ void WASATof::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
         new (clref[fPosIndex]) WASATofPoint(*oldpoint);
         fPosIndex++;
     }
-    LOG(INFO) << "WASATof: " << cl2->GetEntriesFast() << " merged entries" << FairLogger::endl;
+    LOG(INFO) << "WASATof: " << cl2->GetEntriesFast() << " merged entries" ;
 }
 
 // -----   Private method AddHit   --------------------------------------------
@@ -310,7 +310,7 @@ WASATofPoint* WASATof::AddHit(Int_t trackID,
     if (fVerboseLevel > 1)
         LOG(INFO) << "WASATof: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
                   << ") cm,  detector " << detID << ", copy " << CopyID << ", track " << trackID << ", energy loss " << eLoss * 1e06 << " keV"
-                  << FairLogger::endl;
+                  ;
     return new (clref[size]) WASATofPoint(trackID, detID, CopyID, posIn, posOut, momIn, momOut, time, length, eLoss);
 }
 

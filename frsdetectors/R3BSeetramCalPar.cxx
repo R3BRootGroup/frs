@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// -----         R3BSeetramCalPar source file                   -----
+// -----             R3BSeetramCalPar source file               -----
 // -----         Created 15/07/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
@@ -40,11 +40,11 @@ void R3BSeetramCalPar::clear() {
 
 // ----  Method putParams ------------------------------------------------------
 void R3BSeetramCalPar::putParams(FairParamList* list) {
-  LOG(INFO) <<"R3BSeetramCalPar::putParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BSeetramCalPar::putParams() called";
   if (!list){ return; }
   
   Int_t array_size = fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size;
  /*
   fStripCalParams->Set(array_size);
   
@@ -60,7 +60,7 @@ void R3BSeetramCalPar::putParams(FairParamList* list) {
 
 // ----  Method getParams ------------------------------------------------------
 Bool_t R3BSeetramCalPar::getParams(FairParamList* list) {
-  LOG(INFO) <<"R3BSeetramCalPar::getParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BSeetramCalPar::getParams() called";
   if (!list){ return kFALSE;}
 /*
   if (!list->fill("amsDetNumberPar", &fNumDets) ) { 
@@ -84,11 +84,11 @@ Bool_t R3BSeetramCalPar::getParams(FairParamList* list) {
   }
   /*
   Int_t array_size = fNumDets*fNumStrips*fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size;
   fStripCalParams->Set(array_size);
   
   if (!(list->fill("amsStripCalPar",fStripCalParams))){
-    LOG(INFO)<< "---Could not initialize amsStripCalPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize amsStripCalPar";
     return kFALSE;
   }
   */
@@ -97,7 +97,7 @@ Bool_t R3BSeetramCalPar::getParams(FairParamList* list) {
 
 // ----  Method printParams ----------------------------------------------------
 void R3BSeetramCalPar::printParams() {	
-  LOG(INFO) << "R3BSeetramCalPar: seetram Parameters: "<<FairLogger::endl;
+  LOG(INFO) << "R3BSeetramCalPar: seetram Parameters: ";
 /*  Int_t array_size = fNumDets*fNumStrips*fNumParamsFit;
   
   for(Int_t d=0;d<fNumDets;d++) {

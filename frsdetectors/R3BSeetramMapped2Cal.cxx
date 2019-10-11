@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
-// -----         R3BSeetramMapped2Cal source file                   -----
-// -----             Created 10/08/18  by J.L. Rodriguez-Sanchez    -----
+// -----                R3BSeetramMapped2Cal source file            -----
+// -----          Created 10/08/18  by J.L. Rodriguez-Sanchez       -----
 // ----------------------------------------------------------------------
 
 //ROOT headers
@@ -81,7 +81,7 @@ R3BSeetramMapped2Cal::R3BSeetramMapped2Cal(const char* name, Int_t iVerbose) :
 //Virtual R3BSeetramMapped2Cal: Destructor
 R3BSeetramMapped2Cal::~R3BSeetramMapped2Cal()
 {
-  LOG(INFO) << "R3BSeetramMapped2Cal: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BSeetramMapped2Cal: Delete instance";
   if(fFrsMappedDataCA) delete fFrsMappedDataCA;
   if(fSeetramCalDataCA) delete fSeetramCalDataCA;
 }
@@ -93,15 +93,15 @@ void R3BSeetramMapped2Cal::SetParContainers() {
   //Reading seetramCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
   
   fCal_Par=(R3BSeetramCalPar*)rtdb->getContainer("seetramCalPar");
   if (!fCal_Par) {
-    LOG(ERROR)<<"R3BSeetramMapped2CalPar::Init() Couldn't get handle on seetramCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BSeetramMapped2CalPar::Init() Couldn't get handle on seetramCalPar container";
   }
   else{
-    LOG(INFO)<<"R3BSeetramMapped2CalPar:: seetramCalPar container open"<<FairLogger::endl;
+    LOG(INFO)<<"R3BSeetramMapped2CalPar:: seetramCalPar container open";
   }
 }
 
@@ -111,7 +111,7 @@ void R3BSeetramMapped2Cal::SetParameter(){
   //--- Parameter Container ---
   NumParams=fCal_Par->GetNumParametersFit();//Number of Parameters
 
-  LOG(INFO)<<"R3BSeetramMapped2Cal: Nb parameters for calibration: "<< NumParams <<FairLogger::endl;
+  LOG(INFO)<<"R3BSeetramMapped2Cal: Nb parameters for calibration: "<< NumParams;
   
   CalParams= new TArrayF();
   Int_t array_size = NumParams;
@@ -122,7 +122,7 @@ void R3BSeetramMapped2Cal::SetParameter(){
   for(Int_t d = 0; d < NumDets; d++){
   Int_t numdeadanodes=0;
   for(Int_t i = 0; i < NumAnodes; i++)if(CalParams->GetAt(NumParams*i+1+NumAnodes*d*NumParams)==-1)numdeadanodes++;
-  LOG(INFO)<<"R3BSeetramMapped2Cal: Nb of dead anodes in MUSIC " <<d+1<< ": "<< numdeadanodes <<FairLogger::endl;
+  LOG(INFO)<<"R3BSeetramMapped2Cal: Nb of dead anodes in MUSIC " <<d+1<< ": "<< numdeadanodes;
   }
 */
 }
@@ -130,7 +130,7 @@ void R3BSeetramMapped2Cal::SetParameter(){
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BSeetramMapped2Cal::Init()
 {
-  LOG(INFO) << "R3BSeetramMapped2Cal: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BSeetramMapped2Cal: Init";
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -167,14 +167,14 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
   Reset();
   
   if (!fCal_Par) {
-    //LOG(ERROR)<<"NO Container for Seetram detector!!"<<FairLogger::endl;
+    //LOG(ERROR)<<"NO Container for Seetram detector!!";
   }  
  
   
 
   //Reading the Input -- Mapped Data --
   Int_t nHits = fFrsMappedDataCA->GetEntries();
-  //if(nHits==0)LOG(WARNING) << "R3BSeetramMapped2Cal: nHits=" <<nHits<<FairLogger::endl;
+  //if(nHits==0)LOG(WARNING) << "R3BSeetramMapped2Cal: nHits=" <<nHits;
   if(!nHits) return;
   
   R3BFrsMappedData** mappedData = new R3BFrsMappedData*[nHits];
@@ -312,7 +312,7 @@ void R3BSeetramMapped2Cal::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BSeetramMapped2Cal::Reset()
 {
-  LOG(DEBUG) << "Clearing SeetramCalData Structure" << FairLogger::endl;
+  LOG(DEBUG) << "Clearing SeetramCalData Structure";
   if(fSeetramCalDataCA)fSeetramCalDataCA->Clear();
 }
 

@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
-// -----         R3BMWMapped2Hit source file                        -----
-// -----             Created 27/03/19  by J.L. Rodriguez-Sanchez    -----
+// -----             R3BMWMapped2Hit source file                    -----
+// -----         Created 27/03/19  by J.L. Rodriguez-Sanchez        -----
 // ----------------------------------------------------------------------
 
 //ROOT headers
@@ -45,28 +45,26 @@ R3BMWMapped2Hit::R3BMWMapped2Hit(const char* name, Int_t iVerbose) :
 //Virtual R3BMWMapped2Hit: Destructor
 R3BMWMapped2Hit::~R3BMWMapped2Hit()
 {
-  LOG(INFO) << "R3BMWMapped2Hit: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BMWMapped2Hit: Delete instance";
   if(fMwHitDataCA) delete fMwHitDataCA;
 }
 
 void R3BMWMapped2Hit::SetParContainers() {
-  
+
   //Parameter Container
   //Reading tpcCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
-  
-
 }
 
 
 void R3BMWMapped2Hit::SetParameter(){
-  
+
   //--- Parameter Container ---
   //fNumDets=fCal_Par->GetNumDets();//Number of Detectors
-  LOG(INFO)<<"R3BMWMapped2Hit: Nb detectors: "<< fNumDets <<FairLogger::endl;
+  LOG(INFO)<<"R3BMWMapped2Hit: Nb detectors: "<< fNumDets;
 
   x_factor[0] = 0.25;  // MW11 [mm/ns] 14.09.05 CN+AM 2ns/mm delay line 
   x_factor[1] = 0.25;  // MW21
@@ -208,7 +206,7 @@ void R3BMWMapped2Hit::SetParameter(){
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BMWMapped2Hit::Init()
 {
-  LOG(INFO) << "R3BMWMapped2Hit: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BMWMapped2Hit: Init";
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -286,7 +284,7 @@ void R3BMWMapped2Hit::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BMWMapped2Hit::Reset()
 {
-  LOG(DEBUG)<<"Clearing MwHitData Structure"<<FairLogger::endl;
+  LOG(DEBUG)<<"Clearing MwHitData Structure";
   if(fMwHitDataCA)fMwHitDataCA->Clear();
 }
 

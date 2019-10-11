@@ -90,18 +90,18 @@ R3BFrsHit2AnaS4Par::~R3BFrsHit2AnaS4Par() {
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BFrsHit2AnaS4Par::Init() {
 
-  LOG(INFO) << "R3BFrsHit2AnaS4Par: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BFrsHit2AnaS4Par: Init" ;
 
   frho_S0_S2 = 0.5*(fRhos->GetAt(0)+fRhos->GetAt(1));
   fBfield_S0_S2 = 0.5*(fBfields->GetAt(0)+fBfields->GetAt(1));
   frho_S2_S4 = 0.5*(fRhos->GetAt(2)+fRhos->GetAt(3));
   fBfield_S2_S4 = 0.5*(fBfields->GetAt(2)+fBfields->GetAt(3));
 
-  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Rho (S0-S2): "<< frho_S0_S2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4Par: B (S0-S2): "<< fBfield_S0_S2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Rho (S2-S4): "<< frho_S2_S4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4Par: B (S2-S4): "<< fBfield_S2_S4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Corrections for Z = "<< fCutZ <<FairLogger::endl;
+  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Rho (S0-S2): "<< frho_S0_S2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4Par: B (S0-S2): "<< fBfield_S0_S2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Rho (S2-S4): "<< frho_S2_S4 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4Par: B (S2-S4): "<< fBfield_S2_S4 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4Par: Corrections for Z = "<< fCutZ ;
 
   fh_anglevsAq = new TH2F("hh","hh",1000,-10.,10.,1000,0.,5.);
   graph = new TGraph(1000);
@@ -124,7 +124,7 @@ InitStatus R3BFrsHit2AnaS4Par::Init() {
 
   fFrs_Par=(R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
   if (!fFrs_Par) {
-    LOG(ERROR)<<"R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
     return kFATAL;
   }
   
@@ -148,7 +148,7 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt) {
   Int_t nHitFrs= fFrsMappedDataCA->GetEntries();
   Int_t nHitMusic= fMusicHitDataCA->GetEntries();
   Int_t nHitTpc = fTpcHitDataCA->GetEntries();
-  //LOG(INFO) << nHitMusic << " " << nHitTpc << FairLogger::endl;
+  //LOG(INFO) << nHitMusic << " " << nHitTpc ;
   if(!nHitMusic || !nHitFrs || nHitTpc<4) return;//FIXME:include here warning!
 
   R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
@@ -187,7 +187,7 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt) {
     MapFrs[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
     SCI24_TofRR=MapFrs[i]->GetSCI41RT();
     SCI24_TofLL=MapFrs[i]->GetSCI41LT();
-//LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL << FairLogger::endl;
+//LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL ;
   }
 
   //FOCAL POSITION S2
@@ -249,8 +249,8 @@ void R3BFrsHit2AnaS4Par::FinishTask() {
   fFrs_Par->SetPosFocalS2(fPosFocalS2);
   fFrs_Par->SetPosFocalS4(fPosFocalS4);
 
-  LOG(INFO)<<"mean "<<fh_anglevsAq->GetMean(1)<<", "<<fh_anglevsAq->GetMean(2)<<FairLogger::endl;
-  //LOG(INFO)<<"mean "<<graph->GetMean(1)<<", "<<graph->GetMean(2)<<FairLogger::endl;
+  LOG(INFO)<<"mean "<<fh_anglevsAq->GetMean(1)<<", "<<fh_anglevsAq->GetMean(2);
+  //LOG(INFO)<<"mean "<<graph->GetMean(1)<<", "<<graph->GetMean(2);
 
    for(Int_t i=0;i<graph->GetN();i++){
     Double_t a[2];

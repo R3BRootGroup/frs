@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// -----         R3BSeetramCalPar source file           v       -----
+// -----              R3BSeetramCalPar source file              -----
 // -----         Created 15/07/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
@@ -7,7 +7,7 @@
 #ifndef R3BSeetramCalPar_H
 #define R3BSeetramCalPar_H
 
-#include "FairParGenericSet.h" // for FairParGenericSet
+#include "FairParGenericSet.h"
 
 #include "TObject.h"
 #include <TObjString.h>

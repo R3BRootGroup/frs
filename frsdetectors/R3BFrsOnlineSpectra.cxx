@@ -99,7 +99,7 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
 }
 
 R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra() {
-  LOG(INFO) << "R3BFrsOnlineSpectra::Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BFrsOnlineSpectra::Delete instance" ;
   if(fMappedItemsFrs) delete fMappedItemsFrs;
   if(fCalItemsSeetram) delete fCalItemsSeetram;
   if(fHitItemsMusic) delete fHitItemsMusic;
@@ -114,14 +114,14 @@ R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra() {
 
 InitStatus R3BFrsOnlineSpectra::Init() {
   
-  LOG(INFO) << "R3BFrsOnlineSpectra::Init " << FairLogger::endl;
+  LOG(INFO) << "R3BFrsOnlineSpectra::Init " ;
   
   // try to get a handle on the EventHeader. EventHeader may not be 
   // present though and hence may be null. Take care when using.
   
   FairRootManager* mgr = FairRootManager::Instance();
   if (NULL == mgr)
-     LOG(FATAL)<<"R3BFrsOnlineSpectra::Init FairRootManager not found"<<FairLogger::endl;
+     LOG(FATAL)<<"R3BFrsOnlineSpectra::Init FairRootManager not found";
   header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
   FairRunOnline *run = FairRunOnline::Instance();
@@ -134,7 +134,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
   //get access to WR-Master data
   fWRItemsMaster = (TClonesArray*)mgr->GetObject("WRMasterData");
   if (!fWRItemsMaster) {
-   LOG(INFO)<<"R3BCalifaOnlineSpectra::Init WRMasterData not found"<<FairLogger::endl;
+   LOG(INFO)<<"R3BCalifaOnlineSpectra::Init WRMasterData not found";
   }
 
   //get access to Cal Seetram data
@@ -1323,7 +1323,7 @@ InitStatus R3BFrsOnlineSpectra::Init() {
 
 void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_Detectors@So_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_Detectors@So_Histo" ;
     fh_Seetram->Reset();
     fh_Seetramt->Reset();
     fh_Ic->Reset();
@@ -1340,7 +1340,7 @@ void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
 
 void R3BFrsOnlineSpectra::Reset_FRS_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_FRS_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_FRS_Histo" ;
 
     fh_Frs_Z->Reset();
     fh_Frs_Aq->Reset();
@@ -1349,7 +1349,7 @@ void R3BFrsOnlineSpectra::Reset_FRS_Histo()
 
 void R3BFrsOnlineSpectra::Reset_MW_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MW_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MW_Histo" ;
     for(Int_t i=0;i<13;i++){
      fh_mw[i]->Reset();
     }
@@ -1357,7 +1357,7 @@ void R3BFrsOnlineSpectra::Reset_MW_Histo()
 
 void R3BFrsOnlineSpectra::Reset_SCI_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_SCI_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_SCI_Histo" ;
     fh_Sci00->Reset();
     fh_Sci02->Reset();
     fh_sci21le->Reset();
@@ -1383,7 +1383,7 @@ void R3BFrsOnlineSpectra::Reset_SCI_Histo()
 
 void R3BFrsOnlineSpectra::Reset_MUSIC_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MUSIC_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MUSIC_Histo" ;
     //Cal data
     for(Int_t i=0;i<24;i++){
      fh_music_energy_per_anode[i]->Reset();
@@ -1395,7 +1395,7 @@ void R3BFrsOnlineSpectra::Reset_MUSIC_Histo()
 
 void R3BFrsOnlineSpectra::Reset_TPC_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_TPC_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_TPC_Histo" ;
     //Hit data
     for(Int_t i=0;i<5;i++){
      fh_Tpc_hitx[i]->Reset();
@@ -1414,7 +1414,7 @@ void R3BFrsOnlineSpectra::Reset_TPC_Histo()
 
 void R3BFrsOnlineSpectra::Reset_GENERAL_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_General_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_General_Histo" ;
     fh_trigger->Reset();
     fh_TrigC->Reset();
     fh_TrigFree->Reset();
@@ -1431,7 +1431,7 @@ void R3BFrsOnlineSpectra::Reset_GENERAL_Histo()
 void R3BFrsOnlineSpectra::Exec(Option_t* option) {
   FairRootManager* mgr = FairRootManager::Instance();
   if (NULL == mgr)
-    LOG(FATAL) << "R3BFrsOnlineSpectra::Exec FairRootManager not found" << FairLogger::endl;
+    LOG(FATAL) << "R3BFrsOnlineSpectra::Exec FairRootManager not found" ;
 
   //Fill wr-general-DAQ
   if(fWRItemsMaster && fWRItemsMaster->GetEntriesFast()){

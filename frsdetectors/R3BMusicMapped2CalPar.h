@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
-// -----         R3BMusicMapped2CalPar source file                  -----
-// -----             Created 29/05/18  by J.L. Rodriguez-Sanchez       -----
+// -----              R3BMusicMapped2CalPar source file                -----
+// -----           Created 29/05/18  by J.L. Rodriguez-Sanchez         -----
 // -------------------------------------------------------------------------
 
 #ifndef R3BMusicMapped2CalPar_H
@@ -84,8 +84,8 @@ class R3BMusicMapped2CalPar : public FairTask {
   Double_t fSigma;
   Double_t fMean;
 
-  R3BMusicCalPar* fAnode_Par;  /**< Parameter container. >*/ 
-  TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped- input data. >*/
+  R3BMusicCalPar* fAnode_Par;       /**< Parameter container. >*/ 
+  TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped input data. >*/
   
   TH1F** fh_Map_energy_anode;
   char *fOutputFile;
