@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// -----         R3BTpcCalPar source file                       -----
+// -----               R3BTpcCalPar source file                 -----
 // -----         Created 29/07/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
@@ -46,11 +46,11 @@ void R3BTpcCalPar::clear() {
 
 // ----  Method putParams ------------------------------------------------------
 void R3BTpcCalPar::putParams(FairParamList* list) {
-  LOG(INFO) <<"R3BTpcCalPar::putParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BTpcCalPar::putParams() called";
   if (!list){ return; }
   
   Int_t array_size = fNumDets*fNumParamsFit*fNumDT;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size;
   
   fTpcCalParams->Set(array_size);
 
@@ -69,7 +69,7 @@ void R3BTpcCalPar::putParams(FairParamList* list) {
 
 // ----  Method getParams ------------------------------------------------------
 Bool_t R3BTpcCalPar::getParams(FairParamList* list) {
-  LOG(INFO) <<"R3BTpcCalPar::getParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BTpcCalPar::getParams() called";
   if (!list){ return kFALSE;}
 
   if (!list->fill("tpcDetNumberPar", &fNumDets) ) { 
@@ -86,21 +86,21 @@ Bool_t R3BTpcCalPar::getParams(FairParamList* list) {
 
   fTpcCsumMaxParams->Set(fNumDets*4);
   if (!(list->fill("tpcCsumMaxPar",fTpcCsumMaxParams))){
-    LOG(INFO)<< "---Could not initialize tpcCsumMaxPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize tpcCsumMaxPar";
     return kFALSE;
   }
   fTpcCsumMinParams->Set(fNumDets*4);
   if (!(list->fill("tpcCsumMinPar",fTpcCsumMinParams))){
-    LOG(INFO)<< "---Could not initialize tpcCsumMinPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize tpcCsumMinPar";
     return kFALSE;
   }
   
   Int_t array_size = fNumDets*fNumParamsFit*fNumDT;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size;
   fTpcCalParams->Set(array_size);
   
   if (!(list->fill("tpcCalPar",fTpcCalParams))){
-    LOG(INFO)<< "---Could not initialize tpcCalPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize tpcCalPar";
     return kFALSE;
   }
   
@@ -109,21 +109,21 @@ Bool_t R3BTpcCalPar::getParams(FairParamList* list) {
 
 // ----  Method printParams ----------------------------------------------------
 void R3BTpcCalPar::printParams() {
-  LOG(INFO) << "R3BTpcCalPar: tpc Parameters for limits csum: "<<FairLogger::endl;	
+  LOG(INFO) << "R3BTpcCalPar: tpc Parameters for limits csum: ";	
   for(Int_t d=0;d<fNumDets;d++) {
-   std::cout << "TPC detector number: " <<d<< std::endl;
+   LOG(INFO) << "TPC detector number: " <<d;
    for(Int_t i=0;i<4;i++) { 
-    std::cout << "CsumParam(min,max) = ("<<fTpcCsumMinParams->GetAt(d*4+i) <<","<<fTpcCsumMaxParams->GetAt(d*4+i)<<")" <<std::endl;
+    LOG(INFO) << "CsumParam(min,max) = ("<<fTpcCsumMinParams->GetAt(d*4+i) <<","<<fTpcCsumMaxParams->GetAt(d*4+i)<<")";
    }
   }
 
-  LOG(INFO) << "R3BTpcCalPar: tpc anode Parameters: "<<FairLogger::endl;
+  LOG(INFO) << "R3BTpcCalPar: tpc anode Parameters: ";
   for(Int_t d=0;d<fNumDets;d++) {
-    std::cout << "TPC detector number: " << d << std::endl;
+    LOG(INFO) <<"TPC detector number: " << d;
    for(Int_t i=0;i<fNumDT;i++) {      
-    std::cout << "Section number: " << i << std::endl;
+    LOG(INFO) <<"Section number: " << i;
     for(Int_t j=0;j<fNumParamsFit;j++) {
-      std::cout << "FitParam("<<j<<") = "<<fTpcCalParams->GetAt(d*fNumParamsFit*fNumDT+i*fNumParamsFit+j) << std::endl;
+      LOG(INFO) <<"FitParam("<<j<<") = "<<fTpcCalParams->GetAt(d*fNumParamsFit*fNumDT+i*fNumParamsFit+j);
     }
    }
   }

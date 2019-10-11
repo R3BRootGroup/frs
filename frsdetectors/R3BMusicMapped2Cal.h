@@ -66,7 +66,7 @@ class R3BMusicMapped2Cal : public FairTask {
   TClonesArray* fMusicCalDataCA;    /**< Array with Music Cal- output data. >*/
   
   /** Private method AddCalData **/
-  //** Adds a AmsStripCalData to the anodeCalCollection
+  //** Adds a MusicCalData to the anodeCalCollection
   R3BMusicCalData* AddCalData(Int_t detid, Int_t anodeid, Double_t energy);
 
  public:

@@ -55,7 +55,7 @@ R3BMusicCal2Hit::R3BMusicCal2Hit(const char* name, Int_t iVerbose) :
 //Virtual R3BMusicCal2Hit: Destructor
 R3BMusicCal2Hit::~R3BMusicCal2Hit()
 {
-  LOG(INFO) << "R3BMusicCal2Hit: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicCal2Hit: Delete instance" ;
   if(fMusicHitDataCA) delete fMusicHitDataCA;
   if(fMusicCalDataCA) delete fMusicCalDataCA;
 }
@@ -67,15 +67,15 @@ void R3BMusicCal2Hit::SetParContainers() {
   //Reading musicCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
   
   fCal_Par=(R3BMusicHitPar*)rtdb->getContainer("musicHitPar");
   if (!fCal_Par) {
-    LOG(ERROR)<<"R3BMusicCal2HitPar::Init() Couldn't get handle on musicCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BMusicCal2HitPar::Init() Couldn't get handle on musicCalPar container";
   }
   else{
-    LOG(INFO)<<"R3BMusicCal2HitPar:: musicCalPar container open"<<FairLogger::endl;
+    LOG(INFO)<<"R3BMusicCal2HitPar:: musicCalPar container open";
   }
 }
 
@@ -86,8 +86,8 @@ void R3BMusicCal2Hit::SetParameter(){
   NumDets=fCal_Par->GetNumDets();//Number of Detectors
   NumParams=fCal_Par->GetNumParametersFit();//Number of Parameters
 
-  LOG(INFO)<<"R3BMusicCal2Hit: Nb detectors: "<< NumDets <<FairLogger::endl;
-  LOG(INFO)<<"R3BMusicCal2Hit: Nb parameters from pedestal fit: "<< NumParams <<FairLogger::endl;
+  LOG(INFO)<<"R3BMusicCal2Hit: Nb detectors: "<< NumDets ;
+  LOG(INFO)<<"R3BMusicCal2Hit: Nb parameters from pedestal fit: "<< NumParams ;
   
   CalParams= new TArrayF();
   Int_t array_size = NumDets*NumParams;
@@ -96,14 +96,14 @@ void R3BMusicCal2Hit::SetParameter(){
 
   //Parameters detector
   for(Int_t d = 0; d < NumDets; d++){
-  LOG(INFO)<<"R3BMusicCal2Hit Nb detector: " <<d+1<< " Params "<< CalParams->GetAt(d*NumParams) <<" : "<< CalParams->GetAt(d*NumParams+1) <<FairLogger::endl;
+  LOG(INFO)<<"R3BMusicCal2Hit Nb detector: " <<d+1<< " Params "<< CalParams->GetAt(d*NumParams) <<" : "<< CalParams->GetAt(d*NumParams+1) ;
   }
 }
 
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BMusicCal2Hit::Init()
 {
-  LOG(INFO) << "R3BMusicCal2Hit: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicCal2Hit: Init" ;
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -138,7 +138,7 @@ void R3BMusicCal2Hit::Exec(Option_t* option)
   Reset();
   
   if (!fCal_Par) {
-    LOG(ERROR)<<"NO Container Parameter!!"<<FairLogger::endl;
+    LOG(ERROR)<<"NO Container Parameter!!";
   }  
  
   Int_t nHits = fMusicCalDataCA->GetEntries();
@@ -194,7 +194,7 @@ void R3BMusicCal2Hit::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BMusicCal2Hit::Reset()
 {
-  LOG(DEBUG) << "Clearing MusicHitData Structure" << FairLogger::endl;
+  LOG(DEBUG) << "Clearing MusicHitData Structure" ;
   if(fMusicHitDataCA)fMusicHitDataCA->Clear();
 }
 

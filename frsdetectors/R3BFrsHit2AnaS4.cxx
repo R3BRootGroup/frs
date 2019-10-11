@@ -70,7 +70,7 @@ R3BFrsHit2AnaS4::R3BFrsHit2AnaS4(const char* name, Int_t iVerbose) :
 //Virtual R3BFrsHit2AnaS4: Destructor
 R3BFrsHit2AnaS4::~R3BFrsHit2AnaS4()
 {
-  LOG(INFO) << "R3BFrsHit2AnaS4: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BFrsHit2AnaS4: Delete instance" ;
   if (fFrsMappedDataCA){
       delete fFrsMappedDataCA;
   }
@@ -91,15 +91,15 @@ void R3BFrsHit2AnaS4::SetParContainers() {
   //Reading musicCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
   
   fFrs_Par=(R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
   if (!fFrs_Par) {
-    LOG(ERROR)<<"R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
   }
   else{
-    LOG(INFO)<<"R3BFrsHit2AnaS4Par:: frsAnaPar container open"<<FairLogger::endl;
+    LOG(INFO)<<"R3BFrsHit2AnaS4Par:: frsAnaPar container open";
   }
 
 }
@@ -119,14 +119,14 @@ void R3BFrsHit2AnaS4::SetParameter(){
   fBfield_S2_S4=fFrs_Par->GetBfiedS2S4();
   fPosFocalS2=fFrs_Par->GetPosFocalS2();
   fPosFocalS4=fFrs_Par->GetPosFocalS4();
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Rho (S0-S2): "<< frho_S0_S2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: B (S0-S2): "<< fBfield_S0_S2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Rho (S2-S4): "<< frho_S2_S4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: B (S2-S4): "<< fBfield_S2_S4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S2[mm]: "<< fDisTpcS2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S4[mm]: "<< fDisTpcS4 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S2[mm]: "<< fPosFocalS2 <<FairLogger::endl;
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S4[mm]: "<< fPosFocalS4 <<FairLogger::endl;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Rho (S0-S2): "<< frho_S0_S2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: B (S0-S2): "<< fBfield_S0_S2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Rho (S2-S4): "<< frho_S2_S4 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: B (S2-S4): "<< fBfield_S2_S4 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S2[mm]: "<< fDisTpcS2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Distance between TPCs at S4[mm]: "<< fDisTpcS4 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S2[mm]: "<< fPosFocalS2 ;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Pos for focal plane at S4[mm]: "<< fPosFocalS4 ;
 
   Int_t NumParams=fFrs_Par->GetNumParameters();//Number of Parameters
   fAnaParams = new TArrayF();
@@ -135,7 +135,7 @@ void R3BFrsHit2AnaS4::SetParameter(){
   fParm0=fAnaParams->GetAt(0);
   fParm1=fAnaParams->GetAt(1);
   fRotS4=fAnaParams->GetAt(2);
-  LOG(INFO)<<"R3BFrsHit2AnaS4: Params "<<fParm0<<" : "<<fParm1<<" : "<<fRotS4<<FairLogger::endl;
+  LOG(INFO)<<"R3BFrsHit2AnaS4: Params "<<fParm0<<" : "<<fParm1<<" : "<<fRotS4;
 
 }
 
@@ -143,7 +143,7 @@ void R3BFrsHit2AnaS4::SetParameter(){
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BFrsHit2AnaS4::Init()
 {
-  LOG(INFO) << "R3BFrsHit2AnaS4: Init FRS analysis from S2 to S4" << FairLogger::endl;
+  LOG(INFO) << "R3BFrsHit2AnaS4: Init FRS analysis from S2 to S4" ;
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -182,7 +182,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
 {
   
   //if(++nEvents % 10000 == 0)
-  //LOG(INFO) << nEvents << FairLogger::endl;
+  //LOG(INFO) << nEvents ;
   
   //Reset entries in output arrays, local arrays
   Reset();
@@ -192,7 +192,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
   Int_t nHitFrs= fFrsMappedDataCA->GetEntries();
   Int_t nHitMusic= fMusicHitDataCA->GetEntries();
   Int_t nHitTpc = fTpcHitDataCA->GetEntries();
-  //LOG(INFO) << nHitMusic << " " << nHitTpc << FairLogger::endl;
+  //LOG(INFO) << nHitMusic << " " << nHitTpc ;
   if(!nHitMusic || !nHitFrs || nHitTpc<4) return;//FIXME:include here warning!
 
   R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
@@ -230,7 +230,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     MapFrs[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
     SCI24_TofRR=MapFrs[i]->GetSCI41RT();
     SCI24_TofLL=MapFrs[i]->GetSCI41LT();
-    //LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL << FairLogger::endl;
+    //LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL ;
   }
 
   //FOCAL POSITION S2
@@ -273,7 +273,7 @@ void R3BFrsHit2AnaS4::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BFrsHit2AnaS4::Reset()
 {
-  LOG(DEBUG) << "Clearing FrsData Structure" << FairLogger::endl;
+  LOG(DEBUG) << "Clearing FrsData Structure" ;
   if(fFrsDataCA)fFrsDataCA->Clear();
 }
 

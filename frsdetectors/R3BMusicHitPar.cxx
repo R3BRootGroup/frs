@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------
-// -----         R3BMusicHitPar source file                  -----
+// -----            R3BMusicHitPar source file                  -----
 // -----         Created 29/05/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
@@ -41,11 +41,11 @@ void R3BMusicHitPar::clear() {
 
 // ----  Method putParams ------------------------------------------------------
 void R3BMusicHitPar::putParams(FairParamList* list) {
-  LOG(INFO) <<"R3BMusicHitPar::putParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BMusicHitPar::putParams() called" ;
   if (!list){ return; }
   
   Int_t array_size = fNumDets*fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size ;
   
   fDetHitParams->Set(array_size);
   
@@ -57,7 +57,7 @@ void R3BMusicHitPar::putParams(FairParamList* list) {
 
 // ----  Method getParams ------------------------------------------------------
 Bool_t R3BMusicHitPar::getParams(FairParamList* list) {
-  LOG(INFO) <<"R3BMusicHitPar::getParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BMusicHitPar::getParams() called" ;
   if (!list){ return kFALSE;}
 
   if (!list->fill("musicDetNumberPar", &fNumDets) ) { 
@@ -69,11 +69,11 @@ Bool_t R3BMusicHitPar::getParams(FairParamList* list) {
   }
   
   Int_t array_size = fNumDets*fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size ;
   fDetHitParams->Set(array_size);
   
   if (!(list->fill("musicHitPar",fDetHitParams))){
-    LOG(INFO)<< "---Could not initialize musicHitPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize musicHitPar";
     return kFALSE;
   }
   
@@ -82,13 +82,13 @@ Bool_t R3BMusicHitPar::getParams(FairParamList* list) {
 
 // ----  Method printParams ----------------------------------------------------
 void R3BMusicHitPar::printParams() {	
-  LOG(INFO) << "R3BMusicHitPar: music detector Parameters: "<<FairLogger::endl;
+  LOG(INFO) << "R3BMusicHitPar: music detector Parameters: ";
   Int_t array_size = fNumDets*fNumParamsFit;
   
   for(Int_t d=0;d<fNumDets;d++) {
-    cout << "Music detector number: " << d << endl;
+    LOG(INFO) <<"Music detector number: "<<d;
     for(Int_t j=0;j<fNumParamsFit;j++) {
-      cout << "FitParam("<<j<<") = "<<fDetHitParams->GetAt(d*fNumParamsFit+j) << endl;
+      LOG(INFO) <<"FitParam("<<j<<") = "<<fDetHitParams->GetAt(d*fNumParamsFit+j);
     }
   }
 }

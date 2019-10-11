@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
-// -----         R3BMusicMapped2CalPar source file                  -----
-// -----             Created 29/05/18  by J.L. Rodriguez-Sanchez       -----
+// -----              R3BMusicMapped2CalPar source file                -----
+// -----            Created 29/05/18  by J.L. Rodriguez-Sanchez        -----
 // -------------------------------------------------------------------------
 #include "R3BMusicMappedData.h"
 #include "R3BMusicMapped2CalPar.h"
@@ -71,7 +71,7 @@ R3BMusicMapped2CalPar::~R3BMusicMapped2CalPar() {
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BMusicMapped2CalPar::Init() {
 
-  LOG(INFO) << "R3BMusicMapped2CalPar: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicMapped2CalPar: Init";
 
   char name[100];
   
@@ -92,7 +92,7 @@ InitStatus R3BMusicMapped2CalPar::Init() {
   
   fAnode_Par=(R3BMusicCalPar*)rtdb->getContainer("musicCalPar");
   if (!fAnode_Par) {
-    LOG(ERROR)<<"R3BMusicMapped2CalPar::Init() Couldn't get handle on musicCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BMusicMapped2CalPar::Init() Couldn't get handle on musicCalPar container";
     return kFATAL;
   }
   
@@ -147,7 +147,7 @@ void R3BMusicMapped2CalPar::FinishTask() {
 //------------------
 void R3BMusicMapped2CalPar::SearchPedestals(){
 
-  LOG(INFO) << "R3BMusicMapped2CalPar: Search pedestals" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicMapped2CalPar: Search pedestals";
 
   Int_t numPars =3;// by default number of parameters=3
   
@@ -178,14 +178,13 @@ void R3BMusicMapped2CalPar::SearchPedestals(){
     }else {
       fAnode_Par->SetAnodeCalParams(-1,numPars*i+d*numPars*fNumAnodes+1);//dead anode
       fAnode_Par->SetAnodeCalParams(0,numPars*i+d*numPars*fNumAnodes+2);
-      LOG(WARNING)<<"Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1 <<FairLogger::endl;
+      LOG(WARNING)<<"Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1;
     }
    }
   }
   
   fAnode_Par->setChanged();
   return;
-
 }
 
 ClassImp(R3BMusicMapped2CalPar)

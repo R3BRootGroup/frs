@@ -56,14 +56,14 @@ R3BWasaOnlineSpectra::~R3BWasaOnlineSpectra() {
 
 InitStatus R3BWasaOnlineSpectra::Init() {
   
-  LOG(INFO) << "R3BWasaOnlineSpectra::Init " << FairLogger::endl;
+  LOG(INFO) << "R3BWasaOnlineSpectra::Init ";
   
   // try to get a handle on the EventHeader. EventHeader may not be 
   // present though and hence may be null. Take care when using.
   
   FairRootManager* mgr = FairRootManager::Instance();
   if (NULL == mgr)
-  FairLogger::GetLogger()->Fatal(MESSAGE_ORIGIN,"R3BWasaOnlineSpectra::Init FairRootManager not found");
+  LOG(fatal)<<"R3BWasaOnlineSpectra::Init FairRootManager not found";
   header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
   FairRunOnline *run = FairRunOnline::Instance();
@@ -71,8 +71,8 @@ InitStatus R3BWasaOnlineSpectra::Init() {
 
   //get access to Mapped data
   fMappedItemsMdc = (TClonesArray*)mgr->GetObject("MdcMappedData");
-  if (!fMappedItemsMdc) { return kFATAL;}
-
+  if (!fMappedItemsMdc)
+  LOG(fatal)<<"R3BWasaOnlineSpectra::Init MdcMappedData not found";
 
   //create histograms of all detectors 
 
@@ -117,7 +117,7 @@ InitStatus R3BWasaOnlineSpectra::Init() {
 
 void R3BWasaOnlineSpectra::Reset_MDC_Histo()
 {
-    LOG(INFO) << "R3BWasaOnlineSpectra::Reset_MDC_Histo" << FairLogger::endl;
+    LOG(INFO) << "R3BWasaOnlineSpectra::Reset_MDC_Histo";
 
     for(Int_t i=0;i<192*2;i++)fh_mdc[i]->Reset();
 
@@ -127,7 +127,7 @@ void R3BWasaOnlineSpectra::Exec(Option_t* option) {
   
   FairRootManager* mgr = FairRootManager::Instance();
   if (NULL == mgr)
-    LOG(FATAL) << "R3BWasaOnlineSpectra::Exec FairRootManager not found" << FairLogger::endl;
+    LOG(fatal)<<"R3BWasaOnlineSpectra::Exec FairRootManager not found";
 
   //Fill mapped data
   if(fMappedItemsMdc && fMappedItemsMdc->GetEntriesFast()){

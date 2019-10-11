@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
-// -----         R3BTpcMapped2CalPar source file                       -----
-// -----             Created 29/07/18  by J.L. Rodriguez-Sanchez       -----
+// -----               R3BTpcMapped2CalPar source file                 -----
+// -----          Created 29/07/18  by J.L. Rodriguez-Sanchez          -----
 // -------------------------------------------------------------------------
 #include "R3BTpcMappedData.h"
 #include "R3BTpcMapped2CalPar.h"
@@ -80,14 +80,14 @@ R3BTpcMapped2CalPar::R3BTpcMapped2CalPar(const char* name, Int_t iVerbose) :
 
 //R3BTpcMapped2CalPar: Destructor ----------------------------------------
 R3BTpcMapped2CalPar::~R3BTpcMapped2CalPar() {
-  LOG(INFO) << "R3BTpcMapped2CalPar: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcMapped2CalPar: Delete instance";
   if(fTpcMappedDataCA) delete fTpcMappedDataCA;
 }
 
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcMapped2CalPar::Init() {
 
-  LOG(INFO) << "R3BTpcMapped2CalPar: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcMapped2CalPar: Init";
 
   char name[100];
 
@@ -123,7 +123,7 @@ InitStatus R3BTpcMapped2CalPar::Init() {
   
   fTpc_Par=(R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
   if (!fTpc_Par) {
-    LOG(ERROR)<<"R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
     return kFATAL;
   }
   
@@ -282,7 +282,7 @@ void R3BTpcMapped2CalPar::SearchMax(double *xpeaks, double *ypeaks, int nf, doub
 //------------------
 void R3BTpcMapped2CalPar::SearchCalParXY(){
 
-  LOG(INFO) << "R3BTpcMapped2CalPar: Search calibration parameters" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcMapped2CalPar: Search calibration parameters";
 
   Int_t numPars =2;// by default number of parameters=2
   fTpc_Par->SetNumDets(fNumDets);
@@ -324,7 +324,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY(){
       Double_t Y[nfound];
 
       if(nfound<3)
-      LOG(ERROR)<<"R3BTpccMapped2CalPar::SearchY() Couldn't get the sufficient parameters:"<<nfound<<"<2"<<FairLogger::endl;
+      LOG(ERROR)<<"R3BTpccMapped2CalPar::SearchY() Couldn't get the sufficient parameters:"<<nfound<<"<2";
       
 
      // LOG(INFO)<<"nfound "<<nfound<<FairLogger::endl;
@@ -348,14 +348,14 @@ void R3BTpcMapped2CalPar::SearchCalParXY(){
       }else{
 	fTpc_Par->SetTpcCalParams(0,numPars*i+d*numPars*fNumAnodesTotal);
 	fTpc_Par->SetTpcCalParams(1,numPars*i+d*numPars*fNumAnodesTotal+1);
-        LOG(INFO)<<"R3BTpccMapped2CalPar::SearchY() default parameters: a0=0 and a1=1"<<FairLogger::endl;
+        LOG(INFO)<<"R3BTpccMapped2CalPar::SearchY() default parameters: a0=0 and a1=1";
      }
 
 
     }else {
       fTpc_Par->SetTpcCalParams(0,numPars*i+d*numPars*fNumAnodesTotal);//dead anode
       fTpc_Par->SetTpcCalParams(0,numPars*i+d*numPars*fNumAnodesTotal+1);
-      LOG(WARNING)<<"R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1 <<FairLogger::endl;
+      LOG(WARNING)<<"R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1;
     }
     }else{//if DT_Y
      
@@ -380,7 +380,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY(){
       Double_t Y[nfound];
 
       if(nfound<3)
-      LOG(ERROR)<<"R3BTpccMapped2CalPar::SearchX() Couldn't get the sufficient parameters:"<<nfound<<"<2"<<FairLogger::endl;
+      LOG(ERROR)<<"R3BTpccMapped2CalPar::SearchX() Couldn't get the sufficient parameters:"<<nfound<<"<2";
       
       nfound=TMath::Min(nfound,3);
 
@@ -401,7 +401,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY(){
       }else{
 	fTpc_Par->SetTpcCalParams(0,numPars*i+d*numPars*fNumAnodesTotal);
 	fTpc_Par->SetTpcCalParams(1,numPars*i+d*numPars*fNumAnodesTotal+1);
-        LOG(INFO)<<"R3BTpccMapped2CalPar::SearchX() default parameters: a0=0 and a1=1"<<FairLogger::endl;
+        LOG(INFO)<<"R3BTpccMapped2CalPar::SearchX() default parameters: a0=0 and a1=1";
      }
 
     }else {
@@ -410,7 +410,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY(){
 
       fTpc_Par->SetTpcCalParams(0,numPars*i+d*numPars*fNumAnodesTotal+1);
 
-      LOG(WARNING)<<"R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1 <<FairLogger::endl;
+      LOG(WARNING)<<"R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d+1 << ", anode: "<< i+1;
     }
 
     }

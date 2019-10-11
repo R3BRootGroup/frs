@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
-// -----         R3BTpcCal2Hit source file                          -----
-// -----             Created 29/07/18  by J.L. Rodriguez-Sanchez    -----
+// -----               R3BTpcCal2Hit source file                    -----
+// -----         Created 29/07/18  by J.L. Rodriguez-Sanchez        -----
 // ----------------------------------------------------------------------
 
 //ROOT headers
@@ -48,7 +48,7 @@ R3BTpcCal2Hit::R3BTpcCal2Hit(const char* name, Int_t iVerbose) :
 //Virtual R3BTpcCal2Hit: Destructor
 R3BTpcCal2Hit::~R3BTpcCal2Hit()
 {
-  LOG(INFO) << "R3BTpcCal2Hit: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcCal2Hit: Delete instance";
   if(fTpcCalDataCA) delete fTpcCalDataCA;
   if(fTpcHitDataCA) delete fTpcHitDataCA;
 }
@@ -59,15 +59,15 @@ void R3BTpcCal2Hit::SetParContainers() {
   //Reading tpcCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
   
   fCal_Par=(R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
   if (!fCal_Par) {
-    LOG(ERROR)<<"R3BTpcCal2Hit::Init() Couldn't get handle on tpcCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BTpcCal2Hit::Init() Couldn't get handle on tpcCalPar container";
   }
   else{
-    LOG(INFO)<<"R3BTpcCal2Hit:: tpcCalPar container open"<<FairLogger::endl;
+    LOG(INFO)<<"R3BTpcCal2Hit:: tpcCalPar container open";
   }
 }
 
@@ -76,7 +76,7 @@ void R3BTpcCal2Hit::SetParameter(){
   
   //--- Parameter Container ---
   fNumDets=fCal_Par->GetNumDets();//Number of Detectors
-  LOG(INFO)<<"R3BTpcCal2Hit: Nb detectors: "<< fNumDets <<FairLogger::endl;
+  LOG(INFO)<<"R3BTpcCal2Hit: Nb detectors: "<< fNumDets;
 
 }
 
@@ -84,7 +84,7 @@ void R3BTpcCal2Hit::SetParameter(){
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcCal2Hit::Init()
 {
-  LOG(INFO) << "R3BTpcCal2Hit: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcCal2Hit: Init";
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -121,7 +121,7 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
   Reset();
   
   if (!fCal_Par) {
-    LOG(ERROR)<<"NO Container Parameter!!"<<FairLogger::endl;
+    LOG(ERROR)<<"NO Container Parameter!!";
   }  
  
   Int_t nHits = fTpcCalDataCA->GetEntries();
@@ -187,7 +187,7 @@ void R3BTpcCal2Hit::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BTpcCal2Hit::Reset()
 {
-  LOG(DEBUG) << "Clearing TpcHitData Structure" << FairLogger::endl;
+  LOG(DEBUG) << "Clearing TpcHitData Structure";
   if(fTpcHitDataCA)fTpcHitDataCA->Clear();
 }
 

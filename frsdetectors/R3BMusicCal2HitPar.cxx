@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-// -----         R3BMusicCal2HitPar source file                  -----
+// -----               R3BMusicCal2HitPar source file                  -----
 // -----             Created 29/05/18  by J.L. Rodriguez-Sanchez       -----
 // -------------------------------------------------------------------------
 #include "R3BMusicCalData.h"
@@ -73,7 +73,7 @@ R3BMusicCal2HitPar::~R3BMusicCal2HitPar() {
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BMusicCal2HitPar::Init() {
 
-  LOG(INFO) << "R3BMusicCal2HitPar: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicCal2HitPar: Init" ;
 
   char name[100];
   
@@ -94,7 +94,7 @@ InitStatus R3BMusicCal2HitPar::Init() {
   
   fDet_Par=(R3BMusicHitPar*)rtdb->getContainer("musicHitPar");
   if (!fDet_Par) {
-    LOG(ERROR)<<"R3BMusicCal2HitPar::Init() Couldn't get handle on musicHitPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BMusicCal2HitPar::Init() Couldn't get handle on musicHitPar container";
     return kFATAL;
   }
   
@@ -173,7 +173,7 @@ void R3BMusicCal2HitPar::FinishTask() {
 //------------------
 void R3BMusicCal2HitPar::SearchZ(){
 
-  LOG(INFO) << "R3BMusicCal2HitPar: Search atomic numbers (Z)" << FairLogger::endl;
+  LOG(INFO) << "R3BMusicCal2HitPar: Search atomic numbers (Z)" ;
 
   Int_t numPars =2;// by default number of parameters=3
   
@@ -204,7 +204,7 @@ void R3BMusicCal2HitPar::SearchZ(){
       Double_t Y[nfound];
 
       if(nfound<2)
-      LOG(ERROR)<<"R3BMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:"<<nfound<<"<2"<<FairLogger::endl;
+      LOG(ERROR)<<"R3BMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:"<<nfound<<"<2";
       
       nfound=TMath::Min(nfound,fNumPeaks);
 
@@ -229,7 +229,7 @@ void R3BMusicCal2HitPar::SearchZ(){
      }else{
 	fDet_Par->SetDetectorHitParams(0,numPars*i);
 	fDet_Par->SetDetectorHitParams(1,numPars*i+1);
-        LOG(INFO)<<"R3BMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1"<<FairLogger::endl;
+        LOG(INFO)<<"R3BMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1";
      }
     }
   }

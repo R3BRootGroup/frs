@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
-// -----         R3BTpcMapped2CalPar source file                       -----
-// -----             Created 29/07/18  by J.L. Rodriguez-Sanchez       -----
+// -----              R3BTpcMapped2CalPar source file                  -----
+// -----         Created 29/07/18  by J.L. Rodriguez-Sanchez           -----
 // -------------------------------------------------------------------------
 
 #ifndef R3BTpcMapped2CalPar_H

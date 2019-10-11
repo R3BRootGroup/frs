@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
-// -----         R3BTpcMapped2Cal source file                       -----
-// -----             Created 22/07/18  by J.L. Rodriguez-Sanchez    -----
+// -----              R3BTpcMapped2Cal source file                  -----
+// -----        Created 22/07/18  by J.L. Rodriguez-Sanchez         -----
 // ----------------------------------------------------------------------
 
 //ROOT headers
@@ -62,7 +62,7 @@ R3BTpcMapped2Cal::R3BTpcMapped2Cal(const char* name, Int_t iVerbose) :
 //Virtual R3BTpcMapped2Cal: Destructor
 R3BTpcMapped2Cal::~R3BTpcMapped2Cal()
 {
-  LOG(INFO) << "R3BTpcMapped2Cal: Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcMapped2Cal: Delete instance";
   if(fTpcMappedDataCA) delete fTpcMappedDataCA;
   if(fTpcCalDataCA) delete fTpcCalDataCA;
 }
@@ -74,15 +74,15 @@ void R3BTpcMapped2Cal::SetParContainers() {
   //Reading tpcCalPar from FairRuntimeDb
   FairRuntimeDb* rtdb = FairRuntimeDb::instance();
   if (!rtdb) { 
-    LOG(ERROR)<<"FairRuntimeDb not opened!"<<FairLogger::endl;
+    LOG(ERROR)<<"FairRuntimeDb not opened!";
   }
   
   fCal_Par=(R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
   if (!fCal_Par) {
-    LOG(ERROR)<<"R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container"<<FairLogger::endl;
+    LOG(ERROR)<<"R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
   }
   else{
-    LOG(INFO)<<"R3BTpcMapped2CalPar:: tpcCalPar container open"<<FairLogger::endl;
+    LOG(INFO)<<"R3BTpcMapped2CalPar:: tpcCalPar container open";
   }
 }
 
@@ -94,9 +94,9 @@ void R3BTpcMapped2Cal::SetParameter(){
   NumAnodes=fCal_Par->GetNumDT();//Number of anodes
   NumParams=fCal_Par->GetNumParametersFit();//Number of Parameters
 
-  LOG(INFO)<<"R3BTpcMapped2Cal: Nb detectors: "<< NumDets <<FairLogger::endl;
-  LOG(INFO)<<"R3BTpcMapped2Cal: Nb anodes: "<< NumAnodes <<FairLogger::endl;
-  LOG(INFO)<<"R3BTpcMapped2Cal: Nb parameters from fit: "<< NumParams <<FairLogger::endl;
+  LOG(INFO)<<"R3BTpcMapped2Cal: Nb detectors: "<< NumDets;
+  LOG(INFO)<<"R3BTpcMapped2Cal: Nb anodes: "<< NumAnodes;
+  LOG(INFO)<<"R3BTpcMapped2Cal: Nb parameters from fit: "<< NumParams;
  
   CsumMaxParams= new TArrayF();
   Int_t array_size = NumDets*fNumAnodesY;
@@ -117,7 +117,7 @@ void R3BTpcMapped2Cal::SetParameter(){
   for(Int_t d = 0; d < NumDets; d++){
   Int_t numdeadanodes=0;
   for(Int_t i = 0; i < NumAnodes; i++)if(CalParams->GetAt(NumParams*i+NumAnodes*d*NumParams)==0)numdeadanodes++;
-  LOG(INFO)<<"R3BTpcMapped2Cal: Nb of NO fitted sections in TPC " <<d+1<< ": "<< numdeadanodes <<FairLogger::endl;
+  LOG(INFO)<<"R3BTpcMapped2Cal: Nb of NO fitted sections in TPC " <<d+1<< ": "<< numdeadanodes;
   }
   //fCal_Par->printParams();
 }
@@ -125,7 +125,7 @@ void R3BTpcMapped2Cal::SetParameter(){
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcMapped2Cal::Init()
 {
-  LOG(INFO) << "R3BTpcMapped2Cal: Init" << FairLogger::endl;
+  LOG(INFO) << "R3BTpcMapped2Cal: Init";
 
   //INPUT DATA
   FairRootManager* rootManager = FairRootManager::Instance();
@@ -161,12 +161,12 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
   Reset();
   
   if (!fCal_Par) {
-    LOG(ERROR)<<"NO Container Parameter!!"<<FairLogger::endl;
+    LOG(ERROR)<<"NO Container Parameter!!";
   }  
  
   //Reading the Input -- Mapped Data --
   Int_t nHits = fTpcMappedDataCA->GetEntries();
-  if(nHits!=NumDets && nHits>0)LOG(WARNING) << "R3BTpcMapped2Cal: nHits=" <<nHits<<" NumDets="<< NumDets <<FairLogger::endl;
+  if(nHits!=NumDets && nHits>0)LOG(WARNING) << "R3BTpcMapped2Cal: nHits=" <<nHits<<" NumDets="<< NumDets;
   if(!nHits) return;
   
   R3BTpcMappedData* MapHit;
@@ -245,7 +245,7 @@ void R3BTpcMapped2Cal::Finish()
 // -----   Public method Reset   ------------------------------------------------
 void R3BTpcMapped2Cal::Reset()
 {
-  LOG(DEBUG) << "Clearing TpcCalData Structure" << FairLogger::endl;
+  LOG(DEBUG) << "Clearing TpcCalData Structure";
   if(fTpcCalDataCA)fTpcCalDataCA->Clear();
 }
 

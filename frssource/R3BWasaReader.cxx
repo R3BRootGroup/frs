@@ -37,24 +37,26 @@ R3BWasaReader::R3BWasaReader(EXT_STR_h101_WASA* data,
 }
 
 R3BWasaReader::~R3BWasaReader() {
+  LOG(INFO) << "R3BWasaReader::Delete instance";
   if (fArrayMdcWasa){
 		delete fArrayMdcWasa;
 	}
 }
 
 Bool_t R3BWasaReader::Init(ext_data_struct_info *a_struct_info) {
-	int ok;
-        LOG(INFO) << "R3BWasaReader::Init" << FairLogger::endl;
+  Int_t ok;
+  LOG(INFO) << "R3BWasaReader::Init";
 
-	EXT_STR_h101_WASA_ITEMS_INFO(ok, *a_struct_info, fOffset,
+  EXT_STR_h101_WASA_ITEMS_INFO(ok, *a_struct_info, fOffset,
 	    EXT_STR_h101_WASA, 0);
 
-	if (!ok) {
-            LOG(ERROR)<<"R3BWasaReader::Failed to setup structure information."<<FairLogger::endl;
-	    return kFALSE;
-	}
+  if (!ok) {
+    perror("ext_data_struct_info_item");
+    LOG(ERROR)<<"R3BWasaReader::Failed to setup structure information.";
+    return kFALSE;
+  }
 
-    // Register output array in tree
+  // Register output array in tree
   if(!fOnline){
     FairRootManager::Instance()->Register("MdcMappedData", "MDC", fArrayMdcWasa, kTRUE);
   }else{
@@ -69,7 +71,7 @@ Bool_t R3BWasaReader::Read() {
 	    (EXT_STR_h101_WASA_onion_t *) fData;
 
   /* Display data */
-  LOG(DEBUG)<<"R3BWasaReader::Read() Event data."<<FairLogger::endl;
+  LOG(DEBUG)<<"R3BWasaReader::Read() Event data.";
 
   //SELECT THE FOR LOOP BASED ON THE MAPPING...
   for (int wire = 0; wire < fData->WASA_ENE; ++wire) {
