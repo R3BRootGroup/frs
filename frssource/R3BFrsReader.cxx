@@ -46,7 +46,7 @@ R3BFrsReader::R3BFrsReader(EXT_STR_h101_FRS* data,
 }
 
 R3BFrsReader::~R3BFrsReader() {
-  LOG(INFO) << "R3BFrsReader::Delete instance" << FairLogger::endl;
+  LOG(INFO) << "R3BFrsReader::Delete instance";
   if (fArray){
 		delete fArray;
 	}
@@ -62,13 +62,13 @@ R3BFrsReader::~R3BFrsReader() {
 }
 
 Bool_t R3BFrsReader::Init(ext_data_struct_info *a_struct_info) {
-	Int_t ok;
+  Int_t ok;
   EXT_STR_h101_FRS_ITEMS_INFO(ok, *a_struct_info, fOffset,
 	    EXT_STR_h101_FRS, 0);
 
   if (!ok) {
 	perror("ext_data_struct_info_item");
-        LOG(ERROR) <<"R3BFrsReader::Failed to setup structure information."<<FairLogger::endl;
+        LOG(ERROR) <<"R3BFrsReader::Failed to setup structure information.";
 	return kFALSE;
   }
 
@@ -95,7 +95,7 @@ Bool_t R3BFrsReader::Read() {
   //
   Reset();
   /* Display data */
-  LOG(DEBUG)<<"R3BFrsReader::Read() Event data."<<FairLogger::endl;
+  LOG(DEBUG)<<"R3BFrsReader::Read() Event data.";
 
   new ((*fArray)[fArray->GetEntriesFast()]) R3BFrsMappedData(
 fData->AccTrig,

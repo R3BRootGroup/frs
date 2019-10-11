@@ -42,11 +42,11 @@ void R3BMusicCalPar::clear() {
 
 // ----  Method putParams ------------------------------------------------------
 void R3BMusicCalPar::putParams(FairParamList* list) {
-  LOG(INFO) <<"R3BMusicCalPar::putParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BMusicCalPar::putParams() called" ;
   if (!list){ return; }
   
   Int_t array_size = fNumDets*fNumAnodes*fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size ;
   
   fAnodeCalParams->Set(array_size);
   
@@ -59,7 +59,7 @@ void R3BMusicCalPar::putParams(FairParamList* list) {
 
 // ----  Method getParams ------------------------------------------------------
 Bool_t R3BMusicCalPar::getParams(FairParamList* list) {
-  LOG(INFO) <<"R3BMusicCalPar::getParams() called" <<FairLogger::endl;
+  LOG(INFO) <<"R3BMusicCalPar::getParams() called" ;
   if (!list){ return kFALSE;}
 
   if (!list->fill("musicDetNumberPar", &fNumDets) ) { 
@@ -75,11 +75,11 @@ Bool_t R3BMusicCalPar::getParams(FairParamList* list) {
   }
   
   Int_t array_size = fNumDets*fNumAnodes*fNumParamsFit;
-  LOG(INFO) <<"Array Size: "<<array_size <<FairLogger::endl;
+  LOG(INFO) <<"Array Size: "<<array_size ;
   fAnodeCalParams->Set(array_size);
   
   if (!(list->fill("musicCalPar",fAnodeCalParams))){
-    LOG(INFO)<< "---Could not initialize musicCalPar"<<FairLogger::endl;
+    LOG(INFO)<< "---Could not initialize musicCalPar";
     return kFALSE;
   }
   
@@ -88,15 +88,15 @@ Bool_t R3BMusicCalPar::getParams(FairParamList* list) {
 
 // ----  Method printParams ----------------------------------------------------
 void R3BMusicCalPar::printParams() {	
-  LOG(INFO) << "R3BMusicCalPar: music anode Parameters: "<<FairLogger::endl;
+  LOG(INFO) << "R3BMusicCalPar: music anode Parameters: ";
   Int_t array_size = fNumDets*fNumAnodes*fNumParamsFit;
   
   for(Int_t d=0;d<fNumDets;d++) {
-    cout << "Music detector number: " << d << endl;
+    LOG(INFO) <<"Music detector number: " << d;
    for(Int_t i=0;i<fNumAnodes;i++) {      
-    cout << "Anode number: " << i << endl;
+    LOG(INFO) <<"Anode number: " << i;
     for(Int_t j=0;j<fNumParamsFit;j++) {
-      cout << "FitParam("<<j<<") = "<<fAnodeCalParams->GetAt(d*fNumParamsFit*fNumAnodes+i*fNumParamsFit+j) << endl;
+      LOG(INFO) <<"FitParam("<<j<<") = "<<fAnodeCalParams->GetAt(d*fNumParamsFit*fNumAnodes+i*fNumParamsFit+j);
     }
    }
   }
