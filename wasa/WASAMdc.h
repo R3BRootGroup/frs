@@ -120,15 +120,15 @@ class WASAMdc : public R3BDetector
      ** Adds a TraPoint to the HitCollection
      **/
     WASAMdcPoint* AddHit(Int_t trackID,
-                        Int_t detID,
-                        Int_t detCopyID,
-                        TVector3 posIn,
-                        TVector3 pos_out,
-                        TVector3 momIn,
-                        TVector3 momOut,
-                        Double_t time,
-                        Double_t length,
-                        Double_t eLoss);
+                         Int_t detID,
+                         Int_t detCopyID,
+                         TVector3 posIn,
+                         TVector3 pos_out,
+                         TVector3 momIn,
+                         TVector3 momOut,
+                         Double_t time,
+                         Double_t length,
+                         Double_t eLoss);
 
     /** Private method ResetParameters
      **
@@ -136,22 +136,25 @@ class WASAMdc : public R3BDetector
      **/
     void ResetParameters();
 
-   Int_t  GetLayerType(Int_t volID);
+    Int_t GetLayerType(Int_t volID);
 
     ClassDef(WASAMdc, 1);
 };
 
-inline Int_t WASAMdc::GetLayerType(Int_t volID) {
+inline Int_t WASAMdc::GetLayerType(Int_t volID)
+{
 
-Int_t type=-1;
+    Int_t type = -1;
 
-for (Int_t i=0;i<17;i++ ){
-    if (volID==fLayer[i]) {
-	type=i+1; 
-	return (type);
+    for (Int_t i = 0; i < 17; i++)
+    {
+        if (volID == fLayer[i])
+        {
+            type = i + 1;
+            return (type);
+        }
     }
-}
-return type;
+    return type;
 }
 
 inline void WASAMdc::ResetParameters()
