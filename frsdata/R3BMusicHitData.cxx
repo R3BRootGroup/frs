@@ -8,16 +8,16 @@
 #include "R3BMusicHitData.h"
 
 R3BMusicHitData::R3BMusicHitData()
-  : fDetId(0),
-    fCharge(0)
+    : fDetId(0)
+    , fCharge(0)
 {
 }
 
 //------------------------------
 
 R3BMusicHitData::R3BMusicHitData(Int_t detId, Double_t charge)
-  : fDetId(detId),
-    fCharge(charge) 
+    : fDetId(detId)
+    , fCharge(charge)
 {
 }
 

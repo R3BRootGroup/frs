@@ -8,7 +8,6 @@
 #include "FairRuntimeDb.h"
 #include "FairVolume.h"
 #include "R3BMCStack.h"
-#include "WASAMdcPoint.h"
 #include "TClonesArray.h"
 #include "TGeoArb8.h"
 #include "TGeoBBox.h"
@@ -28,6 +27,7 @@
 #include "TObjArray.h"
 #include "TParticle.h"
 #include "TVirtualMC.h"
+#include "WASAMdcPoint.h"
 #include <stdlib.h>
 
 WASAMdc::WASAMdc()
@@ -68,27 +68,27 @@ void WASAMdc::Initialize()
 {
     FairDetector::Initialize();
 
-    LOG(INFO) << "WASAMdc: initialisation" ;
-    //LOG(DEBUG) << "WASAMdc: Sens. Vol. (McId) " << gMC->VolId("TraLog") ;
+    LOG(INFO) << "WASAMdc: initialisation";
+    // LOG(DEBUG) << "WASAMdc: Sens. Vol. (McId) " << gMC->VolId("TraLog") ;
 
     Char_t buffer[126];
-    for (Int_t i=0;i<9;i++ ) {
-     sprintf(buffer,"ME0%i",i+1);
-     LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer  << "  " <<  gMC->VolId(buffer);
-     fLayer[i] = gMC->VolId(buffer);
+    for (Int_t i = 0; i < 9; i++)
+    {
+        sprintf(buffer, "ME0%i", i + 1);
+        LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
+                   << gMC->VolId(buffer);
+        fLayer[i] = gMC->VolId(buffer);
     }
-    for (Int_t i=9;i<17;i++ ) {
-     sprintf(buffer,"ME%i",i+1);
-     LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer  << "  " <<  gMC->VolId(buffer);
-     fLayer[i] = gMC->VolId(buffer);
+    for (Int_t i = 9; i < 17; i++)
+    {
+        sprintf(buffer, "ME%i", i + 1);
+        LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
+                   << gMC->VolId(buffer);
+        fLayer[i] = gMC->VolId(buffer);
     }
 }
 
-void WASAMdc::SetSpecialPhysicsCuts()
-{
-    LOG(INFO) << "-I- WASAMdc: Adding customized Physics cut ... " ;
-
-}
+void WASAMdc::SetSpecialPhysicsCuts() { LOG(INFO) << "-I- WASAMdc: Adding customized Physics cut ... "; }
 
 // -----   Public method ProcessHits  --------------------------------------
 Bool_t WASAMdc::ProcessHits(FairVolume* vol)
@@ -109,18 +109,17 @@ Bool_t WASAMdc::ProcessHits(FairVolume* vol)
     if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared())
     {
 
-    Int_t cp1 = -1;
-    Int_t volId1 = -1;
-    volId1 = gMC->CurrentVolID(cp1);
-
+        Int_t cp1 = -1;
+        Int_t volId1 = -1;
+        volId1 = gMC->CurrentVolID(cp1);
 
         fTrackID = gMC->GetStack()->GetCurrentTrackNumber();
         fVolumeID = GetLayerType(volId1);
         fDetCopyID = vol->getCopyNo();
         gMC->TrackPosition(fPosOut);
         gMC->TrackMomentum(fMomOut);
-                if (fELoss == 0.)
-                    return kFALSE;
+        if (fELoss == 0.)
+            return kFALSE;
 
         if (gMC->IsTrackExiting())
         {
@@ -157,7 +156,7 @@ Bool_t WASAMdc::ProcessHits(FairVolume* vol)
 
         AddHit(fTrackID,
                fVolumeID,
-               fDetCopyID, 
+               fDetCopyID,
                TVector3(fPosIn.X(), fPosIn.Y(), fPosIn.Z()),
                TVector3(fPosOut.X(), fPosOut.Y(), fPosOut.Z()),
                TVector3(fMomIn.Px(), fMomIn.Py(), fMomIn.Pz()),
@@ -208,7 +207,7 @@ TClonesArray* WASAMdc::GetCollection(Int_t iColl) const
 void WASAMdc::Print(Option_t* option) const
 {
     Int_t nHits = fTraCollection->GetEntriesFast();
-    LOG(INFO) << "WASAMdc: " << nHits << " points registered in this event" ;
+    LOG(INFO) << "WASAMdc: " << nHits << " points registered in this event";
 }
 // ----------------------------------------------------------------------------
 
@@ -224,7 +223,7 @@ void WASAMdc::Reset()
 void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
 {
     Int_t nEntries = cl1->GetEntriesFast();
-    LOG(INFO) << "WASAMdc: " << nEntries << " entries to add" ;
+    LOG(INFO) << "WASAMdc: " << nEntries << " entries to add";
     TClonesArray& clref = *cl2;
     WASAMdcPoint* oldpoint = NULL;
     for (Int_t i = 0; i < nEntries; i++)
@@ -235,37 +234,27 @@ void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
         new (clref[fPosIndex]) WASAMdcPoint(*oldpoint);
         fPosIndex++;
     }
-    LOG(INFO) << "WASAMdc: " << cl2->GetEntriesFast() << " merged entries" ;
+    LOG(INFO) << "WASAMdc: " << cl2->GetEntriesFast() << " merged entries";
 }
 
 // -----   Private method AddHit   --------------------------------------------
 WASAMdcPoint* WASAMdc::AddHit(Int_t trackID,
-                            Int_t detID,
-                            Int_t detCopyID, // added by Marc
-                            TVector3 posIn,
-                            TVector3 posOut,
-                            TVector3 momIn,
-                            TVector3 momOut,
-                            Double_t time,
-                            Double_t length,
-                            Double_t eLoss)
+                              Int_t detID,
+                              Int_t detCopyID, // added by Marc
+                              TVector3 posIn,
+                              TVector3 posOut,
+                              TVector3 momIn,
+                              TVector3 momOut,
+                              Double_t time,
+                              Double_t length,
+                              Double_t eLoss)
 {
     TClonesArray& clref = *fTraCollection;
     Int_t size = clref.GetEntriesFast();
     if (fVerboseLevel > 1)
         LOG(INFO) << "WASAMdc: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
-                  << ") cm,  detector " << detID << ", track " << trackID << ", energy loss " << eLoss * 1e06 << " keV"
-                  ;
-    return new (clref[size]) WASAMdcPoint(trackID,
-                                         detID,
-                                         detCopyID,
-                                         posIn,
-                                         posOut,
-                                         momIn,
-                                         momOut,
-                                         time,
-                                         length,
-                                         eLoss);
+                  << ") cm,  detector " << detID << ", track " << trackID << ", energy loss " << eLoss * 1e06 << " keV";
+    return new (clref[size]) WASAMdcPoint(trackID, detID, detCopyID, posIn, posOut, momIn, momOut, time, length, eLoss);
 }
 
 Bool_t WASAMdc::CheckIfSensitive(std::string name)
