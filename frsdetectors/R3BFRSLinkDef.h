@@ -19,7 +19,6 @@
 #pragma link C++ class R3BMusicCal2Hit + ;
 #pragma link C++ class R3BFrsHit2AnaS4 + ;
 #pragma link C++ class R3BFrsHit2AnaS4Par + ;
-#pragma link C++ class R3BFrsOnlineSpectra + ;
 #pragma link C++ class R3BFrsAnaPar + ;
 #pragma link C++ class R3BMWMapped2Hit + ;
 

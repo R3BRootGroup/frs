@@ -25,7 +25,14 @@
 R3BMWMapped2Hit::R3BMWMapped2Hit()
     : FairTask("R3B MW Mapped to Hit", 1)
     , fNumDets(13)
-    , fMwMappedDataCA(NULL)
+    , fMw11MappedDataCA(NULL)
+    , fMw21MappedDataCA(NULL)
+    , fMw22MappedDataCA(NULL)
+    , fMw31MappedDataCA(NULL)
+    , fMw51MappedDataCA(NULL)
+    , fMw71MappedDataCA(NULL)
+    , fMw81MappedDataCA(NULL)
+    , fMw82MappedDataCA(NULL)
     , fMwHitDataCA(NULL)
     , fOnline(kFALSE)
 {
@@ -35,7 +42,14 @@ R3BMWMapped2Hit::R3BMWMapped2Hit()
 R3BMWMapped2Hit::R3BMWMapped2Hit(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fNumDets(13)
-    , fMwMappedDataCA(NULL)
+    , fMw11MappedDataCA(NULL)
+    , fMw21MappedDataCA(NULL)
+    , fMw22MappedDataCA(NULL)
+    , fMw31MappedDataCA(NULL)
+    , fMw51MappedDataCA(NULL)
+    , fMw71MappedDataCA(NULL)
+    , fMw81MappedDataCA(NULL)
+    , fMw82MappedDataCA(NULL)
     , fMwHitDataCA(NULL)
     , fOnline(kFALSE)
 {
@@ -47,6 +61,22 @@ R3BMWMapped2Hit::~R3BMWMapped2Hit()
     LOG(INFO) << "R3BMWMapped2Hit: Delete instance";
     if (fMwHitDataCA)
         delete fMwHitDataCA;
+    if (fMw11MappedDataCA)
+        delete fMw11MappedDataCA;
+    if (fMw21MappedDataCA)
+        delete fMw21MappedDataCA;
+    if (fMw22MappedDataCA)
+        delete fMw22MappedDataCA;
+    if (fMw31MappedDataCA)
+        delete fMw31MappedDataCA;
+    if (fMw51MappedDataCA)
+        delete fMw51MappedDataCA;
+    if (fMw71MappedDataCA)
+        delete fMw71MappedDataCA;
+    if (fMw81MappedDataCA)
+        delete fMw81MappedDataCA;
+    if (fMw82MappedDataCA)
+        delete fMw82MappedDataCA;
 }
 
 void R3BMWMapped2Hit::SetParContainers()
@@ -214,11 +244,45 @@ InitStatus R3BMWMapped2Hit::Init()
     {
         return kFATAL;
     }
-
-    fMwMappedDataCA = (TClonesArray*)rootManager->GetObject("MwMappedData");
-    if (!fMwMappedDataCA)
+    fMw11MappedDataCA = (TClonesArray*)rootManager->GetObject("MW11MappedData");
+    if (!fMw11MappedDataCA)
     {
-        return kFATAL;
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW11MappedData";
+    }
+    fMw21MappedDataCA = (TClonesArray*)rootManager->GetObject("MW21MappedData");
+    if (!fMw21MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW21MappedData";
+    }
+    fMw22MappedDataCA = (TClonesArray*)rootManager->GetObject("MW22MappedData");
+    if (!fMw22MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW22MappedData";
+    }
+    fMw31MappedDataCA = (TClonesArray*)rootManager->GetObject("MW31MappedData");
+    if (!fMw31MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW31MappedData";
+    }
+    fMw51MappedDataCA = (TClonesArray*)rootManager->GetObject("MW51MappedData");
+    if (!fMw51MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW51MappedData";
+    }
+    fMw71MappedDataCA = (TClonesArray*)rootManager->GetObject("MW71MappedData");
+    if (!fMw71MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW71MappedData";
+    }
+    fMw81MappedDataCA = (TClonesArray*)rootManager->GetObject("MW81MappedData");
+    if (!fMw81MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW81MappedData";
+    }
+    fMw82MappedDataCA = (TClonesArray*)rootManager->GetObject("MW82MappedData");
+    if (!fMw82MappedDataCA)
+    {
+        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW82MappedData";
     }
 
     // OUTPUT DATA
@@ -249,7 +313,22 @@ void R3BMWMapped2Hit::Exec(Option_t* option)
 {
     // Reset entries in output arrays, local arrays
     Reset();
-    Int_t nHits = fMwMappedDataCA->GetEntries();
+    if(fMw11MappedDataCA)MakeHit(fMw11MappedDataCA);
+    if(fMw21MappedDataCA)MakeHit(fMw21MappedDataCA);
+    if(fMw22MappedDataCA)MakeHit(fMw22MappedDataCA);
+    if(fMw31MappedDataCA)MakeHit(fMw31MappedDataCA);
+    if(fMw51MappedDataCA)MakeHit(fMw51MappedDataCA);
+    if(fMw71MappedDataCA)MakeHit(fMw71MappedDataCA);
+    if(fMw81MappedDataCA)MakeHit(fMw81MappedDataCA);
+    if(fMw82MappedDataCA)MakeHit(fMw82MappedDataCA);
+
+}
+
+// -----   Public method Make Hit   ---------------------------------------------
+void R3BMWMapped2Hit::MakeHit(TClonesArray* fMwMappedData)
+{
+
+    Int_t nHits = fMwMappedData->GetEntries();
     if (!nHits)
         return;
     R3BMwMappedData** MapDat = new R3BMwMappedData*[nHits];
@@ -259,7 +338,7 @@ void R3BMWMapped2Hit::Exec(Option_t* option)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        MapDat[i] = (R3BMwMappedData*)(fMwMappedDataCA->At(i));
+        MapDat[i] = (R3BMwMappedData*)(fMwMappedData->At(i));
         detId = MapDat[i]->GetDetId();
         an = MapDat[i]->GetAn();
         xr = MapDat[i]->GetXr();

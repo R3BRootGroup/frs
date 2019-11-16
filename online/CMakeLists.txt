@@ -1,4 +1,4 @@
-# Create a library called "libR3BFRS" which includes the source files given in
+# Create a library called "libFRSOnline" which includes the source files given in
 # the array .
 # The extension is already found.  Any number of sources could be listed here.
 
@@ -13,6 +13,7 @@ ${R3BROOT_SOURCE_DIR}/r3bdata/wrData
 ${R3BROOT_SOURCE_DIR}/r3bbase
 ${R3BFRS_SOURCE_DIR}/frsdata
 ${R3BFRS_SOURCE_DIR}/frsdetectors
+${R3BFRS_SOURCE_DIR}/online
 )
 
 include_directories( ${INCLUDE_DIRECTORIES})
@@ -26,31 +27,17 @@ ${FAIRROOT_LIBRARY_DIR}
 link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
-R3BFrsContFact.cxx
-R3BSeetramMapped2Cal.cxx
-R3BSeetramCalPar.cxx
-R3BMusicMapped2CalPar.cxx
-R3BMusicMapped2Cal.cxx
-R3BMusicCalPar.cxx
-R3BMusicHitPar.cxx
-R3BMusicCal2HitPar.cxx
-R3BMusicCal2Hit.cxx
-R3BTpcCalPar.cxx
-R3BTpcMapped2CalPar.cxx
-R3BTpcMapped2Cal.cxx
-R3BTpcCal2Hit.cxx
-R3BFrsHit2AnaS4.cxx
-R3BFrsHit2AnaS4Par.cxx
-R3BFrsAnaPar.cxx
-R3BMWMapped2Hit.cxx
+R3BFrsOnlineSpectra.cxx
+FrsMWOnlineSpectra.cxx
+FrsTpcOnlineSpectra.cxx
 )
 
 # fill list of header files from list of source files
 # by exchanging the file extension
 CHANGE_FILE_EXTENSION(*.cxx *.h HEADERS "${SRCS}")
 
-set(LINKDEF  R3BFRSLinkDef.h)
-set(LIBRARY_NAME R3BFRS)
+set(LINKDEF  FRSOnlineLinkDef.h)
+set(LIBRARY_NAME FRSOnline)
 set(DEPENDENCIES
     Spectrum Base FairTools R3BData R3Bbase)
 

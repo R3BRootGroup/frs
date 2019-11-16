@@ -30,6 +30,7 @@ link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
 R3BFrsReader.cxx
+R3BFrsReaderNov19.cxx
 R3BWasaReader.cxx
 )
 
