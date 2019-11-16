@@ -8,7 +8,6 @@
 #define R3BFrsOnlineSpectra_H
 
 #define N_MUS_DET 3
-#define N_TPC_DET 6
 
 #include "FairTask.h"
 #include "TCanvas.h"
@@ -23,6 +22,7 @@
 
 class TClonesArray;
 class R3BEventHeader;
+class FrsMWOnlineSpectra;
 
 /**
  * This taks reads FRS data and plots online histograms
@@ -86,21 +86,20 @@ class R3BFrsOnlineSpectra : public FairTask
     void Reset_SEETRAM_Histo();
     void Reset_FRS_Histo();
     void Reset_MUSIC_Histo();
-    void Reset_TPC_Histo();
     void Reset_SCI_Histo();
-    void Reset_MW_Histo();
+
 
   private:
     TClonesArray* fMappedItemsFrs;  /**< Array with mapped items.           */
     TClonesArray* fMapItemsMusic;   /**< Array with map items for musics.   */
     TClonesArray* fCalItemsMusic;   /**< Array with cal items for musics.   */
     TClonesArray* fHitItemsMusic;   /**< Array with hit items for musics.   */
-    TClonesArray* fCalItemsTpc;     /**< Array with cal items for tpcs.     */
-    TClonesArray* fHitItemsTpc;     /**< Array with hit items for tpcs.     */
     TClonesArray* fCalItemsSeetram; /**< Array with cal items for Seetram.  */
     TClonesArray* fHitItemsMw;      /**< Array with hit items for MWs.      */
     TClonesArray* fAnaItemsFrs;     /**< Array with analysis items for frs. */
     TClonesArray* fWRItemsMaster;   /**< Array with WR-Master items.        */
+
+    FrsMWOnlineSpectra* fMw11Online;/**< Array with MW online items.        */
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
@@ -114,12 +113,8 @@ class R3BFrsOnlineSpectra : public FairTask
     TCanvas *cTrigger, *cWr, *cTrigCom;
     TCanvas *cMus1, *cMus2, *cMus3, *cMus1cal, *cMus2cal, *cMus3cal, *cMushit[N_MUS_DET], *c2ID, *c1ID, *cSCI21,
         *cSCI41, *cSCI42, *cSCI81, *cSCI_21_41, *cSCI_21_81, *cMu41_mu42;
-    TCanvas *cTpcCal[N_TPC_DET], *cCalx, *cCalx31, *cSee, *cSeet, *cIc, *cSci00, *cSci01, *cSci02, *cSeeCom, *cTrackS2,
-        *cTrackS4;
+    TCanvas *cCalx, *cCalx31, *cSee, *cSeet, *cIc, *cSci00, *cSci01, *cSci02, *cSeeCom;
     TCanvas *cSCI_tof2141L, *cSCI_tof2141R, *cSCI_tof2141, *cSCI_tof2141RL, *cSCI_tof21pos, *cSCI_tof41pos;
-    TCanvas *cHitx, *cHity, *cHitxy;
-    TCanvas *cTransS2, *cTransS4;
-    TCanvas *cMW1, *cMW2;
 
     // Unpack
     TH1F *fh_trigger, *fh_TrigC, *fh_TrigFree, *fh_wr;
@@ -142,14 +137,6 @@ class R3BFrsOnlineSpectra : public FairTask
     TH1F* fh_SeetramtC;
     TH1F* fh_IcC;
     TH1F* fh_Sci00C;
-
-    // TPCs
-    TH1F* fh_tpc_csum[N_TPC_DET * 4]; // max 6 tpcs * 4DT
-    TH1F* fh_tpc_deltax[N_TPC_DET];   // max 6 tpcs
-    TH1F* fh_Tpc_hitx[N_TPC_DET];
-    TH1F* fh_Tpc_hity[N_TPC_DET];
-    TH2F* fh_Tpc_hitxy[N_TPC_DET];
-    TH2F *fh_ts2, *fh_ts4, *fh_tr2, *fh_tr4;
 
     // SCI
     TH1F *fh_sci21le, *fh_sci21re;

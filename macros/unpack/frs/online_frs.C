@@ -26,8 +26,8 @@ void online_frs() {
   
   /* Create source using ucesb for input ------------------ */
   
-  TString filename = "--stream=lxg1266:8000";
-  //TString filename = "/home/joseluis/lmd/frsapril19/run_0183.lmd";
+  //TString filename = "--stream=lxg1266:8000";
+  TString filename = "/home/joseluis/lmd/frsapril19/mwrun_*.lmd";
 
   TString outputFileName = "data_frs_online.root";
   
@@ -51,7 +51,7 @@ void online_frs() {
   R3BWhiterabbitMasterReader* unpackWRM = new R3BWhiterabbitMasterReader((EXT_STR_h101_WRMASTER*)&ucesb_struct.wrm,
                                              offsetof(EXT_STR_h101, wrm), 0x100);
 
-  R3BFrsReader* unpackfrs= new R3BFrsReader((EXT_STR_h101_FRS*)&ucesb_struct.frs,
+  R3BFrsReaderNov19* unpackfrs= new R3BFrsReaderNov19((EXT_STR_h101_FRS*)&ucesb_struct.frs,
 					     offsetof(EXT_STR_h101, frs));
 
 
@@ -121,6 +121,21 @@ void online_frs() {
   /* Add online task ------------------------------------ */  
   R3BFrsOnlineSpectra* online= new R3BFrsOnlineSpectra();
   run->AddTask(online);
+
+  FrsTpcOnlineSpectra* tpconline= new FrsTpcOnlineSpectra();
+  run->AddTask(tpconline);
+
+  FrsMWOnlineSpectra* mw11online= new FrsMWOnlineSpectra("MW11OnlineSpectra",1,"MW11");
+  run->AddTask(mw11online);
+
+  FrsMWOnlineSpectra* mw21online= new FrsMWOnlineSpectra("MW21OnlineSpectra",1,"MW21");
+  run->AddTask(mw21online);
+
+  FrsMWOnlineSpectra* mw22online= new FrsMWOnlineSpectra("MW22OnlineSpectra",1,"MW22");
+  run->AddTask(mw22online);
+
+  FrsMWOnlineSpectra* mw31online= new FrsMWOnlineSpectra("MW31OnlineSpectra",1,"MW31");
+  run->AddTask(mw31online);
 
 
   /* Initialize ------------------------------------------- */
