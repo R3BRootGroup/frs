@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// -----         R3BMusicCalPar source file                  -----
+// -----            FRSMusicCalPar source file                  -----
 // -----         Created 29/05/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
-#include "R3BMusicCalPar.h"
+#include "FRSMusicCalPar.h"
 
 #include "FairLogger.h"
 #include "FairParamList.h"
@@ -18,7 +18,7 @@ using std::cout;
 using std::endl;
 
 // ---- Standard Constructor ---------------------------------------------------
-R3BMusicCalPar::R3BMusicCalPar(const char* name, const char* title, const char* context)
+FRSMusicCalPar::FRSMusicCalPar(const char* name, const char* title, const char* context)
     : FairParGenericSet(name, title, context)
 {
     fAnodeCalParams = new TArrayF(24); // 8anodes*3CalibrationParameters
@@ -28,23 +28,23 @@ R3BMusicCalPar::R3BMusicCalPar(const char* name, const char* title, const char* 
 }
 
 // ----  Destructor ------------------------------------------------------------
-R3BMusicCalPar::~R3BMusicCalPar()
+FRSMusicCalPar::~FRSMusicCalPar()
 {
     clear();
     delete fAnodeCalParams;
 }
 
 // ----  Method clear ----------------------------------------------------------
-void R3BMusicCalPar::clear()
+void FRSMusicCalPar::clear()
 {
     status = kFALSE;
     resetInputVersions();
 }
 
 // ----  Method putParams ------------------------------------------------------
-void R3BMusicCalPar::putParams(FairParamList* list)
+void FRSMusicCalPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BMusicCalPar::putParams() called";
+    LOG(INFO) << "FRSMusicCalPar::putParams() called";
     if (!list)
     {
         return;
@@ -55,32 +55,32 @@ void R3BMusicCalPar::putParams(FairParamList* list)
 
     fAnodeCalParams->Set(array_size);
 
-    list->add("musicCalPar", *fAnodeCalParams);
-    list->add("musicDetNumberPar", fNumDets);
-    list->add("musicAnodeNumberPar", fNumAnodes);
-    list->add("musicAnodeParamsFitPar", fNumParamsFit);
+    list->add("frsmusicCalPar", *fAnodeCalParams);
+    list->add("frsmusicDetNumberPar", fNumDets);
+    list->add("frsmusicAnodeNumberPar", fNumAnodes);
+    list->add("frsmusicAnodeParamsFitPar", fNumParamsFit);
 }
 
 // ----  Method getParams ------------------------------------------------------
-Bool_t R3BMusicCalPar::getParams(FairParamList* list)
+Bool_t FRSMusicCalPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BMusicCalPar::getParams() called";
+    LOG(INFO) << "FRSMusicCalPar::getParams() called";
     if (!list)
     {
         return kFALSE;
     }
 
-    if (!list->fill("musicDetNumberPar", &fNumDets))
+    if (!list->fill("frsmusicDetNumberPar", &fNumDets))
     {
         return kFALSE;
     }
 
-    if (!list->fill("musicAnodeNumberPar", &fNumAnodes))
+    if (!list->fill("frsmusicAnodeNumberPar", &fNumAnodes))
     {
         return kFALSE;
     }
 
-    if (!list->fill("musicAnodeParamsFitPar", &fNumParamsFit))
+    if (!list->fill("frsmusicAnodeParamsFitPar", &fNumParamsFit))
     {
         return kFALSE;
     }
@@ -89,9 +89,9 @@ Bool_t R3BMusicCalPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fAnodeCalParams->Set(array_size);
 
-    if (!(list->fill("musicCalPar", fAnodeCalParams)))
+    if (!(list->fill("frsmusicCalPar", fAnodeCalParams)))
     {
-        LOG(INFO) << "---Could not initialize musicCalPar";
+        LOG(INFO) << "---Could not initialize frsmusicCalPar";
         return kFALSE;
     }
 
@@ -99,9 +99,9 @@ Bool_t R3BMusicCalPar::getParams(FairParamList* list)
 }
 
 // ----  Method printParams ----------------------------------------------------
-void R3BMusicCalPar::printParams()
+void FRSMusicCalPar::printParams()
 {
-    LOG(INFO) << "R3BMusicCalPar: music anode Parameters: ";
+    LOG(INFO) << "FRSMusicCalPar: music anode Parameters: ";
     Int_t array_size = fNumDets * fNumAnodes * fNumParamsFit;
 
     for (Int_t d = 0; d < fNumDets; d++)

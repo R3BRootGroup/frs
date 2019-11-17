@@ -22,7 +22,7 @@
 #include "R3BFrsData.h"
 #include "R3BFrsHit2AnaS4.h"
 #include "R3BFrsMappedData.h"
-#include "R3BMusicHitData.h"
+#include "FRSMusicHitData.h"
 #include "R3BTpcHitData.h"
 
 Double_t const c = 299792458.0;     // Light velocity
@@ -166,7 +166,7 @@ InitStatus R3BFrsHit2AnaS4::Init()
         return kFATAL;
     }
 
-    fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("MusicHitData");
+    fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
     if (!fMusicHitDataCA)
     {
         return kFATAL;
@@ -214,14 +214,14 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
         return; // FIXME:include here warning!
 
     R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
-    R3BMusicHitData** HitMusic = new R3BMusicHitData*[nHitMusic];
+    FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
     R3BTpcHitData** HitTpc = new R3BTpcHitData*[nHitTpc];
 
     // Z from musics ------------------------------------
     Double_t countz = 0;
     for (Int_t i = 0; i < nHitMusic; i++)
     {
-        HitMusic[i] = (R3BMusicHitData*)(fMusicHitDataCA->At(i));
+        HitMusic[i] = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
         if (HitMusic[i]->GetZ() > 1)
         {
             fZ = fZ + HitMusic[i]->GetZ();

@@ -1,30 +1,30 @@
 // -------------------------------------------------------------------------
-// -----         R3BMusicCal2HitPar source file                  -----
+// -----               FRSMusicCal2HitPar source file                  -----
 // -----             Created 29/05/18  by J.L. Rodriguez-Sanchez       -----
 // -------------------------------------------------------------------------
 
-#ifndef R3BMusicCal2HitPar_H
-#define R3BMusicCal2HitPar_H
+#ifndef FRSMusicCal2HitPar_H
+#define FRSMusicCal2HitPar_H
 
 #include "FairTask.h"
 #include "TH1F.h"
 
 class TClonesArray;
-class R3BMusicHitPar;
+class FRSMusicHitPar;
 class R3BEventHeader;
 
-class R3BMusicCal2HitPar : public FairTask
+class FRSMusicCal2HitPar : public FairTask
 {
 
   public:
     /** Default constructor **/
-    R3BMusicCal2HitPar();
+    FRSMusicCal2HitPar();
 
     /** Standard constructor **/
-    R3BMusicCal2HitPar(const char* name, Int_t iVerbose = 1);
+    FRSMusicCal2HitPar(const char* name, Int_t iVerbose = 1);
 
     /** Destructor **/
-    virtual ~R3BMusicCal2HitPar();
+    virtual ~FRSMusicCal2HitPar();
 
     /** Virtual method Init **/
     virtual InitStatus Init();
@@ -84,7 +84,7 @@ class R3BMusicCal2HitPar : public FairTask
     Double_t fSigma;
     Double_t fMean;
 
-    R3BMusicHitPar* fDet_Par;      /**< Parameter container. >*/
+    FRSMusicHitPar* fDet_Par;      /**< Parameter container. >*/
     TClonesArray* fMusicCalDataCA; /**< Array with Music Cal- input data. >*/
 
     TArrayF* fZPeaks;
@@ -93,7 +93,7 @@ class R3BMusicCal2HitPar : public FairTask
     char* fOutputFile;
 
   public:
-    ClassDef(R3BMusicCal2HitPar, 0);
+    ClassDef(FRSMusicCal2HitPar, 0);
 };
 
 #endif

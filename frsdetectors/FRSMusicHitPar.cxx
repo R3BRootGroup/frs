@@ -1,9 +1,9 @@
 // ------------------------------------------------------------------
-// -----            R3BMusicHitPar source file                  -----
+// -----            FRSMusicHitPar source file                  -----
 // -----         Created 29/05/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
-#include "R3BMusicHitPar.h"
+#include "FRSMusicHitPar.h"
 
 #include "FairLogger.h"
 #include "FairParamList.h"
@@ -18,7 +18,7 @@ using std::cout;
 using std::endl;
 
 // ---- Standard Constructor ---------------------------------------------------
-R3BMusicHitPar::R3BMusicHitPar(const char* name, const char* title, const char* context)
+FRSMusicHitPar::FRSMusicHitPar(const char* name, const char* title, const char* context)
     : FairParGenericSet(name, title, context)
 {
     fDetHitParams = new TArrayF(2); // 2CalibrationParameters
@@ -27,23 +27,23 @@ R3BMusicHitPar::R3BMusicHitPar(const char* name, const char* title, const char* 
 }
 
 // ----  Destructor ------------------------------------------------------------
-R3BMusicHitPar::~R3BMusicHitPar()
+FRSMusicHitPar::~FRSMusicHitPar()
 {
     clear();
     delete fDetHitParams;
 }
 
 // ----  Method clear ----------------------------------------------------------
-void R3BMusicHitPar::clear()
+void FRSMusicHitPar::clear()
 {
     status = kFALSE;
     resetInputVersions();
 }
 
 // ----  Method putParams ------------------------------------------------------
-void R3BMusicHitPar::putParams(FairParamList* list)
+void FRSMusicHitPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BMusicHitPar::putParams() called";
+    LOG(INFO) << "FRSMusicHitPar::putParams() called";
     if (!list)
     {
         return;
@@ -54,26 +54,26 @@ void R3BMusicHitPar::putParams(FairParamList* list)
 
     fDetHitParams->Set(array_size);
 
-    list->add("musicHitPar", *fDetHitParams);
-    list->add("musicDetNumberPar", fNumDets);
-    list->add("musicHitParamsFitPar", fNumParamsFit);
+    list->add("frsmusicHitPar", *fDetHitParams);
+    list->add("frsmusicDetNumberPar", fNumDets);
+    list->add("frsmusicHitParamsFitPar", fNumParamsFit);
 }
 
 // ----  Method getParams ------------------------------------------------------
-Bool_t R3BMusicHitPar::getParams(FairParamList* list)
+Bool_t FRSMusicHitPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BMusicHitPar::getParams() called";
+    LOG(INFO) << "FRSMusicHitPar::getParams() called";
     if (!list)
     {
         return kFALSE;
     }
 
-    if (!list->fill("musicDetNumberPar", &fNumDets))
+    if (!list->fill("frsmusicDetNumberPar", &fNumDets))
     {
         return kFALSE;
     }
 
-    if (!list->fill("musicHitParamsFitPar", &fNumParamsFit))
+    if (!list->fill("frsmusicHitParamsFitPar", &fNumParamsFit))
     {
         return kFALSE;
     }
@@ -82,9 +82,9 @@ Bool_t R3BMusicHitPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fDetHitParams->Set(array_size);
 
-    if (!(list->fill("musicHitPar", fDetHitParams)))
+    if (!(list->fill("frsmusicHitPar", fDetHitParams)))
     {
-        LOG(INFO) << "---Could not initialize musicHitPar";
+        LOG(INFO) << "---Could not initialize frsmusicHitPar";
         return kFALSE;
     }
 
@@ -92,9 +92,9 @@ Bool_t R3BMusicHitPar::getParams(FairParamList* list)
 }
 
 // ----  Method printParams ----------------------------------------------------
-void R3BMusicHitPar::printParams()
+void FRSMusicHitPar::printParams()
 {
-    LOG(INFO) << "R3BMusicHitPar: music detector Parameters: ";
+    LOG(INFO) << "FRSMusicHitPar: music detector Parameters: ";
     Int_t array_size = fNumDets * fNumParamsFit;
 
     for (Int_t d = 0; d < fNumDets; d++)

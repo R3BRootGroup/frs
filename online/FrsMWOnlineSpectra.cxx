@@ -237,6 +237,10 @@ void FrsMWOnlineSpectra::FinishEvent()
     {
         fMapItemsMw->Clear();
     }
+    if (fHitItemsMw)
+    {
+        fHitItemsMw->Clear();
+    }
 }
 
 void FrsMWOnlineSpectra::FinishTask()

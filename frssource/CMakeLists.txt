@@ -30,12 +30,14 @@ link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
 R3BFrsReader.cxx
+VftxSciReader.cxx
 R3BFrsReaderNov19.cxx
 R3BWasaReader.cxx
 )
 
 Set(STRUCT_HEADERS
 ext_h101_frs.h
+ext_h101_frssci.h
 ext_h101_wasa.h
 )
 

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------
-// -----             R3BMusicMapped2Cal source file                 -----
+// -----             FRSMusicMapped2Cal source file                 -----
 // -----         Created 22/07/18  by J.L. Rodriguez-Sanchez        -----
 // ----------------------------------------------------------------------
 
@@ -17,14 +17,14 @@
 #include <iomanip>
 
 // Music headers
-#include "R3BMusicCalData.h"
-#include "R3BMusicCalPar.h"
-#include "R3BMusicMapped2Cal.h"
-#include "R3BMusicMappedData.h"
+#include "FRSMusicCalData.h"
+#include "FRSMusicCalPar.h"
+#include "FRSMusicMapped2Cal.h"
+#include "FRSMusicMappedData.h"
 
-// R3BMusicMapped2Cal: Default Constructor --------------------------
-R3BMusicMapped2Cal::R3BMusicMapped2Cal()
-    : FairTask("R3B Music Calibrator", 1)
+// FRSMusicMapped2Cal: Default Constructor --------------------------
+FRSMusicMapped2Cal::FRSMusicMapped2Cal()
+    : FairTask("FRS Music Calibrator", 1)
     , NumDets(0)
     , NumAnodes(8)
     , NumParams(0)
@@ -37,8 +37,8 @@ R3BMusicMapped2Cal::R3BMusicMapped2Cal()
 {
 }
 
-// R3BMusicMapped2CalPar: Standard Constructor --------------------------
-R3BMusicMapped2Cal::R3BMusicMapped2Cal(const char* name, Int_t iVerbose)
+// FRSMusicMapped2CalPar: Standard Constructor --------------------------
+FRSMusicMapped2Cal::FRSMusicMapped2Cal(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , NumDets(0)
     , NumAnodes(8)
@@ -52,17 +52,17 @@ R3BMusicMapped2Cal::R3BMusicMapped2Cal(const char* name, Int_t iVerbose)
 {
 }
 
-// Virtual R3BMusicMapped2Cal: Destructor
-R3BMusicMapped2Cal::~R3BMusicMapped2Cal()
+// Virtual FRSMusicMapped2Cal: Destructor
+FRSMusicMapped2Cal::~FRSMusicMapped2Cal()
 {
-    LOG(INFO) << "R3BMusicMapped2Cal: Delete instance";
+    LOG(INFO) << "FRSMusicMapped2Cal: Delete instance";
     if (fMusicMappedDataCA)
         delete fMusicMappedDataCA;
     if (fMusicCalDataCA)
         delete fMusicCalDataCA;
 }
 
-void R3BMusicMapped2Cal::SetParContainers()
+void FRSMusicMapped2Cal::SetParContainers()
 {
 
     // Parameter Container
@@ -73,18 +73,18 @@ void R3BMusicMapped2Cal::SetParContainers()
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
-    fCal_Par = (R3BMusicCalPar*)rtdb->getContainer("musicCalPar");
+    fCal_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
     if (!fCal_Par)
     {
-        LOG(ERROR) << "R3BMusicMapped2CalPar::Init() Couldn't get handle on musicCalPar container";
+        LOG(ERROR) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
     }
     else
     {
-        LOG(INFO) << "R3BMusicMapped2CalPar:: musicCalPar container open";
+        LOG(INFO) << "FRSMusicMapped2CalPar:: frsmusicCalPar container open";
     }
 }
 
-void R3BMusicMapped2Cal::SetParameter()
+void FRSMusicMapped2Cal::SetParameter()
 {
 
     //--- Parameter Container ---
@@ -92,9 +92,9 @@ void R3BMusicMapped2Cal::SetParameter()
     NumAnodes = fCal_Par->GetNumAnodes();        // Number of anodes
     NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
 
-    LOG(INFO) << "R3BMusicMapped2Cal: Nb detectors: " << NumDets;
-    LOG(INFO) << "R3BMusicMapped2Cal: Nb anodes: " << NumAnodes;
-    LOG(INFO) << "R3BMusicMapped2Cal: Nb parameters from pedestal fit: " << NumParams;
+    LOG(INFO) << "FRSMusicMapped2Cal: Nb detectors: " << NumDets;
+    LOG(INFO) << "FRSMusicMapped2Cal: Nb anodes: " << NumAnodes;
+    LOG(INFO) << "FRSMusicMapped2Cal: Nb parameters from pedestal fit: " << NumParams;
 
     CalParams = new TArrayF();
     Int_t array_size = NumDets * NumAnodes * NumParams;
@@ -108,14 +108,14 @@ void R3BMusicMapped2Cal::SetParameter()
         for (Int_t i = 0; i < NumAnodes; i++)
             if (CalParams->GetAt(NumParams * i + 1 + NumAnodes * d * NumParams) == -1)
                 numdeadanodes++;
-        LOG(INFO) << "R3BMusicMapped2Cal: Nb of dead anodes in MUSIC " << d + 1 << ": " << numdeadanodes;
+        LOG(INFO) << "FRSMusicMapped2Cal: Nb of dead anodes in MUSIC " << d + 1 << ": " << numdeadanodes;
     }
 }
 
 // -----   Public method Init   --------------------------------------------
-InitStatus R3BMusicMapped2Cal::Init()
+InitStatus FRSMusicMapped2Cal::Init()
 {
-    LOG(INFO) << "R3BMusicMapped2Cal: Init";
+    LOG(INFO) << "FRSMusicMapped2Cal: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -124,7 +124,7 @@ InitStatus R3BMusicMapped2Cal::Init()
         return kFATAL;
     }
 
-    fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("MusicMappedData");
+    fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
     if (!fMusicMappedDataCA)
     {
         return kFATAL;
@@ -132,14 +132,14 @@ InitStatus R3BMusicMapped2Cal::Init()
 
     // OUTPUT DATA
     // Calibrated data
-    fMusicCalDataCA = new TClonesArray("R3BMusicCalData", 10);
+    fMusicCalDataCA = new TClonesArray("FRSMusicCalData", 10);
     if (!fOnline)
     {
-        rootManager->Register("MusicCalData", "MUSIC Cal", fMusicCalDataCA, kTRUE);
+        rootManager->Register("FRSMusicCalData", "MUSIC Cal", fMusicCalDataCA, kTRUE);
     }
     else
     {
-        rootManager->Register("MusicCalData", "MUSIC Cal", fMusicCalDataCA, kFALSE);
+        rootManager->Register("FRSMusicCalData", "MUSIC Cal", fMusicCalDataCA, kFALSE);
     }
 
     SetParameter();
@@ -147,14 +147,14 @@ InitStatus R3BMusicMapped2Cal::Init()
 }
 
 // -----   Public method ReInit   ----------------------------------------------
-InitStatus R3BMusicMapped2Cal::ReInit()
+InitStatus FRSMusicMapped2Cal::ReInit()
 {
     SetParContainers();
     return kSUCCESS;
 }
 
 // -----   Public method Execution   --------------------------------------------
-void R3BMusicMapped2Cal::Exec(Option_t* option)
+void FRSMusicMapped2Cal::Exec(Option_t* option)
 {
     // Reset entries in output arrays, local arrays
     Reset();
@@ -167,11 +167,11 @@ void R3BMusicMapped2Cal::Exec(Option_t* option)
     // Reading the Input -- Mapped Data --
     Int_t nHits = fMusicMappedDataCA->GetEntries();
     if (nHits != NumAnodes * NumDets && nHits > 0)
-        LOG(WARNING) << "R3BMusicMapped2Cal: nHits!=" << nHits << " NumAnodes:NumDets" << NumAnodes << ":" << NumDets;
+        LOG(WARNING) << "FRSMusicMapped2Cal: nHits!=" << nHits << " NumAnodes:NumDets" << NumAnodes << ":" << NumDets;
     if (!nHits)
         return;
 
-    R3BMusicMappedData** mappedData = new R3BMusicMappedData*[nHits];
+    FRSMusicMappedData** mappedData = new FRSMusicMappedData*[nHits];
     Int_t detId;
     Int_t anodeId;
     Double_t energy;
@@ -180,7 +180,7 @@ void R3BMusicMapped2Cal::Exec(Option_t* option)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        mappedData[i] = (R3BMusicMappedData*)(fMusicMappedDataCA->At(i));
+        mappedData[i] = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
         detId = mappedData[i]->GetDetectorId();
         anodeId = mappedData[i]->GetAnodeId();
 
@@ -201,10 +201,10 @@ void R3BMusicMapped2Cal::Exec(Option_t* option)
 }
 
 // -----   Protected method Finish   --------------------------------------------
-void R3BMusicMapped2Cal::Finish() {}
+void FRSMusicMapped2Cal::Finish() {}
 
 // -----   Public method Reset   ------------------------------------------------
-void R3BMusicMapped2Cal::Reset()
+void FRSMusicMapped2Cal::Reset()
 {
     LOG(DEBUG) << "Clearing MusicCalData Structure";
     if (fMusicCalDataCA)
@@ -212,12 +212,12 @@ void R3BMusicMapped2Cal::Reset()
 }
 
 // -----   Private method AddCalData  --------------------------------------------
-R3BMusicCalData* R3BMusicMapped2Cal::AddCalData(Int_t detid, Int_t anodeid, Double_t energy)
+FRSMusicCalData* FRSMusicMapped2Cal::AddCalData(Int_t detid, Int_t anodeid, Double_t energy)
 {
-    // It fills the R3BMusicCalData
+    // It fills the FRSMusicCalData
     TClonesArray& clref = *fMusicCalDataCA;
     Int_t size = clref.GetEntriesFast();
-    return new (clref[size]) R3BMusicCalData(detid, anodeid, energy);
+    return new (clref[size]) FRSMusicCalData(detid, anodeid, energy);
 }
 
-ClassImp(R3BMusicMapped2Cal)
+ClassImp(FRSMusicMapped2Cal)

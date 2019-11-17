@@ -1,29 +1,29 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BMusicHitData                            -----
+// -----                      FRSMusicHitData                            -----
 // -----                  Created 12/05/2018 by J.L. Rodriguez           -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#ifndef R3BMusicHitData_H
-#define R3BMusicHitData_H
+#ifndef FRSMusicHitData_H
+#define FRSMusicHitData_H
 #include "TObject.h"
 
-class R3BMusicHitData : public TObject
+class FRSMusicHitData : public TObject
 {
 
   public:
     // Default Constructor
-    R3BMusicHitData();
+    FRSMusicHitData();
 
     /** Standard Constructor
      *@param detId       Detector unique identifier
      *@param charge      Total energy deposited in the detector in units of Z
      **/
-    R3BMusicHitData(Int_t detId, Double_t charge);
+    FRSMusicHitData(Int_t detId, Double_t charge);
 
     // Destructor
-    ~R3BMusicHitData() {}
+    ~FRSMusicHitData() {}
 
     // Getters
     inline const Int_t& GetDetectorId() const { return fDetId; }
@@ -34,7 +34,7 @@ class R3BMusicHitData : public TObject
     Double_t fCharge; // total energy in units of Z
 
   public:
-    ClassDef(R3BMusicHitData, 1)
+    ClassDef(FRSMusicHitData, 1)
 };
 
 #endif

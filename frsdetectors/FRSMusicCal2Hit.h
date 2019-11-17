@@ -1,34 +1,34 @@
 // ----------------------------------------------------------------------
 // -----                                                            -----
-// -----                     R3BMusicCal2Hit                     -----
+// -----                     FRSMusicCal2Hit                     -----
 // -----             Created 22/07/18  by J.L. Rodriguez-Sanchez    -----
 // ----------------------------------------------------------------------
 
-#ifndef R3BMusicCal2Hit_H
-#define R3BMusicCal2Hit_H
+#ifndef FRSMusicCal2Hit_H
+#define FRSMusicCal2Hit_H
 
+#include "FRSMusicCal2HitPar.h"
+#include "FRSMusicCalData.h"
+#include "FRSMusicHitData.h"
 #include "FairTask.h"
-#include "R3BMusicCal2HitPar.h"
-#include "R3BMusicCalData.h"
-#include "R3BMusicHitData.h"
 #include "TH1F.h"
 #include <TRandom.h>
 
 class TClonesArray;
-class R3BMusicHitPar;
+class FRSMusicHitPar;
 
-class R3BMusicCal2Hit : public FairTask
+class FRSMusicCal2Hit : public FairTask
 {
 
   public:
     /** Default constructor **/
-    R3BMusicCal2Hit();
+    FRSMusicCal2Hit();
 
     /** Standard constructor **/
-    R3BMusicCal2Hit(const char* name, Int_t iVerbose = 1);
+    FRSMusicCal2Hit(const char* name, Int_t iVerbose = 1);
 
     /** Destructor **/
-    virtual ~R3BMusicCal2Hit();
+    virtual ~FRSMusicCal2Hit();
 
     /** Virtual method Exec **/
     virtual void Exec(Option_t* option);
@@ -62,17 +62,17 @@ class R3BMusicCal2Hit : public FairTask
 
     Bool_t fOnline; // Don't store data for online
 
-    R3BMusicHitPar* fCal_Par;      /**< Parameter container. >*/
+    FRSMusicHitPar* fCal_Par;      /**< Parameter container. >*/
     TClonesArray* fMusicCalDataCA; /**< Array with Music Cal- input data. >*/
     TClonesArray* fMusicHitDataCA; /**< Array with Music Hit- output data. >*/
 
-    /** Private method MusicHitData **/
-    //** Adds a MusicHitData to the detector
-    R3BMusicHitData* AddHitData(Int_t detid, Double_t charge);
+    /** Private method FRSMusicHitData **/
+    //** Adds a FRSMusicHitData to the detector
+    FRSMusicHitData* AddHitData(Int_t detid, Double_t charge);
 
   public:
     // Class definition
-    ClassDef(R3BMusicCal2Hit, 1)
+    ClassDef(FRSMusicCal2Hit, 1)
 };
 
 #endif

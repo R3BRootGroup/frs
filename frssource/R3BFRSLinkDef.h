@@ -7,8 +7,10 @@
 #pragma link C++ class R3BFrsReader + ;
 #pragma link C++ class R3BWasaReader + ;
 #pragma link C++ class R3BFrsReaderNov19 + ;
+#pragma link C++ class VftxSciReader + ;
 
 #pragma link C++ class EXT_STR_h101_FRS_t;
+#pragma link C++ class EXT_STR_h101_frssci_onion_t;
 #pragma link C++ class EXT_STR_h101_WASA_t;
 
 #endif

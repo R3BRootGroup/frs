@@ -1,30 +1,30 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BMusicCalData                            -----
+// -----                      FRSMusicCalData                            -----
 // -----                  Created 12/05/2018 by J.L. Rodriguez           -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#ifndef R3BMusicCalData_H
-#define R3BMusicCalData_H
+#ifndef FRSMusicCalData_H
+#define FRSMusicCalData_H
 #include "TObject.h"
 
-class R3BMusicCalData : public TObject
+class FRSMusicCalData : public TObject
 {
 
   public:
     // Default Constructor
-    R3BMusicCalData();
+    FRSMusicCalData();
 
     /** Standard Constructor
      *@param detId       Detector unique identifier
      *@param anodeId     Anode unique identifier
      *@param energy      Total energy deposited in the anode
      **/
-    R3BMusicCalData(Int_t detId, Int_t anodeId, Int_t energy);
+    FRSMusicCalData(Int_t detId, Int_t anodeId, Int_t energy);
 
     // Destructor
-    ~R3BMusicCalData() {}
+    ~FRSMusicCalData() {}
 
     // Getters
     inline const Int_t& GetDetectorId() const { return fDetId; }
@@ -36,7 +36,7 @@ class R3BMusicCalData : public TObject
     Int_t fEnergy;          // total energy in the anode
 
   public:
-    ClassDef(R3BMusicCalData, 1)
+    ClassDef(FRSMusicCalData, 1)
 };
 
 #endif

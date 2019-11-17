@@ -1,30 +1,30 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BMusicMappedData                         -----
+// -----                      FRSMusicMappedData                         -----
 // -----                  Created 12/05/2018 by J.L. Rodriguez           -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#ifndef R3BMusicMappedData_H
-#define R3BMusicMappedData_H
+#ifndef FRSMusicMappedData_H
+#define FRSMusicMappedData_H
 #include "TObject.h"
 
-class R3BMusicMappedData : public TObject
+class FRSMusicMappedData : public TObject
 {
 
   public:
     // Default Constructor
-    R3BMusicMappedData();
+    FRSMusicMappedData();
 
     /** Standard Constructor
      *@param detId       Detector unique identifier
      *@param anodeId     Anode unique identifier
      *@param energy      Total energy deposited in the anode
      **/
-    R3BMusicMappedData(Int_t detId, Int_t anodeId, Int_t energy);
+    FRSMusicMappedData(Int_t detId, Int_t anodeId, Int_t energy);
 
     // Destructor
-    ~R3BMusicMappedData() {}
+    ~FRSMusicMappedData() {}
 
     // Getters
     inline const Int_t& GetDetectorId() const { return fDetId; }
@@ -36,7 +36,7 @@ class R3BMusicMappedData : public TObject
     Int_t fEnergy;          // total energy in the anode
 
   public:
-    ClassDef(R3BMusicMappedData, 1)
+    ClassDef(FRSMusicMappedData, 1)
 };
 
 #endif

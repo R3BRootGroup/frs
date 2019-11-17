@@ -1,11 +1,11 @@
 // ------------------------------------------------------------
-// -----                  FrsMWOnlineSpectra              -----
+// -----                  FrsMusicOnlineSpectra           -----
 // -----    Created 16/11/19  by J.L. Rodriguez-Sanchez   -----
 // -----            Fill FRS online histograms            -----
 // ------------------------------------------------------------
 
-#ifndef FrsMWOnlineSpectra_H
-#define FrsMWOnlineSpectra_H
+#ifndef FrsMusicOnlineSpectra_H
+#define FrsMusicOnlineSpectra_H
 
 #include "FairTask.h"
 #include "TCanvas.h"
@@ -19,15 +19,16 @@
 #include <sstream>
 #include <vector>
 
-#define MWDET_MAX 13
+#define N_ANODES 8
+#define MUSDET_MAX 3
 
 class TClonesArray;
 class R3BEventHeader;
 
 /**
- * This taks reads MW data and plots online histograms
+ * This taks reads Music data and plots online histograms
  */
-class FrsMWOnlineSpectra : public FairTask
+class FrsMusicOnlineSpectra : public FairTask
 {
 
   public:
@@ -35,7 +36,7 @@ class FrsMWOnlineSpectra : public FairTask
      * Default constructor.
      * Creates an instance of the task with default parameters.
      */
-    FrsMWOnlineSpectra();
+    FrsMusicOnlineSpectra();
 
     /**
      * Standard constructor.
@@ -44,13 +45,13 @@ class FrsMWOnlineSpectra : public FairTask
      * @param iVerbose a verbosity level.
      * @param namedet a name of the detector.
      */
-    FrsMWOnlineSpectra(const TString& name, Int_t iVerbose = 1, const TString& namedet = "MW");
+    FrsMusicOnlineSpectra(const TString& name, Int_t iVerbose = 1, const TString& namedet = "MUSIC");
 
     /**
      * Destructor.
      * Frees the memory used by the object.
      */
-    virtual ~FrsMWOnlineSpectra();
+    virtual ~FrsMusicOnlineSpectra();
 
     /**
      * Method for task initialization.
@@ -86,8 +87,9 @@ class FrsMWOnlineSpectra : public FairTask
     virtual void Reset_Histo();
 
   private:
-    TClonesArray* fMapItemsMw; /**< Array with Mapped items. */
-    TClonesArray* fHitItemsMw; /**< Array with Hit items. */
+    TClonesArray* fMapItems; /**< Array with Mapped items. */
+    TClonesArray* fCalItems; /**< Array with Cal items. */
+    TClonesArray* fHitItems; /**< Array with Hit items. */
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
@@ -95,43 +97,30 @@ class FrsMWOnlineSpectra : public FairTask
     TString fNameDet;
 
     // Canvas
-    TCanvas *cMWPCCal, *cMWPCCal2D;
+    TCanvas *cMusE, *cMusECal;
+    TCanvas *cMusT, *cMusTCal;
+    TCanvas *cMushit;
 
     // Histograms for Mapped data
-    TH1F* fh1_mw_a;
-    TH1F* fh1_mw_xl;
-    TH1F* fh1_mw_xr;
-    TH1F* fh1_mw_yu;
-    TH1F* fh1_mw_yd;
-    TH1F* fh1_mw_xsum;
-    TH1F* fh1_mw_ysum;
+    TH1F* fh_music_energy_per_anode[N_ANODES];
+    TH1F* fh_music_t_per_anode[N_ANODES];
 
     // Histograms for Cal data
-    TH1F* fh1_mw_x;
-    TH1F* fh1_mw_y;
-    TH2F* fh2_mw_xy;
+    TH1F* fh_music_energy_per_anodecal[N_ANODES];
 
+    // Histograms for Hit data
+    TH1F* fh_music_Z;
 
-    const char *fDetectorNames[MWDET_MAX + 1] =
+    const char *fDetectorNames[MUSDET_MAX + 1] =
     {
-      "MW11",
-      "MW21",
-      "MW22",
-      "MW31",
-      "MW41",
-      "MW42",
-      "MW51",
-      "MW61",
-      "MW71",
-      "MW81",
-      "MW82",
-      "MWB1",
-      "MWB2",
+      "Music41",
+      "Music42",
+      "Music43",
       NULL
    };
 
   public:
-    ClassDef(FrsMWOnlineSpectra, 1)
+    ClassDef(FrsMusicOnlineSpectra, 1)
 };
 
 #endif

@@ -23,6 +23,7 @@
 class TClonesArray;
 class R3BEventHeader;
 class FrsMWOnlineSpectra;
+class FrsMusicOnlineSpectra;
 
 /**
  * This taks reads FRS data and plots online histograms
@@ -91,6 +92,8 @@ class R3BFrsOnlineSpectra : public FairTask
 
   private:
     TClonesArray* fMappedItemsFrs;  /**< Array with mapped items.           */
+    TClonesArray* fSpillMappedItemsFrs;  /**< Array with mapped items.      */
+    TClonesArray* fCalItemsSpill;
     TClonesArray* fMapItemsMusic;   /**< Array with map items for musics.   */
     TClonesArray* fCalItemsMusic;   /**< Array with cal items for musics.   */
     TClonesArray* fHitItemsMusic;   /**< Array with hit items for musics.   */
@@ -100,6 +103,17 @@ class R3BFrsOnlineSpectra : public FairTask
     TClonesArray* fWRItemsMaster;   /**< Array with WR-Master items.        */
 
     FrsMWOnlineSpectra* fMw11Online;/**< Array with MW online items.        */
+    FrsMWOnlineSpectra* fMw21Online;
+    FrsMWOnlineSpectra* fMw22Online;
+    FrsMWOnlineSpectra* fMw31Online;
+    FrsMWOnlineSpectra* fMw51Online;
+    FrsMWOnlineSpectra* fMw71Online;
+    FrsMWOnlineSpectra* fMw81Online;
+    FrsMWOnlineSpectra* fMw82Online;
+
+    FrsMusicOnlineSpectra* fMus41Online;
+    FrsMusicOnlineSpectra* fMus42Online;
+    FrsMusicOnlineSpectra* fMus43Online;
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
@@ -137,6 +151,8 @@ class R3BFrsOnlineSpectra : public FairTask
     TH1F* fh_SeetramtC;
     TH1F* fh_IcC;
     TH1F* fh_Sci00C;
+
+    TH1F* fh_SeetSpill;
 
     // SCI
     TH1F *fh_sci21le, *fh_sci21re;

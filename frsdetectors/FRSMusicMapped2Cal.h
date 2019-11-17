@@ -1,33 +1,33 @@
 // ----------------------------------------------------------------------
 // -----                                                            -----
-// -----                     R3BMusicMapped2Cal                     -----
+// -----                     FRSMusicMapped2Cal                     -----
 // -----             Created 22/07/18  by J.L. Rodriguez-Sanchez    -----
 // ----------------------------------------------------------------------
 
-#ifndef R3BMusicMapped2Cal_H
-#define R3BMusicMapped2Cal_H
+#ifndef FRSMusicMapped2Cal_H
+#define FRSMusicMapped2Cal_H
 
+#include "FRSMusicCalData.h"
+#include "FRSMusicMappedData.h"
 #include "FairTask.h"
-#include "R3BMusicCalData.h"
-#include "R3BMusicMappedData.h"
 #include "TH1F.h"
 #include <TRandom.h>
 
 class TClonesArray;
-class R3BMusicCalPar;
+class FRSMusicCalPar;
 
-class R3BMusicMapped2Cal : public FairTask
+class FRSMusicMapped2Cal : public FairTask
 {
 
   public:
     /** Default constructor **/
-    R3BMusicMapped2Cal();
+    FRSMusicMapped2Cal();
 
     /** Standard constructor **/
-    R3BMusicMapped2Cal(const char* name, Int_t iVerbose = 1);
+    FRSMusicMapped2Cal(const char* name, Int_t iVerbose = 1);
 
     /** Destructor **/
-    virtual ~R3BMusicMapped2Cal();
+    virtual ~FRSMusicMapped2Cal();
 
     /** Virtual method Exec **/
     virtual void Exec(Option_t* option);
@@ -61,17 +61,17 @@ class R3BMusicMapped2Cal : public FairTask
 
     Bool_t fOnline; // Don't store data for online
 
-    R3BMusicCalPar* fCal_Par;         /**< Parameter container. >*/
-    TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped- input data. >*/
-    TClonesArray* fMusicCalDataCA;    /**< Array with Music Cal- output data. >*/
+    FRSMusicCalPar* fCal_Par;         /**< Parameter container. >*/
+    TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped-input data. >*/
+    TClonesArray* fMusicCalDataCA;    /**< Array with Music Cal-output data. >*/
 
     /** Private method AddCalData **/
-    //** Adds a MusicCalData to the anodeCalCollection
-    R3BMusicCalData* AddCalData(Int_t detid, Int_t anodeid, Double_t energy);
+    //** Adds a FRSMusicCalData to the anodeCalCollection
+    FRSMusicCalData* AddCalData(Int_t detid, Int_t anodeid, Double_t energy);
 
   public:
     // Class definition
-    ClassDef(R3BMusicMapped2Cal, 1)
+    ClassDef(FRSMusicMapped2Cal, 1)
 };
 
 #endif

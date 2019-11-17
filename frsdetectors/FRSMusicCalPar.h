@@ -1,10 +1,10 @@
 // ------------------------------------------------------------------
-// -----         R3BMusicHitPar source file                  -----
+// -----            FRSMusicCalPar source file                  -----
 // -----         Created 29/05/18  by J.L. Rodriguez-Sanchez    -----
 // ------------------------------------------------------------------
 
-#ifndef R3BMusicHitPar_H
-#define R3BMusicHitPar_H
+#ifndef FRSMusicCalPar_H
+#define FRSMusicCalPar_H
 
 #include "FairParGenericSet.h" // for FairParGenericSet
 
@@ -17,17 +17,17 @@ using namespace std;
 
 class FairParamList;
 
-class R3BMusicHitPar : public FairParGenericSet
+class FRSMusicCalPar : public FairParGenericSet
 {
 
   public:
     /** Standard constructor **/
-    R3BMusicHitPar(const char* name = "musicHitPar",
-                   const char* title = "MUSIC Hit Parameters",
-                   const char* context = "MUSICHitParContext");
+    FRSMusicCalPar(const char* name = "frsmusicCalPar",
+                   const char* title = "FRS MUSIC Parameters",
+                   const char* context = "FRSMUSICCalParContext");
 
     /** Destructor **/
-    virtual ~R3BMusicHitPar();
+    virtual ~FRSMusicCalPar();
 
     /** Method to reset all parameters **/
     virtual void clear();
@@ -43,26 +43,29 @@ class R3BMusicHitPar : public FairParGenericSet
 
     /** Accessor functions **/
     const Double_t GetNumDets() { return fNumDets; }
+    const Double_t GetNumAnodes() { return fNumAnodes; }
     const Double_t GetNumParametersFit() { return fNumParamsFit; }
-    TArrayF* GetDetectorHitParams() { return fDetHitParams; }
+    TArrayF* GetAnodeCalParams() { return fAnodeCalParams; }
 
     void SetNumDets(Int_t numberDets) { fNumDets = numberDets; }
+    void SetNumAnodes(Int_t numberAnodes) { fNumAnodes = numberAnodes; }
     void SetNumParametersFit(Int_t numberParams) { fNumParamsFit = numberParams; }
-    void SetDetectorHitParams(Double_t cc, Int_t ii) { fDetHitParams->AddAt(cc, ii); }
+    void SetAnodeCalParams(Double_t cc, Int_t ii) { fAnodeCalParams->AddAt(cc, ii); }
 
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fDetHitParams; // Calibration Parameters for detector
-    Int_t fNumDets;         // number of detectors
-    Int_t fNumParamsFit;    /* number of cal parameters in the fit
-                 gaus: A_fit & B_fit & C_fit*/
+    TArrayF* fAnodeCalParams; // Calibration Parameters for anodes
+    Int_t fNumDets;           // number of detectors
+    Int_t fNumAnodes;         // number of anodes
+    Int_t fNumParamsFit;      /* number of cal parameters in the fit
+                                 gaus: A_fit & B_fit & C_fit*/
 
-    const R3BMusicHitPar& operator=(const R3BMusicHitPar&); /*< an assignment operator>*/
+    const FRSMusicCalPar& operator=(const FRSMusicCalPar&); /*< an assignment operator>*/
 
-    R3BMusicHitPar(const R3BMusicHitPar&); /*< a copy constructor >*/
+    FRSMusicCalPar(const FRSMusicCalPar&); /*< a copy constructor >*/
 
-    ClassDef(R3BMusicHitPar, 1);
+    ClassDef(FRSMusicCalPar, 1);
 };
 
 #endif

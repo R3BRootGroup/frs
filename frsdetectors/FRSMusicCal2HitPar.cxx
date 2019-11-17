@@ -1,11 +1,11 @@
 // -------------------------------------------------------------------------
-// -----               R3BMusicCal2HitPar source file                  -----
+// -----               FRSMusicCal2HitPar source file                  -----
 // -----             Created 29/05/18  by J.L. Rodriguez-Sanchez       -----
 // -------------------------------------------------------------------------
-#include "R3BMusicCal2HitPar.h"
+#include "FRSMusicCal2HitPar.h"
+#include "FRSMusicCalData.h"
+#include "FRSMusicHitPar.h"
 #include "R3BEventHeader.h"
-#include "R3BMusicCalData.h"
-#include "R3BMusicHitPar.h"
 
 #include "FairLogger.h"
 #include "FairRootManager.h"
@@ -29,9 +29,9 @@
 
 using namespace std;
 
-// R3BMusicCal2HitPar: Default Constructor --------------------------
-R3BMusicCal2HitPar::R3BMusicCal2HitPar()
-    : FairTask("Music Atomic number Finder ", 1)
+// FRSMusicCal2HitPar: Default Constructor --------------------------
+FRSMusicCal2HitPar::FRSMusicCal2HitPar()
+    : FairTask("FRS Music Atomic number Finder ", 1)
     , fDet_Par(NULL)
     , fMusicCalDataCA(NULL)
     , fNumDets(5)
@@ -47,8 +47,8 @@ R3BMusicCal2HitPar::R3BMusicCal2HitPar()
 {
 }
 
-// R3BMusicCal2HitPar: Standard Constructor --------------------------
-R3BMusicCal2HitPar::R3BMusicCal2HitPar(const char* name, Int_t iVerbose)
+// FRSMusicCal2HitPar: Standard Constructor --------------------------
+FRSMusicCal2HitPar::FRSMusicCal2HitPar(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fDet_Par(NULL)
     , fMusicCalDataCA(NULL)
@@ -65,14 +65,19 @@ R3BMusicCal2HitPar::R3BMusicCal2HitPar(const char* name, Int_t iVerbose)
 {
 }
 
-// R3BMusicCal2HitPar: Destructor ----------------------------------------
-R3BMusicCal2HitPar::~R3BMusicCal2HitPar() {}
+// FRSMusicCal2HitPar: Destructor ----------------------------------------
+FRSMusicCal2HitPar::~FRSMusicCal2HitPar()
+{
+    LOG(INFO) << "FRSMusicCal2HitPar: Delete instance";
+    if (fMusicCalDataCA)
+        delete fMusicCalDataCA;
+}
 
 // -----   Public method Init   --------------------------------------------
-InitStatus R3BMusicCal2HitPar::Init()
+InitStatus FRSMusicCal2HitPar::Init()
 {
 
-    LOG(INFO) << "R3BMusicCal2HitPar: Init";
+    LOG(INFO) << "FRSMusicCal2HitPar: Init";
 
     char name[100];
 
@@ -89,7 +94,7 @@ InitStatus R3BMusicCal2HitPar::Init()
         return kFATAL;
     }
 
-    fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("MusicCalData");
+    fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicCalData");
     if (!fMusicCalDataCA)
     {
         return kFATAL;
@@ -101,10 +106,10 @@ InitStatus R3BMusicCal2HitPar::Init()
         return kFATAL;
     }
 
-    fDet_Par = (R3BMusicHitPar*)rtdb->getContainer("musicHitPar");
+    fDet_Par = (FRSMusicHitPar*)rtdb->getContainer("frsmusicHitPar");
     if (!fDet_Par)
     {
-        LOG(ERROR) << "R3BMusicCal2HitPar::Init() Couldn't get handle on musicHitPar container";
+        LOG(ERROR) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicHitPar container";
         return kFATAL;
     }
 
@@ -112,7 +117,7 @@ InitStatus R3BMusicCal2HitPar::Init()
 }
 
 // -----   Public method ReInit   --------------------------------------------
-InitStatus R3BMusicCal2HitPar::ReInit()
+InitStatus FRSMusicCal2HitPar::ReInit()
 {
 
     // MOVE PAR SETTINGS IN INIT TO SETPARCONTAINERS AND CALL ALSO IT HERE
@@ -122,14 +127,14 @@ InitStatus R3BMusicCal2HitPar::ReInit()
 }
 
 // -----   Public method Exec   --------------------------------------------
-void R3BMusicCal2HitPar::Exec(Option_t* opt)
+void FRSMusicCal2HitPar::Exec(Option_t* opt)
 {
 
     Int_t nHits = fMusicCalDataCA->GetEntries();
     if (!nHits)
         return;
 
-    R3BMusicCalData* CalDat;
+    FRSMusicCalData* CalDat;
     Int_t detId, anodeId;
     Double_t energyperanode[5][8]; // max 5 detectors and 8 anodes
     Int_t nbdet = 0;
@@ -140,7 +145,7 @@ void R3BMusicCal2HitPar::Exec(Option_t* opt)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        CalDat = (R3BMusicCalData*)(fMusicCalDataCA->At(i));
+        CalDat = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
         detId = CalDat->GetDetectorId();
         anodeId = CalDat->GetAnodeId();
 
@@ -169,12 +174,12 @@ void R3BMusicCal2HitPar::Exec(Option_t* opt)
 }
 
 // ---- Public method Reset   --------------------------------------------------
-void R3BMusicCal2HitPar::Reset() {}
+void FRSMusicCal2HitPar::Reset() {}
 
-void R3BMusicCal2HitPar::FinishEvent() {}
+void FRSMusicCal2HitPar::FinishEvent() {}
 
 // ---- Public method Finish   --------------------------------------------------
-void R3BMusicCal2HitPar::FinishTask()
+void FRSMusicCal2HitPar::FinishTask()
 {
 
     SearchZ();
@@ -185,10 +190,10 @@ void R3BMusicCal2HitPar::FinishTask()
 }
 
 //------------------
-void R3BMusicCal2HitPar::SearchZ()
+void FRSMusicCal2HitPar::SearchZ()
 {
 
-    LOG(INFO) << "R3BMusicCal2HitPar: Search atomic numbers (Z)";
+    LOG(INFO) << "FRSMusicCal2HitPar: Search atomic numbers (Z)";
 
     Int_t numPars = 2; // by default number of parameters=3
 
@@ -221,7 +226,7 @@ void R3BMusicCal2HitPar::SearchZ()
             Double_t Y[nfound];
 
             if (nfound < 2)
-                LOG(ERROR) << "R3BMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:" << nfound << "<2";
+                LOG(ERROR) << "FRSMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:" << nfound << "<2";
 
             nfound = TMath::Min(nfound, fNumPeaks);
 
@@ -250,7 +255,7 @@ void R3BMusicCal2HitPar::SearchZ()
             {
                 fDet_Par->SetDetectorHitParams(0, numPars * i);
                 fDet_Par->SetDetectorHitParams(1, numPars * i + 1);
-                LOG(INFO) << "R3BMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1";
+                LOG(INFO) << "FRSMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1";
             }
         }
     }
@@ -260,4 +265,4 @@ void R3BMusicCal2HitPar::SearchZ()
     return;
 }
 
-ClassImp(R3BMusicCal2HitPar)
+ClassImp(FRSMusicCal2HitPar)
