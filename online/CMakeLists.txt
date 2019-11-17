@@ -30,6 +30,7 @@ set(SRCS
 R3BFrsOnlineSpectra.cxx
 FrsMWOnlineSpectra.cxx
 FrsTpcOnlineSpectra.cxx
+FrsMusicOnlineSpectra.cxx
 )
 
 # fill list of header files from list of source files

@@ -25,9 +25,9 @@ link_directories( ${LINK_DIRECTORIES})
 set(SRCS
 R3BSeetramCalData.cxx
 R3BFrsMappedData.cxx
-R3BMusicMappedData.cxx
-R3BMusicCalData.cxx
-R3BMusicHitData.cxx
+FRSMusicMappedData.cxx
+FRSMusicCalData.cxx
+FRSMusicHitData.cxx
 R3BTpcMappedData.cxx
 R3BTpcCalData.cxx
 R3BTpcHitData.cxx
@@ -37,6 +37,8 @@ R3BMwHitData.cxx
 R3BMdcMappedData.cxx
 WASATofPoint.cxx
 WASAMdcPoint.cxx
+FrsSpillMappedData.cxx
+VftxSciMappedData.cxx
 )
 
 # fill list of header files from list of source files

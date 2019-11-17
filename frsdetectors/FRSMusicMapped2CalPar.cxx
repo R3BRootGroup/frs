@@ -1,11 +1,12 @@
 // -------------------------------------------------------------------------
-// -----              R3BMusicMapped2CalPar source file                -----
+// -----              FRSMusicMapped2CalPar source file                -----
 // -----            Created 29/05/18  by J.L. Rodriguez-Sanchez        -----
 // -------------------------------------------------------------------------
-#include "R3BMusicMapped2CalPar.h"
+
+#include "FRSMusicMapped2CalPar.h"
+#include "FRSMusicCalPar.h"
+#include "FRSMusicMappedData.h"
 #include "R3BEventHeader.h"
-#include "R3BMusicCalPar.h"
-#include "R3BMusicMappedData.h"
 
 #include "FairLogger.h"
 #include "FairRootManager.h"
@@ -27,9 +28,9 @@
 
 using namespace std;
 
-// R3BMusicMapped2CalPar: Default Constructor --------------------------
-R3BMusicMapped2CalPar::R3BMusicMapped2CalPar()
-    : FairTask("Music Pedestal Finder ", 1)
+// FRSMusicMapped2CalPar: Default Constructor --------------------------
+FRSMusicMapped2CalPar::FRSMusicMapped2CalPar()
+    : FairTask("FRS Music Pedestal Finder ", 1)
     , fAnode_Par(NULL)
     , fMusicMappedDataCA(NULL)
     , fNumDets(0)
@@ -45,8 +46,8 @@ R3BMusicMapped2CalPar::R3BMusicMapped2CalPar()
 {
 }
 
-// R3BMusicMapped2CalPar: Standard Constructor --------------------------
-R3BMusicMapped2CalPar::R3BMusicMapped2CalPar(const char* name, Int_t iVerbose)
+// FRSMusicMapped2CalPar: Standard Constructor --------------------------
+FRSMusicMapped2CalPar::FRSMusicMapped2CalPar(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fAnode_Par(NULL)
     , fMusicMappedDataCA(NULL)
@@ -63,14 +64,19 @@ R3BMusicMapped2CalPar::R3BMusicMapped2CalPar(const char* name, Int_t iVerbose)
 {
 }
 
-// R3BMusicMapped2CalPar: Destructor ----------------------------------------
-R3BMusicMapped2CalPar::~R3BMusicMapped2CalPar() {}
-
-// -----   Public method Init   --------------------------------------------
-InitStatus R3BMusicMapped2CalPar::Init()
+// FRSMusicMapped2CalPar: Destructor ----------------------------------------
+FRSMusicMapped2CalPar::~FRSMusicMapped2CalPar()
 {
 
-    LOG(INFO) << "R3BMusicMapped2CalPar: Init";
+    LOG(INFO) << "FRSMusicMapped2CalPar: Delete instance";
+    if (fMusicMappedDataCA)
+        delete fMusicMappedDataCA;
+}
+
+// -----   Public method Init   --------------------------------------------
+InitStatus FRSMusicMapped2CalPar::Init()
+{
+    LOG(INFO) << "FRSMusicMapped2CalPar: Init";
 
     char name[100];
 
@@ -87,7 +93,7 @@ InitStatus R3BMusicMapped2CalPar::Init()
         return kFATAL;
     }
 
-    fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("MusicMappedData");
+    fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
     if (!fMusicMappedDataCA)
     {
         return kFATAL;
@@ -99,10 +105,10 @@ InitStatus R3BMusicMapped2CalPar::Init()
         return kFATAL;
     }
 
-    fAnode_Par = (R3BMusicCalPar*)rtdb->getContainer("musicCalPar");
+    fAnode_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
     if (!fAnode_Par)
     {
-        LOG(ERROR) << "R3BMusicMapped2CalPar::Init() Couldn't get handle on musicCalPar container";
+        LOG(ERROR) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
         return kFATAL;
     }
 
@@ -110,7 +116,7 @@ InitStatus R3BMusicMapped2CalPar::Init()
 }
 
 // -----   Public method ReInit   --------------------------------------------
-InitStatus R3BMusicMapped2CalPar::ReInit()
+InitStatus FRSMusicMapped2CalPar::ReInit()
 {
 
     // MOVE PAR SETTINGS IN INIT TO SETPARCONTAINERS AND CALL ALSO IT HERE
@@ -120,19 +126,19 @@ InitStatus R3BMusicMapped2CalPar::ReInit()
 }
 
 // -----   Public method Exec   --------------------------------------------
-void R3BMusicMapped2CalPar::Exec(Option_t* opt)
+void FRSMusicMapped2CalPar::Exec(Option_t* opt)
 {
 
     Int_t nHits = fMusicMappedDataCA->GetEntries();
     if (!nHits)
         return;
 
-    R3BMusicMappedData* MapHit;
+    FRSMusicMappedData* MapHit;
     Int_t detId, anodeId;
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        MapHit = (R3BMusicMappedData*)(fMusicMappedDataCA->At(i));
+        MapHit = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
         detId = MapHit->GetDetectorId();
         anodeId = MapHit->GetAnodeId();
 
@@ -142,12 +148,12 @@ void R3BMusicMapped2CalPar::Exec(Option_t* opt)
 }
 
 // ---- Public method Reset   --------------------------------------------------
-void R3BMusicMapped2CalPar::Reset() {}
+void FRSMusicMapped2CalPar::Reset() {}
 
-void R3BMusicMapped2CalPar::FinishEvent() {}
+void FRSMusicMapped2CalPar::FinishEvent() {}
 
 // ---- Public method Finish   --------------------------------------------------
-void R3BMusicMapped2CalPar::FinishTask()
+void FRSMusicMapped2CalPar::FinishTask()
 {
 
     SearchPedestals();
@@ -155,10 +161,10 @@ void R3BMusicMapped2CalPar::FinishTask()
 }
 
 //------------------
-void R3BMusicMapped2CalPar::SearchPedestals()
+void FRSMusicMapped2CalPar::SearchPedestals()
 {
 
-    LOG(INFO) << "R3BMusicMapped2CalPar: Search pedestals";
+    LOG(INFO) << "FRSMusicMapped2CalPar: Search pedestals";
 
     Int_t numPars = 3; // by default number of parameters=3
 
@@ -205,4 +211,4 @@ void R3BMusicMapped2CalPar::SearchPedestals()
     return;
 }
 
-ClassImp(R3BMusicMapped2CalPar)
+ClassImp(FRSMusicMapped2CalPar)

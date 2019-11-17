@@ -1,30 +1,30 @@
 // -------------------------------------------------------------------------
-// -----              R3BMusicMapped2CalPar source file                -----
+// -----              FRSMusicMapped2CalPar source file                -----
 // -----           Created 29/05/18  by J.L. Rodriguez-Sanchez         -----
 // -------------------------------------------------------------------------
 
-#ifndef R3BMusicMapped2CalPar_H
-#define R3BMusicMapped2CalPar_H
+#ifndef FRSMusicMapped2CalPar_H
+#define FRSMusicMapped2CalPar_H
 
 #include "FairTask.h"
 #include "TH1F.h"
 
 class TClonesArray;
-class R3BMusicCalPar;
+class FRSMusicCalPar;
 class R3BEventHeader;
 
-class R3BMusicMapped2CalPar : public FairTask
+class FRSMusicMapped2CalPar : public FairTask
 {
 
   public:
     /** Default constructor **/
-    R3BMusicMapped2CalPar();
+    FRSMusicMapped2CalPar();
 
     /** Standard constructor **/
-    R3BMusicMapped2CalPar(const char* name, Int_t iVerbose = 1);
+    FRSMusicMapped2CalPar(const char* name, Int_t iVerbose = 1);
 
     /** Destructor **/
-    virtual ~R3BMusicMapped2CalPar();
+    virtual ~FRSMusicMapped2CalPar();
 
     /** Virtual method Init **/
     virtual InitStatus Init();
@@ -84,14 +84,14 @@ class R3BMusicMapped2CalPar : public FairTask
     Double_t fSigma;
     Double_t fMean;
 
-    R3BMusicCalPar* fAnode_Par;       /**< Parameter container. >*/
+    FRSMusicCalPar* fAnode_Par;       /**< Parameter container. >*/
     TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped input data. >*/
 
     TH1F** fh_Map_energy_anode;
     char* fOutputFile;
 
   public:
-    ClassDef(R3BMusicMapped2CalPar, 0);
+    ClassDef(FRSMusicMapped2CalPar, 0);
 };
 
 #endif

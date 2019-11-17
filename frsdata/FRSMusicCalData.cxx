@@ -1,24 +1,26 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BMusicHitData                         -----
+// -----                      FRSMusicCalData                            -----
 // -----                  Created 21/07/2018 by J.L. Rodriguez           -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#include "R3BMusicHitData.h"
+#include "FRSMusicCalData.h"
 
-R3BMusicHitData::R3BMusicHitData()
+FRSMusicCalData::FRSMusicCalData()
     : fDetId(0)
-    , fCharge(0)
+    , fAnodeId(0)
+    , fEnergy(0)
 {
 }
 
 //------------------------------
 
-R3BMusicHitData::R3BMusicHitData(Int_t detId, Double_t charge)
+FRSMusicCalData::FRSMusicCalData(Int_t detId, Int_t anodeId, Int_t energy)
     : fDetId(detId)
-    , fCharge(charge)
+    , fAnodeId(anodeId)
+    , fEnergy(energy)
 {
 }
 
-ClassImp(R3BMusicHitData)
+ClassImp(FRSMusicCalData)

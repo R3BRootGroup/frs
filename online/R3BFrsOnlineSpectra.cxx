@@ -12,10 +12,12 @@
 #include "R3BEventHeader.h"
 #include "R3BFrsData.h"
 #include "R3BFrsMappedData.h"
-#include "R3BMusicCalData.h"
-#include "R3BMusicHitData.h"
-#include "R3BMusicMappedData.h"
+#include "FrsSpillMappedData.h"
+#include "FRSMusicCalData.h"
+#include "FRSMusicHitData.h"
+#include "FRSMusicMappedData.h"
 #include "FrsMWOnlineSpectra.h"
+#include "FrsMusicOnlineSpectra.h"
 #include "R3BSeetramCalData.h"
 #include "R3BWRMasterData.h"
 #include "THttpServer.h"
@@ -44,6 +46,8 @@
 #include <iostream>
 #include <sstream>
 
+int sumspill=0;
+
 using namespace std;
 
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
@@ -54,7 +58,18 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
     , fCalItemsMusic(NULL)
     , fHitItemsMusic(NULL)
     , fMw11Online(NULL)
-   // , fCalItemsTpc(NULL)
+    , fMw21Online(NULL)
+    , fMw22Online(NULL)
+    , fMw31Online(NULL)
+    , fMw51Online(NULL)
+    , fMw71Online(NULL)
+    , fMw81Online(NULL)
+    , fMw82Online(NULL)
+    , fMus41Online(NULL)
+    , fMus42Online(NULL)
+    , fMus43Online(NULL)
+    , fSpillMappedItemsFrs(NULL)
+    , fCalItemsSpill(NULL)
 //    , fHitItemsMw(NULL)
     , fAnaItemsFrs(NULL)
     , fWRItemsMaster(NULL)
@@ -78,7 +93,18 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
     , fCalItemsMusic(NULL)
     , fHitItemsMusic(NULL)
     , fMw11Online(NULL)
-  //  , fCalItemsTpc(NULL)
+    , fMw21Online(NULL)
+    , fMw22Online(NULL)
+    , fMw31Online(NULL)
+    , fMw51Online(NULL)
+    , fMw71Online(NULL)
+    , fMw81Online(NULL)
+    , fMw82Online(NULL)
+    , fMus41Online(NULL)
+    , fMus42Online(NULL)
+    , fMus43Online(NULL)
+    , fSpillMappedItemsFrs(NULL)
+    , fCalItemsSpill(NULL)
 //    , fHitItemsMw(NULL)
     , fAnaItemsFrs(NULL)
     , fWRItemsMaster(NULL)
@@ -107,10 +133,10 @@ R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra()
         delete fCalItemsMusic;
     if (fMapItemsMusic)
         delete fMapItemsMusic;
-   // if (fCalItemsTpc)
-    //    delete fCalItemsTpc;
-   // if (fHitItemsMw)
- //       delete fHitItemsMw;
+    if (fSpillMappedItemsFrs)
+        delete fSpillMappedItemsFrs;
+    if (fCalItemsSpill)
+        delete fCalItemsSpill;
     if (fAnaItemsFrs)
         delete fAnaItemsFrs;
     if (fWRItemsMaster)
@@ -139,6 +165,11 @@ InitStatus R3BFrsOnlineSpectra::Init()
     {
         return kFATAL;
     }
+    fSpillMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsSpillMappedData");
+    if (!fSpillMappedItemsFrs)
+    {
+        return kFATAL;
+    }
 
     // get access to WR-Master data
     fWRItemsMaster = (TClonesArray*)mgr->GetObject("WRMasterData");
@@ -151,19 +182,71 @@ InitStatus R3BFrsOnlineSpectra::Init()
     fMw11Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW11OnlineSpectra");
     if (!fMw11Online)
         LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw11OnlineSpectra not found";
+    // Looking for Mw21 online
+    fMw21Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW21OnlineSpectra");
+    if (!fMw21Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw21OnlineSpectra not found";
+
+    // Looking for Mw22 online
+    fMw22Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW22OnlineSpectra");
+    if (!fMw22Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw22OnlineSpectra not found";
+
+    // Looking for Mw31 online
+    fMw31Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW31OnlineSpectra");
+    if (!fMw31Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw31OnlineSpectra not found";
+
+    // Looking for Mw51 online
+    fMw51Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW51OnlineSpectra");
+    if (!fMw51Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw51OnlineSpectra not found";
+
+    // Looking for Mw71 online
+    fMw71Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW71OnlineSpectra");
+    if (!fMw71Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw71OnlineSpectra not found";
+
+    // Looking for Mw81 online
+    fMw81Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW81OnlineSpectra");
+    if (!fMw81Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw81OnlineSpectra not found";
+
+    // Looking for Mw82 online
+    fMw82Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW82OnlineSpectra");
+    if (!fMw82Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw82OnlineSpectra not found";
+
+    // Looking for Mus41 online
+    fMus41Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music41OnlineSpectra");
+    if (!fMus41Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music41OnlineSpectra not found";
+
+    // Looking for Mus42 online
+    fMus42Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music42OnlineSpectra");
+    if (!fMus42Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music42OnlineSpectra not found";
+
+    // Looking for Mus43 online
+    fMus43Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music43OnlineSpectra");
+    if (!fMus43Online)
+        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music43OnlineSpectra not found";
 
 
     // get access to Cal Seetram data
     fCalItemsSeetram = (TClonesArray*)mgr->GetObject("SeetramCalData");
 
+    // get access to Spill data
+    fCalItemsSpill = (TClonesArray*)mgr->GetObject("FrsSpillData");
+
     // get access to Map Music data
-    fMapItemsMusic = (TClonesArray*)mgr->GetObject("MusicMappedData");
+    fMapItemsMusic = (TClonesArray*)mgr->GetObject("FRSMusicMappedData");
 
     // get access to Cal Music data
-    fCalItemsMusic = (TClonesArray*)mgr->GetObject("MusicCalData");
+    fCalItemsMusic = (TClonesArray*)mgr->GetObject("FRSMusicCalData");
 
     // get access to Hit Music data
-    fHitItemsMusic = (TClonesArray*)mgr->GetObject("MusicHitData");
+    fHitItemsMusic = (TClonesArray*)mgr->GetObject("FRSMusicHitData");
 
     // get access to Analysis Frs data
     fAnaItemsFrs = (TClonesArray*)mgr->GetObject("FrsData");
@@ -172,7 +255,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
 
     char Name1[255];
     char Name2[255];
-
+/*
     //  CANVAS 1  -------------------------------
     cMus1 = new TCanvas("Music41_E_raw", "Music41 info", 10, 10, 800, 700);
     cMus1->Divide(4, 2);
@@ -296,7 +379,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
     fh_music_Z[2]->SetFillColor(kGreen - 3);
     fh_music_Z[2]->SetLineColor(1);
     fh_music_Z[2]->Draw("");
-
+*/
     cMu41_mu42 = new TCanvas("Music41_vs_Music43", "Music41 vs Music43 info", 10, 10, 800, 700);
     sprintf(Name1, "fh_mu41_vs_mu43");
     sprintf(Name2, "Energy Music41 vs Music43");
@@ -978,15 +1061,15 @@ InitStatus R3BFrsOnlineSpectra::Init()
 
     // FOLDERS
     TFolder* mainfolMu = new TFolder("MUSIC", "Music info");
-    mainfolMu->Add(cMus1);
-    mainfolMu->Add(cMus2);
-    mainfolMu->Add(cMus3);
+    //mainfolMu->Add(cMus1);
+    //mainfolMu->Add(cMus2);
+    //mainfolMu->Add(cMus3);
     mainfolMu->Add(cMu41_mu42);
-    mainfolMu->Add(cMus1cal);
-    mainfolMu->Add(cMus2cal);
-    mainfolMu->Add(cMus3cal);
-    for (Int_t i = 0; i < 3; i++)
-        mainfolMu->Add(cMushit[i]);
+    //mainfolMu->Add(cMus1cal);
+    //mainfolMu->Add(cMus2cal);
+    //mainfolMu->Add(cMus3cal);
+    //for (Int_t i = 0; i < 3; i++)
+    //    mainfolMu->Add(cMushit[i]);
 
     TFolder* mainfolSci = new TFolder("SCI", "SCI info");
     mainfolSci->Add(cSci00);
@@ -1003,6 +1086,29 @@ InitStatus R3BFrsOnlineSpectra::Init()
     mainfolSci->Add(cSCI_tof21pos);
     mainfolSci->Add(cSCI_tof41pos);
 
+
+
+    fh_SeetSpill = new TH1F("fh_SeetramSpill", "Spill at S0", fseetram_rangeC, 0, fseetram_rangeC);
+    fh_SeetSpill->GetXaxis()->SetTitle("Spill number");
+    fh_SeetSpill->GetYaxis()->SetTitle("Counts/spill");
+    fh_SeetSpill->GetXaxis()->CenterTitle(true);
+    fh_SeetSpill->GetYaxis()->CenterTitle(true);
+    fh_SeetSpill->GetYaxis()->SetTitleOffset(1.1);
+    fh_SeetSpill->GetXaxis()->SetTitleOffset(1.1);
+    fh_SeetSpill->GetXaxis()->SetLabelSize(0.045);
+    fh_SeetSpill->GetXaxis()->SetTitleSize(0.045);
+    fh_SeetSpill->GetYaxis()->SetLabelSize(0.045);
+    fh_SeetSpill->GetYaxis()->SetTitleSize(0.045);
+    fh_SeetSpill->SetLineColor(4);
+    fh_SeetSpill->SetLineWidth(3);
+    fh_SeetSpill->SetStats(0);
+    fh_SeetSpill->Draw("");
+
+
+
+
+
+
     TFolder* mainfolSee = new TFolder("Detectors@S0", "SEETRAM, IC and SCI info at S0");
     mainfolSee->Add(cSee);
     mainfolSee->Add(cSeet);
@@ -1011,7 +1117,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
     mainfolSee->Add(cSci01);
     // mainfolSee->Add(cSci02);
     mainfolSee->Add(cSeeCom);
-
+    mainfolSee->Add(fh_SeetSpill);
 
     // MAIN FOLDER-FRS
     TFolder* mainfolFrs = new TFolder("FRS", "FRS info");
@@ -1032,7 +1138,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
     // Register command to reset histograms
     run->GetHttpServer()->RegisterCommand("Reset_ALL_HIST", Form("/Objects/%s/->Reset_GENERAL_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_Detectors@SO", Form("/Objects/%s/->Reset_SEETRAM_Histo()", GetName()));
-    run->GetHttpServer()->RegisterCommand("Reset_MUSICs", Form("/Objects/%s/->Reset_MUSIC_Histo()", GetName()));
+    //run->GetHttpServer()->RegisterCommand("Reset_MUSICs", Form("/Objects/%s/->Reset_MUSIC_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_SCIs", Form("/Objects/%s/->Reset_SCI_Histo()", GetName()));
     run->GetHttpServer()->RegisterCommand("Reset_FRS_ID", Form("/Objects/%s/->Reset_FRS_Histo()", GetName()));
 
@@ -1046,7 +1152,7 @@ void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
     fh_Seetramt->Reset();
     fh_Ic->Reset();
     fh_Sci01->Reset();
-
+    fh_SeetSpill->Reset();
     fh_SeetramC->Reset();
     fh_SeetramtC->Reset();
     fh_IcC->Reset();
@@ -1093,14 +1199,16 @@ void R3BFrsOnlineSpectra::Reset_MUSIC_Histo()
 {
     LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MUSIC_Histo";
     // Cal data
-    for (Int_t i = 0; i < 24; i++)
+ /*   for (Int_t i = 0; i < 24; i++)
     {
         fh_music_energy_per_anode[i]->Reset();
         fh_music_energy_per_anodecal[i]->Reset();
     }
     for (Int_t i = 0; i < 3; i++)
         fh_music_Z[i]->Reset();
+*/
     fh_mu41_mu42->Reset();
+
 }
 
 void R3BFrsOnlineSpectra::Reset_GENERAL_Histo()
@@ -1119,7 +1227,36 @@ void R3BFrsOnlineSpectra::Reset_GENERAL_Histo()
     // Reset Mw11 histograms if they exist somewhere
     if (fMw11Online)
         fMw11Online->Reset_Histo();
-
+    // Reset Mw21 histograms if they exist somewhere
+    if (fMw21Online)
+        fMw21Online->Reset_Histo();
+    // Reset Mw22 histograms if they exist somewhere
+    if (fMw22Online)
+        fMw22Online->Reset_Histo();
+    // Reset Mw31 histograms if they exist somewhere
+    if (fMw31Online)
+        fMw31Online->Reset_Histo();
+    // Reset Mw51 histograms if they exist somewhere
+    if (fMw51Online)
+        fMw51Online->Reset_Histo();
+    // Reset Mw71 histograms if they exist somewhere
+    if (fMw71Online)
+        fMw71Online->Reset_Histo();
+    // Reset Mw81 histograms if they exist somewhere
+    if (fMw81Online)
+        fMw81Online->Reset_Histo();
+    // Reset Mw82 histograms if they exist somewhere
+    if (fMw82Online)
+        fMw82Online->Reset_Histo();
+    // Reset Mus41 histograms if they exist somewhere
+    if (fMus41Online)
+        fMus41Online->Reset_Histo();
+    // Reset Mus42 histograms if they exist somewhere
+    if (fMus42Online)
+        fMus42Online->Reset_Histo();
+    // Reset Mus43 histograms if they exist somewhere
+    if (fMus43Online)
+        fMus43Online->Reset_Histo();
 }
 
 void R3BFrsOnlineSpectra::Exec(Option_t* option)
@@ -1258,7 +1395,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
             fh_Sci00C->SetMaximum(max * 1.2);
         }
     }
-
+/*
     // Fill map music data
     if (fMapItemsMusic && fMapItemsMusic->GetEntriesFast())
     {
@@ -1266,7 +1403,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         // std::cout << "hit:"<<nHits << std::endl;
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
-            R3BMusicMappedData* hit = (R3BMusicMappedData*)fMapItemsMusic->At(ihit);
+            FRSMusicMappedData* hit = (FRSMusicMappedData*)fMapItemsMusic->At(ihit);
             if (!hit)
                 continue;
             // std::cout << "hit:"<<hit->GetDetectorId() << " " << hit->GetEnergy() << std::endl;
@@ -1281,14 +1418,14 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         // std::cout << "hit:"<<nHits << std::endl;
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
-            R3BMusicCalData* hit = (R3BMusicCalData*)fCalItemsMusic->At(ihit);
+            FRSMusicCalData* hit = (FRSMusicCalData*)fCalItemsMusic->At(ihit);
             if (!hit)
                 continue;
             // std::cout << "hit:"<<hit->GetDetectorId() << " " << hit->GetEnergy() << std::endl;
             fh_music_energy_per_anodecal[hit->GetDetectorId() * 8 + hit->GetAnodeId()]->Fill(hit->GetEnergy());
         }
     }
-
+*/
     // Fill hit music data
     if (fHitItemsMusic && fHitItemsMusic->GetEntriesFast())
     {
@@ -1297,10 +1434,10 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         double z41 = 0, z42 = 0;
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
-            R3BMusicHitData* hit = (R3BMusicHitData*)fHitItemsMusic->At(ihit);
+            FRSMusicHitData* hit = (FRSMusicHitData*)fHitItemsMusic->At(ihit);
             if (!hit)
                 continue;
-            fh_music_Z[hit->GetDetectorId()]->Fill(hit->GetZ());
+            //fh_music_Z[hit->GetDetectorId()]->Fill(hit->GetZ());
             if (hit->GetDetectorId() == 0)
                 z41 = hit->GetZ();
             if (hit->GetDetectorId() == 2)
@@ -1327,15 +1464,43 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         }
     }
 
+
+//Spill ---------------
+    // Fill spill data
+    if (fCalItemsSpill && fCalItemsSpill->GetEntriesFast())
+    {
+        Int_t nHits = fCalItemsSpill->GetEntriesFast();
+        Double_t tofrr = 0, tofll = 0;
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
+            R3BSeetramCalData* hit = (R3BSeetramCalData*)fCalItemsSpill->At(ihit);
+            if (!hit)
+                continue;
+
+            //sumspill=sumspill+hit->GetSeetramNew();
+
+            std::cout << hit->GetAccTrigCounts() << " "<< hit->GetClock1seg()  << std::endl;
+            for(int k=0;k<hit->GetAccTrigCounts();k++)fh_SeetSpill->Fill(hit->GetClock1seg());
+        }
+    }
+
+
     fNEvents += 1;
 }
 
 void R3BFrsOnlineSpectra::FinishEvent()
 {
-
     if (fMappedItemsFrs)
     {
         fMappedItemsFrs->Clear();
+    }
+    if (fSpillMappedItemsFrs)
+    {
+        fSpillMappedItemsFrs->Clear();
+    }
+    if (fCalItemsSpill)
+    {
+        fCalItemsSpill->Clear();
     }
     if (fCalItemsMusic)
     {
@@ -1383,22 +1548,22 @@ void R3BFrsOnlineSpectra::FinishTask()
     }
     if (fMapItemsMusic)
     {
-        cMus1->Write();
-        cMus2->Write();
-        cMus3->Write();
+        //cMus1->Write();
+        //cMus2->Write();
+       // cMus3->Write();
         cMu41_mu42->Write();
     }
-    if (fCalItemsMusic)
+   /* if (fCalItemsMusic)
     {
-        cMus1cal->Write();
-        cMus2cal->Write();
-        cMus3cal->Write();
+        //cMus1cal->Write();
+       // cMus2cal->Write();
+       // cMus3cal->Write();
     }
     if (fHitItemsMusic)
     {
         for (Int_t i = 0; i < 3; i++)
             cMushit[i]->Write();
-    }
+    }*/
     if (fAnaItemsFrs)
     {
         c1ID->Write();

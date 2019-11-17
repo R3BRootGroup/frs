@@ -17,8 +17,8 @@
 
 //#include "R3BSeetramCalPar.h"
 #include "R3BFrsAnaPar.h"
-#include "R3BMusicCalPar.h"
-#include "R3BMusicHitPar.h"
+#include "FRSMusicCalPar.h"
+#include "FRSMusicHitPar.h"
 #include "R3BTpcCalPar.h"
 
 #include "TClass.h"
@@ -44,13 +44,13 @@ void R3BFrsContFact::setAllContainers()
 
     containers->Add(p1);
 
-    FairContainer* p2 = new FairContainer("musicCalPar", "FRS Music Parameters", "MusicCalParContext");
-    p2->addContext("MusicCalParContext");
+    FairContainer* p2 = new FairContainer("frsmusicCalPar", "FRS MUSIC Parameters", "FRSMusicCalParContext");
+    p2->addContext("FRSMusicCalParContext");
 
     containers->Add(p2);
 
-    FairContainer* p3 = new FairContainer("musicHitPar", "MUSIC Hit Parameters", "MUSICHitParContext");
-    p3->addContext("MUSICHitParContext");
+    FairContainer* p3 = new FairContainer("frsmusicHitPar", "FRS MUSIC Hit Parameters", "FRSMUSICHitParContext");
+    p3->addContext("FRSMUSICHitParContext");
 
     containers->Add(p3);
 
@@ -79,9 +79,9 @@ FairParSet* R3BFrsContFact::createContainer(FairContainer* c)
         // p=new R3BSeetramCalPar(c->getConcatName().Data(),c->GetTitle(),c->getContext());
     }
 
-    if (strcmp(name, "musicCalPar") == 0)
+    if (strcmp(name, "frsmusicCalPar") == 0)
     {
-        p = new R3BMusicCalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
+        p = new FRSMusicCalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
     if (strcmp(name, "tpcCalPar") == 0)
@@ -89,9 +89,9 @@ FairParSet* R3BFrsContFact::createContainer(FairContainer* c)
         p = new R3BTpcCalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
-    if (strcmp(name, "musicHitPar") == 0)
+    if (strcmp(name, "frsmusicHitPar") == 0)
     {
-        p = new R3BMusicHitPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
+        p = new FRSMusicHitPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
     if (strcmp(name, "frsAnaPar") == 0)

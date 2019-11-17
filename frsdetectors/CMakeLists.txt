@@ -29,12 +29,12 @@ set(SRCS
 R3BFrsContFact.cxx
 R3BSeetramMapped2Cal.cxx
 R3BSeetramCalPar.cxx
-R3BMusicMapped2CalPar.cxx
-R3BMusicMapped2Cal.cxx
-R3BMusicCalPar.cxx
-R3BMusicHitPar.cxx
-R3BMusicCal2HitPar.cxx
-R3BMusicCal2Hit.cxx
+FRSMusicMapped2CalPar.cxx
+FRSMusicMapped2Cal.cxx
+FRSMusicCalPar.cxx
+FRSMusicHitPar.cxx
+FRSMusicCal2HitPar.cxx
+FRSMusicCal2Hit.cxx
 R3BTpcCalPar.cxx
 R3BTpcMapped2CalPar.cxx
 R3BTpcMapped2Cal.cxx
@@ -43,6 +43,7 @@ R3BFrsHit2AnaS4.cxx
 R3BFrsHit2AnaS4Par.cxx
 R3BFrsAnaPar.cxx
 R3BMWMapped2Hit.cxx
+FrsRatesSpill.cxx
 )
 
 # fill list of header files from list of source files

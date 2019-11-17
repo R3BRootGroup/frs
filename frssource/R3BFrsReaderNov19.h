@@ -55,6 +55,7 @@ class R3BFrsReaderNov19 : public R3BReader
     TClonesArray* fArray;      // Output array for frs scin and scalers.
     TClonesArray* fArrayMusic; // Output array for music detectors.
     TClonesArray* fArrayTpc;   // Output array for tpc detectors.
+    TClonesArray* fArraySpill; // Output array for spill.
 
     TClonesArray* fArrayMW11;  // Output array for mw detectors.
     TClonesArray* fArrayMW21;

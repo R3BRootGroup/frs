@@ -7,7 +7,7 @@
 #include "FairRootManager.h"
 #include "R3BEventHeader.h"
 #include "R3BFrsMappedData.h"
-#include "R3BMusicMappedData.h"
+#include "FRSMusicMappedData.h"
 #include "R3BMwMappedData.h"
 #include "R3BTpcMappedData.h"
 #include "TClonesArray.h"
@@ -36,7 +36,7 @@ R3BFrsReader::R3BFrsReader(EXT_STR_h101_FRS* data, UInt_t offset)
     , fOnline(kFALSE)
     , fLogger(FairLogger::GetLogger())
     , fArray(new TClonesArray("R3BFrsMappedData"))
-    , fArrayMusic(new TClonesArray("R3BMusicMappedData"))
+    , fArrayMusic(new TClonesArray("FRSMusicMappedData"))
     , fArrayTpc(new TClonesArray("R3BTpcMappedData"))
     , fArrayMw(new TClonesArray("R3BMwMappedData"))
     , fEventHeader(nullptr)
@@ -83,14 +83,14 @@ Bool_t R3BFrsReader::Init(ext_data_struct_info* a_struct_info)
     if (!fOnline)
     {
         FairRootManager::Instance()->Register("FrsMappedData", "FRS", fArray, kTRUE);
-        FairRootManager::Instance()->Register("MusicMappedData", "FRS Musics", fArrayMusic, kTRUE);
+        FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kTRUE);
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kTRUE);
         FairRootManager::Instance()->Register("MwMappedData", "FRS MWs", fArrayMw, kTRUE);
     }
     else
     {
         FairRootManager::Instance()->Register("FrsMappedData", "FRS", fArray, kFALSE);
-        FairRootManager::Instance()->Register("MusicMappedData", "FRS Musics", fArrayMusic, kFALSE);
+        FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kFALSE);
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kFALSE);
         FairRootManager::Instance()->Register("MwMappedData", "FRS MWs", fArrayMw, kFALSE);
     }
@@ -139,32 +139,32 @@ Bool_t R3BFrsReader::Read()
                                                                fData->SC5Lt,
                                                                fData->SC5Rt);
 
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 0, fData->MUS1A1);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 1, fData->MUS1A2);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 2, fData->MUS1A3);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 3, fData->MUS1A4);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 4, fData->MUS1A5);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 5, fData->MUS1A6);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 6, fData->MUS1A7);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(0, 7, fData->MUS1A8);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 0, fData->MUS1A1);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 1, fData->MUS1A2);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 2, fData->MUS1A3);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 3, fData->MUS1A4);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 4, fData->MUS1A5);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 5, fData->MUS1A6);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 6, fData->MUS1A7);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(0, 7, fData->MUS1A8);
 
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 0, fData->MUS2A1);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 1, fData->MUS2A2);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 2, fData->MUS2A3);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 3, fData->MUS2A4);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 4, fData->MUS2A5);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 5, fData->MUS2A6);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 6, fData->MUS2A7);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(1, 7, fData->MUS2A8);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 0, fData->MUS2A1);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 1, fData->MUS2A2);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 2, fData->MUS2A3);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 3, fData->MUS2A4);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 4, fData->MUS2A5);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 5, fData->MUS2A6);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 6, fData->MUS2A7);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 7, fData->MUS2A8);
 
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 0, fData->MUS3A1);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 1, fData->MUS3A2);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 2, fData->MUS3A3);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 3, fData->MUS3A4);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 4, fData->MUS3A5);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 5, fData->MUS3A6);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 6, fData->MUS3A7);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) R3BMusicMappedData(2, 7, fData->MUS3A8);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 0, fData->MUS3A1);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 1, fData->MUS3A2);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 2, fData->MUS3A3);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 3, fData->MUS3A4);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 4, fData->MUS3A5);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 5, fData->MUS3A6);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 6, fData->MUS3A7);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 7, fData->MUS3A8);
 
     // Times
     tpc_rt[0] = fData->TPC1RT1;
