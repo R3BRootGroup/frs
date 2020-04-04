@@ -10,7 +10,7 @@ extern "C"
 #include "ext_h101_frssci.h"
 }
 
-#define NUM_SCI_DETECTORS 6 // for the engineering run
+#define NUM_SCI_DETECTORS 2 // for s474
 
 #include <iostream>
 
@@ -100,8 +100,8 @@ Bool_t VftxSciReader::Read()
                 for (Int_t hit = curChannelStart; hit < nextChannelStart; hit++)
                 {
                     auto item = new ((*fArray)[fNumEntries++])
-		      VftxSciMappedData(d+1, // do not change into d !!!!!!! (Audrey) 
-					    pmtid_TF, 
+		      VftxSciMappedData(d+1, // from 1 to 4
+					    pmtid_TF, // from 1 to 2
 					    data->FRSSCI[d].TCv[hit], 
 					    data->FRSSCI[d].TFv[hit]);
                 }

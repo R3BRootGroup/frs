@@ -38,8 +38,8 @@ R3BFrsReaderNov19::R3BFrsReaderNov19(EXT_STR_h101_FRS* data, UInt_t offset)
     , fLogger(FairLogger::GetLogger())
     , fArray(new TClonesArray("R3BFrsMappedData"))
     , fArraySpill(new TClonesArray("FrsSpillMappedData"))
-    , fArrayMusic(new TClonesArray("FRSMusicMappedData"))
-    , fArrayTpc(new TClonesArray("R3BTpcMappedData"))
+    //, fArrayMusic(new TClonesArray("FRSMusicMappedData"))
+    //, fArrayTpc(new TClonesArray("R3BTpcMappedData"))
     , fArrayMW11(new TClonesArray("R3BMwMappedData"))
     , fArrayMW21(new TClonesArray("R3BMwMappedData"))
     , fArrayMW22(new TClonesArray("R3BMwMappedData"))
@@ -63,14 +63,15 @@ R3BFrsReaderNov19::~R3BFrsReaderNov19()
     {
         delete fArraySpill;
     }
-    if (fArrayMusic)
-    {
-        delete fArrayMusic;
-    }
+    //if (fArrayMusic)
+    //{
+     //   delete fArrayMusic;
+   // }
+/*
     if (fArrayTpc)
     {
         delete fArrayTpc;
-    }
+    }*/
     if (fArrayMW11)
     {
         delete fArrayMW11;
@@ -126,8 +127,8 @@ Bool_t R3BFrsReaderNov19::Init(ext_data_struct_info* a_struct_info)
     {
         FairRootManager::Instance()->Register("FrsMappedData", "FRS", fArray, kTRUE);
         FairRootManager::Instance()->Register("FrsSpillMappedData", "FRS Spill", fArraySpill, kTRUE);
-        FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kTRUE);
-        FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kTRUE);
+        //FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kTRUE);
+      //  FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kTRUE);
         FairRootManager::Instance()->Register("MW11MappedData", "FRS MW11", fArrayMW11, kTRUE);
         FairRootManager::Instance()->Register("MW21MappedData", "FRS MW21", fArrayMW21, kTRUE);
         FairRootManager::Instance()->Register("MW22MappedData", "FRS MW22", fArrayMW22, kTRUE);
@@ -141,8 +142,8 @@ Bool_t R3BFrsReaderNov19::Init(ext_data_struct_info* a_struct_info)
     {
         FairRootManager::Instance()->Register("FrsMappedData", "FRS", fArray, kFALSE);
         FairRootManager::Instance()->Register("FrsSpillMappedData", "FRS Spill", fArraySpill, kFALSE);
-        FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kFALSE);
-        FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kFALSE);
+        //FairRootManager::Instance()->Register("FRSMusicMappedData", "FRS Musics", fArrayMusic, kFALSE);
+       // FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArrayTpc, kFALSE);
         FairRootManager::Instance()->Register("MW11MappedData", "FRS MW11", fArrayMW11, kFALSE);
         FairRootManager::Instance()->Register("MW21MappedData", "FRS MW21", fArrayMW21, kFALSE);
         FairRootManager::Instance()->Register("MW22MappedData", "FRS MW22", fArrayMW22, kFALSE);
@@ -232,15 +233,15 @@ Bool_t R3BFrsReaderNov19::Read()
     new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 6, fData->MUS2A7);
     new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 7, fData->MUS2A8);
 
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 0, fData->MUS3A1);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 1, fData->MUS3A2);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 2, fData->MUS3A3);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 3, fData->MUS3A4);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 4, fData->MUS3A5);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 5, fData->MUS3A6);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 6, fData->MUS3A7);
-    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(2, 7, fData->MUS3A8);
-*/
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 0, fData->MUS3A1);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 1, fData->MUS3A2);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 2, fData->MUS3A3);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 3, fData->MUS3A4);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 4, fData->MUS3A5);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 5, fData->MUS3A6);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 6, fData->MUS3A7);
+    new ((*fArrayMusic)[fArrayMusic->GetEntriesFast()]) FRSMusicMappedData(1, 7, fData->MUS3A8);
+
     // Times
     tpc_rt[0] = fData->TPC1RT1;
     tpc_rt[1] = fData->TPC1RT2;
@@ -284,7 +285,9 @@ Bool_t R3BFrsReaderNov19::Read()
     tpc_ae[3] = fData->TPC2A4;
 
     new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(1, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+*/
 
+/*
     // Times
     tpc_rt[0] = fData->TPC3RT1;
     tpc_rt[1] = fData->TPC3RT2;
@@ -305,7 +308,7 @@ Bool_t R3BFrsReaderNov19::Read()
     tpc_ae[2] = fData->TPC3A3;
     tpc_ae[3] = fData->TPC3A4;
 
-    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(2, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(0, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
 
     // Times
     tpc_rt[0] = fData->TPC4RT1;
@@ -327,8 +330,8 @@ Bool_t R3BFrsReaderNov19::Read()
     tpc_ae[2] = fData->TPC4A3;
     tpc_ae[3] = fData->TPC4A4;
 
-    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(3, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
-/*
+    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(1, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+
     // Times
     tpc_rt[0] = fData->TPC5RT1;
     tpc_rt[1] = fData->TPC5RT2;
@@ -349,10 +352,32 @@ Bool_t R3BFrsReaderNov19::Read()
     tpc_ae[2] = fData->TPC5A3;
     tpc_ae[3] = fData->TPC5A4;
 
-    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(4, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(2, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+
+
+    // Times
+    tpc_rt[0] = fData->TPC6RT1;
+    tpc_rt[1] = fData->TPC6RT2;
+    tpc_lt[0] = fData->TPC6LT1;
+    tpc_lt[1] = fData->TPC6LT2;
+    tpc_dt[0] = fData->TPC6DT1;
+    tpc_dt[1] = fData->TPC6DT2;
+    tpc_dt[2] = fData->TPC6DT3;
+    tpc_dt[3] = fData->TPC6DT4;
+
+    // Energy
+    tpc_re[0] = fData->TPC6AR1;
+    tpc_re[1] = fData->TPC6AR2;
+    tpc_le[0] = fData->TPC6AL1;
+    tpc_le[1] = fData->TPC6AL2;
+    tpc_ae[0] = fData->TPC6A1;
+    tpc_ae[1] = fData->TPC6A2;
+    tpc_ae[2] = fData->TPC6A3;
+    tpc_ae[3] = fData->TPC6A4;
+
+    new ((*fArrayTpc)[fArrayTpc->GetEntriesFast()]) R3BTpcMappedData(3, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+
 */
-
-
 
 
 
@@ -411,8 +436,8 @@ void R3BFrsReaderNov19::Reset()
     // Reset the output array
     fArray->Clear();
     fArraySpill->Clear();
-    fArrayMusic->Clear();
-    fArrayTpc->Clear();
+    //fArrayMusic->Clear();
+    //fArrayTpc->Clear();
     fArrayMW11->Clear();
     fArrayMW21->Clear();
     fArrayMW22->Clear();

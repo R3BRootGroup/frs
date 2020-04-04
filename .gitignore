@@ -35,6 +35,7 @@
 *.gam
 
 # Generated folders and files 
-macros/*.root
-
+*.root
+*.par
+*.png
 

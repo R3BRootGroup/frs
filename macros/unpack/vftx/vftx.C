@@ -18,14 +18,20 @@ void vftx() {
   /* Create source using ucesb for input ------------------ */
   
   //TString filename = "--stream=lxg1266:8000";
-  TString filename = "~/lmd/frsnov19/s2-s8-cal160_targ_0p9985_0036.lmd";
+  TString filename = "~/lmd/frs2020/s480_calibration1_109sn_2126.lmd";
 
   TString outputFileName = "data_vftx.root";
-  
+
+  // Calibration files ------------------------------------
+  TString dir = gSystem->Getenv("VMCWORKDIR");
+  // Parameters for FRS detectors
+  TString frscaldir = dir + "/frs/macros/unpack/vftx/";
+  TString frscalfilename = frscaldir + "sci_rawcal.par";
+  frscalfilename.ReplaceAll("//", "/");
+
   TString ntuple_options = "RAW";
   TString ucesb_dir = getenv("UCESB_DIR");
-  
-  TString ucesb_path = ucesb_dir + "/../upexps/frs_nov2019/frs_nov2019  --input-buffer=100Mi";
+  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/201911_eng2  --input-buffer=100Mi";
   ucesb_path.ReplaceAll("//","/");
   
   EXT_STR_h101 ucesb_struct;
@@ -61,20 +67,28 @@ void vftx() {
   /* Runtime data base ------------------------------------ */
   FairRuntimeDb* rtdb = run->GetRuntimeDb();
 
-
   /* Load parameters   ------------------------------------ */ 
-  /*FairParRootFileIo* parIo1 = new FairParRootFileIo();
-  parIo1->open("FRS_Par.root","in");
+  FairParAsciiFileIo* parIo1 = new FairParAsciiFileIo(); // Ascii
+  parIo1->open(frscalfilename, "in");
   rtdb->setFirstInput(parIo1);
-  rtdb->print();*/
-  //FairParAsciiFileIo* parIo1 = new FairParAsciiFileIo();
-  //parIo1->open("FRS_Par.par","in");
-  //rtdb->setFirstInput(parIo1);
-
+  rtdb->print();
 
   /* Add analysis task ------------------------------------ */ 
 
+  // --- Mapped 2 Tcal for FrsSci
+  FrsSciMapped2Tcal* FrsSciMap2Tcal = new FrsSciMapped2Tcal();
+  FrsSciMap2Tcal->SetOnline(false);
+  run->AddTask(FrsSciMap2Tcal);
 
+        // --- Tcal 2 SingleTcal for FrsSci
+        FrsSciTcal2SingleTcal* FrsSciTcal2STcal = new FrsSciTcal2SingleTcal();
+        FrsSciTcal2STcal->SetOnline(false);
+        run->AddTask(FrsSciTcal2STcal);
+        // --- SingleTcal 2 Hit for FrsSci
+        //FrsSciSingleTCal2Hit* FrsSciSTcal2Hit = new FrsSciSingleTCal2Hit();
+        //FrsSciSTcal2Hit->SetOnline(false);
+        //SofSciSTcal2Hit->SetCalParams(675.,-1922.);//ToF calibration at Cave-C
+        //run->AddTask(SofSciSTcal2Hit);
 
 
   /* Add online task ------------------------------------ */  

@@ -228,9 +228,9 @@ InitStatus R3BFrsOnlineSpectra::Init()
         LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music42OnlineSpectra not found";
 
     // Looking for Mus43 online
-    fMus43Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music43OnlineSpectra");
-    if (!fMus43Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music43OnlineSpectra not found";
+    //fMus43Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music43OnlineSpectra");
+    //if (!fMus43Online)
+    //    LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music43OnlineSpectra not found";
 
 
     // get access to Cal Seetram data
@@ -380,12 +380,12 @@ InitStatus R3BFrsOnlineSpectra::Init()
     fh_music_Z[2]->SetLineColor(1);
     fh_music_Z[2]->Draw("");
 */
-    cMu41_mu42 = new TCanvas("Music41_vs_Music43", "Music41 vs Music43 info", 10, 10, 800, 700);
-    sprintf(Name1, "fh_mu41_vs_mu43");
-    sprintf(Name2, "Energy Music41 vs Music43");
+    cMu41_mu42 = new TCanvas("Music41_vs_Music42", "Music41 vs Music42 info", 10, 10, 800, 700);
+    sprintf(Name1, "fh_mu41_vs_mu42");
+    sprintf(Name2, "Energy Music41 vs Music42");
     fh_mu41_mu42 = new TH2F(Name1, Name2, 1000, 0, 4092, 1000, 0, 4092);
     fh_mu41_mu42->GetXaxis()->SetTitle("Music41 [Ch]");
-    fh_mu41_mu42->GetYaxis()->SetTitle("Music43 [Ch]");
+    fh_mu41_mu42->GetYaxis()->SetTitle("Music42 [Ch]");
     fh_mu41_mu42->GetXaxis()->SetTitleOffset(1.15);
     fh_mu41_mu42->GetYaxis()->SetTitleOffset(1.15);
     fh_mu41_mu42->GetXaxis()->CenterTitle(true);
@@ -1440,7 +1440,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
             //fh_music_Z[hit->GetDetectorId()]->Fill(hit->GetZ());
             if (hit->GetDetectorId() == 0)
                 z41 = hit->GetZ();
-            if (hit->GetDetectorId() == 2)
+            if (hit->GetDetectorId() == 1)
                 z42 = hit->GetZ();
         }
         if (z41 > 1 && z42 > 1)
