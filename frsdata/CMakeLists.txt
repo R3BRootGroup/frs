@@ -39,6 +39,8 @@ WASATofPoint.cxx
 WASAMdcPoint.cxx
 FrsSpillMappedData.cxx
 VftxSciMappedData.cxx
+FrsSciTcalData.cxx
+FrsSciSingleTcalData.cxx
 )
 
 # fill list of header files from list of source files

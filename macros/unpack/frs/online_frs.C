@@ -8,13 +8,16 @@
  * Put this header file into the 'frs/frssource' directory and recompile.
  *
  * Author: Jose Luis <joseluis.rodriguez.sanchez@usc.es>
- * @since July 29, 2018
+ * @since March 9th, 2020
  * */
 
 typedef struct EXT_STR_h101_t {
   EXT_STR_h101_unpack_t unpack;
   EXT_STR_h101_WRMASTER_t wrm;
+  EXT_STR_h101_FRSMUSIC_onion_t music;
+  EXT_STR_h101_frssci_onion_t vftx;
   EXT_STR_h101_FRS_t frs;
+  EXT_STR_h101_TPC_t tpc;
 } EXT_STR_h101;
 
 void online_frs() {
@@ -27,14 +30,16 @@ void online_frs() {
   /* Create source using ucesb for input ------------------ */
   
   //TString filename = "--stream=lxg1266:8000";
-  TString filename = "/home/joseluis/lmd/frsnov19/frag_0075.lmd";
+  //TString filename = "/home/joseluis/lmd/frsnov19/frag_0075.lmd";
+  TString filename = "~/lmd/frs2020/s480_calibration1_109sn_2126.lmd";
 
   TString outputFileName = "data_frs_online.root";
   
   TString ntuple_options = "RAW";
   TString ucesb_dir = getenv("UCESB_DIR");
   
-  TString ucesb_path = ucesb_dir + "/../upexps/frs_april2019/frs_april2019  --input-buffer=100Mi";
+  //TString ucesb_path = ucesb_dir + "/../upexps/frs_april2019/frs_april2019  --input-buffer=100Mi";
+  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/202003_s475  --input-buffer=100Mi";
   ucesb_path.ReplaceAll("//","/");
   
   EXT_STR_h101 ucesb_struct;
@@ -54,6 +59,15 @@ void online_frs() {
   R3BFrsReaderNov19* unpackfrs= new R3BFrsReaderNov19((EXT_STR_h101_FRS*)&ucesb_struct.frs,
 					     offsetof(EXT_STR_h101, frs));
 
+  FrsTpcReader* unpacktpc= new FrsTpcReader((EXT_STR_h101_TPC*)&ucesb_struct.tpc,
+					     offsetof(EXT_STR_h101, tpc));
+
+  VftxSciReader* unpackvftx= new VftxSciReader((EXT_STR_h101_frssci*)&ucesb_struct.vftx,
+					     offsetof(EXT_STR_h101, vftx));
+
+  FrsMusicReader* unpackmusic= new FrsMusicReader((EXT_STR_h101_FRSMUSIC*)&ucesb_struct.music,
+					     offsetof(EXT_STR_h101, music));
+
 
   /* Add readers ------------------------------------------ */
   source->AddReader(unpackreader);
@@ -61,6 +75,12 @@ void online_frs() {
   source->AddReader(unpackWRM);
   unpackfrs->SetOnline(true);
   source->AddReader(unpackfrs);
+  unpacktpc->SetOnline(true);
+  source->AddReader(unpacktpc);
+  unpackmusic->SetOnline(true);
+  source->AddReader(unpackmusic);
+  unpackvftx->SetOnline(true);
+  source->AddReader(unpackvftx);
 
   
   /* Create online run ------------------------------------ */
@@ -104,31 +124,35 @@ void online_frs() {
   MusMap2Cal->SetOnline(true);
   run->AddTask(MusMap2Cal);
   FRSMusicCal2Hit* MusCal2Hit = new FRSMusicCal2Hit();
-  MusCal2Hit->SetOnline(true);
+  //MusCal2Hit->SetOnline(true);
   run->AddTask(MusCal2Hit);
   //Tpcs
   R3BTpcMapped2Cal* TpcMap2Cal = new R3BTpcMapped2Cal();
-  TpcMap2Cal->SetOnline(true);
+  //TpcMap2Cal->SetOnline(true);
   run->AddTask(TpcMap2Cal);
   R3BTpcCal2Hit* TpcCal2Hit = new R3BTpcCal2Hit();
-  TpcCal2Hit->SetOnline(true);
+  //TpcCal2Hit->SetOnline(true);
   run->AddTask(TpcCal2Hit);
+  // Vftx
+  // --- Mapped 2 Tcal for FrsSci
+  FrsSciMapped2Tcal* FrsSciMap2Tcal = new FrsSciMapped2Tcal();
+  //FrsSciMap2Tcal->SetOnline(true);
+  run->AddTask(FrsSciMap2Tcal);
+  // --- Tcal 2 SingleTcal for FrsSci
+  FrsSciTcal2SingleTcal* FrsSciTcal2STcal = new FrsSciTcal2SingleTcal();
+  //FrsSciTcal2STcal->SetOnline(true);
+  run->AddTask(FrsSciTcal2STcal);
   //Analysis S4
   R3BFrsHit2AnaS4* AnaFrsS4 = new R3BFrsHit2AnaS4();
   AnaFrsS4->SetOnline(true);
   AnaFrsS4->SetOffsetAq(0.0268);
   AnaFrsS4->SetOffsetZ(0.);
-  run->AddTask(AnaFrsS4);
+  //run->AddTask(AnaFrsS4);
 
-
-
-  /* Add online task ------------------------------------ */  
-  R3BFrsOnlineSpectra* online= new R3BFrsOnlineSpectra();
-  run->AddTask(online);
-
+  /* Add online task ------------------------------------ */
   FrsTpcOnlineSpectra* tpconline= new FrsTpcOnlineSpectra();
   run->AddTask(tpconline);
-
+/*
   FrsMWOnlineSpectra* mw11online= new FrsMWOnlineSpectra("MW11OnlineSpectra",1,"MW11");
   run->AddTask(mw11online);
 
@@ -140,12 +164,15 @@ void online_frs() {
 
   FrsMWOnlineSpectra* mw31online= new FrsMWOnlineSpectra("MW31OnlineSpectra",1,"MW31");
   run->AddTask(mw31online);
-
+*/
   FrsMusicOnlineSpectra* mus41online= new FrsMusicOnlineSpectra("Music41OnlineSpectra",1,"Music41");
   run->AddTask(mus41online);
 
   FrsMusicOnlineSpectra* mus42online= new FrsMusicOnlineSpectra("Music42OnlineSpectra",1,"Music42");
   run->AddTask(mus42online);
+
+  R3BFrsOnlineSpectra* online= new R3BFrsOnlineSpectra();
+  run->AddTask(online);
 
 
   /* Initialize ------------------------------------------- */

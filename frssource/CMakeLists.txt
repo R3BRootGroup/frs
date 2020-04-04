@@ -29,15 +29,19 @@ include_directories(SYSTEM ${SYSTEM_INCLUDE_DIRECTORIES})
 link_directories( ${LINK_DIRECTORIES})
 
 set(SRCS
-R3BFrsReader.cxx
+#R3BFrsReader.cxx
 VftxSciReader.cxx
 R3BFrsReaderNov19.cxx
+FrsMusicReader.cxx
+FrsTpcReader.cxx
 R3BWasaReader.cxx
 )
 
 Set(STRUCT_HEADERS
 ext_h101_frs.h
+ext_h101_tpc.h
 ext_h101_frssci.h
+ext_h101_frsmusic.h
 ext_h101_wasa.h
 )
 
