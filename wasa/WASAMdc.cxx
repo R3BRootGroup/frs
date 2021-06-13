@@ -121,7 +121,7 @@ Bool_t WASAMdc::ProcessHits(FairVolume* vol)
         if (fELoss == 0.)
             return kFALSE;
 
-        if (gMC->IsTrackExiting())
+ /*       if (gMC->IsTrackExiting())
         {
             const Double_t* oldpos;
             const Double_t* olddirection;
@@ -153,7 +153,7 @@ Bool_t WASAMdc::ProcessHits(FairVolume* vol)
             fPosOut.SetY(newpos[1]);
             fPosOut.SetZ(newpos[2]);
         }
-
+*/
         AddHit(fTrackID,
                fVolumeID,
                fDetCopyID,

@@ -192,7 +192,7 @@ InitStatus FrsMusicOnlineSpectra::Init()
     cMushit = new TCanvas(Name1, Name2, 10, 10, 800, 700);
     Name1 =  fNameDet + "_Z";
     Name2 = fNameDet + ": Z (charge)";
-    fh_music_Z = new TH1F(Name1, Name2, 2000, 0, 60);
+    fh_music_Z = new TH1F(Name1, Name2, 2800, 0, 82);
     fh_music_Z->GetXaxis()->SetTitle("Charge-Z");
     fh_music_Z->GetYaxis()->SetTitle("Counts");
     fh_music_Z->GetYaxis()->SetTitleOffset(1.2);

@@ -14,7 +14,7 @@
 #pragma link C++ class R3BTpcMappedData + ;
 #pragma link C++ class R3BTpcCalData + ;
 #pragma link C++ class R3BTpcHitData + ;
-#pragma link C++ class R3BFrsData + ;
+#pragma link C++ class R3BFrsS4Data + ;
 #pragma link C++ class R3BMwHitData + ;
 #pragma link C++ class R3BMwMappedData + ;
 #pragma link C++ class FrsSpillMappedData + ;

@@ -42,7 +42,8 @@ class WASATofPoint : public FairMCPoint
                  TVector3 momOut,
                  Double_t tof,
                  Double_t length,
-                 Double_t eLoss);
+                 Double_t eLoss,
+                 Int_t pid=0);
 
     /** Copy constructor **/
     WASATofPoint(const WASATofPoint& point) { *this = point; };
@@ -61,6 +62,7 @@ class WASATofPoint : public FairMCPoint
     Double_t GetPxOut() const { return fPx_out; }
     Double_t GetPyOut() const { return fPy_out; }
     Double_t GetPzOut() const { return fPz_out; }
+    Int_t GetPid() const { return fPid; }
     void PositionIn(TVector3& pos) { pos.SetXYZ(fX, fY, fZ); }
     void PositionOut(TVector3& pos) { pos.SetXYZ(fX_out, fY_out, fZ_out); }
     void MomentumOut(TVector3& mom) { mom.SetXYZ(fPx_out, fPy_out, fPz_out); }
@@ -80,7 +82,7 @@ class WASATofPoint : public FairMCPoint
     virtual void Print(const Option_t* opt) const;
 
   protected:
-    Int_t fDetCopyID;
+    Int_t fDetCopyID, fPid;
     Double32_t fX_out, fY_out, fZ_out;
     Double32_t fPx_out, fPy_out, fPz_out;
 

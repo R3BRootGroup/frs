@@ -10,7 +10,7 @@
 
 #include "FrsTpcOnlineSpectra.h"
 #include "R3BEventHeader.h"
-#include "R3BFrsData.h"
+#include "R3BFrsS4Data.h"
 #include "R3BTpcCalData.h"
 #include "R3BTpcHitData.h"
 #include "R3BWRData.h"
@@ -40,7 +40,7 @@
 #include <iostream>
 #include <sstream>
 
-double tpcpos[5] = { 604., 1782.5, 390., 1530., 2300. }; // FIXME
+double tpcpos[4] = { 2960., 3985., 415., 1535. }; // FIXME
 
 using namespace std;
 
@@ -143,7 +143,7 @@ InitStatus FrsTpcOnlineSpectra::Init()
                 sprintf(Name2, "CSum for TPC 2%d and DT- %d", i + 1, j);
             else
                 sprintf(Name2, "CSum for TPC 4%d and DT- %d", i - 1, j);
-            fh_tpc_csum[i * 4 + j] = new TH1F(Name1, Name2, 500, 0, 4092);
+            fh_tpc_csum[i * 4 + j] = new TH1F(Name1, Name2, 1000, -4092, 4092);
             fh_tpc_csum[i * 4 + j]->GetXaxis()->SetTitle("Channels");
             fh_tpc_csum[i * 4 + j]->GetYaxis()->SetTitle("Counts");
             fh_tpc_csum[i * 4 + j]->GetYaxis()->SetTitleOffset(1.2);
@@ -404,7 +404,12 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
     {
         Int_t nHits = fHitItemsTpc->GetEntriesFast();
         // std::cout << nHits << std::endl;
-        TVector3 master[5];
+        TVector3 master[4];
+        int detid[4];
+        detid[0]=0;
+        detid[1]=0;
+        detid[2]=0;
+        detid[3]=0;
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
             R3BTpcHitData* hit = (R3BTpcHitData*)fHitItemsTpc->At(ihit);
@@ -414,18 +419,19 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
             fh_Tpc_hity[hit->GetDetectorId()]->Fill(hit->GetY());
             fh_Tpc_hitxy[hit->GetDetectorId()]->Fill(hit->GetX(), hit->GetY());
             master[hit->GetDetectorId()].SetXYZ(tpcpos[hit->GetDetectorId()], hit->GetX(), 0.);
+            detid[hit->GetDetectorId()]=1;
         }
         double zr = 0.;
-        fh_ts2->Fill(master[0].Y() + (master[1] - master[0]).Phi() * 2000., (master[1] - master[0]).Phi() * 1000.);
-        fh_ts4->Fill(master[2].Y() + (master[3] - master[2]).Phi() * 1500., (master[3] - master[2]).Phi() * 1000.);
+        if(detid[0]==1&&detid[1]==1)fh_ts2->Fill(master[0].Y() + (master[1] - master[0]).Phi() * 2012., (master[1] - master[0]).Phi() * 1000.);
+        if(detid[2]==1&&detid[3]==1)fh_ts4->Fill(master[2].Y() + (master[3] - master[2]).Phi() * 2349., (master[3] - master[2]).Phi() * 1000.);
         for (Int_t j = 0; j < 10; j++)
         {
             zr = gRandom->Uniform(0., 4050.);
             if (master[0].Y() > -100. && master[0].Y() < 100. && master[1].Y() > -100. && master[1].Y() < 100. &&
-                abs((master[1] - master[0]).Phi()) < 0.016)
+                abs((master[1] - master[0]).Phi()) < 0.016 && detid[0]==1 && detid[1]==1)
                 fh_tr2->Fill(zr, master[0].Y() + (master[1] - master[0]).Phi() * zr);
             if (master[2].Y() > -100. && master[2].Y() < 100. && master[3].Y() > -100. && master[3].Y() < 100. &&
-                abs((master[3] - master[2]).Phi()) < 0.016)
+                abs((master[3] - master[2]).Phi()) < 0.016 && detid[2]==1 && detid[3]==1)
                 fh_tr4->Fill(zr, master[2].Y() + (master[3] - master[2]).Phi() * zr);
         }
     }

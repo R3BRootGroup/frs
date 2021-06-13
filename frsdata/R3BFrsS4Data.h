@@ -1,29 +1,29 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BFrsData                                 -----
-// -----                  Created 29/07/2018 by J.L. Rodriguez           -----
+// -----                      R3BFrsS4Data                               -----
+// -----            Created 29/07/2018 by J.L. Rodriguez                 -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#ifndef R3BFrsData_H
-#define R3BFrsData_H
+#ifndef R3BFrsS4Data_H
+#define R3BFrsS4Data_H
 #include "TObject.h"
 
-class R3BFrsData : public TObject
+class R3BFrsS4Data : public TObject
 {
 
   public:
     // Default Constructor
-    R3BFrsData();
+    R3BFrsS4Data();
 
     /** Standard Constructor
      *@param fZ      Z of fragments
      *@param fAq     A/q of fragments
      **/
-    R3BFrsData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4);
+    R3BFrsS4Data(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4);
 
     // Destructor
-    ~R3BFrsData() {}
+    ~R3BFrsS4Data() {}
 
     // Getters
     inline const Double_t GetZ() const { return fZ; }
@@ -39,7 +39,7 @@ class R3BFrsData : public TObject
     Double_t fXS4, fAS4; // Focal info at S4
 
   public:
-    ClassDef(R3BFrsData, 1)
+    ClassDef(R3BFrsS4Data, 1)
 };
 
 #endif

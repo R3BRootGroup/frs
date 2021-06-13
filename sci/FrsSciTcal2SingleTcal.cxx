@@ -301,7 +301,7 @@ void FrsSciTcal2SingleTcal::Exec(Option_t* option)
                             RawTime[dstop] - RawTime[dstart];
                     }
                     else
-                        RawTof[iTof] - 1000000.;
+                        RawTof[iTof] = 1000000.;
                     fItem->SetRawTofNs(iTof, RawTof[iTof]);
                     iTof++;
                 }

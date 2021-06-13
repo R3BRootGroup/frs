@@ -95,28 +95,26 @@ class WASATof : public R3BDetector
     virtual void Initialize();
     virtual void SetSpecialPhysicsCuts();
 
-    //  void SaveGeoParams();
-
   private:
     /** Track information to be stored until the track leaves the
     active volume. **/
-    Int_t fTrackID;                 //!  track index
-    Int_t fVolumeID;                //!  volume id
-    Int_t fDetCopyID;               //!  copy id
-    TLorentzVector fPosIn, fPosOut; //!  position
-    TLorentzVector fMomIn, fMomOut; //!  momentum
-    Double32_t fTime_in;            //!  time when entering active volume
-    Double32_t fTime_out;           //!  time when exiting active volume
-    Double32_t fTime;               //!  time average in detector active volume
-    Double32_t fLength_in;          //!  length when entering active volume
-    Double32_t fLength_out;         //!  length when exiting active volume
-    Double32_t fLength;             //!  length average in detector
-    Double32_t fELoss;              //!  energy loss
+    Int_t fTrackID;                 //  track index
+    Int_t fVolumeID;                //  volume id
+    Int_t fDetCopyID;               //  copy id
+    TLorentzVector fPosIn, fPosOut; //  position
+    TLorentzVector fMomIn, fMomOut; //  momentum
+    Double32_t fTime_in;            //  time when entering active volume
+    Double32_t fTime_out;           //  time when exiting active volume
+    Double32_t fTime;               //  time average in detector active volume
+    Double32_t fLength_in;          //  length when entering active volume
+    Double32_t fLength_out;         //  length when exiting active volume
+    Double32_t fLength;             //  length average in detector
+    Double32_t fELoss;              //  energy loss
 
-    Int_t fPosIndex;              //!
-    TClonesArray* fTofCollection; //!  The hit collection
-    Bool_t kGeoSaved;             //!
-    TList* flGeoPar;              //!
+    Int_t fPosIndex;              //
+    TClonesArray* fTofCollection; //  The hit collection
+    Bool_t kGeoSaved;             //
+    TList* flGeoPar;              //
 
     /** Private method AddHit
      **
@@ -131,7 +129,8 @@ class WASATof : public R3BDetector
                          TVector3 momOut,
                          Double_t time,
                          Double_t length,
-                         Double_t eLoss);
+                         Double_t eLoss,
+                         Int_t pid);
 
     /** Private method ResetParameters
      **

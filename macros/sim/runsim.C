@@ -1,5 +1,5 @@
 //
-//   ----- General Macro for WASA simulation
+//   ----- General macro for WASA simulation
 //
 //         Author: Jose Luis <joseluis.rodriguez.sanchez@usc.es>
 //
@@ -8,206 +8,196 @@
 //         Comments: root -l
 //                   .L runsim.C
 //                   runsim(nEvents)
-//   
+//
 
 void runsim(Int_t nEvents = 1)
 {
 
-  // =========== Configuration area =============================
+    // -----   Timer   --------------------------------------------------------
+    TStopwatch timer;
+    timer.Start();
+    // ------------------------------------------------------------------------
 
-  TString OutFile = "sim.root";      // Output file for data
-  TString ParFile = "sim_par.root";  // Output file for params
+    // =========== Configuration area =============================
 
-  Bool_t fVis = true;                // Store tracks for visualization
-  Bool_t fUserPList= false;          // Use of R3B special physics list
-  Bool_t fMagnet = true;          // Magnetic field definition
+    TString OutFile = "sim.root"; // Output file for data
+    TString ParFile = "par.root"; // Output file for params
 
-  TString fMC = "TGeant4";           // MonteCarlo engine: TGeant3, TGeant4, TFluka
-  TString fGenerator = "box";        // Event generator type: box, gammas, r3b, ion, ascii
-  TString fEventFile = "";           // Input event file in the case of ascii generator
+    Bool_t fVis = false;        // Store tracks for visualization
+    Bool_t fUserPList = false; // Use of R3B special physics list
+    Bool_t fMagnet = true;     // Magnetic field definition
 
+    TString fMC = "TGeant4";    // MonteCarlo engine: TGeant3, TGeant4, TFluka
+    TString fGenerator = "box"; // Event generator type: box, gammas, r3b, ion, ascii
+    TString fEventFile = "";    // Input event file in the case of ascii generator
 
-  Int_t    fFieldScale = 1;          // Magnetic field scale factor
+    Int_t fFieldScale = 1; // Magnetic field scale factor
 
-  // -- Paths
-  TString dir = gSystem->Getenv("VMCWORKDIR");
-  TString r3bdir = dir + "/macros/";
-  r3bdir.ReplaceAll("//","/");
+    // ----    Debug option   -------------------------------------------------
+    gDebug = 0;
 
-  TString r3b_geomdir = dir + "/geometry/";
-  gSystem->Setenv("GEOMPATH",r3b_geomdir.Data());
-  r3b_geomdir.ReplaceAll("//","/");
+    // ---------------  Detector selection: true - false ----------------------
+    Bool_t fTarget = false;      // Target
+    TString fTargetType = "LiH"; // Target selection: LeadTarget, Para, Para45, LiH
 
-  TString r3b_confdir = dir + "/gconfig/";
-  gSystem->Setenv("CONFIG_DIR",r3b_confdir.Data());
-  r3b_confdir.ReplaceAll("//","/");
+    Bool_t fYoke = true; // Yoke wasa
+    TString fYokeGeo = "wasa_yoke_v2020.geo.root";
 
-  TString frsdir = dir + "/frs/";
-  TString frsdirgeo = frsdir + "/geometry/";
+    Bool_t fTracker = true; // Tracker
+    TString fTrackerGeo = "wasa_v2020.geo.root";
 
-  // ---------------  Detector selection: true - false -------------------------------
+    Bool_t fTof = true; // ToF Detector
+    TString fTofGeo = "wasa_sci_v2020.geo.root";
 
-  Bool_t  fTarget = false;          // Target
-  TString fTargetType = "LiH";      // Target selection: LeadTarget, Para, Para45, LiH
+    // ========= End of Configuration area =======================
 
-  Bool_t  fYoke = true;             // Yoke wasa
-  TString fYokeGeo = frsdirgeo + "wasa_yoke_v0.geo.root";
+    // ---- Stable part   -----------------------------------------------------
+    TString dir = gSystem->Getenv("VMCWORKDIR");
+    TString r3bdir = dir + "/macros/";
+    r3bdir.ReplaceAll("//", "/");
 
-  Bool_t  fTracker = true;          // Tracker
-  TString fTrackerGeo = frsdirgeo + "wasa_v0.geo.root";
+    TString r3b_geomdir = dir + "/geometry/";
+    gSystem->Setenv("GEOMPATH", r3b_geomdir.Data());
+    r3b_geomdir.ReplaceAll("//", "/");
 
-  Bool_t fTof = true;               // ToF Detector
-  TString fTofGeo = frsdirgeo + "wasa_sci_v0.geo.root";
+    TString r3b_confdir = dir + "/gconfig/";
+    gSystem->Setenv("CONFIG_DIR", r3b_confdir.Data());
+    r3b_confdir.ReplaceAll("//", "/");
 
-  // ========= End of Configuration area =======================
+    char str[1000];
+    sprintf(str, "GEOMPATH=%s/frs/geometry", dir.Data());
+    putenv(str);
 
+    // -----   Create simulation run   ----------------------------------------
+    FairRunSim* run = new FairRunSim();
+    run->SetName(fMC);                           // Transport engine
+    run->SetSink(new FairRootFileSink(OutFile)); // Output file
 
+    //  R3B Special Physics List in G4 case
+    if ((fUserPList) && (fMC.CompareTo("TGeant4") == 0))
+    {
+        run->SetUserConfig("g4Config.C");
+        run->SetUserCuts("SetCuts.C");
+    }
 
+    // -----   Create media   -------------------------------------------------
+    run->SetMaterials("media_r3b.geo"); // Materials
 
-  // ----    Debug option   -------------------------------------------------
-  gDebug = 0;
-  // ------------------------------------------------------------------------
+    // -----   Create R3B geometry --------------------------------------------
 
-  // -----   Timer   --------------------------------------------------------
-  TStopwatch timer;
-  timer.Start();
-  // ------------------------------------------------------------------------
+    // Cave definition
+    FairModule* cave = new R3BCave("CAVE");
+    cave->SetGeometryFileName("r3b_cave_vacuum.geo");
+    run->AddModule(cave);
 
+    // Yoke
+    if (fYoke)
+    {
+        run->AddModule(new R3BTarget(fTargetType, fYokeGeo));
+    }
 
-  // -----   Create simulation run   ----------------------------------------
-  FairRunSim* run = new FairRunSim();
-  run->SetName(fMC);                  // Transport engine
-  run->SetOutputFile(OutFile);        // Output file
+    // Tracker
+    if (fTracker)
+    {
+        run->AddModule(new WASAMdc(fTrackerGeo));
+    }
 
-  //  R3B Special Physics List in G4 case
-  if ( (fUserPList) && (fMC.CompareTo("TGeant4") == 0) ) {
-       run->SetUserConfig("g4R3bConfig.C");
-       run->SetUserCuts("SetCuts.C");
-   }
+    // Tof
+    if (fTof)
+    {
+        run->AddModule(new WASATof(fTofGeo));
+    }
 
-  // -----   Create media   -------------------------------------------------
-  run->SetMaterials("media_r3b.geo");       // Materials
+    // -----   Create WASA magnetic field ----------------------------------------
+    // If the Global Position of the Magnet is changed
+    // the Field Map is also transformed accordingly
+    if (fMagnet == 1)
+    {
+        FRSWasaFieldMap* magField = new FRSWasaFieldMap("FrsWasaFieldMap");
+        // magField->SetScale(fFieldScale);
+        magField->SetPosition(0., 0., 0.);
+        magField->SetField(0., 0., 11.); // kGaus
+        magField->SetRmax(30.);
+        magField->SetZmax(25.);
+        magField->SetZmin(-25.);
+        run->SetField(magField);
+    }
 
-  // -----   Create R3B geometry --------------------------------------------
+    // -----   Create PrimaryGenerator   --------------------------------------
 
-  //Cave definition
-  FairModule* cave= new R3BCave("CAVE");
-  cave->SetGeometryFileName("r3b_cave.geo");
-  run->AddModule(cave);
+    // 1 - Create the Main API class for the Generator
+    FairPrimaryGenerator* primGen = new FairPrimaryGenerator();
 
-  // Yoke
-  if (fYoke) {
-    run->AddModule(new R3BTarget(fTargetType,fYokeGeo));
-  }
+    if (fGenerator.CompareTo("box") == 0)
+    {
+        // 2- Define the BOX generator
+        Double_t pdgId = 2212; // proton beam
+        Double_t theta1 = 0.; // polar angle distribution
+        Double_t theta2 = 0.;
+        Double_t momentum = 2.25; // 10 GeV/c
+        FairBoxGenerator* boxGen = new FairBoxGenerator(pdgId, 1);
+        boxGen->SetThetaRange(theta1, theta2);
+        boxGen->SetPRange(momentum, momentum);
+        boxGen->SetPhiRange(0., 0.);
+        boxGen->SetXYZ(0.0, 0.0, -20.5);
+        // add the box generator
+        //primGen->AddGenerator(boxGen);
 
+        FRSResonanceGenerator* resGen = new FRSResonanceGenerator();
+        primGen->AddGenerator(resGen);
 
-  // Tracker
-  if (fTracker) {
-    run->AddModule(new WASAMdc(fTrackerGeo));
-  }
+        // FairBoxGenerator* boxGen2 = new FairBoxGenerator(211, 1);
+        // boxGen2->SetThetaRange (   theta1,   theta2);
+        // boxGen2->SetPRange     (momentum,momentum*2.);
+        // boxGen2->SetPhiRange   (0.,360.);
+        // boxGen2->SetXYZ(0.0,0.0,.0);
+        // add the box generator
+        // primGen->AddGenerator(boxGen2);
 
+        // 128-Sn fragment
+         R3BIonGenerator* ionGen = new R3BIonGenerator(54, 124, 54, 1, 0., 0., 1.3);
+         ionGen->SetSpotRadius(0., -37., 0.);
+         //primGen->AddGenerator(ionGen);
 
-  // Tof
-  if (fTof) {
-    run->AddModule(new WASATof(fTofGeo));
-  }
+        // R3BIonGenerator* ionGen = new R3BIonGenerator(2, 128, 50, 1, 0., 1.3, 0);
+        // ionGen->SetSpotRadius(0.1, 0., 0.);
+        //  primGen->AddGenerator(ionGen);
+    }
 
-  // -----   Create WASA magnetic field ----------------------------------------
-  // If the Global Position of the Magnet is changed
-  // the Field Map is also transformed accordingly
-  if (fMagnet == 1) {
-    FRSWasaFieldMap* magField = new FRSWasaFieldMap("FrsWasaFieldMap");
-    magField->SetScale(fFieldScale);
-    magField->SetPosition(0.,0.,0.);
-    magField->SetField(0.,0.,10.);//kGaus
-    magField->SetRmax(22.);
-    magField->SetZmax(23.);
-    magField->SetZmin(-23.);
-    run->SetField(magField);
-  }
+    run->SetGenerator(primGen);
 
+    //-------Set visualisation flag to true------------------------------------
+    run->SetStoreTraj(fVis);
 
+    FairLogger::GetLogger()->SetLogVerbosityLevel("LOW");
 
+    // -----   Initialize simulation run   ------------------------------------
+    run->Init();
 
+    // -----   Runtime database   ---------------------------------------------
+    FairRuntimeDb* rtdb = run->GetRuntimeDb();
+    Bool_t kParameterMerged = kTRUE;
+    FairParRootFileIo* parOut = new FairParRootFileIo(kParameterMerged);
+    parOut->open(ParFile.Data());
+    rtdb->setOutput(parOut);
+    rtdb->saveOutput();
+    rtdb->print();
 
-  // -----   Create PrimaryGenerator   --------------------------------------
+    // -----   Start run   ----------------------------------------------------
+    if (nEvents > 0)
+        run->Run(nEvents);
 
-  // 1 - Create the Main API class for the Generator
-  FairPrimaryGenerator* primGen = new FairPrimaryGenerator();
+    // -----   Finish   -------------------------------------------------------
+    timer.Stop();
+    Double_t rtime = timer.RealTime();
+    Double_t ctime = timer.CpuTime();
+    cout << endl << endl;
+    cout << "Macro finished succesfully." << endl;
+    cout << "Output file is " << OutFile << endl;
+    cout << "Parameter file is " << ParFile << endl;
+    cout << "Real time " << rtime << " s, CPU time " << ctime << "s" << endl << endl;
+    // ------------------------------------------------------------------------
 
-  if (fGenerator.CompareTo("box") == 0  ) {
-	  // 2- Define the BOX generator
-	  Double_t pdgId=2212; // pion beam
-	  Double_t theta1= 10.;  // polar angle distribution
-	  Double_t theta2= 170.;
-	  Double_t momentum=0.4; // 10 GeV/c
-	  FairBoxGenerator* boxGen = new FairBoxGenerator(pdgId, 1);
-	  boxGen->SetThetaRange (   theta1,   theta2);
-	  boxGen->SetPRange     (momentum,momentum*2.);
-	  boxGen->SetPhiRange   (0.,90.);
-	  boxGen->SetXYZ(0.0,0.0,.0);
-	  // add the box generator
-	  primGen->AddGenerator(boxGen);
-
-
-	 // FairBoxGenerator* boxGen2 = new FairBoxGenerator(211, 1);
-	 // boxGen2->SetThetaRange (   theta1,   theta2);
-	 // boxGen2->SetPRange     (momentum,momentum*2.);
-	 // boxGen2->SetPhiRange   (0.,360.);
-	 // boxGen2->SetXYZ(0.0,0.0,.0);
-	  // add the box generator
-	  //primGen->AddGenerator(boxGen2);
-
-    // 128-Sn fragment
-        //R3BIonGenerator* ionGen = new R3BIonGenerator(50, 128, 50, 1, 0., 1.3, 0);
-        //ionGen->SetSpotRadius(0.1, 0., 0.);
-        //primGen->AddGenerator(ionGen);
-
-       // R3BIonGenerator* ionGen = new R3BIonGenerator(2, 128, 50, 1, 0., 1.3, 0);
-       // ionGen->SetSpotRadius(0.1, 0., 0.);
-      //  primGen->AddGenerator(ionGen);
-
-
-  }
-
-  run->SetGenerator(primGen);
-
-
-  //-------Set visualisation flag to true------------------------------------
-  run->SetStoreTraj(fVis);
-
-  FairLogger::GetLogger()->SetLogVerbosityLevel("LOW");
-
-  // -----   Initialize simulation run   ------------------------------------
-  run->Init();
-
-  // -----   Runtime database   ---------------------------------------------
-  FairRuntimeDb* rtdb = run->GetRuntimeDb();
-  Bool_t kParameterMerged = kTRUE;
-  FairParRootFileIo* parOut = new FairParRootFileIo(kParameterMerged);
-  parOut->open(ParFile.Data());
-  rtdb->setOutput(parOut);
-  rtdb->saveOutput();
-  rtdb->print();
-
-  // -----   Start run   ----------------------------------------------------
-  if (nEvents>0) run->Run(nEvents);
-
-  // -----   Finish   -------------------------------------------------------
-  timer.Stop();
-  Double_t rtime = timer.RealTime();
-  Double_t ctime = timer.CpuTime();
-  cout << endl << endl;
-  cout << "Macro finished succesfully." << endl;
-  cout << "Output file is "    << OutFile << endl;
-  cout << "Parameter file is " << ParFile << endl;
-  cout << "Real time " << rtime << " s, CPU time " << ctime
-       << "s" << endl << endl;
-  // ------------------------------------------------------------------------
-
-  cout << " Test passed" << endl;
-  cout << " All ok " << endl;
-
+    cout << " Test passed" << endl;
+    cout << " All ok " << endl;
 }
-
-

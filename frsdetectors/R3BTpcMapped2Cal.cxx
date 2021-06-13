@@ -224,8 +224,7 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
                 tpc_csum[j] = (fTpclt[1] + fTpcrt[1] - 2 * fTpcdt[j]);
             }
 
-            // std::cout<<CsumMinParams->GetAt(detId*fNumAnodesY+j)<<" "<<tpc_csum[j]<<"
-            // "<<CsumMaxParams->GetAt(detId*fNumAnodesY+j)<<std::endl;
+             std::cout<<detId<<" "<<j<<" "<<fTpclt[0]<<" "<<fTpcrt[0]<<" "<<fTpclt[1]<<" "<<fTpcrt[1]<<" "<<fTpcdt[j]<<std::endl;
 
             if (tpc_csum[j] > CsumMinParams->GetAt(detId * fNumAnodesY + j) &&
                 tpc_csum[j] < CsumMaxParams->GetAt(detId * fNumAnodesY + j))

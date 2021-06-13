@@ -1,13 +1,13 @@
 // ---------------------------------------------------------------------------
 // -----                                                                 -----
-// -----                      R3BFrsData                                 -----
-// -----                  Created 29/07/2018 by J.L. Rodriguez           -----
+// -----                      R3BFrsS4Data                               -----
+// -----            Created 29/07/2018 by J.L. Rodriguez                 -----
 // -----                                                                 -----
 // ---------------------------------------------------------------------------
 
-#include "R3BFrsData.h"
+#include "R3BFrsS4Data.h"
 
-R3BFrsData::R3BFrsData()
+R3BFrsS4Data::R3BFrsS4Data()
     : fZ(0)
     , fAq(0)
     , fXS2(0)
@@ -19,7 +19,7 @@ R3BFrsData::R3BFrsData()
 
 //------------------------------
 
-R3BFrsData::R3BFrsData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4)
+R3BFrsS4Data::R3BFrsS4Data(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4)
     : fZ(z)
     , fAq(aq)
     , fXS2(xs2)
@@ -29,4 +29,4 @@ R3BFrsData::R3BFrsData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Doub
 {
 }
 
-ClassImp(R3BFrsData)
+ClassImp(R3BFrsS4Data)

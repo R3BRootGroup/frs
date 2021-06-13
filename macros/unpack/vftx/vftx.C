@@ -18,7 +18,7 @@ void vftx() {
   /* Create source using ucesb for input ------------------ */
   
   //TString filename = "--stream=lxg1266:8000";
-  TString filename = "~/lmd/frs2020/s480_calibration1_109sn_2126.lmd";
+  TString filename = "~/lmd/frs2020/s468_12_193W__0922.lmd";
 
   TString outputFileName = "data_vftx.root";
 
@@ -31,7 +31,7 @@ void vftx() {
 
   TString ntuple_options = "RAW";
   TString ucesb_dir = getenv("UCESB_DIR");
-  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/201911_eng2  --input-buffer=100Mi";
+  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/202003_s475  --input-buffer=100Mi --allow-errors";
   ucesb_path.ReplaceAll("//","/");
   
   EXT_STR_h101 ucesb_struct;

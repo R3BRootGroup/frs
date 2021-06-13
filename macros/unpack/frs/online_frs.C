@@ -31,7 +31,7 @@ void online_frs() {
   
   //TString filename = "--stream=lxg1266:8000";
   //TString filename = "/home/joseluis/lmd/frsnov19/frag_0075.lmd";
-  TString filename = "~/lmd/frs2020/s480_calibration1_109sn_2126.lmd";
+  TString filename = "~/lmd/frs2020/s468_12_193W__0922.lmd";
 
   TString outputFileName = "data_frs_online.root";
   
@@ -39,7 +39,7 @@ void online_frs() {
   TString ucesb_dir = getenv("UCESB_DIR");
   
   //TString ucesb_path = ucesb_dir + "/../upexps/frs_april2019/frs_april2019  --input-buffer=100Mi";
-  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/202003_s475  --input-buffer=100Mi";
+  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/202003_s475  --input-buffer=100Mi --allow-errors";
   ucesb_path.ReplaceAll("//","/");
   
   EXT_STR_h101 ucesb_struct;
@@ -75,7 +75,7 @@ void online_frs() {
   source->AddReader(unpackWRM);
   unpackfrs->SetOnline(true);
   source->AddReader(unpackfrs);
-  unpacktpc->SetOnline(true);
+  //unpacktpc->SetOnline(true);
   source->AddReader(unpacktpc);
   unpackmusic->SetOnline(true);
   source->AddReader(unpackmusic);
@@ -102,6 +102,7 @@ void online_frs() {
   rtdb->setFirstInput(parIo1);
   rtdb->print();*/
   FairParAsciiFileIo* parIo1 = new FairParAsciiFileIo();
+  //parIo1->open("FRS_Par.par","in");
   parIo1->open("FRS_Par.par","in");
   rtdb->setFirstInput(parIo1);
 
@@ -144,10 +145,10 @@ void online_frs() {
   run->AddTask(FrsSciTcal2STcal);
   //Analysis S4
   R3BFrsHit2AnaS4* AnaFrsS4 = new R3BFrsHit2AnaS4();
-  AnaFrsS4->SetOnline(true);
-  AnaFrsS4->SetOffsetAq(0.0268);
+  //AnaFrsS4->SetOnline(true);
+  //AnaFrsS4->SetOffsetAq(0.0268);
   AnaFrsS4->SetOffsetZ(0.);
-  //run->AddTask(AnaFrsS4);
+  run->AddTask(AnaFrsS4);
 
   /* Add online task ------------------------------------ */
   FrsTpcOnlineSpectra* tpconline= new FrsTpcOnlineSpectra();
