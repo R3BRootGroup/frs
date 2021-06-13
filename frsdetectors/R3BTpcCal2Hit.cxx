@@ -144,7 +144,7 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
     R3BTpcCalData** CalDat = new R3BTpcCalData*[nHits];
 
     Int_t detId, secId, xyId;
-    Double_t fx, fy;
+    Double_t fx=-999., fy=-999.;
 
     Double_t tpc_x[fNumDets], tpc_y[fNumDets];
     Int_t count_x[fNumDets], count_y[fNumDets];
@@ -189,10 +189,10 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
 
     for (Int_t i = 0; i < fNumDets; i++)
     {
-        if (count_x[i] > 0 && count_y[i] > 0 && tpc_x[i] > -500)
+        if (count_x[i] > 0)// && count_y[i] > 0)
         {
             fx = tpc_x[i] / count_x[i];
-            fy = tpc_y[i] / count_y[i];
+            if(count_y[i] > 0)fy = tpc_y[i] / count_y[i];
             // std::cout << i << " " << fx << " " << fy << std::endl;
             AddHitData(i, fx, fy);
         }

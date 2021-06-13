@@ -8,7 +8,7 @@
 #define R3BFrsHit2AnaS4_H
 
 #include "FairTask.h"
-#include "R3BFrsData.h"
+#include "R3BFrsS4Data.h"
 #include "TF1.h"
 #include "TH1F.h"
 #include <TRandom.h>
@@ -77,7 +77,7 @@ class R3BFrsHit2AnaS4 : public FairTask
 
     /** Private method FrsData **/
     //** Adds a FrsData to the analysis
-    R3BFrsData* AddData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4);
+    R3BFrsS4Data* AddData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4);
 
   public:
     // Class definition

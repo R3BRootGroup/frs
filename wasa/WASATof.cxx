@@ -61,81 +61,30 @@ WASATof::~WASATof()
 void WASATof::Initialize()
 {
     FairDetector::Initialize();
-
     LOG(INFO) << "WASATof: initialisation";
-    LOG(DEBUG) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog");
+    //LOG(DEBUG) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog");
 }
 
 void WASATof::SetSpecialPhysicsCuts()
 {
-    LOG(INFO) << "-I- WASATof: Adding customized Physics cut ... ";
-    /*
-        if (gGeoManager)
-        {
-            TGeoMedium* pSi = gGeoManager->GetMedium("plasticForTOF");
-            if (pSi)
-            {
-                // Setting processes for Si only
-                gMC->Gstpar(pSi->GetId(), "LOSS", 3);
-                gMC->Gstpar(pSi->GetId(), "STRA", 1.0);
-                gMC->Gstpar(pSi->GetId(), "PAIR", 1.0);
-                gMC->Gstpar(pSi->GetId(), "COMP", 1.0);
-                gMC->Gstpar(pSi->GetId(), "PHOT", 1.0);
-                gMC->Gstpar(pSi->GetId(), "ANNI", 1.0);
-                gMC->Gstpar(pSi->GetId(), "BREM", 1.0);
-                gMC->Gstpar(pSi->GetId(), "HADR", 1.0);
-                gMC->Gstpar(pSi->GetId(), "DRAY", 1.0);
-                gMC->Gstpar(pSi->GetId(), "DCAY", 1.0);
-                gMC->Gstpar(pSi->GetId(), "MULS", 1.0);
-                gMC->Gstpar(pSi->GetId(), "RAYL", 1.0);
-
-                // Setting Energy-CutOff for Si Only
-                Double_t cutE = fCutE; // GeV-> 1 keV
-
-                LOG(INFO) << "-I- WASATof: plasticForTOF Medium Id " << pSi->GetId() << " Energy Cut-Off : " << cutE
-                          << " GeV" ;
-
-                // Si
-                gMC->Gstpar(pSi->GetId(), "CUTGAM", cutE); /** gammas (GeV)*/
-    //        gMC->Gstpar(pSi->GetId(), "CUTELE", cutE); /** electrons (GeV)*/
-    //        gMC->Gstpar(pSi->GetId(), "CUTNEU", cutE); /** neutral hadrons (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "CUTHAD", cutE); /** charged hadrons (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "CUTMUO", cutE); /** muons (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "BCUTE", cutE);  /** electron bremsstrahlung (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "BCUTM", cutE);  /** muon and hadron bremsstrahlung(GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "DCUTE", cutE);  /** delta-rays by electrons (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "DCUTM", cutE);  /** delta-rays by muons (GeV)*/
-    //      gMC->Gstpar(pSi->GetId(), "PPCUTM", -1.);  /** direct pair production by muons (GeV)*/
-    //  }
-
-    // } //! gGeoManager
+    LOG(INFO) << "WASATof: Adding customized Physics cut ... ";
 }
 
 // -----   Public method ProcessHits  --------------------------------------
 Bool_t WASATof::ProcessHits(FairVolume* vol)
 {
-    // debug
-    //    static Int_t evt;
-
     // Simple Det PLane
     if (gMC->IsTrackEntering())
     {
         fELoss = 0.;
-        // fTime   = gMC->TrackTime() * 1.0e09;
-        // fLength = gMC->TrackLength();
         fTime_in = gMC->TrackTime() * 1.0e09;
         fLength_in = gMC->TrackLength();
         gMC->TrackPosition(fPosIn);
         gMC->TrackMomentum(fMomIn);
-        //    cout << "-I- evt: " << evt++ << " track entering " << endl;
     }
 
     // Sum energy loss for all steps in the active volume
     fELoss += gMC->Edep();
-
-    // std::cout << "-: " << gMC->GetStack()->GetCurrentTrack()->GetPdgCode() << ", "<<
-    // gMC->GetStack()->GetCurrentTrackNumber() << "," << vol->getMCid() << "," << vol->getCopyNo() << ", " << fELoss <<
-    // std::endl;
 
     // Set additional parameters at exit of active volume. Create WASATofPoint.
     if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared())
@@ -145,15 +94,13 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
         fDetCopyID = vol->getCopyNo();
         gMC->TrackPosition(fPosOut);
         gMC->TrackMomentum(fMomOut);
-        // if (fELoss == 0.)
-        //  return kFALSE;
+        if (fELoss == 0.)
+          return kFALSE;
 
         fTime_out = gMC->TrackTime() * 1.0e09; // also in case particle is stopped in detector, or decays...
         fLength_out = gMC->TrackLength();
         fTime = (fTime_out + fTime_in) / 2.;
         fLength = (fLength_out + fLength_in) / 2.;
-
-        // std::cout << "1st direction: " << fTrackID << "," << fVolumeID << "," << fELoss << std::endl;
 
         if (gMC->IsTrackExiting())
         {
@@ -167,16 +114,12 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
             oldpos = gGeoManager->GetCurrentPoint();
             olddirection = gGeoManager->GetCurrentDirection();
 
-            //       cout << "1st direction: " << olddirection[0] << "," << olddirection[1] << "," << olddirection[2] <<
-            //       endl;
-
             for (Int_t i = 0; i < 3; i++)
             {
                 newdirection[i] = -1 * olddirection[i];
             }
 
             gGeoManager->SetCurrentDirection(newdirection);
-            // TGeoNode *bla = gGeoManager->FindNextBoundary(2);
             safety = gGeoManager->GetSafeDistance();
 
             gGeoManager->SetCurrentDirection(-newdirection[0], -newdirection[1], -newdirection[2]);
@@ -200,7 +143,8 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
                TVector3(fMomOut.Px(), fMomOut.Py(), fMomOut.Pz()),
                fTime,
                fLength,
-               fELoss);
+               fELoss,
+               gMC->TrackPid());
 
         // Increment number of TofPoints for this track
         R3BStack* stack = (R3BStack*)gMC->GetStack();
@@ -212,30 +156,8 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
     return kTRUE;
 }
 
-// ----------------------------------------------------------------------------
-// void WASATof::SaveGeoParams(){
-//
-//  cout << " -I Save STS geo params " << endl;
-//
-//  TFolder *mf = (TFolder*) gDirectory->FindObjectAny("cbmroot");
-//  cout << " mf: " << mf << endl;
-//  TFolder *stsf = NULL;
-//  if (mf ) stsf = (TFolder*) mf->FindObjectAny(GetName());
-//  cout << " stsf: " << stsf << endl;
-//  if (stsf) stsf->Add( flGeoPar0 ) ;
-//  FairRootManager::Instance()->WriteFolder();
-//  mf->Write("cbmroot",TObject::kWriteDelete);
-//}
-
-// -----   Public method EndOfEvent   -----------------------------------------
-void WASATof::BeginEvent()
-{
-    //  if (! kGeoSaved ) {
-    //      SaveGeoParams();
-    //  cout << "-I STS geometry parameters saved " << endl;
-    //  kGeoSaved = kTRUE;
-    //  }
-}
+// -----   Public method BeginEvent   -----------------------------------------
+void WASATof::BeginEvent() {}
 
 // -----   Public method EndOfEvent   -----------------------------------------
 void WASATof::EndOfEvent()
@@ -306,7 +228,8 @@ WASATofPoint* WASATof::AddHit(Int_t trackID,
                               TVector3 momOut,
                               Double_t time,
                               Double_t length,
-                              Double_t eLoss)
+                              Double_t eLoss,
+                              Int_t pdgcode)
 {
     TClonesArray& clref = *fTofCollection;
     Int_t size = clref.GetEntriesFast();
@@ -314,15 +237,15 @@ WASATofPoint* WASATof::AddHit(Int_t trackID,
         LOG(INFO) << "WASATof: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
                   << ") cm,  detector " << detID << ", copy " << CopyID << ", track " << trackID << ", energy loss "
                   << eLoss * 1e06 << " keV";
-    return new (clref[size]) WASATofPoint(trackID, detID, CopyID, posIn, posOut, momIn, momOut, time, length, eLoss);
+    return new (clref[size]) WASATofPoint(trackID, detID, CopyID, posIn, posOut, momIn, momOut, time, length, eLoss,
+                                         pdgcode);
 }
 
 Bool_t WASATof::CheckIfSensitive(std::string name)
 {
     if (TString(name).Contains("WASATOFLog"))
     {
-
-        std::cout << name << std::endl;
+        //LOG(INFO) << "Found Wasa-ToF geometry from ROOT file: " << name;
         return kTRUE;
     }
     return kFALSE;

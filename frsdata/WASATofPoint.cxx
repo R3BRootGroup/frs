@@ -15,6 +15,7 @@ WASATofPoint::WASATofPoint()
     : FairMCPoint()
 {
     fDetCopyID = -1;
+    fPid=0;
     fX_out = fY_out = fZ_out = 0.;
     fPx_out = fPy_out = fPz_out = 0.;
 }
@@ -30,10 +31,12 @@ WASATofPoint::WASATofPoint(Int_t trackID,
                            TVector3 momOut,
                            Double_t tof,
                            Double_t length,
-                           Double_t eLoss)
+                           Double_t eLoss,
+                           Int_t pid)
     : FairMCPoint(trackID, detID, posIn, momIn, tof, length, eLoss)
 {
     fDetCopyID = detCopyID;
+    fPid = pid;
     fX_out = posOut.X();
     fY_out = posOut.Y();
     fZ_out = posOut.Z();

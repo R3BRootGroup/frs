@@ -10,7 +10,7 @@
 
 #include "R3BFrsOnlineSpectra.h"
 #include "R3BEventHeader.h"
-#include "R3BFrsData.h"
+#include "R3BFrsS4Data.h"
 #include "R3BFrsMappedData.h"
 #include "FrsSpillMappedData.h"
 #include "FRSMusicCalData.h"
@@ -1455,7 +1455,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
 
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
-            R3BFrsData* hit = (R3BFrsData*)fAnaItemsFrs->At(ihit);
+            R3BFrsS4Data* hit = (R3BFrsS4Data*)fAnaItemsFrs->At(ihit);
             if (!hit)
                 continue;
             fh_Frs_Z->Fill(hit->GetZ());

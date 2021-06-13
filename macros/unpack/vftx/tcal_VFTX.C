@@ -16,7 +16,7 @@ void tcal_VFTX()
   const Int_t nev = -1; /* number of events to read, -1 - until CTRL+C */
   
   // Create input -----------------------------------------
-  TString filename = "~/lmd/frs2020/s480_calibration1_109sn_2126.lmd";
+  TString filename = "~/lmd/frs2020/s468_12_193W__0922.lmd";
 
   // Output file with parameters --------------------------
   TString outputFileNamePar = "tcal_VFTX.par";
@@ -28,7 +28,7 @@ void tcal_VFTX()
   // UCESB configuration ----------------------------------
   TString ntuple_options = "RAW";
   TString ucesb_dir = getenv("UCESB_DIR");  
-  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/201911_eng2 --allow-errors  --input-buffer=100Mi";
+  TString ucesb_path = ucesb_dir + "/../upexps/202003_s475/202003_s475  --input-buffer=100Mi --allow-errors";
   ucesb_path.ReplaceAll("//","/");
  
   EXT_STR_h101 ucesb_struct;

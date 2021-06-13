@@ -19,11 +19,12 @@
 
 // FRS headers
 #include "R3BFrsAnaPar.h"
-#include "R3BFrsData.h"
+#include "R3BFrsS4Data.h"
 #include "R3BFrsHit2AnaS4.h"
 #include "R3BFrsMappedData.h"
 #include "FRSMusicHitData.h"
 #include "R3BTpcHitData.h"
+#include "FrsSciSingleTcalData.h"
 
 Double_t const c = 299792458.0;     // Light velocity
 Double_t const e = 1.60217662e-19;  // Electron charge
@@ -154,7 +155,9 @@ InitStatus R3BFrsHit2AnaS4::Init()
         return kFATAL;
     }
 
-    fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
+    //fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
+    fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsSciSingleTcalData");
+
     if (!fFrsMappedDataCA)
     {
         return kFATAL;
@@ -173,7 +176,7 @@ InitStatus R3BFrsHit2AnaS4::Init()
     }
 
     // OUTPUT DATA
-    fFrsDataCA = new TClonesArray("R3BFrsData", 10);
+    fFrsDataCA = new TClonesArray("R3BFrsS4Data", 10);
     if (!fOnline)
     {
         rootManager->Register("FrsData", "Analysis FRS", fFrsDataCA, kTRUE);
@@ -210,10 +213,11 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     Int_t nHitMusic = fMusicHitDataCA->GetEntries();
     Int_t nHitTpc = fTpcHitDataCA->GetEntries();
     // LOG(INFO) << nHitMusic << " " << nHitTpc ;
-    if (!nHitMusic || !nHitFrs || nHitTpc < 4)
+    if (!nHitMusic || !nHitFrs || !nHitTpc)
         return; // FIXME:include here warning!
 
-    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
+//    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
+    FrsSciSingleTcalData** MapFrs = new FrsSciSingleTcalData*[nHitFrs];
     FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
     R3BTpcHitData** HitTpc = new R3BTpcHitData*[nHitTpc];
 
@@ -247,14 +251,16 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
         tpc_x[detID] = HitTpc[i]->GetX();
     }
 
-    Int_t SCI24_TofRR = 0.;
-    Int_t SCI24_TofLL = 0.;
+    Double_t SCI24_TofRR = 0.;
+    Double_t SCI24_TofLL = 0.;
 
     for (Int_t i = 0; i < nHitFrs; i++)
     {
-        MapFrs[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
-        SCI24_TofRR = MapFrs[i]->GetSCI41RT();
-        SCI24_TofLL = MapFrs[i]->GetSCI41LT();
+        MapFrs[i] = (FrsSciSingleTcalData*)(fFrsMappedDataCA->At(i));
+        SCI24_TofRR = MapFrs[i]->GetRawTofNs(0);
+        SCI24_TofLL = MapFrs[i]->GetRawTofNs(0);
+        //SCI24_TofRR = MapFrs[i]->GetSCI41RT();
+        //SCI24_TofLL = MapFrs[i]->GetSCI41LT();
         // LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL ;
     }
 
@@ -269,7 +275,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     // Velocity S2-S4
     double TAC_CAL_SC24_LL = -0.01045;
     double TAC_CAL_SC24_RR = -0.01095;
-    double ToF_star_S2_S4 = -0.5 * (SCI24_TofLL * 11.0988 + 538.608 + SCI24_TofRR * 10.9513 - 559.745);
+    double ToF_star_S2_S4 = 0.5 * (SCI24_TofLL + SCI24_TofRR);
     double Beta_S2_S4 = ((fPathS2S4 / (fTOFS2S4 + ToF_star_S2_S4)) * pow(10., 7)) / c;
     double Gamma_S2_S4 = 1. / (sqrt(1. - (Beta_S2_S4) * (Beta_S2_S4)));
 
@@ -282,7 +288,7 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     fAq = (fAq - fParm1) * cos(-1. * fRotS4) + (angle_S4_mrad - fParm0) * sin(-1. * fRotS4) + fParm1;
 
     // Fill the data
-    AddData(fZ + fOffsetZ, fAq + fOffsetAq, x_position_focal_S2, angle_S2_mrad, x_position_focal_S4, angle_S4_mrad);
+    AddData(fZ + fOffsetZ, fAq + fOffsetAq, x_position_focal_S2, angle_S2_mrad, x_position_focal_S4, Beta_S2_S4);
 
     if (HitMusic)
         delete HitMusic;
@@ -305,10 +311,10 @@ void R3BFrsHit2AnaS4::Reset()
 }
 
 // -----   Private method AddData  --------------------------------------------
-R3BFrsData* R3BFrsHit2AnaS4::AddData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4)
+R3BFrsS4Data* R3BFrsHit2AnaS4::AddData(Double_t z, Double_t aq, Double_t xs2, Double_t as2, Double_t xs4, Double_t as4)
 {
     // It fills the R3BFrsData
     TClonesArray& clref = *fFrsDataCA;
     Int_t size = clref.GetEntriesFast();
-    return new (clref[size]) R3BFrsData(z, aq, xs2, as2, xs4, as4);
+    return new (clref[size]) R3BFrsS4Data(z, aq, xs2, as2, xs4, as4);
 }

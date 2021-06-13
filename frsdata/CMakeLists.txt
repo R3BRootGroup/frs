@@ -31,7 +31,7 @@ FRSMusicHitData.cxx
 R3BTpcMappedData.cxx
 R3BTpcCalData.cxx
 R3BTpcHitData.cxx
-R3BFrsData.cxx
+R3BFrsS4Data.cxx
 R3BMwMappedData.cxx
 R3BMwHitData.cxx
 R3BMdcMappedData.cxx
@@ -47,7 +47,7 @@ FrsSciSingleTcalData.cxx
 # by exchanging the file extension
 CHANGE_FILE_EXTENSION(*.cxx *.h HEADERS "${SRCS}")
 
-set(LINKDEF  R3BFRSDataLinkDef.h)
+set(LINKDEF  FRSDataLinkDef.h)
 set(LIBRARY_NAME R3BFRSData)
 set(DEPENDENCIES
     Base FairTools R3BData)
