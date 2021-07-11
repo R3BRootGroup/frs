@@ -213,7 +213,7 @@ void FrsRatesSpill::Exec(Option_t* option)
         }
         else
         {
-        std::cout<<"spill " << mappedData[i]->GetStopExt() <<" " <<fstop <<std::endl;
+        //std::cout<<"spill " << mappedData[i]->GetStopExt() <<" " <<fstop <<std::endl;
             AddCalData(faceptrigcounts,
                        ffreetrigcounts,
                        fseecounts,
