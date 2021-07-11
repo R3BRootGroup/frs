@@ -7,15 +7,9 @@
 /////////////////////////////////////////////////////////////
 #include "WASAGeoTof.h"
 #include "FairGeoNode.h"
+#include "FairLogger.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
-ClassImp(WASAGeoTof)
-
-    WASAGeoTof::WASAGeoTof()
+WASAGeoTof::WASAGeoTof()
 {
     // Constructor
     fName = "sts";
@@ -28,7 +22,7 @@ const char* WASAGeoTof::getModuleName(Int_t m)
     // Returns the module name of sts number m
     if (m < 0)
     {
-        cout << "-E- WASAGeoTof::getModuleName:: Module number " << m << " not known!" << endl;
+        LOG(ERROR) << "WASAGeoTof::getModuleName:: Module number " << m << " not known!";
         return "";
     }
     if (m < 9)
@@ -44,3 +38,5 @@ const char* WASAGeoTof::getEleName(Int_t m)
     sprintf(eleName, "cal%i", m + 1);
     return eleName;
 }
+
+ClassImp(WASAGeoTof)
