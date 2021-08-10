@@ -9,7 +9,8 @@
 # the project's entire directory structure.
 
 Set(R3BFRS_SOURCE_DIR ${R3BROOT_SOURCE_DIR}/frs/)
-message("-- ${BBlue}FRS project found${CR} ") 
+message(STATUS "${BBlue}FRS project was FOUND${CR} ")
+message("    - ${Cyan}FRS_DIR${CR} = ${BGreen}${R3BFRS_SOURCE_DIR}${CR}")
 
 #FRS specific
 add_subdirectory (frsdata)
