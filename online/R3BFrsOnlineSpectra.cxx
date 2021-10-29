@@ -19,7 +19,7 @@
 #include "FrsMWOnlineSpectra.h"
 #include "FrsMusicOnlineSpectra.h"
 #include "R3BSeetramCalData.h"
-#include "R3BWRMasterData.h"
+#include "R3BWRData.h"
 #include "THttpServer.h"
 
 #include "FairLogger.h"
@@ -1272,7 +1272,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         Int_t nHits = fWRItemsMaster->GetEntriesFast();
         for (Int_t ihit = 0; ihit < nHits; ihit++)
         {
-            R3BWRMasterData* hit = (R3BWRMasterData*)fWRItemsMaster->At(ihit);
+            R3BWRData* hit = (R3BWRData*)fWRItemsMaster->At(ihit);
             if (!hit)
                 continue;
             if (fFirstWr)

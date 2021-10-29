@@ -13,7 +13,7 @@
 #include "R3BFrsData.h"
 #include "R3BTpcCalData.h"
 #include "R3BTpcHitData.h"
-#include "R3BWRMasterData.h"
+#include "R3BWRData.h"
 #include "THttpServer.h"
 
 #include "FairLogger.h"
