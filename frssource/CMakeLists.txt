@@ -11,6 +11,7 @@ ${ucesb_INCLUDE_DIR}
 set(INCLUDE_DIRECTORIES
 #put here all directories where header files are located
 ${R3BROOT_SOURCE_DIR}/r3bsource
+${R3BROOT_SOURCE_DIR}/r3bsource/base
 ${R3BROOT_SOURCE_DIR}/r3bbase
 ${R3BROOT_SOURCE_DIR}/r3bdata
 ${R3BROOT_SOURCE_DIR}/r3bdata/wrData
