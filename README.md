@@ -6,6 +6,9 @@ The R3BRoot software is based on the FairRoot framework and can be used to perfo
 
 For the software-related user support you can post a new topic on our [forum](https://forum.gsi.de/index.php?t=index&cat=40&).
 
+# Release information
+Please see : https://github.com/R3BRootGroup/frs/releases
+
 # Download
 --------
 
@@ -20,7 +23,11 @@ git checkout dev
 
 ### Required software
 
-First, you will need to install FairSoft and FairRoot. For more details: [instructions](https://www.r3broot.gsi.de/installation).
+First, you will need to install FairSoft and FairRoot. For more details:
+
+1. Install [FairSoft](https://github.com/FairRootGroup/FairSoft)
+
+2. Install [FairRoot](http://fairroot.gsi.de)
 
 ### Installation of UCESB
 
