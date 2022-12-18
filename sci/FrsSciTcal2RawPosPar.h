@@ -62,11 +62,11 @@ class FrsSciTcal2RawPosPar : public FairTask
     void SetMinStatistics(Int_t minstat) { fMinStatistics = minstat; }
 
   protected:
-    Int_t fNumDetectors;     // number of detectors 2
-    Int_t fNumChannels;      // number of channels at the Tcal level
-    Int_t fNumSignals;       // number of signal = fNumDetectors if RawPos used
-    Int_t fNumParsPerSignal; // =2 for each signal
-    Int_t fMinStatistics;    // minimum statistics to proceed with the calibration
+    Int_t fNumDetectors;       // number of detectors 2
+    Int_t fNumChannels;        // number of channels at the Tcal level
+    Int_t fNumSignals;         // number of signal = fNumDetectors if RawPos used
+    Int_t fNumParsPerSignal;   // =2 for each signal
+    Int_t fMinStatistics;      // minimum statistics to proceed with the calibration
 
     // calibration parameters
     FrsSciRawPosPar* fRawPosPar;
@@ -82,4 +82,4 @@ class FrsSciTcal2RawPosPar : public FairTask
     ClassDef(FrsSciTcal2RawPosPar, 1);
 };
 
-#endif //__FrsSciTcal2RawPosPar_H__
+#endif   //__FrsSciTcal2RawPosPar_H__

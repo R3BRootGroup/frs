@@ -35,8 +35,7 @@ R3BFrsMappedData::R3BFrsMappedData()
     , fSCI41LE(0)
     , fSCI42LE(0)
     , fSCI43LE(0)
-{
-}
+{}
 
 R3BFrsMappedData::R3BFrsMappedData(Int_t AccTrig,
                                    Int_t Clock100kHz,
@@ -104,8 +103,7 @@ R3BFrsMappedData::R3BFrsMappedData(Int_t AccTrig,
     , fSCI81RE(SCI81RE)
     , fSCI81LT(SCI81LT)
     , fSCI81RT(SCI81RT)
-{
-}
+{}
 
 R3BFrsMappedData::R3BFrsMappedData(const R3BFrsMappedData& right)
     : fAccTrig(right.fAccTrig)
@@ -137,7 +135,6 @@ R3BFrsMappedData::R3BFrsMappedData(const R3BFrsMappedData& right)
     , fSCI41LE(right.fSCI41LE)
     , fSCI42LE(right.fSCI42LE)
     , fSCI43LE(right.fSCI43LE)
-{
-}
+{}
 
 ClassImp(R3BFrsMappedData)

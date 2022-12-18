@@ -11,6 +11,7 @@
 #include "R3BTpcCalData.h"
 #include "R3BTpcHitData.h"
 #include "TH1F.h"
+
 #include <TRandom.h>
 
 class TClonesArray;
@@ -59,7 +60,7 @@ class R3BTpcCal2Hit : public FairTask
 
     Int_t fNumDets;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     R3BTpcCalPar* fCal_Par; /**< Parameter container. >*/
 

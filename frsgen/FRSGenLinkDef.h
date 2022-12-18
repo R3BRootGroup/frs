@@ -13,8 +13,6 @@
  * or submit itself to any jurisdiction.                                      *
  ******************************************************************************/
 
-
-
 #ifdef __CINT__
 
 #pragma link off all globals;

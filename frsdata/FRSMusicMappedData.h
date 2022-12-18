@@ -32,8 +32,8 @@ class FRSMusicMappedData : public TObject
     inline const Int_t& GetEnergy() const { return fEnergy; }
 
   protected:
-    Int_t fDetId, fAnodeId; // detector and anode unique identifiers
-    Int_t fEnergy;          // total energy in the anode
+    Int_t fDetId, fAnodeId;   // detector and anode unique identifiers
+    Int_t fEnergy;            // total energy in the anode
 
   public:
     ClassDef(FRSMusicMappedData, 1)

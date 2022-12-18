@@ -77,7 +77,7 @@ class FRSMusicMapped2CalPar : public FairTask
     Int_t fMapHistos_left;
     Int_t fMapHistos_right;
     Int_t fMapHistos_bins;
-    Int_t fMaxSigma; // Maximum sigma to mark dead anodes, pedestal -1
+    Int_t fMaxSigma;   // Maximum sigma to mark dead anodes, pedestal -1
 
     // Minimum statistics and parameters
     Int_t fMinStatistics;

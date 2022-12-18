@@ -11,6 +11,7 @@
 #include "R3BFrsS4Data.h"
 #include "TF1.h"
 #include "TH1F.h"
+
 #include <TRandom.h>
 
 class TClonesArray;
@@ -57,9 +58,9 @@ class R3BFrsHit2AnaS4 : public FairTask
   private:
     void SetParameter();
 
-    Double_t fOffsetAq, fOffsetZ; // Offsets in A/q and Z
-    TArrayF* fAnaParams;          // Parameters for frs
-    R3BFrsAnaPar* fFrs_Par;       // Parameter container
+    Double_t fOffsetAq, fOffsetZ;   // Offsets in A/q and Z
+    TArrayF* fAnaParams;            // Parameters for frs
+    R3BFrsAnaPar* fFrs_Par;         // Parameter container
 
     Double_t fMagS2S4;
     Double_t fDispS2S4;
@@ -68,7 +69,7 @@ class R3BFrsHit2AnaS4 : public FairTask
     Double_t frho_S0_S2, fBfield_S0_S2, frho_S2_S4, fBfield_S2_S4;
     Double_t fRotS4, fParm0, fParm1;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     TClonesArray* fFrsMappedDataCA; /**< Array with FRS mapped- input data. >*/
     TClonesArray* fMusicHitDataCA;  /**< Array with MUSIC Hit- input data. >*/

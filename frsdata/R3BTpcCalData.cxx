@@ -13,8 +13,7 @@ R3BTpcCalData::R3BTpcCalData()
     , fSecId(0)
     , fPos(-500.)
     , fControlPar(0)
-{
-}
+{}
 
 //------------------------------
 
@@ -24,7 +23,6 @@ R3BTpcCalData::R3BTpcCalData(Int_t detId, Int_t xyId, Int_t secId, Double_t posi
     , fSecId(secId)
     , fPos(position)
     , fControlPar(controlpar)
-{
-}
+{}
 
 ClassImp(R3BTpcCalData)

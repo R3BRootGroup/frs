@@ -3,20 +3,19 @@
 // -----             Created 29/07/18  by J.L. Rodriguez-Sanchez       -----
 // -------------------------------------------------------------------------
 #include "R3BFrsHit2AnaS4Par.h"
-#include "R3BEventHeader.h"
-#include "R3BFrsAnaPar.h"
-#include "R3BFrsMappedData.h"
-#include "FRSMusicHitData.h"
-#include "R3BTpcHitData.h"
 
+#include "FRSMusicHitData.h"
 #include "FairLogger.h"
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRuntimeDb.h"
-#include "TGeoManager.h"
-
+#include "R3BEventHeader.h"
+#include "R3BFrsAnaPar.h"
+#include "R3BFrsMappedData.h"
+#include "R3BTpcHitData.h"
 #include "TClonesArray.h"
 #include "TF1.h"
+#include "TGeoManager.h"
 #include "TGeoMatrix.h"
 #include "TGraph.h"
 #include "TH1F.h"
@@ -29,9 +28,9 @@
 #include <iostream>
 #include <stdlib.h>
 
-Double_t const c = 299792458.0;     // Light velocity
-Double_t const e = 1.60217662e-19;  // Electron charge
-Double_t const u = 1.660538921e-27; // Atomic mass unit
+Double_t const c = 299792458.0;       // Light velocity
+Double_t const e = 1.60217662e-19;    // Electron charge
+Double_t const u = 1.660538921e-27;   // Atomic mass unit
 
 using namespace std;
 
@@ -56,8 +55,7 @@ R3BFrsHit2AnaS4Par::R3BFrsHit2AnaS4Par()
     , fTpcHitDataCA(NULL)
     , fMusicHitDataCA(NULL)
     , fFrs_Par(NULL)
-{
-}
+{}
 
 // R3BFrsHit2AnaS4Par: Standard Constructor --------------------------
 R3BFrsHit2AnaS4Par::R3BFrsHit2AnaS4Par(const char* name, Int_t iVerbose)
@@ -80,8 +78,7 @@ R3BFrsHit2AnaS4Par::R3BFrsHit2AnaS4Par(const char* name, Int_t iVerbose)
     , fTpcHitDataCA(NULL)
     , fMusicHitDataCA(NULL)
     , fFrs_Par(NULL)
-{
-}
+{}
 
 // R3BFrsHit2AnaS4Par: Destructor ----------------------------------------
 R3BFrsHit2AnaS4Par::~R3BFrsHit2AnaS4Par() {}
@@ -108,38 +105,32 @@ InitStatus R3BFrsHit2AnaS4Par::Init()
     h_Profile = new TProfile("h_Profile", "AoQ vs angle S2-S4 Profile", 1000, -5, 5, 0., 5.);
 
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager)
-    {
+    if (!rootManager) {
         return kFATAL;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
-    if (!fFrsMappedDataCA)
-    {
+    if (!fFrsMappedDataCA) {
         return kFATAL;
     }
 
     fTpcHitDataCA = (TClonesArray*)rootManager->GetObject("TpcHitData");
-    if (!fTpcHitDataCA)
-    {
+    if (!fTpcHitDataCA) {
         return kFATAL;
     }
 
     fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
-    if (!fMusicHitDataCA)
-    {
+    if (!fMusicHitDataCA) {
         return kFATAL;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         return kFATAL;
     }
 
     fFrs_Par = (R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
-    if (!fFrs_Par)
-    {
+    if (!fFrs_Par) {
         LOG(ERROR) << "R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
         return kFATAL;
     }
@@ -168,7 +159,7 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     Int_t nHitTpc = fTpcHitDataCA->GetEntries();
     // LOG(INFO) << nHitMusic << " " << nHitTpc ;
     if (!nHitMusic || !nHitFrs || nHitTpc < 4)
-        return; // FIXME:include here warning!
+        return;   // FIXME:include here warning!
 
     R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
     FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
@@ -176,29 +167,23 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
 
     // Z from musics ------------------------------------
     Double_t countz = 0;
-    for (Int_t i = 0; i < nHitMusic; i++)
-    {
+    for (Int_t i = 0; i < nHitMusic; i++) {
         HitMusic[i] = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
-        if (HitMusic[i]->GetZ() > 1)
-        {
+        if (HitMusic[i]->GetZ() > 1) {
             fZ = fZ + HitMusic[i]->GetZ();
             countz++;
         }
     }
-    if (countz > 0)
-    {
+    if (countz > 0) {
         fZ = fZ / countz;
-    }
-    else
-    {
+    } else {
         fZ = 0.;
     }
 
     // Positions from TPCs ------------------------------
     Double_t tpc_x[4];
     Int_t detID = 0;
-    for (Int_t i = 0; i < nHitTpc; i++)
-    {
+    for (Int_t i = 0; i < nHitTpc; i++) {
         HitTpc[i] = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
         detID = HitTpc[i]->GetDetectorId();
         tpc_x[detID] = HitTpc[i]->GetX();
@@ -207,8 +192,7 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     Int_t SCI24_TofRR = 0.;
     Int_t SCI24_TofLL = 0.;
 
-    for (Int_t i = 0; i < nHitFrs; i++)
-    {
+    for (Int_t i = 0; i < nHitFrs; i++) {
         MapFrs[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
         SCI24_TofRR = MapFrs[i]->GetSCI41RT();
         SCI24_TofLL = MapFrs[i]->GetSCI41LT();
@@ -231,13 +215,12 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     double Gamma_S2_S4 = 1. / (sqrt(1. - (Beta_S2_S4) * (Beta_S2_S4)));
 
     // Brho and A/q
-    double Brho_S4 = fBfield_S2_S4 * frho_S2_S4 *
-                     (1. - (((x_position_focal_S4 / 1000.) - fMagS2S4 * (x_position_focal_S2 / 1000.)) / fDispS2S4));
+    double Brho_S4 = fBfield_S2_S4 * frho_S2_S4
+                     * (1. - (((x_position_focal_S4 / 1000.) - fMagS2S4 * (x_position_focal_S2 / 1000.)) / fDispS2S4));
     fAq = (Brho_S4 * e) / (Gamma_S2_S4 * Beta_S2_S4 * c * u);
 
     // Fill histograms for calibrations
-    if (fZ > fCutZ - 0.5 && fZ < fCutZ + 0.5)
-    {
+    if (fZ > fCutZ - 0.5 && fZ < fCutZ + 0.5) {
         fh_anglevsAq->Fill(angle_S4_mrad, fAq);
         graph->SetPoint(fNb, angle_S4_mrad, fAq);
         fNb++;
@@ -279,8 +262,7 @@ void R3BFrsHit2AnaS4Par::FinishTask()
     LOG(INFO) << "mean " << fh_anglevsAq->GetMean(1) << ", " << fh_anglevsAq->GetMean(2);
     // LOG(INFO)<<"mean "<<graph->GetMean(1)<<", "<<graph->GetMean(2);
 
-    for (Int_t i = 0; i < graph->GetN(); i++)
-    {
+    for (Int_t i = 0; i < graph->GetN(); i++) {
         Double_t a[2];
         graph->GetPoint(i, a[0], a[1]);
         h_Profile->Fill(a[0] - fh_anglevsAq->GetMean(1), a[1] - fh_anglevsAq->GetMean(2));

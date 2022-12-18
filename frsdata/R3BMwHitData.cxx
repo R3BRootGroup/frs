@@ -11,8 +11,7 @@ R3BMwHitData::R3BMwHitData()
     : fDetId(0)
     , fX(-500)
     , fY(-500)
-{
-}
+{}
 
 //------------------------------
 
@@ -20,7 +19,6 @@ R3BMwHitData::R3BMwHitData(Int_t detId, Double_t x, Double_t y)
     : fDetId(detId)
     , fX(x)
     , fY(y)
-{
-}
+{}
 
 ClassImp(R3BMwHitData)

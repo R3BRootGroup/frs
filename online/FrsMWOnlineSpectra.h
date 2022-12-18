@@ -12,6 +12,7 @@
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
+
 #include <array>
 #include <cstdlib>
 #include <fstream>
@@ -111,24 +112,8 @@ class FrsMWOnlineSpectra : public FairTask
     TH1F* fh1_mw_y;
     TH2F* fh2_mw_xy;
 
-
-    const char *fDetectorNames[MWDET_MAX + 1] =
-    {
-      "MW11",
-      "MW21",
-      "MW22",
-      "MW31",
-      "MW41",
-      "MW42",
-      "MW51",
-      "MW61",
-      "MW71",
-      "MW81",
-      "MW82",
-      "MWB1",
-      "MWB2",
-      NULL
-   };
+    const char* fDetectorNames[MWDET_MAX + 1] =
+        {"MW11", "MW21", "MW22", "MW31", "MW41", "MW42", "MW51", "MW61", "MW71", "MW81", "MW82", "MWB1", "MWB2", NULL};
 
   public:
     ClassDef(FrsMWOnlineSpectra, 1)

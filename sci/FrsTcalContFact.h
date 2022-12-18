@@ -22,4 +22,4 @@ class FrsTcalContFact : public FairContFact
     ClassDef(FrsTcalContFact, 1)
 };
 
-#endif // FRSTCALCONTFACT_H
+#endif   // FRSTCALCONTFACT_H

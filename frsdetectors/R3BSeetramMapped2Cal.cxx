@@ -12,6 +12,7 @@
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRuntimeDb.h"
+
 #include <iomanip>
 
 // Seetram and frs headers
@@ -46,8 +47,7 @@ R3BSeetramMapped2Cal::R3BSeetramMapped2Cal()
     , fFrsMappedDataCA(NULL)
     , fSeetramCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // R3BSeetramMapped2CalPar: Standard Constructor --------------------------
 R3BSeetramMapped2Cal::R3BSeetramMapped2Cal(const char* name, Int_t iVerbose)
@@ -75,8 +75,7 @@ R3BSeetramMapped2Cal::R3BSeetramMapped2Cal(const char* name, Int_t iVerbose)
     , fFrsMappedDataCA(NULL)
     , fSeetramCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // Virtual R3BSeetramMapped2Cal: Destructor
 R3BSeetramMapped2Cal::~R3BSeetramMapped2Cal()
@@ -94,18 +93,14 @@ void R3BSeetramMapped2Cal::SetParContainers()
     // Parameter Container
     // Reading seetramCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (R3BSeetramCalPar*)rtdb->getContainer("seetramCalPar");
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         LOG(ERROR) << "R3BSeetramMapped2CalPar::Init() Couldn't get handle on seetramCalPar container";
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "R3BSeetramMapped2CalPar:: seetramCalPar container open";
     }
 }
@@ -114,14 +109,14 @@ void R3BSeetramMapped2Cal::SetParameter()
 {
 
     //--- Parameter Container ---
-    NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
+    NumParams = fCal_Par->GetNumParametersFit();   // Number of Parameters
 
     LOG(INFO) << "R3BSeetramMapped2Cal: Nb parameters for calibration: " << NumParams;
 
     CalParams = new TArrayF();
     Int_t array_size = NumParams;
     CalParams->Set(array_size);
-    CalParams = fCal_Par->GetSeetramCalParams(); // Array with the Cal parameters
+    CalParams = fCal_Par->GetSeetramCalParams();   // Array with the Cal parameters
     /*
       //Count the number of dead anodes per Music detector
       for(Int_t d = 0; d < NumDets; d++){
@@ -139,26 +134,21 @@ InitStatus R3BSeetramMapped2Cal::Init()
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager)
-    {
+    if (!rootManager) {
         return kFATAL;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
-    if (!fFrsMappedDataCA)
-    {
+    if (!fFrsMappedDataCA) {
         return kFATAL;
     }
 
     // OUTPUT DATA
     // Calibrated data
     fSeetramCalDataCA = new TClonesArray("R3BSeetramCalData", 10);
-    if (!fOnline)
-    {
+    if (!fOnline) {
         rootManager->Register("SeetramCalData", "Seetram Cal", fSeetramCalDataCA, kTRUE);
-    }
-    else
-    {
+    } else {
         rootManager->Register("SeetramCalData", "Seetram Cal", fSeetramCalDataCA, kFALSE);
     }
 
@@ -180,8 +170,7 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
     // Reset entries in output arrays, local arrays
     Reset();
 
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         // LOG(ERROR)<<"NO Container for Seetram detector!!";
     }
 
@@ -196,12 +185,10 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
     // fseecounts = 0;
     // firstEvt = kTRUE;
 
-    for (Int_t i = 0; i < nHits; i++)
-    {
+    for (Int_t i = 0; i < nHits; i++) {
         mappedData[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
 
-        if (firstEvt)
-        {
+        if (firstEvt) {
             firstEvt = kFALSE;
             faceptrigcounts = 0;
             ffreetrigcounts = 0;
@@ -224,15 +211,14 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
             fsci00counter = mappedData[i]->GetSCI00();
             fsci01counter = mappedData[i]->GetSCI01();
             fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI00(); // FIXME
+            fsci21counter = mappedData[i]->GetSCI00();   // FIXME
             fsci41counter = mappedData[i]->GetSCI02();
             firstclock1hz = fclock1hz;
             firstclock10hz = fclock10hz;
             firstclock100khz = fclock100khz;
         }
 
-        if (mappedData[i]->GetClock1Hz() < fclock1hz)
-        {
+        if (mappedData[i]->GetClock1Hz() < fclock1hz) {
             // firstclock1hz=-1*(fclock1hz-firstclock1hz)+mappedData[i]->GetClock1Hz();
             firstclock1hz = -(4294967295 - firstclock1hz) + mappedData[i]->GetClock1Hz();
             firstclock10hz = -(4294967295 - firstclock10hz) + mappedData[i]->GetClock10Hz();
@@ -248,12 +234,11 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
             fsci00counter = mappedData[i]->GetSCI00();
             fsci01counter = mappedData[i]->GetSCI01();
             fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI00(); // FIXME
+            fsci21counter = mappedData[i]->GetSCI00();   // FIXME
             fsci41counter = mappedData[i]->GetSCI02();
         }
 
-        if (mappedData[i]->GetClock1Hz() == fclock1hz)
-        {
+        if (mappedData[i]->GetClock1Hz() == fclock1hz) {
             faceptrigcounts = faceptrigcounts + (mappedData[i]->GetAccTrig() - faceptrigcounter);
             ffreetrigcounts = ffreetrigcounts + (mappedData[i]->GetFreeTrig() - ffreetrigcounter);
             fseecounts = fseecounts + (mappedData[i]->GetSeetramNew() - fseecounter);
@@ -263,7 +248,7 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
             fsci01counts = fsci01counts + (mappedData[i]->GetSCI01() - fsci01counter);
             fsci02counts = fsci02counts + (mappedData[i]->GetSCI02() - fsci02counter);
 
-            fsci21counts = fsci21counts + (mappedData[i]->GetSCI00() - fsci21counter); // FIXME
+            fsci21counts = fsci21counts + (mappedData[i]->GetSCI00() - fsci21counter);   // FIXME
             fsci41counts = fsci41counts + (mappedData[i]->GetSCI02() - fsci41counter);
 
             faceptrigcounter = mappedData[i]->GetAccTrig();
@@ -274,11 +259,9 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
             fsci00counter = mappedData[i]->GetSCI00();
             fsci01counter = mappedData[i]->GetSCI01();
             fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI00(); // FIXME
+            fsci21counter = mappedData[i]->GetSCI00();   // FIXME
             fsci41counter = mappedData[i]->GetSCI02();
-        }
-        else
-        {
+        } else {
             // fseecounts=fseecounts;
             // std::cout << fclock1hz-firstclock1hz << " "<< fseecounts  << std::endl;
             // AddCalData(faceptrigcounts, ffreetrigcounts, fseecounts, ficcounts, fdumcounts, fsci00counts,
@@ -323,7 +306,7 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
             fsci00counter = mappedData[i]->GetSCI00();
             fsci01counter = mappedData[i]->GetSCI01();
             fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI00(); // FIXME
+            fsci21counter = mappedData[i]->GetSCI00();   // FIXME
             fsci41counter = mappedData[i]->GetSCI02();
         }
     }

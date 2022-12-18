@@ -18,17 +18,17 @@
 #include <iomanip>
 
 // FRS headers
+#include "FRSMusicHitData.h"
+#include "FrsSciSingleTcalData.h"
 #include "R3BFrsAnaPar.h"
-#include "R3BFrsS4Data.h"
 #include "R3BFrsHit2AnaS4.h"
 #include "R3BFrsMappedData.h"
-#include "FRSMusicHitData.h"
+#include "R3BFrsS4Data.h"
 #include "R3BTpcHitData.h"
-#include "FrsSciSingleTcalData.h"
 
-Double_t const c = 299792458.0;     // Light velocity
-Double_t const e = 1.60217662e-19;  // Electron charge
-Double_t const u = 1.660538921e-27; // Atomic mass unit
+Double_t const c = 299792458.0;       // Light velocity
+Double_t const e = 1.60217662e-19;    // Electron charge
+Double_t const u = 1.660538921e-27;   // Atomic mass unit
 
 // R3BFrsHit2AnaS4: Default Constructor --------------------------
 R3BFrsHit2AnaS4::R3BFrsHit2AnaS4()
@@ -45,8 +45,7 @@ R3BFrsHit2AnaS4::R3BFrsHit2AnaS4()
     , fMusicHitDataCA(NULL)
     , fFrsDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // R3BFrsHit2AnaS4Par: Standard Constructor --------------------------
 R3BFrsHit2AnaS4::R3BFrsHit2AnaS4(const char* name, Int_t iVerbose)
@@ -63,27 +62,22 @@ R3BFrsHit2AnaS4::R3BFrsHit2AnaS4(const char* name, Int_t iVerbose)
     , fMusicHitDataCA(NULL)
     , fFrsDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // Virtual R3BFrsHit2AnaS4: Destructor
 R3BFrsHit2AnaS4::~R3BFrsHit2AnaS4()
 {
     LOG(INFO) << "R3BFrsHit2AnaS4: Delete instance";
-    if (fFrsMappedDataCA)
-    {
+    if (fFrsMappedDataCA) {
         delete fFrsMappedDataCA;
     }
-    if (fMusicHitDataCA)
-    {
+    if (fMusicHitDataCA) {
         delete fMusicHitDataCA;
     }
-    if (fTpcHitDataCA)
-    {
+    if (fTpcHitDataCA) {
         delete fTpcHitDataCA;
     }
-    if (fFrsDataCA)
-    {
+    if (fFrsDataCA) {
         delete fFrsDataCA;
     }
 }
@@ -93,18 +87,14 @@ void R3BFrsHit2AnaS4::SetParContainers()
     // Parameter Container
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
     fFrs_Par = (R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
-    if (!fFrs_Par)
-    {
+    if (!fFrs_Par) {
         LOG(ERROR) << "R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "R3BFrsHit2AnaS4Par:: frsAnaPar container open";
     }
 }
@@ -133,10 +123,10 @@ void R3BFrsHit2AnaS4::SetParameter()
     LOG(INFO) << "R3BFrsHit2AnaS4: Pos for focal plane at S2[mm]: " << fPosFocalS2;
     LOG(INFO) << "R3BFrsHit2AnaS4: Pos for focal plane at S4[mm]: " << fPosFocalS4;
 
-    Int_t NumParams = fFrs_Par->GetNumParameters(); // Number of Parameters
+    Int_t NumParams = fFrs_Par->GetNumParameters();   // Number of Parameters
     fAnaParams = new TArrayF();
     fAnaParams->Set(NumParams);
-    fAnaParams = fFrs_Par->GetFrsAnaParams(); // Array with the parameters
+    fAnaParams = fFrs_Par->GetFrsAnaParams();   // Array with the parameters
     fParm0 = fAnaParams->GetAt(0);
     fParm1 = fAnaParams->GetAt(1);
     fRotS4 = fAnaParams->GetAt(2);
@@ -150,39 +140,32 @@ InitStatus R3BFrsHit2AnaS4::Init()
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager)
-    {
+    if (!rootManager) {
         return kFATAL;
     }
 
-    //fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
+    // fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsSciSingleTcalData");
 
-    if (!fFrsMappedDataCA)
-    {
+    if (!fFrsMappedDataCA) {
         return kFATAL;
     }
 
     fTpcHitDataCA = (TClonesArray*)rootManager->GetObject("TpcHitData");
-    if (!fTpcHitDataCA)
-    {
+    if (!fTpcHitDataCA) {
         return kFATAL;
     }
 
     fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
-    if (!fMusicHitDataCA)
-    {
+    if (!fMusicHitDataCA) {
         return kFATAL;
     }
 
     // OUTPUT DATA
     fFrsDataCA = new TClonesArray("R3BFrsS4Data", 10);
-    if (!fOnline)
-    {
+    if (!fOnline) {
         rootManager->Register("FrsData", "Analysis FRS", fFrsDataCA, kTRUE);
-    }
-    else
-    {
+    } else {
         rootManager->Register("FrsData", "Analysis FRS", fFrsDataCA, kFALSE);
     }
 
@@ -214,38 +197,32 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     Int_t nHitTpc = fTpcHitDataCA->GetEntries();
     // LOG(INFO) << nHitMusic << " " << nHitTpc ;
     if (!nHitMusic || !nHitFrs || !nHitTpc)
-        return; // FIXME:include here warning!
+        return;   // FIXME:include here warning!
 
-//    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
+    //    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
     FrsSciSingleTcalData** MapFrs = new FrsSciSingleTcalData*[nHitFrs];
     FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
     R3BTpcHitData** HitTpc = new R3BTpcHitData*[nHitTpc];
 
     // Z from musics ------------------------------------
     Double_t countz = 0;
-    for (Int_t i = 0; i < nHitMusic; i++)
-    {
+    for (Int_t i = 0; i < nHitMusic; i++) {
         HitMusic[i] = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
-        if (HitMusic[i]->GetZ() > 1)
-        {
+        if (HitMusic[i]->GetZ() > 1) {
             fZ = fZ + HitMusic[i]->GetZ();
             countz++;
         }
     }
-    if (countz > 0)
-    {
+    if (countz > 0) {
         fZ = fZ / countz;
-    }
-    else
-    {
+    } else {
         fZ = 0.;
     }
 
     // Positions from TPCs ------------------------------
     Double_t tpc_x[4];
     Int_t detID = 0;
-    for (Int_t i = 0; i < nHitTpc; i++)
-    {
+    for (Int_t i = 0; i < nHitTpc; i++) {
         HitTpc[i] = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
         detID = HitTpc[i]->GetDetectorId();
         tpc_x[detID] = HitTpc[i]->GetX();
@@ -254,13 +231,12 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     Double_t SCI24_TofRR = 0.;
     Double_t SCI24_TofLL = 0.;
 
-    for (Int_t i = 0; i < nHitFrs; i++)
-    {
+    for (Int_t i = 0; i < nHitFrs; i++) {
         MapFrs[i] = (FrsSciSingleTcalData*)(fFrsMappedDataCA->At(i));
         SCI24_TofRR = MapFrs[i]->GetRawTofNs(0);
         SCI24_TofLL = MapFrs[i]->GetRawTofNs(0);
-        //SCI24_TofRR = MapFrs[i]->GetSCI41RT();
-        //SCI24_TofLL = MapFrs[i]->GetSCI41LT();
+        // SCI24_TofRR = MapFrs[i]->GetSCI41RT();
+        // SCI24_TofLL = MapFrs[i]->GetSCI41LT();
         // LOG(INFO) << SCI24_TofRR << " " << SCI24_TofLL ;
     }
 
@@ -280,8 +256,8 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     double Gamma_S2_S4 = 1. / (sqrt(1. - (Beta_S2_S4) * (Beta_S2_S4)));
 
     // Brho and A/q
-    double Brho_S4 = fBfield_S2_S4 * frho_S2_S4 *
-                     (1. - (((x_position_focal_S4 / 1000.) - fMagS2S4 * (x_position_focal_S2 / 1000.)) / fDispS2S4));
+    double Brho_S4 = fBfield_S2_S4 * frho_S2_S4
+                     * (1. - (((x_position_focal_S4 / 1000.) - fMagS2S4 * (x_position_focal_S2 / 1000.)) / fDispS2S4));
     fAq = (Brho_S4 * e) / (Gamma_S2_S4 * Beta_S2_S4 * c * u);
 
     // Correction for dependence on angle

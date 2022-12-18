@@ -11,6 +11,7 @@
 #include "FRSMusicMappedData.h"
 #include "FairTask.h"
 #include "TH1F.h"
+
 #include <TRandom.h>
 
 class TClonesArray;
@@ -59,7 +60,7 @@ class FRSMusicMapped2Cal : public FairTask
     Int_t MaxSigma;
     TArrayF* CalParams;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     FRSMusicCalPar* fCal_Par;         /**< Parameter container. >*/
     TClonesArray* fMusicMappedDataCA; /**< Array with Music Mapped-input data. >*/

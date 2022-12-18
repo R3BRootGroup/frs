@@ -30,8 +30,8 @@ class R3BMdcMappedData : public TObject
     inline const Int_t& GetEnergy() const { return fEnergy; }
 
   protected:
-    Int_t fAnodeId; // anode unique identifiers
-    Int_t fEnergy;  // total energy in the anode
+    Int_t fAnodeId;   // anode unique identifiers
+    Int_t fEnergy;    // total energy in the anode
 
   public:
     ClassDef(R3BMdcMappedData, 1)

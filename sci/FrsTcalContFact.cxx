@@ -14,11 +14,9 @@
 #include "FairParAsciiFileIo.h"
 #include "FairParRootFileIo.h"
 #include "FairRuntimeDb.h"
-
-#include "FrsSciTcalPar.h"
 #include "FrsSciRawPosPar.h"
 #include "FrsSciRawTofPar.h"
-
+#include "FrsSciTcalPar.h"
 #include "TClass.h"
 
 static FrsTcalContFact gFrsTcalContFact;
@@ -46,11 +44,10 @@ void FrsTcalContFact::setAllContainers()
     FairContainer* p2 = new FairContainer("FrsSciRawPosPar", "FrsSciRawPos Parameters", "FrsSciRawPosParContext");
     p2->addContext("FrsSciRawPosParContext");
     containers->Add(p2);
- 
+
     FairContainer* p3 = new FairContainer("FrsSciRawTofPar", "FrsSciRawTof Parameters", "FrsSciRawTofParContext");
     p3->addContext("FrsSciRawTofParContext");
     containers->Add(p3);
-
 }
 
 FairParSet* FrsTcalContFact::createContainer(FairContainer* c)
@@ -63,16 +60,13 @@ FairParSet* FrsTcalContFact::createContainer(FairContainer* c)
     LOG(INFO) << "FrsTcalContFact: Create container name: " << name;
     FairParSet* p = 0;
 
-    if (strcmp(name, "FrsSciTcalPar") == 0)
-    {
+    if (strcmp(name, "FrsSciTcalPar") == 0) {
         p = new FrsSciTcalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
-    if (strcmp(name, "FrsSciRawPosPar") == 0)
-    {
+    if (strcmp(name, "FrsSciRawPosPar") == 0) {
         p = new FrsSciRawPosPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
-    if (strcmp(name, "FrsSciRawTofPar") == 0)
-    {
+    if (strcmp(name, "FrsSciRawTofPar") == 0) {
         p = new FrsSciRawTofPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
     return p;

@@ -5,7 +5,6 @@
 #include "TH1D.h"
 #include "TH1F.h"
 
-
 class TClonesArray;
 class FrsSciRawTofPar;
 class R3BEventHeader;
@@ -57,12 +56,12 @@ class FrsSciTcal2RawTofPar : public FairTask
     void SetMinStatistics(Int_t minstat) { fMinStatistics = minstat; }
 
   protected:
-    Int_t fNumDetectors;     // number of detectors 2
-    Int_t fNumChannels;      // number of channels at the Tcal level
+    Int_t fNumDetectors;   // number of detectors 2
+    Int_t fNumChannels;    // number of channels at the Tcal level
     Int_t fFirstStaSci;
-    Int_t fNumSignals;       // number of signal = number of detector -1 (Tof selection from S2 to S4)
-    Int_t fNumParsPerSignal; // =2 for each sci-pair
-    Int_t fMinStatistics;    // minimum statistics to proceed to the calibration
+    Int_t fNumSignals;         // number of signal = number of detector -1 (Tof selection from S2 to S4)
+    Int_t fNumParsPerSignal;   // =2 for each sci-pair
+    Int_t fMinStatistics;      // minimum statistics to proceed to the calibration
 
     // calibration parameters
     FrsSciRawTofPar* fRawTofPar;
@@ -77,4 +76,4 @@ class FrsSciTcal2RawTofPar : public FairTask
     ClassDef(FrsSciTcal2RawTofPar, 0);
 };
 
-#endif //__FrsSciTcal2RawTofPar_H__
+#endif   //__FrsSciTcal2RawTofPar_H__

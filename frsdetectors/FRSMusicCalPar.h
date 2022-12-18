@@ -6,11 +6,11 @@
 #ifndef FRSMusicCalPar_H
 #define FRSMusicCalPar_H
 
-#include "FairParGenericSet.h" // for FairParGenericSet
-
+#include "FairParGenericSet.h"   // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
+
 #include <TObjString.h>
 
 using namespace std;
@@ -55,11 +55,11 @@ class FRSMusicCalPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fAnodeCalParams; // Calibration Parameters for anodes
-    Int_t fNumDets;           // number of detectors
-    Int_t fNumAnodes;         // number of anodes
-    Int_t fNumParamsFit;      /* number of cal parameters in the fit
-                                 gaus: A_fit & B_fit & C_fit*/
+    TArrayF* fAnodeCalParams;   // Calibration Parameters for anodes
+    Int_t fNumDets;             // number of detectors
+    Int_t fNumAnodes;           // number of anodes
+    Int_t fNumParamsFit;        /* number of cal parameters in the fit
+                                   gaus: A_fit & B_fit & C_fit*/
 
     const FRSMusicCalPar& operator=(const FRSMusicCalPar&); /*< an assignment operator>*/
 

@@ -7,7 +7,6 @@
 
 #include "FairLogger.h"
 #include "FairParamList.h"
-
 #include "TArrayF.h"
 #include "TMath.h"
 #include "TString.h"
@@ -21,9 +20,9 @@ using std::endl;
 FRSMusicHitPar::FRSMusicHitPar(const char* name, const char* title, const char* context)
     : FairParGenericSet(name, title, context)
 {
-    fDetHitParams = new TArrayF(2); // 2CalibrationParameters
+    fDetHitParams = new TArrayF(2);   // 2CalibrationParameters
     fNumDets = 1;
-    fNumParamsFit = 2; // 2nd order
+    fNumParamsFit = 2;   // 2nd order
 }
 
 // ----  Destructor ------------------------------------------------------------
@@ -44,8 +43,7 @@ void FRSMusicHitPar::clear()
 void FRSMusicHitPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "FRSMusicHitPar::putParams() called";
-    if (!list)
-    {
+    if (!list) {
         return;
     }
 
@@ -63,18 +61,15 @@ void FRSMusicHitPar::putParams(FairParamList* list)
 Bool_t FRSMusicHitPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "FRSMusicHitPar::getParams() called";
-    if (!list)
-    {
+    if (!list) {
         return kFALSE;
     }
 
-    if (!list->fill("frsmusicDetNumberPar", &fNumDets))
-    {
+    if (!list->fill("frsmusicDetNumberPar", &fNumDets)) {
         return kFALSE;
     }
 
-    if (!list->fill("frsmusicHitParamsFitPar", &fNumParamsFit))
-    {
+    if (!list->fill("frsmusicHitParamsFitPar", &fNumParamsFit)) {
         return kFALSE;
     }
 
@@ -82,8 +77,7 @@ Bool_t FRSMusicHitPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fDetHitParams->Set(array_size);
 
-    if (!(list->fill("frsmusicHitPar", fDetHitParams)))
-    {
+    if (!(list->fill("frsmusicHitPar", fDetHitParams))) {
         LOG(INFO) << "---Could not initialize frsmusicHitPar";
         return kFALSE;
     }
@@ -97,11 +91,9 @@ void FRSMusicHitPar::printParams()
     LOG(INFO) << "FRSMusicHitPar: music detector Parameters: ";
     Int_t array_size = fNumDets * fNumParamsFit;
 
-    for (Int_t d = 0; d < fNumDets; d++)
-    {
+    for (Int_t d = 0; d < fNumDets; d++) {
         LOG(INFO) << "Music detector number: " << d;
-        for (Int_t j = 0; j < fNumParamsFit; j++)
-        {
+        for (Int_t j = 0; j < fNumParamsFit; j++) {
             LOG(INFO) << "FitParam(" << j << ") = " << fDetHitParams->GetAt(d * fNumParamsFit + j);
         }
     }

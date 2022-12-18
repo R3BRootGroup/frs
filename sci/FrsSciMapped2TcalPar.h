@@ -61,17 +61,17 @@ class FrsSciMapped2TcalPar : public FairTask
     void SetMinStatistics(Int_t minstat) { fMinStatistics = minstat; }
 
   protected:
-    Int_t fNumDetectors;         // number of detectors (=2 for Sci)
-    Int_t fNumChannels;          // number of channels  (=2 for Sci)
-    Int_t fNumSignals;           // number of signal    (=4 for Sci)
-    Int_t fNumTcalParsPerSignal; // =1000 for each signal
-    Int_t fMinStatistics;        // minimum statistics to proceed with the calibration
+    Int_t fNumDetectors;           // number of detectors (=2 for Sci)
+    Int_t fNumChannels;            // number of channels  (=2 for Sci)
+    Int_t fNumSignals;             // number of signal    (=4 for Sci)
+    Int_t fNumTcalParsPerSignal;   // =1000 for each signal
+    Int_t fMinStatistics;          // minimum statistics to proceed with the calibration
 
     // calibration parameters
-    FrsSciTcalPar* fTcalPar; // Tcal Parameters
+    FrsSciTcalPar* fTcalPar;   // Tcal Parameters
 
     // input data
-    TClonesArray* fMapped; // Array with mapped data from scintillator detectors
+    TClonesArray* fMapped;   // Array with mapped data from scintillator detectors
 
     // histograms
     TH1F** fh_TimeFineBin;
@@ -82,4 +82,4 @@ class FrsSciMapped2TcalPar : public FairTask
     ClassDef(FrsSciMapped2TcalPar, 0);
 };
 
-#endif //__FrsSciMapped2TcalPar_H__
+#endif   //__FrsSciMapped2TcalPar_H__

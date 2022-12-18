@@ -52,10 +52,10 @@ class R3BSeetramCalData : public TObject
     inline const Int_t GetClock1seg() const { return fClock1seg; }
 
   protected:
-    Int_t fAcctrig, fFreetrig;                      //
-    Int_t fSeeCounts, fClock1seg;                   //
-    Int_t fIcCounts, fDumCounts;                    //
-    Int_t fSci00Counts, fSci01Counts, fSci02Counts; //
+    Int_t fAcctrig, fFreetrig;                        //
+    Int_t fSeeCounts, fClock1seg;                     //
+    Int_t fIcCounts, fDumCounts;                      //
+    Int_t fSci00Counts, fSci01Counts, fSci02Counts;   //
 
   public:
     ClassDef(R3BSeetramCalData, 1)

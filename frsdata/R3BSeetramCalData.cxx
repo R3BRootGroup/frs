@@ -17,8 +17,7 @@ R3BSeetramCalData::R3BSeetramCalData()
     , fSci01Counts(0)
     , fSci02Counts(0)
     , fClock1seg(0)
-{
-}
+{}
 
 //------------------------------
 
@@ -40,7 +39,6 @@ R3BSeetramCalData::R3BSeetramCalData(Int_t AccTriggerCounts,
     , fSci01Counts(Sci01Counts)
     , fSci02Counts(Sci02Counts)
     , fClock1seg(Clock1seg)
-{
-}
+{}
 
 ClassImp(R3BSeetramCalData)

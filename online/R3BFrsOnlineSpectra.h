@@ -14,6 +14,7 @@
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
+
 #include <array>
 #include <cstdlib>
 #include <fstream>
@@ -89,10 +90,9 @@ class R3BFrsOnlineSpectra : public FairTask
     void Reset_MUSIC_Histo();
     void Reset_SCI_Histo();
 
-
   private:
-    TClonesArray* fMappedItemsFrs;  /**< Array with mapped items.           */
-    TClonesArray* fSpillMappedItemsFrs;  /**< Array with mapped items.      */
+    TClonesArray* fMappedItemsFrs;      /**< Array with mapped items.           */
+    TClonesArray* fSpillMappedItemsFrs; /**< Array with mapped items.      */
     TClonesArray* fCalItemsSpill;
     TClonesArray* fMapItemsMusic;   /**< Array with map items for musics.   */
     TClonesArray* fCalItemsMusic;   /**< Array with cal items for musics.   */
@@ -102,7 +102,7 @@ class R3BFrsOnlineSpectra : public FairTask
     TClonesArray* fAnaItemsFrs;     /**< Array with analysis items for frs. */
     TClonesArray* fWRItemsMaster;   /**< Array with WR-Master items.        */
 
-    FrsMWOnlineSpectra* fMw11Online;/**< Array with MW online items.        */
+    FrsMWOnlineSpectra* fMw11Online; /**< Array with MW online items.        */
     FrsMWOnlineSpectra* fMw21Online;
     FrsMWOnlineSpectra* fMw22Online;
     FrsMWOnlineSpectra* fMw31Online;
@@ -139,8 +139,8 @@ class R3BFrsOnlineSpectra : public FairTask
     // Seetram
     Int_t fOffsetSeetram;
     Int_t fOffsetSeetramC;
-    Int_t fseetram_range;  // seg
-    Int_t fseetram_rangeC; // seg
+    Int_t fseetram_range;    // seg
+    Int_t fseetram_rangeC;   // seg
     TH1F* fh_Seetram;
     TH1F* fh_Seetramt;
     TH1F* fh_Ic;

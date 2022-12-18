@@ -12,6 +12,7 @@
 #include "FRSMusicHitData.h"
 #include "FairTask.h"
 #include "TH1F.h"
+
 #include <TRandom.h>
 
 class TClonesArray;
@@ -54,13 +55,13 @@ class FRSMusicCal2Hit : public FairTask
   private:
     void SetParameter();
 
-    Int_t NumDets; // Number of Musics
+    Int_t NumDets;   // Number of Musics
     Int_t NumAnodes;
     Int_t NumParams;
     Int_t MaxSigma;
     TArrayF* CalParams;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     FRSMusicHitPar* fCal_Par;      /**< Parameter container. >*/
     TClonesArray* fMusicCalDataCA; /**< Array with Music Cal- input data. >*/

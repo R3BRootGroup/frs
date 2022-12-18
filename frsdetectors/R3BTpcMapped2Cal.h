@@ -52,7 +52,7 @@ class R3BTpcMapped2Cal : public FairTask
   private:
     void SetParameter();
 
-    Int_t NumDets; // Number of TPCs
+    Int_t NumDets;   // Number of TPCs
     Int_t NumAnodes;
     Int_t NumParams;
 
@@ -63,13 +63,13 @@ class R3BTpcMapped2Cal : public FairTask
     TArrayF* CsumMaxParams;
     TArrayF* CsumMinParams;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
-    R3BTpcCalPar* fCal_Par;         // Parameter container.
-    TClonesArray* fTpcMappedDataCA; // Array with Tpc Mapped- input data.
-    TClonesArray* fTpcCalDataCA;    // Array with Tpc Cal- output data.
+    R3BTpcCalPar* fCal_Par;           // Parameter container.
+    TClonesArray* fTpcMappedDataCA;   // Array with Tpc Mapped- input data.
+    TClonesArray* fTpcCalDataCA;      // Array with Tpc Cal- output data.
 
-    Bool_t b_tpc_csum[4]; // for tpcs control sum
+    Bool_t b_tpc_csum[4];   // for tpcs control sum
     Bool_t b_tpc_xy[6];
     Float_t tpc_csum[4];
 

@@ -1,11 +1,11 @@
 #ifndef __FrsSciRawPosPar_H__
 #define __FrsSciRawPosPar_H__
 
-#include "FairParGenericSet.h" // for FairParGenericSet
-
+#include "FairParGenericSet.h"   // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
+
 #include <TObjString.h>
 
 class FairParamList;
@@ -16,8 +16,8 @@ class FrsSciRawPosPar : public FairParGenericSet
   public:
     /** Standard constructor **/
     FrsSciRawPosPar(const char* name = "FrsSciRawPosPar",
-                       const char* title = "FrsSciRawPos Parameters",
-                       const char* context = "FrsSciPosParContext");
+                    const char* title = "FrsSciRawPos Parameters",
+                    const char* context = "FrsSciPosParContext");
 
     /** Destructor **/
     virtual ~FrsSciRawPosPar();
@@ -51,16 +51,16 @@ class FrsSciRawPosPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fAllSignalsRawPosParams; // Calibration Parameters for all signals of one detector
-    Int_t fNumChannels;               // number of detectors
-    Int_t fNumDetectors;              // number of channels of SciTcal data = 3 (need for Tcal2SingleTcal)
-    Int_t fNumSignals;                // =fNumDetectors if RawPos
+    TArrayF* fAllSignalsRawPosParams;   // Calibration Parameters for all signals of one detector
+    Int_t fNumChannels;                 // number of detectors
+    Int_t fNumDetectors;                // number of channels of SciTcal data = 3 (need for Tcal2SingleTcal)
+    Int_t fNumSignals;                  // =fNumDetectors if RawPos
     Int_t fNumParsPerSignal;
     const FrsSciRawPosPar& operator=(const FrsSciRawPosPar&); /*< an assignment operator>*/
 
-    FrsSciRawPosPar(const FrsSciRawPosPar&); // a copy constructor
+    FrsSciRawPosPar(const FrsSciRawPosPar&);   // a copy constructor
 
     ClassDef(FrsSciRawPosPar, 1);
 };
 
-#endif //__FrsSciRawPosPar_H__
+#endif   //__FrsSciRawPosPar_H__

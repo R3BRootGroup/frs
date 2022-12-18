@@ -34,8 +34,7 @@ FRSMusicCal2Hit::FRSMusicCal2Hit()
     , fMusicHitDataCA(NULL)
     , fMusicCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // FRSMusicCal2HitPar: Standard Constructor --------------------------
 FRSMusicCal2Hit::FRSMusicCal2Hit(const char* name, Int_t iVerbose)
@@ -49,8 +48,7 @@ FRSMusicCal2Hit::FRSMusicCal2Hit(const char* name, Int_t iVerbose)
     , fMusicHitDataCA(NULL)
     , fMusicCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // Virtual FRSMusicCal2Hit: Destructor
 FRSMusicCal2Hit::~FRSMusicCal2Hit()
@@ -68,18 +66,14 @@ void FRSMusicCal2Hit::SetParContainers()
     // Parameter Container
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (FRSMusicHitPar*)rtdb->getContainer("frsmusicHitPar");
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         LOG(ERROR) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicCalPar container";
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "FRSMusicCal2HitPar:: frsmusicCalPar container open";
     }
 }
@@ -88,8 +82,8 @@ void FRSMusicCal2Hit::SetParameter()
 {
 
     //--- Parameter Container ---
-    NumDets = fCal_Par->GetNumDets();            // Number of Detectors
-    NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
+    NumDets = fCal_Par->GetNumDets();              // Number of Detectors
+    NumParams = fCal_Par->GetNumParametersFit();   // Number of Parameters
 
     LOG(INFO) << "FRSMusicCal2Hit: Nb detectors: " << NumDets;
     LOG(INFO) << "FRSMusicCal2Hit: Nb parameters from pedestal fit: " << NumParams;
@@ -97,11 +91,10 @@ void FRSMusicCal2Hit::SetParameter()
     CalParams = new TArrayF();
     Int_t array_size = NumDets * NumParams;
     CalParams->Set(array_size);
-    CalParams = fCal_Par->GetDetectorHitParams(); // Array with the Cal parameters
+    CalParams = fCal_Par->GetDetectorHitParams();   // Array with the Cal parameters
 
     // Parameters detector
-    for (Int_t d = 0; d < NumDets; d++)
-    {
+    for (Int_t d = 0; d < NumDets; d++) {
         LOG(INFO) << "FRSMusicCal2Hit Nb detector: " << d + 1 << " Params " << CalParams->GetAt(d * NumParams) << " : "
                   << CalParams->GetAt(d * NumParams + 1);
     }
@@ -114,25 +107,20 @@ InitStatus FRSMusicCal2Hit::Init()
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager)
-    {
+    if (!rootManager) {
         return kFATAL;
     }
 
     fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicCalData");
-    if (!fMusicCalDataCA)
-    {
+    if (!fMusicCalDataCA) {
         return kFATAL;
     }
 
     // OUTPUT DATA
     fMusicHitDataCA = new TClonesArray("FRSMusicHitData", 10);
-    if (!fOnline)
-    {
+    if (!fOnline) {
         rootManager->Register("FRSMusicHitData", "MUSIC Hit", fMusicHitDataCA, kTRUE);
-    }
-    else
-    {
+    } else {
         rootManager->Register("FRSMusicHitData", "MUSIC Hit", fMusicHitDataCA, kFALSE);
     }
 
@@ -153,8 +141,7 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
     // Reset entries in output arrays, local arrays
     Reset();
 
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         LOG(ERROR) << "NO Container Parameter!!";
     }
 
@@ -166,15 +153,14 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
     FRSMusicCalData** CalDat = new FRSMusicCalData*[nHits];
 
     Int_t detId, anodeId;
-    Double_t energyperanode[5][8]; // max 5 detectors and 8 anodes
+    Double_t energyperanode[5][8];   // max 5 detectors and 8 anodes
     Int_t nbdet = 0;
 
     for (Int_t i = 0; i < 5; i++)
         for (Int_t j = 0; j < 8; j++)
             energyperanode[i][j] = 0;
 
-    for (Int_t i = 0; i < nHits; i++)
-    {
+    for (Int_t i = 0; i < nHits; i++) {
         CalDat[i] = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
         detId = CalDat[i]->GetDetectorId();
         anodeId = CalDat[i]->GetAnodeId();
@@ -186,16 +172,14 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
     Double_t a0, a1;
 
     // calculate truncated dE from 8 anodes, Munich MUSIC
-    for (Int_t i = 0; i <= NumDets; i++)
-    {
+    for (Int_t i = 0; i <= NumDets; i++) {
 
         Float_t r1 = sqrt(energyperanode[i][0] * energyperanode[i][1]);
         Float_t r2 = sqrt(energyperanode[i][2] * energyperanode[i][3]);
         Float_t r3 = sqrt(energyperanode[i][4] * energyperanode[i][5]);
         Float_t r4 = sqrt(energyperanode[i][6] * energyperanode[i][7]);
 
-        if ((r1 > 0) && (r2 > 0) && (r3 > 0) && (r4 > 0))
-        {
+        if ((r1 > 0) && (r2 > 0) && (r3 > 0) && (r4 > 0)) {
             a0 = CalParams->GetAt(i * NumParams);
             a1 = CalParams->GetAt(i * NumParams + 1);
             AddHitData(i, a0 + a1 * sqrt(sqrt(sqrt(r1 * r2) * sqrt(r3 * r4))));

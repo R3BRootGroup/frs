@@ -76,8 +76,8 @@ class FRSMusicCal2HitPar : public FairTask
     Int_t fMapHistos_left;
     Int_t fMapHistos_right;
     Int_t fMapHistos_bins;
-    Int_t fMaxSigma; // Maximum sigma to mark dead anodes, pedestal -1
-    Int_t fMaxZ;     // Maximum atomic number (Z) for calibration
+    Int_t fMaxSigma;   // Maximum sigma to mark dead anodes, pedestal -1
+    Int_t fMaxZ;       // Maximum atomic number (Z) for calibration
 
     // Minimum statistics and parameters
     Int_t fMinStatistics;

@@ -43,9 +43,9 @@ class R3BWasaReader : public R3BReader
     /* FairLogger */
     FairLogger* fLogger;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
-    TClonesArray* fArrayMdcWasa; // Output array for mdc detector.
+    TClonesArray* fArrayMdcWasa;   // Output array for mdc detector.
 
   public:
     ClassDef(R3BWasaReader, 0);

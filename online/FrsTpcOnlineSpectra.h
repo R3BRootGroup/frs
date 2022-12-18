@@ -14,6 +14,7 @@
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
+
 #include <array>
 #include <cstdlib>
 #include <fstream>
@@ -83,30 +84,28 @@ class FrsTpcOnlineSpectra : public FairTask
      */
     void Reset_TPC_Histo();
 
-
   private:
-    TClonesArray* fMappedItemsFrs;  /**< Array with mapped items.           */
-    TClonesArray* fCalItemsTpc;     /**< Array with cal items for tpcs.     */
-    TClonesArray* fHitItemsTpc;     /**< Array with hit items for tpcs.     */
+    TClonesArray* fMappedItemsFrs; /**< Array with mapped items.           */
+    TClonesArray* fCalItemsTpc;    /**< Array with cal items for tpcs.     */
+    TClonesArray* fHitItemsTpc;    /**< Array with hit items for tpcs.     */
 
     // check for trigger should be done globablly (somewhere else)
     R3BEventHeader* header; /**< Event header.      */
     Int_t fNEvents;         /**< Event counter.     */
 
-
     // Canvas
-    TCanvas *cTpcCal[N_TPC_DET], *cCalx, *cCalx31, *cSee, *cSeet, *cIc, *cSci00, *cSci01, *cSci02, *cSeeCom, *cTrackS2, *cTrackS4;
+    TCanvas *cTpcCal[N_TPC_DET], *cCalx, *cCalx31, *cSee, *cSeet, *cIc, *cSci00, *cSci01, *cSci02, *cSeeCom, *cTrackS2,
+        *cTrackS4;
     TCanvas *cHitx, *cHity, *cHitxy;
     TCanvas *cTransS2, *cTransS4;
 
     // TPCs
-    TH1F* fh_tpc_csum[N_TPC_DET * 4]; // max 6 tpcs * 4DT
-    TH1F* fh_tpc_deltax[N_TPC_DET];   // max 6 tpcs
+    TH1F* fh_tpc_csum[N_TPC_DET * 4];   // max 6 tpcs * 4DT
+    TH1F* fh_tpc_deltax[N_TPC_DET];     // max 6 tpcs
     TH1F* fh_Tpc_hitx[N_TPC_DET];
     TH1F* fh_Tpc_hity[N_TPC_DET];
     TH2F* fh_Tpc_hitxy[N_TPC_DET];
     TH2F *fh_ts2, *fh_ts4, *fh_tr2, *fh_tr4;
-
 
   public:
     ClassDef(FrsTpcOnlineSpectra, 1)

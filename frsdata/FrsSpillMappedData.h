@@ -16,31 +16,30 @@ class FrsSpillMappedData : public TObject
 
     /** Standard Constructor
      **/
-    FrsSpillMappedData(
-                     Int_t Clock100kHz,
-                     Int_t Clock10Hz,
-                     Int_t Clock1Hz,
-                     Int_t StartExt,
-                     Int_t StopExt,
-                     Int_t AccTrig,
-                     Int_t FreeTrig,
-                     Int_t Seenew,
-                     Int_t Seeold,
-                     Int_t IC01,
-                     Int_t ICC,
-                     Int_t SCI00,
-                     Int_t SCI01,
-                     Int_t SCI02,
-                     Int_t SCI21L,
-                     Int_t SCI21R,
-                     Int_t SCI41L,
-                     Int_t SCI41R,
-                     Int_t SCI42L,
-                     Int_t SCI42R,
-                     Int_t SCI43L,
-                     Int_t SCI43R,
-                     Int_t SCI81L,
-                     Int_t SCI81R);
+    FrsSpillMappedData(Int_t Clock100kHz,
+                       Int_t Clock10Hz,
+                       Int_t Clock1Hz,
+                       Int_t StartExt,
+                       Int_t StopExt,
+                       Int_t AccTrig,
+                       Int_t FreeTrig,
+                       Int_t Seenew,
+                       Int_t Seeold,
+                       Int_t IC01,
+                       Int_t ICC,
+                       Int_t SCI00,
+                       Int_t SCI01,
+                       Int_t SCI02,
+                       Int_t SCI21L,
+                       Int_t SCI21R,
+                       Int_t SCI41L,
+                       Int_t SCI41R,
+                       Int_t SCI42L,
+                       Int_t SCI42R,
+                       Int_t SCI43L,
+                       Int_t SCI43R,
+                       Int_t SCI81L,
+                       Int_t SCI81R);
 
     FrsSpillMappedData(const FrsSpillMappedData&);
 
@@ -77,7 +76,6 @@ class FrsSpillMappedData : public TObject
     inline Int_t GetSCI43R() { return fSCI43R; }
     inline Int_t GetSCI81R() { return fSCI81R; }
 
-
   protected:
     Int_t fClock100kHz;
     Int_t fClock10Hz;
@@ -90,10 +88,10 @@ class FrsSpillMappedData : public TObject
     Int_t fSeeold;
     Int_t fIC01;
     Int_t fICC;
-    Int_t fSCI00, fSCI01, fSCI02; // plastics at S0
-    Int_t fSCI21R, fSCI41R, fSCI42R, fSCI43R; // R plastics at S2 and S4
-    Int_t fSCI21L, fSCI41L, fSCI42L, fSCI43L; // L plastics at S2 and S4
-    Int_t fSCI81L, fSCI81R; // plastic at S8
+    Int_t fSCI00, fSCI01, fSCI02;               // plastics at S0
+    Int_t fSCI21R, fSCI41R, fSCI42R, fSCI43R;   // R plastics at S2 and S4
+    Int_t fSCI21L, fSCI41L, fSCI42L, fSCI43L;   // L plastics at S2 and S4
+    Int_t fSCI81L, fSCI81R;                     // plastic at S8
 
   public:
     ClassDef(FrsSpillMappedData, 1)

@@ -7,7 +7,6 @@
 
 #include "FairLogger.h"
 #include "FairParamList.h"
-
 #include "TArrayF.h"
 #include "TMath.h"
 #include "TString.h"
@@ -43,8 +42,7 @@ void R3BSeetramCalPar::clear()
 void R3BSeetramCalPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "R3BSeetramCalPar::putParams() called";
-    if (!list)
-    {
+    if (!list) {
         return;
     }
 
@@ -66,8 +64,7 @@ void R3BSeetramCalPar::putParams(FairParamList* list)
 Bool_t R3BSeetramCalPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "R3BSeetramCalPar::getParams() called";
-    if (!list)
-    {
+    if (!list) {
         return kFALSE;
     }
     /*
@@ -87,8 +84,7 @@ Bool_t R3BSeetramCalPar::getParams(FairParamList* list)
         return kFALSE;
       }
       */
-    if (!list->fill("SeetramFitPar", &fNumParamsFit))
-    {
+    if (!list->fill("SeetramFitPar", &fNumParamsFit)) {
         return kFALSE;
     }
     /*

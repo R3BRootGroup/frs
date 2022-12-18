@@ -7,12 +7,9 @@
 #define FRSSCI_TCAL2SINGLETCAL
 
 #include "FairTask.h"
-
 #include "FrsSciRawPosPar.h"
-#include "FrsSciSingleTcalData.h"
-
 #include "FrsSciRawTofPar.h"
-
+#include "FrsSciSingleTcalData.h"
 #include "TClonesArray.h"
 #include "TMath.h"
 #include "TRandom.h"
@@ -46,7 +43,7 @@ class FrsSciTcal2SingleTcal : public FairTask
     FrsSciRawPosPar* fRawPosPar;
     FrsSciRawTofPar* fRawTofPar;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     UInt_t fNumSingleTcal;
 
@@ -58,4 +55,4 @@ class FrsSciTcal2SingleTcal : public FairTask
     ClassDef(FrsSciTcal2SingleTcal, 1)
 };
 
-#endif // FRSSCI_TCAL2SINGLETCAL
+#endif   // FRSSCI_TCAL2SINGLETCAL

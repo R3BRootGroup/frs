@@ -56,7 +56,7 @@ class R3BMWMapped2Hit : public FairTask
 
     Int_t fNumDets;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     TClonesArray* fMw11MappedDataCA; /**< Array with MW Mapped- input data. >*/
     TClonesArray* fMw21MappedDataCA;
@@ -67,7 +67,7 @@ class R3BMWMapped2Hit : public FairTask
     TClonesArray* fMw81MappedDataCA;
     TClonesArray* fMw82MappedDataCA;
 
-    TClonesArray* fMwHitDataCA;      /**< Array with MW Hit- output data.   >*/
+    TClonesArray* fMwHitDataCA; /**< Array with MW Hit- output data.   >*/
 
     /** Private method MwHitData **/
     //** Adds a MwHitData to the detector

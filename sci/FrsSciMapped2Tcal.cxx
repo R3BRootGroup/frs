@@ -1,4 +1,5 @@
 #include "FrsSciMapped2Tcal.h"
+
 #include <iomanip>
 
 // --- Default Constructor
@@ -10,8 +11,7 @@ FrsSciMapped2Tcal::FrsSciMapped2Tcal()
     , fMapped(NULL)
     , fTcalPar(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // --- Standard Constructor
 FrsSciMapped2Tcal::FrsSciMapped2Tcal(const char* name, Int_t iVerbose)
@@ -22,19 +22,16 @@ FrsSciMapped2Tcal::FrsSciMapped2Tcal(const char* name, Int_t iVerbose)
     , fMapped(NULL)
     , fTcalPar(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // --- Destructor
 FrsSciMapped2Tcal::~FrsSciMapped2Tcal()
 {
     LOG(INFO) << "FrsSciMapped2Tcal: Delete instance";
-    if (fMapped)
-    {
+    if (fMapped) {
         delete fMapped;
     }
-    if (fTcal)
-    {
+    if (fTcal) {
         delete fTcal;
     }
 }
@@ -43,19 +40,15 @@ FrsSciMapped2Tcal::~FrsSciMapped2Tcal()
 void FrsSciMapped2Tcal::SetParContainers()
 {
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
     fTcalPar = (FrsSciTcalPar*)rtdb->getContainer("FrsSciTcalPar");
-    if (!fTcalPar)
-    {
+    if (!fTcalPar) {
         LOG(ERROR) << "FrsSciMapped2Tcal::SetParContainers() : Could not get access to FrsSciTcalPar-Container.";
         return;
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "FrsSciMapped2Tcal::SetParContainers() : FrsSciTcalPar-Container found with "
                   << fTcalPar->GetNumSignals() << " signals";
     }
@@ -67,8 +60,7 @@ InitStatus FrsSciMapped2Tcal::Init()
     LOG(INFO) << "FrsSciMapped2Tcal: Init";
 
     FairRootManager* rm = FairRootManager::Instance();
-    if (!rm)
-    {
+    if (!rm) {
         LOG(ERROR) << "FrsSciMapped2Tcal::Init() Couldn't instance the FairRootManager";
         return kFATAL;
     }
@@ -77,24 +69,19 @@ InitStatus FrsSciMapped2Tcal::Init()
     // --- INPUT MAPPED DATA --- //
     // --- ----------------- --- //
     fMapped = (TClonesArray*)rm->GetObject("VftxSciMappedData");
-    if (!fMapped)
-    {
+    if (!fMapped) {
         LOG(ERROR) << "FrsSciMapped2Tcal::Couldn't get handle on VftxSciMappedData container";
         return kFATAL;
-    }
-    else
+    } else
         LOG(INFO) << "FrsSciMapped2Tcal::FrsSciMappedData items found";
 
     // --- ---------------- --- //
     // --- OUTPUT TCAL DATA --- //
     // --- ---------------- --- //
     fTcal = new TClonesArray("FrsSciTcalData", 10);
-    if (!fOnline)
-    {
+    if (!fOnline) {
         rm->Register("FrsSciTcalData", "FrsSci", fTcal, kTRUE);
-    }
-    else
-    {
+    } else {
         rm->Register("FrsSciTcalData", "FrsSci", fTcal, kFALSE);
     }
 
@@ -103,13 +90,10 @@ InitStatus FrsSciMapped2Tcal::Init()
     // --- -------------------------- --- //
     // --- CHECK THE TCALPAR VALIDITY --- //
     // --- -------------------------- --- //
-    if (fTcalPar->GetNumSignals() == 0)
-    {
+    if (fTcalPar->GetNumSignals() == 0) {
         LOG(ERROR) << "FrsSciMapped2Tcal::There are no Tcal parameters for FrsSci";
         return kFATAL;
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "FrsSciMapped2Tcal::Init(): fNumSignals=" << fTcalPar->GetNumSignals();
         LOG(INFO) << " FrsSciMapped2Tcal::Init(): fNumDetectors=" << fTcalPar->GetNumDetectors();
         LOG(INFO) << "  FrsSciMapped2Tcal::Init(): fNumChannels=" << fTcalPar->GetNumChannels();
@@ -134,8 +118,7 @@ void FrsSciMapped2Tcal::Exec(Option_t* option)
     Double_t tns;
 
     Int_t nHitsPerEvent_SofSci = fMapped->GetEntries();
-    for (Int_t ihit = 0; ihit < nHitsPerEvent_SofSci; ihit++)
-    {
+    for (Int_t ihit = 0; ihit < nHitsPerEvent_SofSci; ihit++) {
         VftxSciMappedData* hit = (VftxSciMappedData*)fMapped->At(ihit);
         if (!hit)
             continue;
@@ -143,14 +126,12 @@ void FrsSciMapped2Tcal::Exec(Option_t* option)
         iCh = hit->GetPmt();
         iTf = hit->GetTimeFine();
         iTc = hit->GetTimeCoarse();
-        if ((iDet < 1) || (iDet > fTcalPar->GetNumDetectors()))
-        {
+        if ((iDet < 1) || (iDet > fTcalPar->GetNumDetectors())) {
             LOG(INFO) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iDet = " << iDet
                       << "is out of range, item skipped ";
             continue;
         }
-        if ((iCh < 1) || (iCh > fTcalPar->GetNumChannels()))
-        {
+        if ((iCh < 1) || (iCh > fTcalPar->GetNumChannels())) {
             LOG(INFO) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iCh = " << iCh
                       << "is out of range, item skipped ";
             continue;
@@ -191,13 +172,10 @@ Double_t FrsSciMapped2Tcal::CalculateTimeNs(UShort_t iDet, UShort_t iCh, UInt_t 
     //  std::cout << "FrsSciMapped2Tcal::CalculateTimeNs : iDet=" << iDet << ", iCh=" << iCh << ", iTf=" << iTf << ",
     //  rank=" << rank  << std::endl;
 
-    if (r < 0)
-    {
+    if (r < 0) {
         Double_t iParPrev = fTcalPar->GetSignalTcalParams(rank - 1);
         iTf_ns = iPar + r * (iPar - iParPrev);
-    }
-    else
-    {
+    } else {
         Double_t iParNext = fTcalPar->GetSignalTcalParams(rank + 1);
         iTf_ns = iPar + r * (iParNext - iPar);
     }

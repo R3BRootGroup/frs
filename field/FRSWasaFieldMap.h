@@ -98,9 +98,9 @@ class FRSWasaFieldMap : public FairField
     Double_t fBx, fBy, fBz;
 
     /** local transformation
-    **/
-    TRotation* gRot;  //!
-    TVector3* gTrans; //!
+     **/
+    TRotation* gRot;    //!
+    TVector3* gTrans;   //!
 
     ClassDef(FRSWasaFieldMap, 1)
 };

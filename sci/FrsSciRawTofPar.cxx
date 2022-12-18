@@ -2,7 +2,6 @@
 
 #include "FairLogger.h"
 #include "FairParamList.h"
-
 #include "TArrayF.h"
 #include "TMath.h"
 #include "TString.h"
@@ -16,18 +15,17 @@ using std::endl;
 FrsSciRawTofPar::FrsSciRawTofPar(const char* name, const char* title, const char* context)
     : FairParGenericSet(name, title, context)
     , fFirstStaSci(1)
-    , fNumSignals(1)//(NUMBER_OF_SOFSCI_DETECTORS - 1) with NUMBER_OF_SOFSCI_DETECTORS=2
+    , fNumSignals(1)   //(NUMBER_OF_SOFSCI_DETECTORS - 1) with NUMBER_OF_SOFSCI_DETECTORS=2
     , fNumParsPerSignal(2)
 {
-    fAllSignalsRawTofParams = new TArrayF(2*fNumSignals);
+    fAllSignalsRawTofParams = new TArrayF(2 * fNumSignals);
 }
 
 // ----  Destructor ------------------------------------------------------------
 FrsSciRawTofPar::~FrsSciRawTofPar()
 {
     clear();
-    if (fAllSignalsRawTofParams)
-    {
+    if (fAllSignalsRawTofParams) {
         delete fAllSignalsRawTofParams;
     }
 }
@@ -43,8 +41,7 @@ void FrsSciRawTofPar::clear()
 void FrsSciRawTofPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciRawTofPar::putParams() called";
-    if (!list)
-    {
+    if (!list) {
         return;
     }
 
@@ -63,20 +60,16 @@ void FrsSciRawTofPar::putParams(FairParamList* list)
 Bool_t FrsSciRawTofPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciRawTofPar::getParams() called";
-    if (!list)
-    {
+    if (!list) {
         return kFALSE;
     }
-    if (!list->fill("selectionFirstStart", &fFirstStaSci))
-    {
+    if (!list->fill("selectionFirstStart", &fFirstStaSci)) {
         return kFALSE;
     }
-    if (!list->fill("nSignalsRawTofPar", &fNumSignals))
-    {
+    if (!list->fill("nSignalsRawTofPar", &fNumSignals)) {
         return kFALSE;
     }
-    if (!list->fill("nRawTofParsPerSignal", &fNumParsPerSignal))
-    {
+    if (!list->fill("nRawTofParsPerSignal", &fNumParsPerSignal)) {
         return kFALSE;
     }
 
@@ -84,8 +77,7 @@ Bool_t FrsSciRawTofPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fAllSignalsRawTofParams->Set(array_size);
 
-    if (!(list->fill("RawTofPar", fAllSignalsRawTofParams)))
-    {
+    if (!(list->fill("RawTofPar", fAllSignalsRawTofParams))) {
         LOG(INFO) << "---Could not initialize fAllSignalsRawTofParams";
         return kFALSE;
     }
@@ -102,8 +94,7 @@ void FrsSciRawTofPar::printParams()
     cout << "--- --------------------------------------------" << endl;
     cout << "--- Single Tcal RawTof Parameters :  " << endl;
     cout << "--- --------------------------------------------" << endl;
-    for (Int_t param = 0; param < array_size; param++)
-    {
+    for (Int_t param = 0; param < array_size; param++) {
         cout << "LIMIT " << param << " = " << fAllSignalsRawTofParams->GetAt(param) << endl;
     }
 }

@@ -1,8 +1,5 @@
 #include "FrsSciSingleTcalData.h"
 
-FrsSciSingleTcalData::FrsSciSingleTcalData()
-{
-}
-
+FrsSciSingleTcalData::FrsSciSingleTcalData() {}
 
 ClassImp(FrsSciSingleTcalData)

@@ -12,6 +12,7 @@
 #include "TH1.h"
 #include "TH2F.h"
 #include "TMath.h"
+
 #include <array>
 #include <cstdlib>
 #include <fstream>
@@ -99,7 +100,7 @@ class FrsMusicOnlineSpectra : public FairTask
     // Canvas
     TCanvas *cMusE, *cMusECal;
     TCanvas *cMusT, *cMusTCal;
-    TCanvas *cMushit;
+    TCanvas* cMushit;
 
     // Histograms for Mapped data
     TH1F* fh_music_energy_per_anode[N_ANODES];
@@ -111,13 +112,7 @@ class FrsMusicOnlineSpectra : public FairTask
     // Histograms for Hit data
     TH1F* fh_music_Z;
 
-    const char *fDetectorNames[MUSDET_MAX + 1] =
-    {
-      "Music41",
-      "Music42",
-      "Music43",
-      NULL
-   };
+    const char* fDetectorNames[MUSDET_MAX + 1] = {"Music41", "Music42", "Music43", NULL};
 
   public:
     ClassDef(FrsMusicOnlineSpectra, 1)

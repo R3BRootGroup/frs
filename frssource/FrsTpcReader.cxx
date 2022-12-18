@@ -1,26 +1,25 @@
 #include "FrsTpcReader.h"
+
 #include "FairLogger.h"
-
-#include "TMath.h"
-#include "TRandom.h"
-
 #include "FairRootManager.h"
 #include "R3BTpcMappedData.h"
+#include "Riostream.h"
 #include "TClonesArray.h"
 #include "TFile.h"
-
-#include "Riostream.h"
-#include "TFile.h"
+#include "TMath.h"
 #include "TROOT.h"
+#include "TRandom.h"
 #include "TRandom3.h"
 #include "TSystem.h"
 #include "TVectorD.h"
+
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <stdio.h>
 
-extern "C" {
+extern "C"
+{
 #include "ext_data_client.h"
 #include "ext_h101_tpc.h"
 }
@@ -32,14 +31,12 @@ FrsTpcReader::FrsTpcReader(EXT_STR_h101_TPC* data, UInt_t offset)
     , fOnline(kFALSE)
     , fLogger(FairLogger::GetLogger())
     , fArray(new TClonesArray("R3BTpcMappedData"))
-{
-}
+{}
 
 FrsTpcReader::~FrsTpcReader()
 {
     LOG(INFO) << "FrsTpcReader::Delete instance";
-    if (fArray)
-    {
+    if (fArray) {
         delete fArray;
     }
 }
@@ -50,21 +47,17 @@ Bool_t FrsTpcReader::Init(ext_data_struct_info* a_struct_info)
     Int_t ok;
     EXT_STR_h101_TPC_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_TPC, 0);
 
-    if (!ok)
-    {
+    if (!ok) {
         perror("ext_data_struct_info_item");
         LOG(ERROR) << "FrsTpcReader::Failed to setup structure information.";
         return kFALSE;
     }
- 
+
     // Register output array in tree
-    if (!fOnline)
-    {
- 
+    if (!fOnline) {
+
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArray, kTRUE);
-    }
-    else
-    {
+    } else {
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArray, kFALSE);
     }
 
@@ -77,51 +70,51 @@ Bool_t FrsTpcReader::Read()
     Reset();
     /* Display data */
     LOG(DEBUG) << "FrsTpcReader::Read() Event data.";
-/*
-    // Times
-    tpc_rt[0] = fData->TPC1RT1;
-    tpc_rt[1] = fData->TPC1RT2;
-    tpc_lt[0] = fData->TPC1LT1;
-    tpc_lt[1] = fData->TPC1LT2;
-    tpc_dt[0] = fData->TPC1DT1;
-    tpc_dt[1] = fData->TPC1DT2;
-    tpc_dt[2] = fData->TPC1DT3;
-    tpc_dt[3] = fData->TPC1DT4;
+    /*
+        // Times
+        tpc_rt[0] = fData->TPC1RT1;
+        tpc_rt[1] = fData->TPC1RT2;
+        tpc_lt[0] = fData->TPC1LT1;
+        tpc_lt[1] = fData->TPC1LT2;
+        tpc_dt[0] = fData->TPC1DT1;
+        tpc_dt[1] = fData->TPC1DT2;
+        tpc_dt[2] = fData->TPC1DT3;
+        tpc_dt[3] = fData->TPC1DT4;
 
-    // Energy
-    tpc_re[0] = fData->TPC1AR1;
-    tpc_re[1] = fData->TPC1AR2;
-    tpc_le[0] = fData->TPC1AL1;
-    tpc_le[1] = fData->TPC1AL2;
-    tpc_ae[0] = fData->TPC1A1;
-    tpc_ae[1] = fData->TPC1A2;
-    tpc_ae[2] = fData->TPC1A3;
-    tpc_ae[3] = fData->TPC1A4;
+        // Energy
+        tpc_re[0] = fData->TPC1AR1;
+        tpc_re[1] = fData->TPC1AR2;
+        tpc_le[0] = fData->TPC1AL1;
+        tpc_le[1] = fData->TPC1AL2;
+        tpc_ae[0] = fData->TPC1A1;
+        tpc_ae[1] = fData->TPC1A2;
+        tpc_ae[2] = fData->TPC1A3;
+        tpc_ae[3] = fData->TPC1A4;
 
-    new ((*fArray)[fArray->GetEntriesFast()]) R3BTpcMappedData(0, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+        new ((*fArray)[fArray->GetEntriesFast()]) R3BTpcMappedData(0, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
 
-    // Times
-    tpc_rt[0] = fData->TPC2RT1;
-    tpc_rt[1] = fData->TPC2RT2;
-    tpc_lt[0] = fData->TPC2LT1;
-    tpc_lt[1] = fData->TPC2LT2;
-    tpc_dt[0] = fData->TPC2DT1;
-    tpc_dt[1] = fData->TPC2DT2;
-    tpc_dt[2] = fData->TPC2DT3;
-    tpc_dt[3] = fData->TPC2DT4;
+        // Times
+        tpc_rt[0] = fData->TPC2RT1;
+        tpc_rt[1] = fData->TPC2RT2;
+        tpc_lt[0] = fData->TPC2LT1;
+        tpc_lt[1] = fData->TPC2LT2;
+        tpc_dt[0] = fData->TPC2DT1;
+        tpc_dt[1] = fData->TPC2DT2;
+        tpc_dt[2] = fData->TPC2DT3;
+        tpc_dt[3] = fData->TPC2DT4;
 
-    // Energy
-    tpc_re[0] = fData->TPC2AR1;
-    tpc_re[1] = fData->TPC2AR2;
-    tpc_le[0] = fData->TPC2AL1;
-    tpc_le[1] = fData->TPC2AL2;
-    tpc_ae[0] = fData->TPC2A1;
-    tpc_ae[1] = fData->TPC2A2;
-    tpc_ae[2] = fData->TPC2A3;
-    tpc_ae[3] = fData->TPC2A4;
+        // Energy
+        tpc_re[0] = fData->TPC2AR1;
+        tpc_re[1] = fData->TPC2AR2;
+        tpc_le[0] = fData->TPC2AL1;
+        tpc_le[1] = fData->TPC2AL2;
+        tpc_ae[0] = fData->TPC2A1;
+        tpc_ae[1] = fData->TPC2A2;
+        tpc_ae[2] = fData->TPC2A3;
+        tpc_ae[3] = fData->TPC2A4;
 
-    new ((*fArray)[fArray->GetEntriesFast()]) R3BTpcMappedData(1, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
-*/
+        new ((*fArray)[fArray->GetEntriesFast()]) R3BTpcMappedData(1, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
+    */
     // Times
     tpc_rt[0] = fData->TPC3RT1;
     tpc_rt[1] = fData->TPC3RT2;
@@ -187,7 +180,6 @@ Bool_t FrsTpcReader::Read()
     tpc_ae[3] = fData->TPC5A4;
 
     new ((*fArray)[fArray->GetEntriesFast()]) R3BTpcMappedData(2, tpc_ae, tpc_le, tpc_re, tpc_dt, tpc_lt, tpc_rt);
-
 
     // Times
     tpc_rt[0] = fData->TPC6RT1;

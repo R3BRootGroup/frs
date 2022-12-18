@@ -16,11 +16,10 @@
 #include "FairRuntimeDb.h"
 
 //#include "R3BSeetramCalPar.h"
-#include "R3BFrsAnaPar.h"
 #include "FRSMusicCalPar.h"
 #include "FRSMusicHitPar.h"
+#include "R3BFrsAnaPar.h"
 #include "R3BTpcCalPar.h"
-
 #include "TClass.h"
 
 static R3BFrsContFact gR3BFrsContFact;
@@ -74,28 +73,23 @@ FairParSet* R3BFrsContFact::createContainer(FairContainer* c)
     const char* name = c->GetName();
     LOG(INFO) << "R3BFrsContFact: Create container name: " << name;
     FairParSet* p = 0;
-    if (strcmp(name, "seetramCalPar") == 0)
-    {
+    if (strcmp(name, "seetramCalPar") == 0) {
         // p=new R3BSeetramCalPar(c->getConcatName().Data(),c->GetTitle(),c->getContext());
     }
 
-    if (strcmp(name, "frsmusicCalPar") == 0)
-    {
+    if (strcmp(name, "frsmusicCalPar") == 0) {
         p = new FRSMusicCalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
-    if (strcmp(name, "tpcCalPar") == 0)
-    {
+    if (strcmp(name, "tpcCalPar") == 0) {
         p = new R3BTpcCalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
-    if (strcmp(name, "frsmusicHitPar") == 0)
-    {
+    if (strcmp(name, "frsmusicHitPar") == 0) {
         p = new FRSMusicHitPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 
-    if (strcmp(name, "frsAnaPar") == 0)
-    {
+    if (strcmp(name, "frsAnaPar") == 0) {
         p = new R3BFrsAnaPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
 

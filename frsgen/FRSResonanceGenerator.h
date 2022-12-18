@@ -11,27 +11,22 @@
  * or submit itself to any jurisdiction.                                      *
  ******************************************************************************/
 
-
 #ifndef _FRSResonanceGenerator_H_
 #define _FRSResonanceGenerator_H_
 
-#include <TRandom1.h>
-#include <TVector3.h>
-#include <TLorentzVector.h>
-
 #include <FairGenerator.h>
+#include <TLorentzVector.h>
+#include <TVector3.h>
 
 class FRSResonanceGenerator : public FairGenerator
 {
   public:
     FRSResonanceGenerator()
         : FairGenerator("FRSResonanceGenerator", "FRSResonanceGenerator")
-    {
-    }
+    {}
     FRSResonanceGenerator(const char* name, const char* title)
         : FairGenerator(name, title)
-    {
-    }
+    {}
 
     virtual Bool_t Init();
     virtual Bool_t ReadEvent(FairPrimaryGenerator* primGen);
@@ -57,9 +52,10 @@ class FRSResonanceGenerator : public FairGenerator
     TLorentzVector lvpion2;
     TLorentzVector lvn;
 
-    Double_t massneutron,massproton, masspion;
+    Double_t massneutron, massproton, masspion;
     Double_t massDelta, wDelta, massRoper, wRoper;
 
+  public:
     ClassDef(FRSResonanceGenerator, 1);
 };
 

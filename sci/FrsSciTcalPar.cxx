@@ -2,7 +2,6 @@
 
 #include "FairLogger.h"
 #include "FairParamList.h"
-
 #include "TArrayF.h"
 #include "TMath.h"
 #include "TString.h"
@@ -29,8 +28,7 @@ FrsSciTcalPar::FrsSciTcalPar(const char* name, const char* title, const char* co
 FrsSciTcalPar::~FrsSciTcalPar()
 {
     clear();
-    if (fAllSignalsTcalParams)
-    {
+    if (fAllSignalsTcalParams) {
         delete fAllSignalsTcalParams;
     }
 }
@@ -46,8 +44,7 @@ void FrsSciTcalPar::clear()
 void FrsSciTcalPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciTcalPar::putParams() called";
-    if (!list)
-    {
+    if (!list) {
         return;
     }
 
@@ -67,24 +64,19 @@ void FrsSciTcalPar::putParams(FairParamList* list)
 Bool_t FrsSciTcalPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciTcalPar::getParams() called";
-    if (!list)
-    {
+    if (!list) {
         return kFALSE;
     }
-    if (!list->fill("nDetectorsTcalPar", &fNumDetectors))
-    {
+    if (!list->fill("nDetectorsTcalPar", &fNumDetectors)) {
         return kFALSE;
     }
-    if (!list->fill("nChannelsTcalPar", &fNumChannels))
-    {
+    if (!list->fill("nChannelsTcalPar", &fNumChannels)) {
         return kFALSE;
     }
-    if (!list->fill("nSignalsTcalPar", &fNumSignals))
-    {
+    if (!list->fill("nSignalsTcalPar", &fNumSignals)) {
         return kFALSE;
     }
-    if (!list->fill("nTcalParsPerSignal", &fNumTcalParsPerSignal))
-    {
+    if (!list->fill("nTcalParsPerSignal", &fNumTcalParsPerSignal)) {
         return kFALSE;
     }
 
@@ -92,8 +84,7 @@ Bool_t FrsSciTcalPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fAllSignalsTcalParams->Set(array_size);
 
-    if (!(list->fill("TcalPar", fAllSignalsTcalParams)))
-    {
+    if (!(list->fill("TcalPar", fAllSignalsTcalParams))) {
         LOG(INFO) << "---Could not initialize fAllSignalsTcalParams";
         return kFALSE;
     }
@@ -107,10 +98,8 @@ void FrsSciTcalPar::printParams()
     LOG(INFO) << "FrsSciTcalPar: SofTcal Parameters: ";
     Int_t array_size = fNumSignals * fNumTcalParsPerSignal;
 
-    for (Int_t d = 0; d < fNumDetectors; d++)
-    {
-        for (Int_t ch = 0; ch < fNumChannels; ch++)
-        {
+    for (Int_t d = 0; d < fNumDetectors; d++) {
+        for (Int_t ch = 0; ch < fNumChannels; ch++) {
             Int_t sig = d * fNumChannels + ch;
             cout << "--- --------------------------------------------" << endl;
             cout << "--- Vftx Tcal Param for signal number: " << sig << endl;

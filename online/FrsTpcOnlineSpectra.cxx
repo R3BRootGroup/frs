@@ -9,38 +9,37 @@
  */
 
 #include "FrsTpcOnlineSpectra.h"
-#include "R3BEventHeader.h"
-#include "R3BFrsS4Data.h"
-#include "R3BTpcCalData.h"
-#include "R3BTpcHitData.h"
-#include "R3BWRData.h"
-#include "THttpServer.h"
 
 #include "FairLogger.h"
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRunOnline.h"
 #include "FairRuntimeDb.h"
+#include "R3BEventHeader.h"
+#include "R3BFrsS4Data.h"
+#include "R3BTpcCalData.h"
+#include "R3BTpcHitData.h"
+#include "R3BWRData.h"
 #include "TCanvas.h"
+#include "TClonesArray.h"
 #include "TFolder.h"
 #include "TH1F.h"
 #include "TH2F.h"
-#include "TVector3.h"
-
-#include "TClonesArray.h"
+#include "THttpServer.h"
 #include "TLegend.h"
 #include "TLegendEntry.h"
 #include "TMath.h"
 #include "TRandom.h"
+#include "TVector3.h"
+
 #include <array>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
-#include <fstream>
 #include <iostream>
 #include <sstream>
 
-double tpcpos[4] = { 2960., 3985., 415., 1535. }; // FIXME
+double tpcpos[4] = {2960., 3985., 415., 1535.};   // FIXME
 
 using namespace std;
 
@@ -49,16 +48,14 @@ FrsTpcOnlineSpectra::FrsTpcOnlineSpectra()
     , fHitItemsTpc(NULL)
     , fCalItemsTpc(NULL)
     , fNEvents(0)
-{
-}
+{}
 
 FrsTpcOnlineSpectra::FrsTpcOnlineSpectra(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fHitItemsTpc(NULL)
     , fCalItemsTpc(NULL)
     , fNEvents(0)
-{
-}
+{}
 
 FrsTpcOnlineSpectra::~FrsTpcOnlineSpectra()
 {
@@ -85,20 +82,16 @@ InitStatus FrsTpcOnlineSpectra::Init()
     FairRunOnline* run = FairRunOnline::Instance();
     run->GetHttpServer()->Register("", this);
 
-  
-
     // get access to Cal Tpc data
     fCalItemsTpc = (TClonesArray*)mgr->GetObject("TpcCalData");
 
     // get access to Hit Tpc data
     fHitItemsTpc = (TClonesArray*)mgr->GetObject("TpcHitData");
 
-
     // create histograms of all detectors
 
     char Name1[255];
     char Name2[255];
-
 
     //  CANVAS 2  -------------------------------
     cTpcCal[0] = new TCanvas("TPC21_csum", "CSum info for Tpcs", 10, 10, 800, 700);
@@ -113,12 +106,11 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cTpcCal[4]->Divide(2, 2);
     cCalx = new TCanvas("TPC_DeltaX", "DeltaX info for Tpcs", 10, 10, 800, 700);
     cCalx->Divide(2, 2);
-    //cCalx31 = new TCanvas("TPC31_Summary", "Info for Tpc 31", 10, 10, 800, 700);
-    //cCalx31->Divide(2, 2);
+    // cCalx31 = new TCanvas("TPC31_Summary", "Info for Tpc 31", 10, 10, 800, 700);
+    // cCalx31->Divide(2, 2);
 
     // Csum tpc data
-    for (Int_t i = 0; i < 4; i++)
-    { // number of TPCs
+    for (Int_t i = 0; i < 4; i++) {   // number of TPCs
         sprintf(Name1, "fh_tpc_deltax_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "DeltaX for TPC 2%d at S2", i + 1);
@@ -136,8 +128,7 @@ InitStatus FrsTpcOnlineSpectra::Init()
         fh_tpc_deltax[i]->SetFillColor(kGreen - 3);
         fh_tpc_deltax[i]->SetLineColor(1);
         fh_tpc_deltax[i]->Draw("");
-        for (Int_t j = 0; j < 4; j++)
-        { // 4 histo per detector
+        for (Int_t j = 0; j < 4; j++) {   // 4 histo per detector
             sprintf(Name1, "fh_tpc_csum_%d", i * 4 + j);
             if (i < 2)
                 sprintf(Name2, "CSum for TPC 2%d and DT- %d", i + 1, j);
@@ -158,21 +149,18 @@ InitStatus FrsTpcOnlineSpectra::Init()
         }
     }
 
-
-
     //  CANVAS 3  -------------------------------
     cHitx = new TCanvas("TPC_position_X", "TPC Hit info", 10, 10, 800, 700);
     cHitx->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++)
-    { // one histo per detector
+    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
         sprintf(Name1, "fh_Tpc_hitx_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "X for TPC 2%d at S2", i + 1);
         else if (i < 4)
             sprintf(Name2, "X for TPC 4%d at S4", i - 1);
-       // else
+        // else
         //    sprintf(Name2, "X for TPC 31 at S4");
         fh_Tpc_hitx[i] = new TH1F(Name1, Name2, 500, -100, 100.);
         fh_Tpc_hitx[i]->GetXaxis()->SetTitle("X [mm]");
@@ -187,10 +175,10 @@ InitStatus FrsTpcOnlineSpectra::Init()
         fh_Tpc_hitx[i]->GetYaxis()->SetTitleSize(0.045);
         fh_Tpc_hitx[i]->SetFillColor(2);
         fh_Tpc_hitx[i]->SetLineColor(1);
-        //if (i < 4)
-            cHitx->cd(i + 1);
-        //else
-           // cCalx31->cd(2);
+        // if (i < 4)
+        cHitx->cd(i + 1);
+        // else
+        // cCalx31->cd(2);
         fh_Tpc_hitx[i]->Draw("");
     }
 
@@ -199,15 +187,14 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cHity->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++)
-    { // one histo per detector
+    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
         sprintf(Name1, "fh_Tpc_hity_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "Y for TPC 2%d at S2", i + 1);
-       else if (i < 4)
+        else if (i < 4)
             sprintf(Name2, "Y for TPC 4%d at S4", i - 1);
-       // else
-       //   sprintf(Name2, "Y for TPC 31 at S4");
+        // else
+        //   sprintf(Name2, "Y for TPC 31 at S4");
         fh_Tpc_hity[i] = new TH1F(Name1, Name2, 500, -100, 100.);
         fh_Tpc_hity[i]->GetXaxis()->SetTitle("Y [mm]");
         fh_Tpc_hity[i]->GetYaxis()->SetTitle("Counts");
@@ -221,10 +208,10 @@ InitStatus FrsTpcOnlineSpectra::Init()
         fh_Tpc_hity[i]->GetYaxis()->SetTitleSize(0.045);
         fh_Tpc_hity[i]->SetFillColor(2);
         fh_Tpc_hity[i]->SetLineColor(1);
-        //if (i < 4)
-            cHity->cd(i + 1);
-        //else
-          //  cCalx31->cd(3);
+        // if (i < 4)
+        cHity->cd(i + 1);
+        // else
+        //  cCalx31->cd(3);
         fh_Tpc_hity[i]->Draw("");
     }
 
@@ -233,15 +220,14 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cHitxy->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++)
-    { // one histo per detector
+    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
         sprintf(Name1, "fh_Tpc_hitxy_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "XY for TPC 2%d at S2", i + 1);
         else if (i < 4)
             sprintf(Name2, "XY for TPC 4%d at S4", i - 1);
-        //else
-           // sprintf(Name2, "XY for TPC 31 at S4");
+        // else
+        // sprintf(Name2, "XY for TPC 31 at S4");
         fh_Tpc_hitxy[i] = new TH2F(Name1, Name2, 500, -100, 100., 500, -100, 100.);
         fh_Tpc_hitxy[i]->GetXaxis()->SetTitle("X [mm]");
         fh_Tpc_hitxy[i]->GetYaxis()->SetTitle("Y [mm]");
@@ -253,13 +239,12 @@ InitStatus FrsTpcOnlineSpectra::Init()
         fh_Tpc_hitxy[i]->GetXaxis()->SetTitleSize(0.045);
         fh_Tpc_hitxy[i]->GetYaxis()->SetLabelSize(0.045);
         fh_Tpc_hitxy[i]->GetYaxis()->SetTitleSize(0.045);
-       // if (i < 4)
-            cHitxy->cd(i + 1);
-       // else
-         //   cCalx31->cd(4);
+        // if (i < 4)
+        cHitxy->cd(i + 1);
+        // else
+        //   cCalx31->cd(4);
         fh_Tpc_hitxy[i]->Draw("col");
     }
-
 
     //  CANVAS 11  -------------------------------
     cTransS2 = new TCanvas("Position_Angle_S2", "Transmission info at S2", 10, 10, 800, 700);
@@ -320,7 +305,6 @@ InitStatus FrsTpcOnlineSpectra::Init()
     fh_tr4->GetYaxis()->SetTitleSize(0.04);
     fh_tr4->Draw("col");
 
-
     // MAIN FOLDER-TPC
     TFolder* mainfolTpc = new TFolder("TPC", "TPC info");
     mainfolTpc->Add(cHitx);
@@ -330,9 +314,9 @@ InitStatus FrsTpcOnlineSpectra::Init()
     mainfolTpc->Add(cTpcCal[1]);
     mainfolTpc->Add(cTpcCal[2]);
     mainfolTpc->Add(cTpcCal[3]);
-    //mainfolTpc->Add(cTpcCal[3]);
+    // mainfolTpc->Add(cTpcCal[3]);
     mainfolTpc->Add(cCalx);
-    //mainfolTpc->Add(cCalx31);
+    // mainfolTpc->Add(cCalx31);
     mainfolTpc->Add(cTransS2);
     mainfolTpc->Add(cTransS4);
     mainfolTpc->Add(cTrackS2);
@@ -349,8 +333,7 @@ void FrsTpcOnlineSpectra::Reset_TPC_Histo()
 {
     LOG(INFO) << "FrsTpcOnlineSpectra::Reset_TPC_Histo";
     // Hit data
-    for (Int_t i = 0; i < 4; i++)
-    {
+    for (Int_t i = 0; i < 4; i++) {
         fh_Tpc_hitx[i]->Reset();
         fh_Tpc_hity[i]->Reset();
         fh_Tpc_hitxy[i]->Reset();
@@ -365,7 +348,6 @@ void FrsTpcOnlineSpectra::Reset_TPC_Histo()
         fh_tpc_csum[i]->Reset();
 }
 
-
 void FrsTpcOnlineSpectra::Exec(Option_t* option)
 {
     FairRootManager* mgr = FairRootManager::Instance();
@@ -374,21 +356,16 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
 
     // Fill cal tpc data
     Int_t deltaX[10];
-    if (fCalItemsTpc && fCalItemsTpc->GetEntriesFast())
-    {
+    if (fCalItemsTpc && fCalItemsTpc->GetEntriesFast()) {
         Int_t nHits = fCalItemsTpc->GetEntriesFast();
         // std::cout << nHits << std::endl;
-        for (Int_t ihit = 0; ihit < nHits; ihit++)
-        {
+        for (Int_t ihit = 0; ihit < nHits; ihit++) {
             R3BTpcCalData* hit = (R3BTpcCalData*)fCalItemsTpc->At(ihit);
             if (!hit)
                 continue;
-            if (hit->GetXYId())
-            {
+            if (hit->GetXYId()) {
                 fh_tpc_csum[hit->GetDetectorId() * 4 + hit->GetSecId()]->Fill(hit->GetControlPar());
-            }
-            else
-            {
+            } else {
                 deltaX[hit->GetDetectorId() * 2 + hit->GetSecId()] = hit->GetControlPar();
             }
         }
@@ -400,18 +377,16 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill hit tpc data
-    if (fHitItemsTpc && fHitItemsTpc->GetEntriesFast())
-    {
+    if (fHitItemsTpc && fHitItemsTpc->GetEntriesFast()) {
         Int_t nHits = fHitItemsTpc->GetEntriesFast();
         // std::cout << nHits << std::endl;
         TVector3 master[4];
         int detid[4];
-        detid[0]=0;
-        detid[1]=0;
-        detid[2]=0;
-        detid[3]=0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++)
-        {
+        detid[0] = 0;
+        detid[1] = 0;
+        detid[2] = 0;
+        detid[3] = 0;
+        for (Int_t ihit = 0; ihit < nHits; ihit++) {
             R3BTpcHitData* hit = (R3BTpcHitData*)fHitItemsTpc->At(ihit);
             if (!hit)
                 continue;
@@ -419,19 +394,20 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
             fh_Tpc_hity[hit->GetDetectorId()]->Fill(hit->GetY());
             fh_Tpc_hitxy[hit->GetDetectorId()]->Fill(hit->GetX(), hit->GetY());
             master[hit->GetDetectorId()].SetXYZ(tpcpos[hit->GetDetectorId()], hit->GetX(), 0.);
-            detid[hit->GetDetectorId()]=1;
+            detid[hit->GetDetectorId()] = 1;
         }
         double zr = 0.;
-        if(detid[0]==1&&detid[1]==1)fh_ts2->Fill(master[0].Y() + (master[1] - master[0]).Phi() * 2012., (master[1] - master[0]).Phi() * 1000.);
-        if(detid[2]==1&&detid[3]==1)fh_ts4->Fill(master[2].Y() + (master[3] - master[2]).Phi() * 2349., (master[3] - master[2]).Phi() * 1000.);
-        for (Int_t j = 0; j < 10; j++)
-        {
+        if (detid[0] == 1 && detid[1] == 1)
+            fh_ts2->Fill(master[0].Y() + (master[1] - master[0]).Phi() * 2012., (master[1] - master[0]).Phi() * 1000.);
+        if (detid[2] == 1 && detid[3] == 1)
+            fh_ts4->Fill(master[2].Y() + (master[3] - master[2]).Phi() * 2349., (master[3] - master[2]).Phi() * 1000.);
+        for (Int_t j = 0; j < 10; j++) {
             zr = gRandom->Uniform(0., 4050.);
-            if (master[0].Y() > -100. && master[0].Y() < 100. && master[1].Y() > -100. && master[1].Y() < 100. &&
-                abs((master[1] - master[0]).Phi()) < 0.016 && detid[0]==1 && detid[1]==1)
+            if (master[0].Y() > -100. && master[0].Y() < 100. && master[1].Y() > -100. && master[1].Y() < 100.
+                && abs((master[1] - master[0]).Phi()) < 0.016 && detid[0] == 1 && detid[1] == 1)
                 fh_tr2->Fill(zr, master[0].Y() + (master[1] - master[0]).Phi() * zr);
-            if (master[2].Y() > -100. && master[2].Y() < 100. && master[3].Y() > -100. && master[3].Y() < 100. &&
-                abs((master[3] - master[2]).Phi()) < 0.016 && detid[2]==1 && detid[3]==1)
+            if (master[2].Y() > -100. && master[2].Y() < 100. && master[3].Y() > -100. && master[3].Y() < 100.
+                && abs((master[3] - master[2]).Phi()) < 0.016 && detid[2] == 1 && detid[3] == 1)
                 fh_tr4->Fill(zr, master[2].Y() + (master[3] - master[2]).Phi() * zr);
         }
     }
@@ -441,32 +417,27 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
 
 void FrsTpcOnlineSpectra::FinishEvent()
 {
-    if (fCalItemsTpc)
-    {
+    if (fCalItemsTpc) {
         fCalItemsTpc->Clear();
     }
-    if (fHitItemsTpc)
-    {
+    if (fHitItemsTpc) {
         fHitItemsTpc->Clear();
     }
 }
 
 void FrsTpcOnlineSpectra::FinishTask()
 {
-    if (fCalItemsTpc)
-    {
+    if (fCalItemsTpc) {
         cCalx->Write();
-        for (Int_t i = 0; i < 4; i++)
-        {
+        for (Int_t i = 0; i < 4; i++) {
             cTpcCal[i]->Write();
         }
     }
-    if (fHitItemsTpc)
-    {
+    if (fHitItemsTpc) {
         cHitx->Write();
         cHity->Write();
         cHitxy->Write();
-        //cCalx31->Write();
+        // cCalx31->Write();
         cTransS2->Write();
         cTransS4->Write();
         cTrackS2->Write();

@@ -34,8 +34,7 @@ FRSMusicMapped2Cal::FRSMusicMapped2Cal()
     , fMusicMappedDataCA(NULL)
     , fMusicCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // FRSMusicMapped2CalPar: Standard Constructor --------------------------
 FRSMusicMapped2Cal::FRSMusicMapped2Cal(const char* name, Int_t iVerbose)
@@ -49,8 +48,7 @@ FRSMusicMapped2Cal::FRSMusicMapped2Cal(const char* name, Int_t iVerbose)
     , fMusicMappedDataCA(NULL)
     , fMusicCalDataCA(NULL)
     , fOnline(kFALSE)
-{
-}
+{}
 
 // Virtual FRSMusicMapped2Cal: Destructor
 FRSMusicMapped2Cal::~FRSMusicMapped2Cal()
@@ -68,18 +66,14 @@ void FRSMusicMapped2Cal::SetParContainers()
     // Parameter Container
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         LOG(ERROR) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         LOG(ERROR) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
-    }
-    else
-    {
+    } else {
         LOG(INFO) << "FRSMusicMapped2CalPar:: frsmusicCalPar container open";
     }
 }
@@ -88,9 +82,9 @@ void FRSMusicMapped2Cal::SetParameter()
 {
 
     //--- Parameter Container ---
-    NumDets = fCal_Par->GetNumDets();            // Number of Detectors
-    NumAnodes = fCal_Par->GetNumAnodes();        // Number of anodes
-    NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
+    NumDets = fCal_Par->GetNumDets();              // Number of Detectors
+    NumAnodes = fCal_Par->GetNumAnodes();          // Number of anodes
+    NumParams = fCal_Par->GetNumParametersFit();   // Number of Parameters
 
     LOG(INFO) << "FRSMusicMapped2Cal: Nb detectors: " << NumDets;
     LOG(INFO) << "FRSMusicMapped2Cal: Nb anodes: " << NumAnodes;
@@ -99,11 +93,10 @@ void FRSMusicMapped2Cal::SetParameter()
     CalParams = new TArrayF();
     Int_t array_size = NumDets * NumAnodes * NumParams;
     CalParams->Set(array_size);
-    CalParams = fCal_Par->GetAnodeCalParams(); // Array with the Cal parameters
+    CalParams = fCal_Par->GetAnodeCalParams();   // Array with the Cal parameters
 
     // Count the number of dead anodes per Music detector
-    for (Int_t d = 0; d < NumDets; d++)
-    {
+    for (Int_t d = 0; d < NumDets; d++) {
         Int_t numdeadanodes = 0;
         for (Int_t i = 0; i < NumAnodes; i++)
             if (CalParams->GetAt(NumParams * i + 1 + NumAnodes * d * NumParams) == -1)
@@ -119,26 +112,21 @@ InitStatus FRSMusicMapped2Cal::Init()
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager)
-    {
+    if (!rootManager) {
         return kFATAL;
     }
 
     fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
-    if (!fMusicMappedDataCA)
-    {
+    if (!fMusicMappedDataCA) {
         return kFATAL;
     }
 
     // OUTPUT DATA
     // Calibrated data
     fMusicCalDataCA = new TClonesArray("FRSMusicCalData", 10);
-    if (!fOnline)
-    {
+    if (!fOnline) {
         rootManager->Register("FRSMusicCalData", "MUSIC Cal", fMusicCalDataCA, kTRUE);
-    }
-    else
-    {
+    } else {
         rootManager->Register("FRSMusicCalData", "MUSIC Cal", fMusicCalDataCA, kFALSE);
     }
 
@@ -159,8 +147,7 @@ void FRSMusicMapped2Cal::Exec(Option_t* option)
     // Reset entries in output arrays, local arrays
     Reset();
 
-    if (!fCal_Par)
-    {
+    if (!fCal_Par) {
         LOG(ERROR) << "NO Container Parameter!!";
     }
 
@@ -178,8 +165,7 @@ void FRSMusicMapped2Cal::Exec(Option_t* option)
     Double_t pedestal = 0.;
     Double_t sigma = 0.;
 
-    for (Int_t i = 0; i < nHits; i++)
-    {
+    for (Int_t i = 0; i < nHits; i++) {
         mappedData[i] = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
         detId = mappedData[i]->GetDetectorId();
         anodeId = mappedData[i]->GetAnodeId();

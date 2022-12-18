@@ -104,7 +104,7 @@ class R3BSeetramMapped2Cal : public FairTask
 
     TArrayF* CalParams;
 
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
     R3BSeetramCalPar* fCal_Par;      /**< Parameter container. >*/
     TClonesArray* fFrsMappedDataCA;  /**< Array with FRS Mapped- input data. >*/

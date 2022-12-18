@@ -6,11 +6,11 @@
 #ifndef R3BTpcCalPar_H
 #define R3BTpcCalPar_H
 
-#include "FairParGenericSet.h" // for FairParGenericSet
-
+#include "FairParGenericSet.h"   // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
+
 #include <TObjString.h>
 
 using namespace std;
@@ -59,13 +59,13 @@ class R3BTpcCalPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fTpcCalParams;     // Calibration Parameters for anodes
-    TArrayF* fTpcCsumMaxParams; // Maximum Csum Parameters for TPCs
-    TArrayF* fTpcCsumMinParams; // Minimum Csum Parameters for TPCs
-    Int_t fNumDets;             // number of detectors
-    Int_t fNumDT;               // number of anodes
-    Int_t fNumParamsFit;        /* number of cal parameters in the fit
-                      gaus: A_fit & B_fit & C_fit*/
+    TArrayF* fTpcCalParams;       // Calibration Parameters for anodes
+    TArrayF* fTpcCsumMaxParams;   // Maximum Csum Parameters for TPCs
+    TArrayF* fTpcCsumMinParams;   // Minimum Csum Parameters for TPCs
+    Int_t fNumDets;               // number of detectors
+    Int_t fNumDT;                 // number of anodes
+    Int_t fNumParamsFit;          /* number of cal parameters in the fit
+                        gaus: A_fit & B_fit & C_fit*/
 
     const R3BTpcCalPar& operator=(const R3BTpcCalPar&); /*< an assignment operator>*/
 

@@ -23,9 +23,9 @@ class TRandom3;
 #include "FairRuntimeDb.h"
 
 // FrsSci headers
-#include "VftxSciMappedData.h"
 #include "FrsSciTcalData.h"
 #include "FrsSciTcalPar.h"
+#include "VftxSciMappedData.h"
 
 class FrsSciMapped2Tcal : public FairTask
 {
@@ -58,13 +58,13 @@ class FrsSciMapped2Tcal : public FairTask
     Double_t CalculateTimeNs(UShort_t det, UShort_t pmt, UInt_t tf, UInt_t tc);
 
   private:
-    Bool_t fOnline; // Don't store data for online
+    Bool_t fOnline;   // Don't store data for online
 
-    TClonesArray* fMapped;   // input data - FrsSci
-    FrsSciTcalPar* fTcalPar; // tcal parameters container - FrsSci
-    TClonesArray* fTcal;     // output data
+    TClonesArray* fMapped;     // input data - FrsSci
+    FrsSciTcalPar* fTcalPar;   // tcal parameters container - FrsSci
+    TClonesArray* fTcal;       // output data
 
-    UInt_t fNumTcal; // number of Tcal items per event
+    UInt_t fNumTcal;   // number of Tcal items per event
     UInt_t fNevent;
 
     TRandom rand;
@@ -77,4 +77,4 @@ class FrsSciMapped2Tcal : public FairTask
     ClassDef(FrsSciMapped2Tcal, 1)
 };
 
-#endif // _FrsSciMapped2Tcal_
+#endif   // _FrsSciMapped2Tcal_

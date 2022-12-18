@@ -1,17 +1,14 @@
 #include "FrsSciTcal2RawPosPar.h"
 
-#include "FrsSciRawPosPar.h"
-#include "FrsSciTcalData.h"
-
-#include "R3BEventHeader.h"
-
 #include "FairLogger.h"
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRuntimeDb.h"
-#include "TGeoManager.h"
-
+#include "FrsSciRawPosPar.h"
+#include "FrsSciTcalData.h"
+#include "R3BEventHeader.h"
 #include "TClonesArray.h"
+#include "TGeoManager.h"
 #include "TMath.h"
 #include "TObjArray.h"
 #include "TRandom.h"
@@ -38,7 +35,7 @@ FrsSciTcal2RawPosPar::FrsSciTcal2RawPosPar()
     , fRawPosPar(NULL)
     , fOutputFile(NULL)
 {
-    fNumSignals=fNumDetectors*fNumChannels;
+    fNumSignals = fNumDetectors * fNumChannels;
 }
 
 // FrsSciTcal2RawPosPar: Standard Constructor --------------------------
@@ -53,7 +50,7 @@ FrsSciTcal2RawPosPar::FrsSciTcal2RawPosPar(const char* name, Int_t iVerbose)
     , fOutputFile(NULL)
 
 {
-    fNumSignals=fNumDetectors*fNumChannels;
+    fNumSignals = fNumDetectors * fNumChannels;
 }
 
 // FrsSciTcal2RawPosPar: Destructor ----------------------------------------
@@ -70,8 +67,7 @@ InitStatus FrsSciTcal2RawPosPar::Init()
     LOG(INFO) << "FrsSciTcal2RawPosPar::Init";
 
     FairRootManager* rm = FairRootManager::Instance();
-    if (!rm)
-    {
+    if (!rm) {
         return kFATAL;
     }
 
@@ -81,8 +77,7 @@ InitStatus FrsSciTcal2RawPosPar::Init()
 
     // scintillator at S2 and S4
     fTcal = (TClonesArray*)rm->GetObject("FrsSciTcalData");
-    if (!fTcal)
-    {
+    if (!fTcal) {
         LOG(ERROR) << "FrsSciTcal2RawPosPar::Couldn't get handle on FrsSciTcalData container";
         return kFATAL;
     }
@@ -92,14 +87,12 @@ InitStatus FrsSciTcal2RawPosPar::Init()
     // --- ---------------------------------------- --- //
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb)
-    {
+    if (!rtdb) {
         return kFATAL;
     }
 
     fRawPosPar = (FrsSciRawPosPar*)rtdb->getContainer("FrsSciRawPosPar");
-    if (!fRawPosPar)
-    {
+    if (!fRawPosPar) {
         LOG(ERROR) << "FrsSciTcal2RawPosPar::Couldn't get handle on FrsSciRawPosPar container";
         return kFATAL;
     }
@@ -110,8 +103,7 @@ InitStatus FrsSciTcal2RawPosPar::Init()
 
     char name[100];
     fh_RawPosMult1 = new TH1D*[fNumDetectors];
-    for (Int_t det = 0; det < fNumDetectors; det++)
-    {
+    for (Int_t det = 0; det < fNumDetectors; det++) {
         sprintf(name, "PosRaw_Sci%i", det + 1);
         fh_RawPosMult1[det] = new TH1D(name, name, 40000, -20, 20);
     }
@@ -135,45 +127,38 @@ void FrsSciTcal2RawPosPar::Exec(Option_t* opt)
     // --- ------------------------------ --- //
 
     // nHitsSci = number of hits per event
-    UInt_t nHitsSci = fTcal->GetEntries(); // can be very high especially for S2 detector
+    UInt_t nHitsSci = fTcal->GetEntries();   // can be very high especially for S2 detector
     UShort_t mult[fNumDetectors * fNumChannels];
     Double_t iRawTimeNs[fNumDetectors * fNumChannels];
-    UShort_t iDet; // 0 based Det number
-    UShort_t iPmt; // 0 based Pmt number
+    UShort_t iDet;   // 0 based Det number
+    UShort_t iPmt;   // 0 based Pmt number
 
-    for (UShort_t d = 0; d < fNumDetectors; d++)
-    {
-        for (UShort_t ch = 0; ch < fNumChannels; ch++)
-        {
+    for (UShort_t d = 0; d < fNumDetectors; d++) {
+        for (UShort_t ch = 0; ch < fNumChannels; ch++) {
             mult[d * fNumChannels + ch] = 0;
             iRawTimeNs[d * fNumChannels + ch] = 0;
         }
     }
 
     // CALCULATE THE MULTIPLICITY FOR EACH SIGNAL
-    for (UInt_t ihit = 0; ihit < nHitsSci; ihit++)
-    {
+    for (UInt_t ihit = 0; ihit < nHitsSci; ihit++) {
         FrsSciTcalData* hitSci = (FrsSciTcalData*)fTcal->At(ihit);
-        if (!hitSci)
-        {
+        if (!hitSci) {
             LOG(WARNING) << "FrsSciTcal2RawPosPar::Exec() : could not get TcalHitSci";
-            continue; // should not happen
+            continue;   // should not happen
         }
-        iDet = hitSci->GetDetector() - 1; // get the 0 based Det number
-        iPmt = hitSci->GetPmt() - 1;      // get the 0 based Pmt number
+        iDet = hitSci->GetDetector() - 1;   // get the 0 based Det number
+        iPmt = hitSci->GetPmt() - 1;        // get the 0 based Pmt number
         iRawTimeNs[iDet * fNumChannels + iPmt] = hitSci->GetRawTimeNs();
         mult[iDet * fNumChannels + iPmt]++;
-    } // end of for(ihit)
+    }   // end of for(ihit)
 
     // FILL THE HISTOGRAM ONLY FOR MULT=1 IN RIGHT AND MULT=1 IN LEFT
-    for (UShort_t d = 0; d < fNumDetectors; d++)
-    {
+    for (UShort_t d = 0; d < fNumDetectors; d++) {
         // check if mult=1 at RIGHT PMT [0] and mult=1 at LEFT PMT [1]
         // ATTENTION : x increasing from left to right : TrawRIGHT-TrawLEFT
-        if ((mult[d * fNumChannels] == 1) && (mult[d * fNumChannels + 1] == 1))
-        {
-            fh_RawPosMult1[d]->Fill(iRawTimeNs[d * fNumChannels] -
-                                    iRawTimeNs[d * fNumChannels + 1]);
+        if ((mult[d * fNumChannels] == 1) && (mult[d * fNumChannels + 1] == 1)) {
+            fh_RawPosMult1[d]->Fill(iRawTimeNs[d * fNumChannels] - iRawTimeNs[d * fNumChannels + 1]);
         }
     }
 }
@@ -202,17 +187,14 @@ void FrsSciTcal2RawPosPar::CalculateRawPosRawPosParams()
 
     Double_t iMax;
     Int_t bin, binLimit;
-    for (Int_t sig = 0; sig < fNumDetectors; sig++)
-    {
-        if (fh_RawPosMult1[sig]->GetEntries() > fMinStatistics)
-        {
+    for (Int_t sig = 0; sig < fNumDetectors; sig++) {
+        if (fh_RawPosMult1[sig]->GetEntries() > fMinStatistics) {
             iMax = fh_RawPosMult1[sig]->GetMaximum();
             // LOWER LIMIT
             bin = 1;
             binLimit = 1;
-            while ((bin <= fh_RawPosMult1[sig]->GetNbinsX()) && (binLimit == 1))
-            {
-                if (fh_RawPosMult1[sig]->GetBinContent(bin) > (iMax *0.05))
+            while ((bin <= fh_RawPosMult1[sig]->GetNbinsX()) && (binLimit == 1)) {
+                if (fh_RawPosMult1[sig]->GetBinContent(bin) > (iMax * 0.05))
                     binLimit = bin;
                 bin++;
             }
@@ -220,9 +202,8 @@ void FrsSciTcal2RawPosPar::CalculateRawPosRawPosParams()
             // HIGHER LIMIT
             bin = fh_RawPosMult1[sig]->GetNbinsX();
             binLimit = fh_RawPosMult1[sig]->GetNbinsX();
-            while ((bin >= 1) && (binLimit == fh_RawPosMult1[sig]->GetNbinsX()))
-            {
-                if (fh_RawPosMult1[sig]->GetBinContent(bin) > (iMax *0.05))
+            while ((bin >= 1) && (binLimit == fh_RawPosMult1[sig]->GetNbinsX())) {
+                if (fh_RawPosMult1[sig]->GetBinContent(bin) > (iMax * 0.05))
                     binLimit = bin;
                 bin--;
             }

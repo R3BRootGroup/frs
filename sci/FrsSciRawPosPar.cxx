@@ -2,7 +2,6 @@
 
 #include "FairLogger.h"
 #include "FairParamList.h"
-
 #include "TArrayF.h"
 #include "TMath.h"
 #include "TString.h"
@@ -21,15 +20,14 @@ FrsSciRawPosPar::FrsSciRawPosPar(const char* name, const char* title, const char
 {
 
     fNumSignals = fNumDetectors * fNumChannels;
-    fAllSignalsRawPosParams = new TArrayF(fNumDetectors*2);
+    fAllSignalsRawPosParams = new TArrayF(fNumDetectors * 2);
 }
 
 // ----  Destructor ------------------------------------------------------------
 FrsSciRawPosPar::~FrsSciRawPosPar()
 {
     clear();
-    if (fAllSignalsRawPosParams)
-    {
+    if (fAllSignalsRawPosParams) {
         delete fAllSignalsRawPosParams;
     }
 }
@@ -45,8 +43,7 @@ void FrsSciRawPosPar::clear()
 void FrsSciRawPosPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciRawPosPar::putParams() called";
-    if (!list)
-    {
+    if (!list) {
         return;
     }
 
@@ -66,24 +63,19 @@ void FrsSciRawPosPar::putParams(FairParamList* list)
 Bool_t FrsSciRawPosPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "FrsSciRawPosPar::getParams() called";
-    if (!list)
-    {
+    if (!list) {
         return kFALSE;
     }
-    if (!list->fill("nDetectorsRawPosPar", &fNumDetectors))
-    {
+    if (!list->fill("nDetectorsRawPosPar", &fNumDetectors)) {
         return kFALSE;
     }
-    if (!list->fill("nChannelsRawPosPar", &fNumChannels))
-    {
+    if (!list->fill("nChannelsRawPosPar", &fNumChannels)) {
         return kFALSE;
     }
-    if (!list->fill("nSignalsRawPosPar", &fNumSignals))
-    {
+    if (!list->fill("nSignalsRawPosPar", &fNumSignals)) {
         return kFALSE;
     }
-    if (!list->fill("nRawPosParsPerSignal", &fNumParsPerSignal))
-    {
+    if (!list->fill("nRawPosParsPerSignal", &fNumParsPerSignal)) {
         return kFALSE;
     }
 
@@ -91,8 +83,7 @@ Bool_t FrsSciRawPosPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fAllSignalsRawPosParams->Set(array_size);
 
-    if (!(list->fill("RawPosPar", fAllSignalsRawPosParams)))
-    {
+    if (!(list->fill("RawPosPar", fAllSignalsRawPosParams))) {
         LOG(INFO) << "---Could not initialize fAllSignalsRawPosParams";
         return kFALSE;
     }
@@ -109,8 +100,7 @@ void FrsSciRawPosPar::printParams()
     cout << "--- --------------------------------------------" << endl;
     cout << "--- Single Tcal Parameters :  " << endl;
     cout << "--- --------------------------------------------" << endl;
-    for (Int_t param = 0; param < array_size; param++)
-    {
+    for (Int_t param = 0; param < array_size; param++) {
         cout << "LIMIT " << param << " = " << fAllSignalsRawPosParams->GetAt(param) << endl;
     }
 }

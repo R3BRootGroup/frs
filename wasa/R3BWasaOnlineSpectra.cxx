@@ -9,26 +9,25 @@
  */
 
 #include "R3BWasaOnlineSpectra.h"
-#include "R3BEventHeader.h"
-#include "R3BMdcMappedData.h"
-#include "THttpServer.h"
 
 #include "FairLogger.h"
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRunOnline.h"
 #include "FairRuntimeDb.h"
+#include "R3BEventHeader.h"
+#include "R3BMdcMappedData.h"
 #include "TCanvas.h"
+#include "TClonesArray.h"
 #include "TFolder.h"
 #include "TH1F.h"
 #include "TH2F.h"
-
-#include "TClonesArray.h"
+#include "THttpServer.h"
 #include "TMath.h"
+
 #include <array>
 #include <cstdlib>
 #include <ctime>
-#include <fstream>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -40,16 +39,14 @@ R3BWasaOnlineSpectra::R3BWasaOnlineSpectra()
     , fMappedItemsMdc(NULL)
     , fTrigger(-1)
     , fNEvents(0)
-{
-}
+{}
 
 R3BWasaOnlineSpectra::R3BWasaOnlineSpectra(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fMappedItemsMdc(NULL)
     , fTrigger(-1)
     , fNEvents(0)
-{
-}
+{}
 
 R3BWasaOnlineSpectra::~R3BWasaOnlineSpectra() {}
 
@@ -80,18 +77,15 @@ InitStatus R3BWasaOnlineSpectra::Init()
     char Name2[255];
 
     //  CANVAS 1  -------------------------------
-    for (Int_t i = 0; i < 12 * 2; i++)
-    { // 192/16=12
+    for (Int_t i = 0; i < 12 * 2; i++) {   // 192/16=12
         sprintf(Name1, "Canvas_MDC_%d", i + 1);
         cMdcWasa[i] = new TCanvas(Name1, "info for Mdc", 10, 10, 800, 700);
         cMdcWasa[i]->Divide(4, 4);
     }
 
     // MDC HISTO
-    for (Int_t i = 0; i < 12 * 2; i++)
-    { // number of canvas
-        for (Int_t j = 0; j < 16; j++)
-        { // 16 histo per canvas
+    for (Int_t i = 0; i < 12 * 2; i++) {   // number of canvas
+        for (Int_t j = 0; j < 16; j++) {   // 16 histo per canvas
             sprintf(Name2, "fh_mdc_%d", i * 16 + j);
             fh_mdc[i * 16 + j] = new TH1F(Name2, Name2, 500, 0, 4092);
             fh_mdc[i * 16 + j]->GetXaxis()->SetTitle("Channels");
@@ -134,11 +128,9 @@ void R3BWasaOnlineSpectra::Exec(Option_t* option)
         LOG(fatal) << "R3BWasaOnlineSpectra::Exec FairRootManager not found";
 
     // Fill mapped data
-    if (fMappedItemsMdc && fMappedItemsMdc->GetEntriesFast())
-    {
+    if (fMappedItemsMdc && fMappedItemsMdc->GetEntriesFast()) {
         Int_t nHits = fMappedItemsMdc->GetEntriesFast();
-        for (Int_t ihit = 0; ihit < nHits; ihit++)
-        {
+        for (Int_t ihit = 0; ihit < nHits; ihit++) {
             R3BMdcMappedData* hit = (R3BMdcMappedData*)fMappedItemsMdc->At(ihit);
             if (!hit)
                 continue;
@@ -153,8 +145,7 @@ void R3BWasaOnlineSpectra::Exec(Option_t* option)
 void R3BWasaOnlineSpectra::FinishEvent()
 {
 
-    if (fMappedItemsMdc)
-    {
+    if (fMappedItemsMdc) {
         fMappedItemsMdc->Clear();
     }
 }
@@ -162,8 +153,7 @@ void R3BWasaOnlineSpectra::FinishEvent()
 void R3BWasaOnlineSpectra::FinishTask()
 {
 
-    if (fMappedItemsMdc)
-    {
+    if (fMappedItemsMdc) {
         for (Int_t i = 0; i < 12 * 2; i++)
             cMdcWasa[i]->Write();
     }

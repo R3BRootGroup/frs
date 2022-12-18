@@ -51,7 +51,7 @@ ext_h101_wasa.h
 CHANGE_FILE_EXTENSION(*.cxx *.h HEADERS "${SRCS}")
 Set(HEADERS ${STRUCT_HEADERS} ${HEADERS})
 
-set(LINKDEF_FILE R3BFRSLinkDef.h)
+set(LINKDEF_FILE SourceLinkDef.h)
 set(DEPENDENCIES
     R3BBase Base R3BFRS R3Bsource ${ucesb_LIBRARY_SHARED} FairTools)
 set(LIBRARY_NAME R3BFRSSource)

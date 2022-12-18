@@ -1,10 +1,11 @@
 #ifndef __FrsSciRawTofPar_H__
 #define __FrsSciRawTofPar_H__
 
-#include "FairParGenericSet.h" // for FairParGenericSet
+#include "FairParGenericSet.h"   // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
+
 #include <TObjString.h>
 
 class FairParamList;
@@ -15,8 +16,8 @@ class FrsSciRawTofPar : public FairParGenericSet
   public:
     /** Standard constructor **/
     FrsSciRawTofPar(const char* name = "FrsSciRawTofPar",
-                       const char* title = "FrsSciRawTof Parameters",
-                       const char* context = "FrsSciRawTofParContext");
+                    const char* title = "FrsSciRawTof Parameters",
+                    const char* context = "FrsSciRawTofParContext");
 
     /** Destructor **/
     virtual ~FrsSciRawTofPar();
@@ -46,14 +47,14 @@ class FrsSciRawTofPar : public FairParGenericSet
     void SetSignalParams(Double_t parval, UInt_t rank) { fAllSignalsRawTofParams->AddAt(parval, rank); }
 
   private:
-    TArrayF* fAllSignalsRawTofParams; // Calibration Parameters for all signals of one detector
-    Int_t fFirstStaSci;      // if nDets>2, start the mult selection with detectors number fFirstStaSci (1-based)
-    Int_t fNumSignals;       // = number of Tof spectra with mult=1 = NUMBER_OF_SCI_DETECTORs-1
-    Int_t fNumParsPerSignal; // = 2
+    TArrayF* fAllSignalsRawTofParams;   // Calibration Parameters for all signals of one detector
+    Int_t fFirstStaSci;        // if nDets>2, start the mult selection with detectors number fFirstStaSci (1-based)
+    Int_t fNumSignals;         // = number of Tof spectra with mult=1 = NUMBER_OF_SCI_DETECTORs-1
+    Int_t fNumParsPerSignal;   // = 2
     const FrsSciRawTofPar& operator=(const FrsSciRawTofPar&);
-    FrsSciRawTofPar(const FrsSciRawTofPar&); // a copy constructor
+    FrsSciRawTofPar(const FrsSciRawTofPar&);   // a copy constructor
 
     ClassDef(FrsSciRawTofPar, 1);
 };
 
-#endif //__FrsSciRawTofPar_H__
+#endif   //__FrsSciRawTofPar_H__
