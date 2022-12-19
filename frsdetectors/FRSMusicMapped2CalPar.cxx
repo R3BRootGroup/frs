@@ -85,23 +85,23 @@ InitStatus FRSMusicMapped2CalPar::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
     if (!fMusicMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kFATAL;
+        return kfatal;
     }
 
     fAnode_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
     if (!fAnode_Par) {
-        LOG(ERROR) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
-        return kFATAL;
+        LOG(error) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
+        return kfatal;
     }
 
     return kSUCCESS;
@@ -185,7 +185,7 @@ void FRSMusicMapped2CalPar::SearchPedestals()
             } else {
                 fAnode_Par->SetAnodeCalParams(-1, numPars * i + d * numPars * fNumAnodes + 1);   // dead anode
                 fAnode_Par->SetAnodeCalParams(0, numPars * i + d * numPars * fNumAnodes + 2);
-                LOG(WARNING) << "Histogram NO Fitted, detector: " << d + 1 << ", anode: " << i + 1;
+                LOG(warn) << "Histogram NO Fitted, detector: " << d + 1 << ", anode: " << i + 1;
             }
         }
     }

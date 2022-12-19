@@ -67,12 +67,12 @@ void FRSMusicCal2Hit::SetParContainers()
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (FRSMusicHitPar*)rtdb->getContainer("frsmusicHitPar");
     if (!fCal_Par) {
-        LOG(ERROR) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicCalPar container";
+        LOG(error) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicCalPar container";
     } else {
         LOG(INFO) << "FRSMusicCal2HitPar:: frsmusicCalPar container open";
     }
@@ -108,12 +108,12 @@ InitStatus FRSMusicCal2Hit::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicCalData");
     if (!fMusicCalDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA
@@ -142,7 +142,7 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
     Reset();
 
     if (!fCal_Par) {
-        LOG(ERROR) << "NO Container Parameter!!";
+        LOG(error) << "NO Container Parameter!!";
     }
 
     Int_t nHits = fMusicCalDataCA->GetEntries();

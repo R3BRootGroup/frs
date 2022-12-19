@@ -75,7 +75,7 @@ InitStatus FrsMWOnlineSpectra::Init()
 
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "Frs" + fNameDet + "OnlineSpectra::Init FairRootManager not found";
+        LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Init FairRootManager not found";
     // header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
     FairRunOnline* run = FairRunOnline::Instance();
@@ -84,13 +84,13 @@ InitStatus FrsMWOnlineSpectra::Init()
     // get access to mapped data of the MW detector
     fMapItemsMw = (TClonesArray*)mgr->GetObject(fNameDet + "MappedData");
     if (!fMapItemsMw) {
-        return kFATAL;
+        return kfatal;
     }
 
     // get access to hit data of the MW detector
     fHitItemsMw = (TClonesArray*)mgr->GetObject("MwHitData");
     if (!fHitItemsMw) {
-        LOG(WARNING) << "FrsMWOnlineSpectra: Not found object MwHitData";
+        LOG(warn) << "FrsMWOnlineSpectra: Not found object MwHitData";
     }
 
     // Create histograms for detectors
@@ -173,7 +173,7 @@ void FrsMWOnlineSpectra::Exec(Option_t* option)
 {
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
+        LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
 
     // Fill Mapped data
     if (fMapItemsMw && fMapItemsMw->GetEntriesFast()) {

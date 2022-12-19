@@ -150,7 +150,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
 
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "R3BFrsOnlineSpectra::Init FairRootManager not found";
+        LOG(fatal) << "R3BFrsOnlineSpectra::Init FairRootManager not found";
     header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
     FairRunOnline* run = FairRunOnline::Instance();
@@ -159,11 +159,11 @@ InitStatus R3BFrsOnlineSpectra::Init()
     // get access to Mapped data
     fMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsMappedData");
     if (!fMappedItemsFrs) {
-        return kFATAL;
+        return kfatal;
     }
     fSpillMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsSpillMappedData");
     if (!fSpillMappedItemsFrs) {
-        return kFATAL;
+        return kfatal;
     }
 
     // get access to WR-Master data
@@ -175,56 +175,56 @@ InitStatus R3BFrsOnlineSpectra::Init()
     // Looking for Mw11 online
     fMw11Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW11OnlineSpectra");
     if (!fMw11Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw11OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw11OnlineSpectra not found";
     // Looking for Mw21 online
     fMw21Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW21OnlineSpectra");
     if (!fMw21Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw21OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw21OnlineSpectra not found";
 
     // Looking for Mw22 online
     fMw22Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW22OnlineSpectra");
     if (!fMw22Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw22OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw22OnlineSpectra not found";
 
     // Looking for Mw31 online
     fMw31Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW31OnlineSpectra");
     if (!fMw31Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw31OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw31OnlineSpectra not found";
 
     // Looking for Mw51 online
     fMw51Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW51OnlineSpectra");
     if (!fMw51Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw51OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw51OnlineSpectra not found";
 
     // Looking for Mw71 online
     fMw71Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW71OnlineSpectra");
     if (!fMw71Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw71OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw71OnlineSpectra not found";
 
     // Looking for Mw81 online
     fMw81Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW81OnlineSpectra");
     if (!fMw81Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw81OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw81OnlineSpectra not found";
 
     // Looking for Mw82 online
     fMw82Online = (FrsMWOnlineSpectra*)FairRunOnline::Instance()->GetTask("MW82OnlineSpectra");
     if (!fMw82Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Mw82OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Mw82OnlineSpectra not found";
 
     // Looking for Mus41 online
     fMus41Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music41OnlineSpectra");
     if (!fMus41Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music41OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Music41OnlineSpectra not found";
 
     // Looking for Mus42 online
     fMus42Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music42OnlineSpectra");
     if (!fMus42Online)
-        LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music42OnlineSpectra not found";
+        LOG(warn) << "R3BFrsOnlineSpectra::Init Music42OnlineSpectra not found";
 
     // Looking for Mus43 online
     // fMus43Online = (FrsMusicOnlineSpectra*)FairRunOnline::Instance()->GetTask("Music43OnlineSpectra");
     // if (!fMus43Online)
-    //    LOG(WARNING) << "R3BFrsOnlineSpectra::Init Music43OnlineSpectra not found";
+    //    LOG(warn) << "R3BFrsOnlineSpectra::Init Music43OnlineSpectra not found";
 
     // get access to Cal Seetram data
     fCalItemsSeetram = (TClonesArray*)mgr->GetObject("SeetramCalData");
@@ -1247,7 +1247,7 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
 {
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "R3BFrsOnlineSpectra::Exec FairRootManager not found";
+        LOG(fatal) << "R3BFrsOnlineSpectra::Exec FairRootManager not found";
 
     // Fill wr-general-DAQ
     if (fWRItemsMaster && fWRItemsMaster->GetEntriesFast()) {

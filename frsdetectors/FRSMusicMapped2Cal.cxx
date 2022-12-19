@@ -67,12 +67,12 @@ void FRSMusicMapped2Cal::SetParContainers()
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
     if (!fCal_Par) {
-        LOG(ERROR) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
+        LOG(error) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
     } else {
         LOG(INFO) << "FRSMusicMapped2CalPar:: frsmusicCalPar container open";
     }
@@ -113,12 +113,12 @@ InitStatus FRSMusicMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
     if (!fMusicMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA
@@ -148,13 +148,13 @@ void FRSMusicMapped2Cal::Exec(Option_t* option)
     Reset();
 
     if (!fCal_Par) {
-        LOG(ERROR) << "NO Container Parameter!!";
+        LOG(error) << "NO Container Parameter!!";
     }
 
     // Reading the Input -- Mapped Data --
     Int_t nHits = fMusicMappedDataCA->GetEntries();
     if (nHits != NumAnodes * NumDets && nHits > 0)
-        LOG(WARNING) << "FRSMusicMapped2Cal: nHits!=" << nHits << " NumAnodes:NumDets" << NumAnodes << ":" << NumDets;
+        LOG(warn) << "FRSMusicMapped2Cal: nHits!=" << nHits << " NumAnodes:NumDets" << NumAnodes << ":" << NumDets;
     if (!nHits)
         return;
 

@@ -76,7 +76,7 @@ InitStatus FrsTpcOnlineSpectra::Init()
 
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "FrsTpcOnlineSpectra::Init FairRootManager not found";
+        LOG(fatal) << "FrsTpcOnlineSpectra::Init FairRootManager not found";
     header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
     FairRunOnline* run = FairRunOnline::Instance();
@@ -352,7 +352,7 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
 {
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "FrsTpcOnlineSpectra::Exec FairRootManager not found";
+        LOG(fatal) << "FrsTpcOnlineSpectra::Exec FairRootManager not found";
 
     // Fill cal tpc data
     Int_t deltaX[10];

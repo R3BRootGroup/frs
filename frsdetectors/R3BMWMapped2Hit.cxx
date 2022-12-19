@@ -84,7 +84,7 @@ void R3BMWMapped2Hit::SetParContainers()
     // Reading tpcCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 }
 
@@ -238,39 +238,39 @@ InitStatus R3BMWMapped2Hit::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
     fMw11MappedDataCA = (TClonesArray*)rootManager->GetObject("MW11MappedData");
     if (!fMw11MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW11MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW11MappedData";
     }
     fMw21MappedDataCA = (TClonesArray*)rootManager->GetObject("MW21MappedData");
     if (!fMw21MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW21MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW21MappedData";
     }
     fMw22MappedDataCA = (TClonesArray*)rootManager->GetObject("MW22MappedData");
     if (!fMw22MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW22MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW22MappedData";
     }
     fMw31MappedDataCA = (TClonesArray*)rootManager->GetObject("MW31MappedData");
     if (!fMw31MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW31MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW31MappedData";
     }
     fMw51MappedDataCA = (TClonesArray*)rootManager->GetObject("MW51MappedData");
     if (!fMw51MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW51MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW51MappedData";
     }
     fMw71MappedDataCA = (TClonesArray*)rootManager->GetObject("MW71MappedData");
     if (!fMw71MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW71MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW71MappedData";
     }
     fMw81MappedDataCA = (TClonesArray*)rootManager->GetObject("MW81MappedData");
     if (!fMw81MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW81MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW81MappedData";
     }
     fMw82MappedDataCA = (TClonesArray*)rootManager->GetObject("MW82MappedData");
     if (!fMw82MappedDataCA) {
-        LOG(WARNING) << "R3BMWMapped2Hit: Not found object MW82MappedData";
+        LOG(warn) << "R3BMWMapped2Hit: Not found object MW82MappedData";
     }
 
     // OUTPUT DATA

@@ -59,12 +59,12 @@ void R3BTpcCal2Hit::SetParContainers()
     // Reading tpcCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
     if (!fCal_Par) {
-        LOG(ERROR) << "R3BTpcCal2Hit::Init() Couldn't get handle on tpcCalPar container";
+        LOG(error) << "R3BTpcCal2Hit::Init() Couldn't get handle on tpcCalPar container";
     } else {
         LOG(INFO) << "R3BTpcCal2Hit:: tpcCalPar container open";
     }
@@ -86,12 +86,12 @@ InitStatus R3BTpcCal2Hit::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fTpcCalDataCA = (TClonesArray*)rootManager->GetObject("TpcCalData");
     if (!fTpcCalDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA
@@ -122,7 +122,7 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
     Reset();
 
     if (!fCal_Par) {
-        LOG(ERROR) << "NO Container Parameter!!";
+        LOG(error) << "NO Container Parameter!!";
     }
 
     Int_t nHits = fTpcCalDataCA->GetEntries();

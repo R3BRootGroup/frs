@@ -40,7 +40,7 @@ Bool_t VftxSciReader::Init(ext_data_struct_info* a_struct_info)
     EXT_STR_h101_frssci_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_frssci, 0);
     if (!ok) {
         perror("ext_data_struct_info_item");
-        LOG(ERROR) << "VftxSciReader::Failed to setup structure information.";
+        LOG(error) << "VftxSciReader::Failed to setup structure information.";
         return kFALSE;
     }
 
@@ -71,7 +71,7 @@ Bool_t VftxSciReader::Read()
         uint32_t numberOfPMTsWithHits_TF = data->FRSSCI[d].TFM;
         uint32_t numberOfPMTsWithHits_TC = data->FRSSCI[d].TCM;
         if (numberOfPMTsWithHits_TF != numberOfPMTsWithHits_TC) {
-            LOG(ERROR) << "VftxSciReader::Read() Error in unpacking, unconsistency between TF and TC for VftxSci !";
+            LOG(error) << "VftxSciReader::Read() Error in unpacking, unconsistency between TF and TC for VftxSci !";
         } else {
             // loop over channels with hits
             uint32_t curChannelStart = 0;
@@ -79,7 +79,7 @@ Bool_t VftxSciReader::Read()
                 uint32_t pmtid_TF = data->FRSSCI[d].TFMI[pmmult];
                 uint32_t pmtid_TC = data->FRSSCI[d].TCMI[pmmult];
                 if (pmtid_TF != pmtid_TC) {
-                    LOG(ERROR) << "VftxSciReader::Read() Error in unpacking, unconsistency between the PMT id for TF "
+                    LOG(error) << "VftxSciReader::Read() Error in unpacking, unconsistency between the PMT id for TF "
                                   "and TC for VftxSci !";
                 }
                 uint32_t nextChannelStart = data->FRSSCI[d].TFME[pmmult];

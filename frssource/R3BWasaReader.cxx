@@ -52,7 +52,7 @@ Bool_t R3BWasaReader::Init(ext_data_struct_info* a_struct_info)
 
     if (!ok) {
         perror("ext_data_struct_info_item");
-        LOG(ERROR) << "R3BWasaReader::Failed to setup structure information.";
+        LOG(error) << "R3BWasaReader::Failed to setup structure information.";
         return kFALSE;
     }
 

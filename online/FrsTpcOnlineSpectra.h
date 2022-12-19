@@ -55,7 +55,7 @@ class FrsTpcOnlineSpectra : public FairTask
      * Method for task initialization.
      * This function is called by the framework before
      * the event loop.
-     * @return Initialization status. kSUCCESS, kERROR or kFATAL.
+     * @return Initialization status. kSUCCESS, kerror or kfatal.
      */
     virtual InitStatus Init();
 
