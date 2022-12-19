@@ -25,77 +25,76 @@ class R3BEventHeader;
 /**
  * This taks reads WASA data and plots online histograms
  */
-class R3BWasaOnlineSpectra : public FairTask
-{
+class R3BWasaOnlineSpectra : public FairTask {
 
-  public:
-    /**
-     * Default constructor.
-     * Creates an instance of the task with default parameters.
-     */
-    R3BWasaOnlineSpectra();
+public:
+  /**
+   * Default constructor.
+   * Creates an instance of the task with default parameters.
+   */
+  R3BWasaOnlineSpectra();
 
-    /**
-     * Standard constructor.
-     * Creates an instance of the task.
-     * @param name a name of the task.
-     * @param iVerbose a verbosity level.
-     */
-    R3BWasaOnlineSpectra(const char* name, Int_t iVerbose = 1);
+  /**
+   * Standard constructor.
+   * Creates an instance of the task.
+   * @param name a name of the task.
+   * @param iVerbose a verbosity level.
+   */
+  R3BWasaOnlineSpectra(const char *name, Int_t iVerbose = 1);
 
-    /**
-     * Destructor.
-     * Frees the memory used by the object.
-     */
-    virtual ~R3BWasaOnlineSpectra();
+  /**
+   * Destructor.
+   * Frees the memory used by the object.
+   */
+  virtual ~R3BWasaOnlineSpectra();
 
-    /**
-     * Method for task initialization.
-     * This function is called by the framework before
-     * the event loop.
-     * @return Initialization status. kSUCCESS, kERROR or kFATAL.
-     */
-    virtual InitStatus Init();
+  /**
+   * Method for task initialization.
+   * This function is called by the framework before
+   * the event loop.
+   * @return Initialization status. kSUCCESS, kERROR or kFATAL.
+   */
+  virtual InitStatus Init();
 
-    /**
-     * Method for event loop implementation.
-     * Is called by the framework every time a new event is read.
-     * @param option an execution option.
-     */
-    virtual void Exec(Option_t* option);
+  /**
+   * Method for event loop implementation.
+   * Is called by the framework every time a new event is read.
+   * @param option an execution option.
+   */
+  virtual void Exec(Option_t *option);
 
-    /**
-     * A method for finish of processing of an event.
-     * Is called by the framework for each event after executing
-     * the tasks.
-     */
-    virtual void FinishEvent();
+  /**
+   * A method for finish of processing of an event.
+   * Is called by the framework for each event after executing
+   * the tasks.
+   */
+  virtual void FinishEvent();
 
-    /**
-     * Method for finish of the task execution.
-     * Is called by the framework after processing the event loop.
-     */
-    virtual void FinishTask();
+  /**
+   * Method for finish of the task execution.
+   * Is called by the framework after processing the event loop.
+   */
+  virtual void FinishTask();
 
-    /**
-     * Methods to clean histograms.
-     */
-    void Reset_MDC_Histo();
+  /**
+   * Methods to clean histograms.
+   */
+  void Reset_MDC_Histo();
 
-  private:
-    TClonesArray* fMappedItemsMdc; /**< Array with mapped items. */
+private:
+  TClonesArray *fMappedItemsMdc; /**< Array with mapped items. */
 
-    // check for trigger should be done globablly (somewhere else)
-    R3BEventHeader* header; /**< Event header. */
-    Int_t fTrigger;         /**< Trigger value. */
-    Int_t fNEvents;         /**< Event counter. */
+  // check for trigger should be done globablly (somewhere else)
+  R3BEventHeader *header; /**< Event header. */
+  Int_t fTrigger;         /**< Trigger value. */
+  Int_t fNEvents;         /**< Event counter. */
 
-    // MDC
-    TCanvas* cMdcWasa[12 * 2];
-    TH1F* fh_mdc[192 * 2];
+  // MDC
+  TCanvas *cMdcWasa[12 * 2];
+  TH1F *fh_mdc[192 * 2];
 
-  public:
-    ClassDef(R3BWasaOnlineSpectra, 1)
+public:
+  ClassDef(R3BWasaOnlineSpectra, 1)
 };
 
 #endif
