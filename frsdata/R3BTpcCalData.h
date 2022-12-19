@@ -36,8 +36,8 @@ class R3BTpcCalData : public TObject
     inline const Double_t& GetControlPar() const { return fControlPar; }
 
   protected:
-    Int_t fDetId, fXYId, fSecId;   // detector, orientation and section unique identifiers
-    Double_t fPos, fControlPar;    // Position in [mm] and control parameter
+    Int_t fDetId, fXYId, fSecId; // detector, orientation and section unique identifiers
+    Double_t fPos, fControlPar;  // Position in [mm] and control parameter
 
   public:
     ClassDef(R3BTpcCalData, 1)

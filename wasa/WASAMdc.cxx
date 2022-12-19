@@ -34,11 +34,13 @@
 
 WASAMdc::WASAMdc()
     : WASAMdc("")
-{}
+{
+}
 
 WASAMdc::WASAMdc(const TString& geoFile, const TGeoTranslation& trans, const TGeoRotation& rot)
-    : WASAMdc(geoFile, {trans, rot})
-{}
+    : WASAMdc(geoFile, { trans, rot })
+{
+}
 
 WASAMdc::WASAMdc(const TString& geoFile, const TGeoCombiTrans& combi)
     : R3BDetector("WASAMdc", kTRA, geoFile, combi)
@@ -53,10 +55,12 @@ WASAMdc::WASAMdc(const TString& geoFile, const TGeoCombiTrans& combi)
 
 WASAMdc::~WASAMdc()
 {
-    if (flGeoPar) {
+    if (flGeoPar)
+    {
         delete flGeoPar;
     }
-    if (fTraCollection) {
+    if (fTraCollection)
+    {
         fTraCollection->Delete();
         delete fTraCollection;
     }
@@ -70,13 +74,15 @@ void WASAMdc::Initialize()
     // LOG(DEBUG) << "WASAMdc: Sens. Vol. (McId) " << gMC->VolId("TraLog") ;
 
     Char_t buffer[126];
-    for (Int_t i = 0; i < 9; i++) {
+    for (Int_t i = 0; i < 9; i++)
+    {
         sprintf(buffer, "ME0%i", i + 1);
         LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
                    << gMC->VolId(buffer);
         fLayer[i] = gMC->VolId(buffer);
     }
-    for (Int_t i = 9; i < 17; i++) {
+    for (Int_t i = 9; i < 17; i++)
+    {
         sprintf(buffer, "ME%i", i + 1);
         LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
                    << gMC->VolId(buffer);
@@ -89,7 +95,8 @@ void WASAMdc::SetSpecialPhysicsCuts() { LOG(INFO) << "-I- WASAMdc: Adding custom
 // -----   Public method ProcessHits  --------------------------------------
 Bool_t WASAMdc::ProcessHits(FairVolume* vol)
 {
-    if (gMC->IsTrackEntering()) {
+    if (gMC->IsTrackEntering())
+    {
         fELoss = 0.;
         fTime = gMC->TrackTime() * 1.0e09;
         fLength = gMC->TrackLength();
@@ -101,7 +108,8 @@ Bool_t WASAMdc::ProcessHits(FairVolume* vol)
     fELoss += gMC->Edep();
 
     // Set additional parameters at exit of active volume. Create WASAMdcPoint.
-    if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared()) {
+    if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared())
+    {
 
         Int_t cp1 = -1;
         Int_t volId1 = -1;
@@ -220,7 +228,8 @@ void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
     LOG(INFO) << "WASAMdc: " << nEntries << " entries to add";
     TClonesArray& clref = *cl2;
     WASAMdcPoint* oldpoint = NULL;
-    for (Int_t i = 0; i < nEntries; i++) {
+    for (Int_t i = 0; i < nEntries; i++)
+    {
         oldpoint = (WASAMdcPoint*)cl1->At(i);
         Int_t index = oldpoint->GetTrackID() + offset;
         oldpoint->SetTrackID(index);
@@ -233,7 +242,7 @@ void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
 // -----   Private method AddHit   --------------------------------------------
 WASAMdcPoint* WASAMdc::AddHit(Int_t trackID,
                               Int_t detID,
-                              Int_t detCopyID,   // added by Marc
+                              Int_t detCopyID, // added by Marc
                               TVector3 posIn,
                               TVector3 posOut,
                               TVector3 momIn,
@@ -252,7 +261,8 @@ WASAMdcPoint* WASAMdc::AddHit(Int_t trackID,
 
 Bool_t WASAMdc::CheckIfSensitive(std::string name)
 {
-    if (TString(name).Contains("ME")) {
+    if (TString(name).Contains("ME"))
+    {
         return kTRUE;
     }
     return kFALSE;

@@ -20,7 +20,7 @@ using std::endl;
 R3BFrsAnaPar::R3BFrsAnaPar(const char* name, const char* title, const char* context)
     : FairParGenericSet(name, title, context)
     , fNumParams(3)
-    ,   // 2 offsets + 1 angle
+    , // 2 offsets + 1 angle
     fMagS2S4(0)
     , fDispS2S4(0)
     , fPathS2S4(0)
@@ -55,7 +55,8 @@ void R3BFrsAnaPar::clear()
 void R3BFrsAnaPar::putParams(FairParamList* list)
 {
     LOG(INFO) << "R3BFrsAnaPar::putParams() called";
-    if (!list) {
+    if (!list)
+    {
         return;
     }
 
@@ -83,49 +84,63 @@ void R3BFrsAnaPar::putParams(FairParamList* list)
 Bool_t R3BFrsAnaPar::getParams(FairParamList* list)
 {
     LOG(INFO) << "R3BFrsAnaPar::getParams() called";
-    if (!list) {
+    if (!list)
+    {
         return kFALSE;
     }
 
-    if (!list->fill("MagnificationS2S4", &fMagS2S4)) {
+    if (!list->fill("MagnificationS2S4", &fMagS2S4))
+    {
         return kFALSE;
     }
 
-    if (!list->fill("DisperisionS2S4", &fDispS2S4)) {
+    if (!list->fill("DisperisionS2S4", &fDispS2S4))
+    {
         return kFALSE;
     }
-    if (!list->fill("PathS2S4", &fPathS2S4)) {
+    if (!list->fill("PathS2S4", &fPathS2S4))
+    {
         return kFALSE;
     }
-    if (!list->fill("ToFS2S4", &fTOFS2S4)) {
+    if (!list->fill("ToFS2S4", &fTOFS2S4))
+    {
         return kFALSE;
     }
-    if (!list->fill("DistTpcS2", &fDisTpcS2)) {
+    if (!list->fill("DistTpcS2", &fDisTpcS2))
+    {
         return kFALSE;
     }
-    if (!list->fill("DistTpcS4", &fDisTpcS4)) {
+    if (!list->fill("DistTpcS4", &fDisTpcS4))
+    {
         return kFALSE;
     }
-    if (!list->fill("PosFocalS2", &fPosFocalS2)) {
+    if (!list->fill("PosFocalS2", &fPosFocalS2))
+    {
         return kFALSE;
     }
-    if (!list->fill("PosFocalS4", &fPosFocalS4)) {
+    if (!list->fill("PosFocalS4", &fPosFocalS4))
+    {
         return kFALSE;
     }
-    if (!list->fill("Rho_S0_S2", &frho_S0_S2)) {
+    if (!list->fill("Rho_S0_S2", &frho_S0_S2))
+    {
         return kFALSE;
     }
-    if (!list->fill("Bfield_S0_S2", &fBfield_S0_S2)) {
+    if (!list->fill("Bfield_S0_S2", &fBfield_S0_S2))
+    {
         return kFALSE;
     }
-    if (!list->fill("Rho_S2_S4", &frho_S2_S4)) {
+    if (!list->fill("Rho_S2_S4", &frho_S2_S4))
+    {
         return kFALSE;
     }
-    if (!list->fill("Bfield_S2_S4", &fBfield_S2_S4)) {
+    if (!list->fill("Bfield_S2_S4", &fBfield_S2_S4))
+    {
         return kFALSE;
     }
 
-    if (!list->fill("frsAnaNumberPar", &fNumParams)) {
+    if (!list->fill("frsAnaNumberPar", &fNumParams))
+    {
         return kFALSE;
     }
 
@@ -133,7 +148,8 @@ Bool_t R3BFrsAnaPar::getParams(FairParamList* list)
     LOG(INFO) << "Array Size: " << array_size;
     fAnaParams->Set(array_size);
 
-    if (!(list->fill("frsAnaPar", fAnaParams))) {
+    if (!(list->fill("frsAnaPar", fAnaParams)))
+    {
         LOG(INFO) << "---Could not initialize frsAnaPar";
         return kFALSE;
     }

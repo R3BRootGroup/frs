@@ -15,7 +15,7 @@ WASATofPoint::WASATofPoint()
     : FairMCPoint()
 {
     fDetCopyID = -1;
-    fPid=0;
+    fPid = 0;
     fX_out = fY_out = fZ_out = 0.;
     fPx_out = fPy_out = fPz_out = 0.;
 }

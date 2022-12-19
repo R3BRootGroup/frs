@@ -100,11 +100,10 @@ class FrsRatesSpill : public FairTask
 
     Bool_t firstEvt;
 
-
     Bool_t fOnline; // Don't store data for online
 
-    TClonesArray* fFrsMappedDataCA;  /**< Array with FRS Mapped- input data. >*/
-    TClonesArray* fSpillCalDataCA; /**< Array with output data. >*/
+    TClonesArray* fFrsMappedDataCA; /**< Array with FRS Mapped- input data. >*/
+    TClonesArray* fSpillCalDataCA;  /**< Array with output data. >*/
 
     /** Private method AddCalData **/
     //** Adds a SeetramCalData to the CalCollection

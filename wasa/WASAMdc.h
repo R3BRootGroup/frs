@@ -95,23 +95,23 @@ class WASAMdc : public R3BDetector
   private:
     /** Track information to be stored until the track leaves the
     active volume. **/
-    Int_t fTrackID;                   //!  track index
-    Int_t fVolumeID;                  //!  volume id
-    Int_t fDetCopyID;                 //!  Det volume id  // added by Marc
-    Int_t fsector;                    //!  volume id
-    TLorentzVector fPosIn, fPosOut;   //!  position
-    TLorentzVector fMomIn, fMomOut;   //!  momentum
-    Double32_t fTime_in;              //!  time when entering active volume
-    Double32_t fTime_out;             //!  time when exiting active volume
-    Double32_t fTime;                 //!  time
-    Double32_t fLength_in;            //!  length when entering active volume
-    Double32_t fLength_out;           //!  length when exiting active volume
-    Double32_t fLength;               //!  length
-    Double32_t fELoss;                //!  energy loss
-    Int_t fPosIndex;                  //!
-    TClonesArray* fTraCollection;     //!  The hit collection
-    Bool_t kGeoSaved;                 //!
-    TList* flGeoPar;                  //!
+    Int_t fTrackID;                 //!  track index
+    Int_t fVolumeID;                //!  volume id
+    Int_t fDetCopyID;               //!  Det volume id  // added by Marc
+    Int_t fsector;                  //!  volume id
+    TLorentzVector fPosIn, fPosOut; //!  position
+    TLorentzVector fMomIn, fMomOut; //!  momentum
+    Double32_t fTime_in;            //!  time when entering active volume
+    Double32_t fTime_out;           //!  time when exiting active volume
+    Double32_t fTime;               //!  time
+    Double32_t fLength_in;          //!  length when entering active volume
+    Double32_t fLength_out;         //!  length when exiting active volume
+    Double32_t fLength;             //!  length
+    Double32_t fELoss;              //!  energy loss
+    Int_t fPosIndex;                //!
+    TClonesArray* fTraCollection;   //!  The hit collection
+    Bool_t kGeoSaved;               //!
+    TList* flGeoPar;                //!
 
     Int_t fLayer[17];
 
@@ -146,8 +146,10 @@ inline Int_t WASAMdc::GetLayerType(Int_t volID)
 
     Int_t type = -1;
 
-    for (Int_t i = 0; i < 17; i++) {
-        if (volID == fLayer[i]) {
+    for (Int_t i = 0; i < 17; i++)
+    {
+        if (volID == fLayer[i])
+        {
             type = i + 1;
             return (type);
         }

@@ -30,8 +30,8 @@ class FRSMusicHitData : public TObject
     inline const Double_t& GetZ() const { return fCharge; }
 
   protected:
-    Int_t fDetId;       // detector unique identifiers
-    Double_t fCharge;   // total energy in units of Z
+    Int_t fDetId;     // detector unique identifiers
+    Double_t fCharge; // total energy in units of Z
 
   public:
     ClassDef(FRSMusicHitData, 1)

@@ -21,7 +21,8 @@ WASAGeoTof::WASAGeoTof()
 const char* WASAGeoTof::getModuleName(Int_t m)
 {
     // Returns the module name of sts number m
-    if (m < 0) {
+    if (m < 0)
+    {
         LOG(error) << "WASAGeoTof::getModuleName:: Module number " << m << " not known!";
         return "";
     }

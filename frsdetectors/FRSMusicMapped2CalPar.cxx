@@ -42,7 +42,8 @@ FRSMusicMapped2CalPar::FRSMusicMapped2CalPar()
     , fSigma(0)
     , fMean(0)
     , fOutputFile(NULL)
-{}
+{
+}
 
 // FRSMusicMapped2CalPar: Standard Constructor --------------------------
 FRSMusicMapped2CalPar::FRSMusicMapped2CalPar(const char* name, Int_t iVerbose)
@@ -59,7 +60,8 @@ FRSMusicMapped2CalPar::FRSMusicMapped2CalPar(const char* name, Int_t iVerbose)
     , fSigma(0)
     , fMean(0)
     , fOutputFile(NULL)
-{}
+{
+}
 
 // FRSMusicMapped2CalPar: Destructor ----------------------------------------
 FRSMusicMapped2CalPar::~FRSMusicMapped2CalPar()
@@ -78,28 +80,33 @@ InitStatus FRSMusicMapped2CalPar::Init()
     char name[100];
 
     fh_Map_energy_anode = new TH1F*[fNumAnodes * fNumDets];
-    for (Int_t i = 0; i < fNumAnodes * fNumDets; i++) {
+    for (Int_t i = 0; i < fNumAnodes * fNumDets; i++)
+    {
         sprintf(name, "fh_Map_energy_anode_%i", i + 1);
         fh_Map_energy_anode[i] = new TH1F(name, name, fMapHistos_bins, fMapHistos_left, fMapHistos_right);
     }
 
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager) {
+    if (!rootManager)
+    {
         return kFATAL;
     }
 
     fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
-    if (!fMusicMappedDataCA) {
+    if (!fMusicMappedDataCA)
+    {
         return kFATAL;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb) {
+    if (!rtdb)
+    {
         return kFATAL;
     }
 
     fAnode_Par = (FRSMusicCalPar*)rtdb->getContainer("frsmusicCalPar");
-    if (!fAnode_Par) {
+    if (!fAnode_Par)
+    {
         LOG(error) << "FRSMusicMapped2CalPar::Init() Couldn't get handle on frsmusicCalPar container";
         return kFATAL;
     }
@@ -128,7 +135,8 @@ void FRSMusicMapped2CalPar::Exec(Option_t* opt)
     FRSMusicMappedData* MapHit;
     Int_t detId, anodeId;
 
-    for (Int_t i = 0; i < nHits; i++) {
+    for (Int_t i = 0; i < nHits; i++)
+    {
         MapHit = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
         detId = MapHit->GetDetectorId();
         anodeId = MapHit->GetAnodeId();
@@ -157,16 +165,19 @@ void FRSMusicMapped2CalPar::SearchPedestals()
 
     LOG(INFO) << "FRSMusicMapped2CalPar: Search pedestals";
 
-    Int_t numPars = 3;   // by default number of parameters=3
+    Int_t numPars = 3; // by default number of parameters=3
 
     fAnode_Par->SetNumDets(fNumDets);
     fAnode_Par->SetNumAnodes(fNumAnodes);
     fAnode_Par->GetAnodeCalParams()->Set(numPars * fNumAnodes * fNumDets);
 
-    for (Int_t d = 0; d < fNumDets; d++) {
-        for (Int_t i = 0; i < fNumAnodes; i++) {
+    for (Int_t d = 0; d < fNumDets; d++)
+    {
+        for (Int_t i = 0; i < fNumAnodes; i++)
+        {
 
-            if (fh_Map_energy_anode[i + d * fNumAnodes]->GetEntries() > fMinStatistics) {
+            if (fh_Map_energy_anode[i + d * fNumAnodes]->GetEntries() > fMinStatistics)
+            {
 
                 TF1* f1 = new TF1("f1", "gaus", fMapHistos_left, fMapHistos_right);
                 f1->SetParameter(1, 100.);
@@ -176,14 +187,19 @@ void FRSMusicMapped2CalPar::SearchPedestals()
 
                 // Fill container:
                 fAnode_Par->SetAnodeCalParams(f1->GetParameter(0), numPars * i + d * numPars * fNumAnodes);
-                if (f1->GetParameter(2) < fMaxSigma) {
+                if (f1->GetParameter(2) < fMaxSigma)
+                {
                     fAnode_Par->SetAnodeCalParams(f1->GetParameter(1), numPars * i + d * numPars * fNumAnodes + 1);
-                } else {
-                    fAnode_Par->SetAnodeCalParams(-1, numPars * i + d * fNumAnodes + 1);   // dead anode
+                }
+                else
+                {
+                    fAnode_Par->SetAnodeCalParams(-1, numPars * i + d * fNumAnodes + 1); // dead anode
                 }
                 fAnode_Par->SetAnodeCalParams(f1->GetParameter(2), numPars * i + d * numPars * fNumAnodes + 2);
-            } else {
-                fAnode_Par->SetAnodeCalParams(-1, numPars * i + d * numPars * fNumAnodes + 1);   // dead anode
+            }
+            else
+            {
+                fAnode_Par->SetAnodeCalParams(-1, numPars * i + d * numPars * fNumAnodes + 1); // dead anode
                 fAnode_Par->SetAnodeCalParams(0, numPars * i + d * numPars * fNumAnodes + 2);
                 LOG(warn) << "Histogram NO Fitted, detector: " << d + 1 << ", anode: " << i + 1;
             }

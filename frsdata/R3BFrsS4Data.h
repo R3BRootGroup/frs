@@ -34,9 +34,9 @@ class R3BFrsS4Data : public TObject
     inline const Double_t GetAS4() const { return fAS4; }
 
   protected:
-    Double_t fZ, fAq;      // ID
-    Double_t fXS2, fAS2;   // Focal info at S2
-    Double_t fXS4, fAS4;   // Focal info at S4
+    Double_t fZ, fAq;    // ID
+    Double_t fXS2, fAS2; // Focal info at S2
+    Double_t fXS4, fAS4; // Focal info at S4
 
   public:
     ClassDef(R3BFrsS4Data, 1)

@@ -28,7 +28,8 @@ FrsSpillMappedData::FrsSpillMappedData()
     , fSCI42L(0)
     , fSCI43L(0)
     , fSCI81L(0)
-{}
+{
+}
 
 FrsSpillMappedData::FrsSpillMappedData(Int_t Clock100kHz,
                                        Int_t Clock10Hz,
@@ -78,7 +79,8 @@ FrsSpillMappedData::FrsSpillMappedData(Int_t Clock100kHz,
     , fSCI43R(SCI43R)
     , fSCI81L(SCI81L)
     , fSCI81R(SCI81R)
-{}
+{
+}
 
 FrsSpillMappedData::FrsSpillMappedData(const FrsSpillMappedData& right)
     : fClock100kHz(right.fClock100kHz)
@@ -105,6 +107,7 @@ FrsSpillMappedData::FrsSpillMappedData(const FrsSpillMappedData& right)
     , fSCI42L(right.fSCI42L)
     , fSCI43L(right.fSCI43L)
     , fSCI81L(right.fSCI81L)
-{}
+{
+}
 
 ClassImp(FrsSpillMappedData)

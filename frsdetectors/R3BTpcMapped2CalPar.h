@@ -107,17 +107,17 @@ class R3BTpcMapped2CalPar : public FairTask
     Int_t fMinStatistics;
 
     // Distance between TPC SCI fibers
-    Double_t fDeltaX;   // mm
-    Double_t fDeltaY;   // mm
+    Double_t fDeltaX; // mm
+    Double_t fDeltaY; // mm
 
     // TPC part
     Float_t lim_csum[6][6][2];
     Float_t lim_csum1[6][2];
-    Float_t lim_csum2[6][2];   // = {{1530,1800},{1430,1800},{1545,1800},{1575,1800},{1440,1800},{1410,1800}};
-    Float_t lim_csum3[6][2];   // = {{1540,1800},{1490,1840},{1540,1820},{1475,1840},{1410,1875},{1450,1820}};
-    Float_t lim_csum4[6][2];   // = {{1510,1880},{1460,1810},{1545,1885},{1520,1880},{1480,1840},{1470,1870}};
+    Float_t lim_csum2[6][2]; // = {{1530,1800},{1430,1800},{1545,1800},{1575,1800},{1440,1800},{1410,1800}};
+    Float_t lim_csum3[6][2]; // = {{1540,1800},{1490,1840},{1540,1820},{1475,1840},{1410,1875},{1450,1820}};
+    Float_t lim_csum4[6][2]; // = {{1510,1880},{1460,1810},{1545,1885},{1520,1880},{1480,1840},{1470,1870}};
 
-    Bool_t b_tpc_csum[4];   // for tpcs
+    Bool_t b_tpc_csum[4]; // for tpcs
     Bool_t b_tpc_xy[6];
     Float_t tpc_csum[4];
 

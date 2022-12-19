@@ -30,7 +30,8 @@ R3BTpcCal2Hit::R3BTpcCal2Hit()
     , fTpcHitDataCA(NULL)
     , fTpcCalDataCA(NULL)
     , fOnline(kFALSE)
-{}
+{
+}
 
 // R3BTpcCal2HitPar: Standard Constructor --------------------------
 R3BTpcCal2Hit::R3BTpcCal2Hit(const char* name, Int_t iVerbose)
@@ -40,7 +41,8 @@ R3BTpcCal2Hit::R3BTpcCal2Hit(const char* name, Int_t iVerbose)
     , fTpcHitDataCA(NULL)
     , fTpcCalDataCA(NULL)
     , fOnline(kFALSE)
-{}
+{
+}
 
 // Virtual R3BTpcCal2Hit: Destructor
 R3BTpcCal2Hit::~R3BTpcCal2Hit()
@@ -58,14 +60,18 @@ void R3BTpcCal2Hit::SetParContainers()
     // Parameter Container
     // Reading tpcCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb) {
+    if (!rtdb)
+    {
         LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
-    if (!fCal_Par) {
+    if (!fCal_Par)
+    {
         LOG(error) << "R3BTpcCal2Hit::Init() Couldn't get handle on tpcCalPar container";
-    } else {
+    }
+    else
+    {
         LOG(INFO) << "R3BTpcCal2Hit:: tpcCalPar container open";
     }
 }
@@ -74,7 +80,7 @@ void R3BTpcCal2Hit::SetParameter()
 {
 
     //--- Parameter Container ---
-    fNumDets = fCal_Par->GetNumDets();   // Number of Detectors
+    fNumDets = fCal_Par->GetNumDets(); // Number of Detectors
     LOG(INFO) << "R3BTpcCal2Hit: Nb detectors: " << fNumDets;
 }
 
@@ -85,21 +91,26 @@ InitStatus R3BTpcCal2Hit::Init()
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
-    if (!rootManager) {
+    if (!rootManager)
+    {
         return kFATAL;
     }
 
     fTpcCalDataCA = (TClonesArray*)rootManager->GetObject("TpcCalData");
-    if (!fTpcCalDataCA) {
+    if (!fTpcCalDataCA)
+    {
         return kFATAL;
     }
 
     // OUTPUT DATA
     // Hit data
     fTpcHitDataCA = new TClonesArray("R3BTpcHitData", 10);
-    if (!fOnline) {
+    if (!fOnline)
+    {
         rootManager->Register("TpcHitData", "TPC Hit", fTpcHitDataCA, kTRUE);
-    } else {
+    }
+    else
+    {
         rootManager->Register("TpcHitData", "TPC Hit", fTpcHitDataCA, kFALSE);
     }
 
@@ -121,7 +132,8 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
     // Reset entries in output arrays, local arrays
     Reset();
 
-    if (!fCal_Par) {
+    if (!fCal_Par)
+    {
         LOG(error) << "NO Container Parameter!!";
     }
 
@@ -136,14 +148,16 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
 
     Double_t tpc_x[fNumDets], tpc_y[fNumDets];
     Int_t count_x[fNumDets], count_y[fNumDets];
-    for (Int_t i = 0; i < fNumDets; i++) {
+    for (Int_t i = 0; i < fNumDets; i++)
+    {
         tpc_x[i] = -500.;
         count_x[i] = 0;
         tpc_y[i] = -500.;
         count_y[i] = 0;
     }
 
-    for (Int_t i = 0; i < nHits; i++) {
+    for (Int_t i = 0; i < nHits; i++)
+    {
         CalDat[i] = (R3BTpcCalData*)(fTpcCalDataCA->At(i));
         detId = CalDat[i]->GetDetectorId();
         secId = CalDat[i]->GetSecId();
@@ -151,15 +165,20 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
 
         // std::cout << detId << " " << secId << " " << xyId << std::endl;
 
-        if (xyId == 0) {   // for X
-            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.) {
+        if (xyId == 0)
+        { // for X
+            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.)
+            {
                 if (tpc_x[detId] == -500)
                     tpc_x[detId] = 0.;
                 tpc_x[detId] = tpc_x[detId] + CalDat[i]->GetPosition();
                 count_x[detId]++;
             }
-        } else {   // for Y
-            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.) {
+        }
+        else
+        { // for Y
+            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.)
+            {
                 if (tpc_y[detId] == -500)
                     tpc_y[detId] = 0.;
                 tpc_y[detId] = tpc_y[detId] + CalDat[i]->GetPosition();
@@ -168,8 +187,9 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
         }
     }
 
-    for (Int_t i = 0; i < fNumDets; i++) {
-        if (count_x[i] > 0)   // && count_y[i] > 0)
+    for (Int_t i = 0; i < fNumDets; i++)
+    {
+        if (count_x[i] > 0) // && count_y[i] > 0)
         {
             fx = tpc_x[i] / count_x[i];
             if (count_y[i] > 0)

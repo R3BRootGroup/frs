@@ -7,8 +7,8 @@
 class WASAGeoTofPar : public FairParGenericSet
 {
   public:
-    TObjArray* fGeoSensNodes;   // List of FairGeoNodes for sensitive volumes
-    TObjArray* fGeoPassNodes;   // List of FairGeoNodes for sensitive volumes
+    TObjArray* fGeoSensNodes; // List of FairGeoNodes for sensitive volumes
+    TObjArray* fGeoPassNodes; // List of FairGeoNodes for sensitive volumes
 
     WASAGeoTofPar(const char* name = "WASAGeoTofPar",
                   const char* title = "Tof Geometry Parameters",

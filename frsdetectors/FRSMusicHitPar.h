@@ -6,7 +6,7 @@
 #ifndef FRSMusicHitPar_H
 #define FRSMusicHitPar_H
 
-#include "FairParGenericSet.h"   // for FairParGenericSet
+#include "FairParGenericSet.h" // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
@@ -53,10 +53,10 @@ class FRSMusicHitPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fDetHitParams;   // Calibration Parameters for detector
-    Int_t fNumDets;           // number of detectors
-    Int_t fNumParamsFit;      /* number of cal parameters in the fit
-                   gaus: A_fit & B_fit & C_fit*/
+    TArrayF* fDetHitParams; // Calibration Parameters for detector
+    Int_t fNumDets;         // number of detectors
+    Int_t fNumParamsFit;    /* number of cal parameters in the fit
+                 gaus: A_fit & B_fit & C_fit*/
 
     const FRSMusicHitPar& operator=(const FRSMusicHitPar&); /*< an assignment operator>*/
 

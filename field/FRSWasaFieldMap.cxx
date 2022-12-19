@@ -67,7 +67,8 @@ Double_t FRSWasaFieldMap::GetBx(Double_t x, Double_t y, Double_t z)
 
     localPoint = localPoint + (*gTrans);
 
-    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z())) {
+    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z()))
+    {
         // std::cout << fBx << std::endl;
         return fBx;
     }
@@ -86,7 +87,8 @@ Double_t FRSWasaFieldMap::GetBy(Double_t x, Double_t y, Double_t z)
 
     localPoint = localPoint + (*gTrans);
 
-    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z())) {
+    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z()))
+    {
         // std::cout << fBy << std::endl;
         return fBy;
     }
@@ -105,7 +107,8 @@ Double_t FRSWasaFieldMap::GetBz(Double_t x, Double_t y, Double_t z)
 
     localPoint = localPoint + (*gTrans);
 
-    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z())) {
+    if (IsInside(localPoint.X(), localPoint.Y(), localPoint.Z()))
+    {
         // std::cout << fBz << std::endl;
         return fBz;
     }
@@ -120,7 +123,8 @@ Bool_t FRSWasaFieldMap::IsInside(Double_t x, Double_t y, Double_t z)
     Double_t rl = TMath::Sqrt(x * x + y * y);
 
     // ---  Check for being outside the map range
-    if (rl >= fRmin && rl <= fRmax && z >= fZmin && z <= fZmax) {
+    if (rl >= fRmin && rl <= fRmax && z >= fZmin && z <= fZmax)
+    {
         return kTRUE;
     }
 

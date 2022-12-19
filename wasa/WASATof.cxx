@@ -28,11 +28,13 @@
 
 WASATof::WASATof()
     : WASATof("")
-{}
+{
+}
 
 WASATof::WASATof(const TString& geoFile, const TGeoTranslation& trans, const TGeoRotation& rot)
-    : WASATof(geoFile, {trans, rot})
-{}
+    : WASATof(geoFile, { trans, rot })
+{
+}
 
 WASATof::WASATof(const TString& geoFile, const TGeoCombiTrans& combi)
     : R3BDetector("kTofPoint", kTOF, geoFile, combi)
@@ -47,10 +49,12 @@ WASATof::WASATof(const TString& geoFile, const TGeoCombiTrans& combi)
 
 WASATof::~WASATof()
 {
-    if (flGeoPar) {
+    if (flGeoPar)
+    {
         delete flGeoPar;
     }
-    if (fTofCollection) {
+    if (fTofCollection)
+    {
         fTofCollection->Delete();
         delete fTofCollection;
     }
@@ -69,7 +73,8 @@ void WASATof::SetSpecialPhysicsCuts() { LOG(INFO) << "WASATof: Adding customized
 Bool_t WASATof::ProcessHits(FairVolume* vol)
 {
     // Simple Det PLane
-    if (gMC->IsTrackEntering()) {
+    if (gMC->IsTrackEntering())
+    {
         fELoss = 0.;
         fTime_in = gMC->TrackTime() * 1.0e09;
         fLength_in = gMC->TrackLength();
@@ -81,7 +86,8 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
     fELoss += gMC->Edep();
 
     // Set additional parameters at exit of active volume. Create WASATofPoint.
-    if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared()) {
+    if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared())
+    {
         fTrackID = gMC->GetStack()->GetCurrentTrackNumber();
         fVolumeID = vol->getMCid();
         fDetCopyID = vol->getCopyNo();
@@ -90,12 +96,13 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
         if (fELoss == 0.)
             return kFALSE;
 
-        fTime_out = gMC->TrackTime() * 1.0e09;   // also in case particle is stopped in detector, or decays...
+        fTime_out = gMC->TrackTime() * 1.0e09; // also in case particle is stopped in detector, or decays...
         fLength_out = gMC->TrackLength();
         fTime = (fTime_out + fTime_in) / 2.;
         fLength = (fLength_out + fLength_in) / 2.;
 
-        if (gMC->IsTrackExiting()) {
+        if (gMC->IsTrackExiting())
+        {
             const Double_t* oldpos;
             const Double_t* olddirection;
             Double_t newpos[3];
@@ -106,7 +113,8 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
             oldpos = gGeoManager->GetCurrentPoint();
             olddirection = gGeoManager->GetCurrentDirection();
 
-            for (Int_t i = 0; i < 3; i++) {
+            for (Int_t i = 0; i < 3; i++)
+            {
                 newdirection[i] = -1 * olddirection[i];
             }
 
@@ -115,7 +123,8 @@ Bool_t WASATof::ProcessHits(FairVolume* vol)
 
             gGeoManager->SetCurrentDirection(-newdirection[0], -newdirection[1], -newdirection[2]);
 
-            for (Int_t i = 0; i < 3; i++) {
+            for (Int_t i = 0; i < 3; i++)
+            {
                 newpos[i] = oldpos[i] - (3 * safety * olddirection[i]);
             }
 
@@ -197,7 +206,8 @@ void WASATof::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
     LOG(INFO) << "WASATof: " << nEntries << " entries to add";
     TClonesArray& clref = *cl2;
     WASATofPoint* oldpoint = NULL;
-    for (Int_t i = 0; i < nEntries; i++) {
+    for (Int_t i = 0; i < nEntries; i++)
+    {
         oldpoint = (WASATofPoint*)cl1->At(i);
         Int_t index = oldpoint->GetTrackID() + offset;
         oldpoint->SetTrackID(index);
@@ -232,7 +242,8 @@ WASATofPoint* WASATof::AddHit(Int_t trackID,
 
 Bool_t WASATof::CheckIfSensitive(std::string name)
 {
-    if (TString(name).Contains("WASATOFLog")) {
+    if (TString(name).Contains("WASATOFLog"))
+    {
         // LOG(INFO) << "Found Wasa-ToF geometry from ROOT file: " << name;
         return kTRUE;
     }

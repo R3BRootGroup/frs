@@ -42,7 +42,7 @@ class R3BTpcMappedData : public TObject
     inline const Int_t* GetTpcle() const { return ftpc_le; }
 
   protected:
-    Int_t fDetId;   // detector unique identifier
+    Int_t fDetId; // detector unique identifier
     Int_t ftpc_ae[4], ftpc_le[2], ftpc_re[2];
     Int_t ftpc_dt[4], ftpc_lt[2], ftpc_rt[2];
 

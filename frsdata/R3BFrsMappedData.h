@@ -107,14 +107,14 @@ class R3BFrsMappedData : public TObject
     Int_t fSeeold;
     Int_t fIc;
 
-    Int_t fSCI00, fSCI01, fSCI02;   // plastics at S0
+    Int_t fSCI00, fSCI01, fSCI02; // plastics at S0
 
-    Int_t fSCI21RT, fSCI41RT, fSCI42RT, fSCI43RT;   // time right pm of plastics at S2 and S4
-    Int_t fSCI21LT, fSCI41LT, fSCI42LT, fSCI43LT;   // time left pm of plastics at S2 and S4
-    Int_t fSCI21RE, fSCI41RE, fSCI42RE, fSCI43RE;   // energy right pm of plastics at S2 and S4
-    Int_t fSCI21LE, fSCI41LE, fSCI42LE, fSCI43LE;   // energy left pm of plastics at S2 and S4
+    Int_t fSCI21RT, fSCI41RT, fSCI42RT, fSCI43RT; // time right pm of plastics at S2 and S4
+    Int_t fSCI21LT, fSCI41LT, fSCI42LT, fSCI43LT; // time left pm of plastics at S2 and S4
+    Int_t fSCI21RE, fSCI41RE, fSCI42RE, fSCI43RE; // energy right pm of plastics at S2 and S4
+    Int_t fSCI21LE, fSCI41LE, fSCI42LE, fSCI43LE; // energy left pm of plastics at S2 and S4
 
-    Int_t fSCI81LE, fSCI81RE, fSCI81LT, fSCI81RT;   // energy and time for plastics at S8
+    Int_t fSCI81LE, fSCI81RE, fSCI81LT, fSCI81RT; // energy and time for plastics at S8
 
   public:
     ClassDef(R3BFrsMappedData, 1)

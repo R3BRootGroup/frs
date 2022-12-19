@@ -15,7 +15,7 @@ class R3BFrsContFact : public FairContFact
     ~R3BFrsContFact() {}
     FairParSet* createContainer(FairContainer*);
     void activateParIo(FairParIo* io);
-    ClassDef(R3BFrsContFact, 0)   // Factory for all FRS parameter containers
+    ClassDef(R3BFrsContFact, 0) // Factory for all FRS parameter containers
 };
 
 #endif /* !R3BFrsContFact_H */

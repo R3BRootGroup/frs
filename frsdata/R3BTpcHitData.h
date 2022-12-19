@@ -33,7 +33,7 @@ class R3BTpcHitData : public TObject
 
   protected:
     Int_t fDetId;
-    Double_t fX, fY;   // Position X and Y in [mm]
+    Double_t fX, fY; // Position X and Y in [mm]
 
   public:
     ClassDef(R3BTpcHitData, 1)

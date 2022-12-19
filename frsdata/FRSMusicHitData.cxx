@@ -10,13 +10,15 @@
 FRSMusicHitData::FRSMusicHitData()
     : fDetId(0)
     , fCharge(0)
-{}
+{
+}
 
 //------------------------------
 
 FRSMusicHitData::FRSMusicHitData(Int_t detId, Double_t charge)
     : fDetId(detId)
     , fCharge(charge)
-{}
+{
+}
 
 ClassImp(FRSMusicHitData)

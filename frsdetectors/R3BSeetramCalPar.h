@@ -51,7 +51,7 @@ class R3BSeetramCalPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fSeetramCalParams;   // Calibration Parameters
+    TArrayF* fSeetramCalParams; // Calibration Parameters
     Int_t fNumParamsFit;
 
     const R3BSeetramCalPar& operator=(const R3BSeetramCalPar&); /*< an assignment operator>*/

@@ -23,7 +23,7 @@ class VftxSciMappedData : public TObject
 
   private:
     UShort_t fDetector;
-    UShort_t fPmt;      
+    UShort_t fPmt;
     UInt_t fTimeCoarse;
     UInt_t fTimeFine;
 

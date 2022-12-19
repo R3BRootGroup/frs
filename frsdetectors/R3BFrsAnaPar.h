@@ -6,7 +6,7 @@
 #ifndef R3BFrsAnaPar_H
 #define R3BFrsAnaPar_H
 
-#include "FairParGenericSet.h"   // for FairParGenericSet
+#include "FairParGenericSet.h" // for FairParGenericSet
 #include "TArrayF.h"
 #include "TObjArray.h"
 #include "TObject.h"
@@ -77,9 +77,9 @@ class R3BFrsAnaPar : public FairParGenericSet
     /** Create more Methods if you need them! **/
 
   private:
-    TArrayF* fAnaParams;   // Parameters for frs
-                           // Int_t fNumDets;        // number of detectors
-    Int_t fNumParams;      /* number of cal parameters in the fit*/
+    TArrayF* fAnaParams; // Parameters for frs
+                         // Int_t fNumDets;        // number of detectors
+    Int_t fNumParams;    /* number of cal parameters in the fit*/
 
     Double_t fMagS2S4;
     Double_t fDispS2S4;

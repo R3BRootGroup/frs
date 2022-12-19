@@ -43,7 +43,7 @@ class WASATofPoint : public FairMCPoint
                  Double_t tof,
                  Double_t length,
                  Double_t eLoss,
-                 Int_t pid=0);
+                 Int_t pid = 0);
 
     /** Copy constructor **/
     WASATofPoint(const WASATofPoint& point) { *this = point; };

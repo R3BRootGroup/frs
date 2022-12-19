@@ -26,12 +26,12 @@ class FrsSciSingleTcalData : public TObject
     void SetMultPerToF(UShort_t rank, UShort_t m) { fMultPerDet[rank] = m; }
 
   private:
-    Double_t fRawTimeNs[2];    // 0.5*(Tleft + Tright)
-    Double_t fRawPosNs[2];     // Tleft - Tright
-    UShort_t fMultPerDet[2];   // number of hits with the proper pos
+    Double_t fRawTimeNs[2];  // 0.5*(Tleft + Tright)
+    Double_t fRawPosNs[2];   // Tleft - Tright
+    UShort_t fMultPerDet[2]; // number of hits with the proper pos
 
     Double_t fRawTofNs[1];
-    UShort_t fMultPerTof[1];   // number of hits with the proper tof
+    UShort_t fMultPerTof[1]; // number of hits with the proper tof
 
   public:
     ClassDef(FrsSciSingleTcalData, 2)

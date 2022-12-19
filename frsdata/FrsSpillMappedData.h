@@ -88,10 +88,10 @@ class FrsSpillMappedData : public TObject
     Int_t fSeeold;
     Int_t fIC01;
     Int_t fICC;
-    Int_t fSCI00, fSCI01, fSCI02;               // plastics at S0
-    Int_t fSCI21R, fSCI41R, fSCI42R, fSCI43R;   // R plastics at S2 and S4
-    Int_t fSCI21L, fSCI41L, fSCI42L, fSCI43L;   // L plastics at S2 and S4
-    Int_t fSCI81L, fSCI81R;                     // plastic at S8
+    Int_t fSCI00, fSCI01, fSCI02;             // plastics at S0
+    Int_t fSCI21R, fSCI41R, fSCI42R, fSCI43R; // R plastics at S2 and S4
+    Int_t fSCI21L, fSCI41L, fSCI42L, fSCI43L; // L plastics at S2 and S4
+    Int_t fSCI81L, fSCI81R;                   // plastic at S8
 
   public:
     ClassDef(FrsSpillMappedData, 1)

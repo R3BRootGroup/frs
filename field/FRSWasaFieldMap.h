@@ -99,8 +99,8 @@ class FRSWasaFieldMap : public FairField
 
     /** local transformation
      **/
-    TRotation* gRot;    //!
-    TVector3* gTrans;   //!
+    TRotation* gRot;  //!
+    TVector3* gTrans; //!
 
     ClassDef(FRSWasaFieldMap, 1)
 };
