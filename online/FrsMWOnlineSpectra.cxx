@@ -84,7 +84,7 @@ InitStatus FrsMWOnlineSpectra::Init()
     // get access to mapped data of the MW detector
     fMapItemsMw = (TClonesArray*)mgr->GetObject(fNameDet + "MappedData");
     if (!fMapItemsMw) {
-        return kfatal;
+        return kFATAL;
     }
 
     // get access to hit data of the MW detector

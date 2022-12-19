@@ -123,23 +123,23 @@ InitStatus R3BTpcMapped2CalPar::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpcMappedDataCA = (TClonesArray*)rootManager->GetObject("TpcMappedData");
     if (!fTpcMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpc_Par = (R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
     if (!fTpc_Par) {
         LOG(error) << "R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
-        return kfatal;
+        return kFATAL;
     }
 
     return kSUCCESS;

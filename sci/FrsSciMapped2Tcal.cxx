@@ -50,7 +50,7 @@ InitStatus FrsSciMapped2Tcal::Init() {
   if (!rm) {
     LOG(error)
         << "FrsSciMapped2Tcal::Init() Couldn't instance the FairRootManager";
-    return kfatal;
+    return kFATAL;
   }
 
   // --- ----------------- --- //
@@ -60,7 +60,7 @@ InitStatus FrsSciMapped2Tcal::Init() {
   if (!fMapped) {
     LOG(error) << "FrsSciMapped2Tcal::Couldn't get handle on VftxSciMappedData "
                   "container";
-    return kfatal;
+    return kFATAL;
   } else
     LOG(INFO) << "FrsSciMapped2Tcal::FrsSciMappedData items found";
 
@@ -81,7 +81,7 @@ InitStatus FrsSciMapped2Tcal::Init() {
   // --- -------------------------- --- //
   if (fTcalPar->GetNumSignals() == 0) {
     LOG(error) << "FrsSciMapped2Tcal::There are no Tcal parameters for FrsSci";
-    return kfatal;
+    return kFATAL;
   } else {
     LOG(INFO) << "FrsSciMapped2Tcal::Init(): fNumSignals="
               << fTcalPar->GetNumSignals();

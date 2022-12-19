@@ -106,33 +106,33 @@ InitStatus R3BFrsHit2AnaS4Par::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     if (!fFrsMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpcHitDataCA = (TClonesArray*)rootManager->GetObject("TpcHitData");
     if (!fTpcHitDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
     if (!fMusicHitDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kfatal;
+        return kFATAL;
     }
 
     fFrs_Par = (R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
     if (!fFrs_Par) {
         LOG(error) << "R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
-        return kfatal;
+        return kFATAL;
     }
 
     return kSUCCESS;

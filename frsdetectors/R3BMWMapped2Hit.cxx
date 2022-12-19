@@ -238,7 +238,7 @@ InitStatus R3BMWMapped2Hit::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
     fMw11MappedDataCA = (TClonesArray*)rootManager->GetObject("MW11MappedData");
     if (!fMw11MappedDataCA) {

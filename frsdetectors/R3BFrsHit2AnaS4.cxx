@@ -141,24 +141,24 @@ InitStatus R3BFrsHit2AnaS4::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     // fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsSciSingleTcalData");
 
     if (!fFrsMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpcHitDataCA = (TClonesArray*)rootManager->GetObject("TpcHitData");
     if (!fTpcHitDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
     if (!fMusicHitDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA

@@ -159,11 +159,11 @@ InitStatus R3BFrsOnlineSpectra::Init()
     // get access to Mapped data
     fMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsMappedData");
     if (!fMappedItemsFrs) {
-        return kfatal;
+        return kFATAL;
     }
     fSpillMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsSpillMappedData");
     if (!fSpillMappedItemsFrs) {
-        return kfatal;
+        return kFATAL;
     }
 
     // get access to WR-Master data

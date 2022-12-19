@@ -100,13 +100,13 @@ InitStatus FrsRatesSpill::Init()
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager)
     {
-        return kfatal;
+        return kFATAL;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsSpillMappedData");
     if (!fFrsMappedDataCA)
     {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA
