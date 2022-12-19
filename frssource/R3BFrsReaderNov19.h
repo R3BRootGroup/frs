@@ -57,7 +57,7 @@ class R3BFrsReaderNov19 : public R3BReader
     TClonesArray* fArrayTpc;   // Output array for tpc detectors.
     TClonesArray* fArraySpill; // Output array for spill.
 
-    TClonesArray* fArrayMW11;  // Output array for mw detectors.
+    TClonesArray* fArrayMW11; // Output array for mw detectors.
     TClonesArray* fArrayMW21;
     TClonesArray* fArrayMW22;
     TClonesArray* fArrayMW31;

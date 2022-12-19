@@ -46,7 +46,8 @@ FrsMWOnlineSpectra::FrsMWOnlineSpectra()
     , fHitItemsMw(NULL)
     , fNameDet("MW")
     , fNEvents(0)
-{}
+{
+}
 
 FrsMWOnlineSpectra::FrsMWOnlineSpectra(const TString& name, Int_t iVerbose, const TString& namedet)
     : FairTask(name, iVerbose)
@@ -54,7 +55,8 @@ FrsMWOnlineSpectra::FrsMWOnlineSpectra(const TString& name, Int_t iVerbose, cons
     , fHitItemsMw(NULL)
     , fNameDet(namedet)
     , fNEvents(0)
-{}
+{
+}
 
 FrsMWOnlineSpectra::~FrsMWOnlineSpectra()
 {
@@ -83,13 +85,15 @@ InitStatus FrsMWOnlineSpectra::Init()
 
     // get access to mapped data of the MW detector
     fMapItemsMw = (TClonesArray*)mgr->GetObject(fNameDet + "MappedData");
-    if (!fMapItemsMw) {
+    if (!fMapItemsMw)
+    {
         return kFATAL;
     }
 
     // get access to hit data of the MW detector
     fHitItemsMw = (TClonesArray*)mgr->GetObject("MwHitData");
-    if (!fHitItemsMw) {
+    if (!fHitItemsMw)
+    {
         LOG(warn) << "FrsMWOnlineSpectra: Not found object MwHitData";
     }
 
@@ -176,10 +180,12 @@ void FrsMWOnlineSpectra::Exec(Option_t* option)
         LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
 
     // Fill Mapped data
-    if (fMapItemsMw && fMapItemsMw->GetEntriesFast()) {
+    if (fMapItemsMw && fMapItemsMw->GetEntriesFast())
+    {
         Int_t nHits = fMapItemsMw->GetEntriesFast();
         Int_t an = 0, xl = 0, xr = 0, yu = 0, yd = 0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BMwMappedData* hit = (R3BMwMappedData*)fMapItemsMw->At(ihit);
             if (!hit)
                 continue;
@@ -200,14 +206,17 @@ void FrsMWOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill hit mw data
-    if (fHitItemsMw && fHitItemsMw->GetEntriesFast()) {
+    if (fHitItemsMw && fHitItemsMw->GetEntriesFast())
+    {
         Int_t nHits = fHitItemsMw->GetEntriesFast();
         // std::cout << nHits << std::endl;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BMwHitData* hit = (R3BMwHitData*)fHitItemsMw->At(ihit);
             if (!hit)
                 continue;
-            if (TString(fDetectorNames[hit->GetDetId()]).CompareTo(fNameDet) == 0) {
+            if (TString(fDetectorNames[hit->GetDetId()]).CompareTo(fNameDet) == 0)
+            {
                 // std::cout << hit->GetDetId() <<" " <<hit->GetX() << std::endl;
                 // std::cout << fDetectorNames[hit->GetDetId()] <<" " <<fNameDet << std::endl;
                 fh1_mw_x->Fill(hit->GetX());
@@ -222,17 +231,20 @@ void FrsMWOnlineSpectra::Exec(Option_t* option)
 
 void FrsMWOnlineSpectra::FinishEvent()
 {
-    if (fMapItemsMw) {
+    if (fMapItemsMw)
+    {
         fMapItemsMw->Clear();
     }
-    if (fHitItemsMw) {
+    if (fHitItemsMw)
+    {
         fHitItemsMw->Clear();
     }
 }
 
 void FrsMWOnlineSpectra::FinishTask()
 {
-    if (fMapItemsMw) {
+    if (fMapItemsMw)
+    {
         fh1_mw_a->Write();
         fh1_mw_xr->Write();
         fh1_mw_xl->Write();

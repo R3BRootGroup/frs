@@ -31,12 +31,14 @@ FrsTpcReader::FrsTpcReader(EXT_STR_h101_TPC* data, UInt_t offset)
     , fOnline(kFALSE)
     , fLogger(FairLogger::GetLogger())
     , fArray(new TClonesArray("R3BTpcMappedData"))
-{}
+{
+}
 
 FrsTpcReader::~FrsTpcReader()
 {
     LOG(INFO) << "FrsTpcReader::Delete instance";
-    if (fArray) {
+    if (fArray)
+    {
         delete fArray;
     }
 }
@@ -47,17 +49,21 @@ Bool_t FrsTpcReader::Init(ext_data_struct_info* a_struct_info)
     Int_t ok;
     EXT_STR_h101_TPC_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_TPC, 0);
 
-    if (!ok) {
+    if (!ok)
+    {
         perror("ext_data_struct_info_item");
         LOG(error) << "FrsTpcReader::Failed to setup structure information.";
         return kFALSE;
     }
 
     // Register output array in tree
-    if (!fOnline) {
+    if (!fOnline)
+    {
 
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArray, kTRUE);
-    } else {
+    }
+    else
+    {
         FairRootManager::Instance()->Register("TpcMappedData", "FRS TPCs", fArray, kFALSE);
     }
 

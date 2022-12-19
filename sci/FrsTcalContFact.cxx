@@ -60,13 +60,16 @@ FairParSet* FrsTcalContFact::createContainer(FairContainer* c)
     LOG(INFO) << "FrsTcalContFact: Create container name: " << name;
     FairParSet* p = 0;
 
-    if (strcmp(name, "FrsSciTcalPar") == 0) {
+    if (strcmp(name, "FrsSciTcalPar") == 0)
+    {
         p = new FrsSciTcalPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
-    if (strcmp(name, "FrsSciRawPosPar") == 0) {
+    if (strcmp(name, "FrsSciRawPosPar") == 0)
+    {
         p = new FrsSciRawPosPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
-    if (strcmp(name, "FrsSciRawTofPar") == 0) {
+    if (strcmp(name, "FrsSciRawTofPar") == 0)
+    {
         p = new FrsSciRawTofPar(c->getConcatName().Data(), c->GetTitle(), c->getContext());
     }
     return p;

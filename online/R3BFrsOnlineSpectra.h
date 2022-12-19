@@ -139,8 +139,8 @@ class R3BFrsOnlineSpectra : public FairTask
     // Seetram
     Int_t fOffsetSeetram;
     Int_t fOffsetSeetramC;
-    Int_t fseetram_range;    // seg
-    Int_t fseetram_rangeC;   // seg
+    Int_t fseetram_range;  // seg
+    Int_t fseetram_rangeC; // seg
     TH1F* fh_Seetram;
     TH1F* fh_Seetramt;
     TH1F* fh_Ic;

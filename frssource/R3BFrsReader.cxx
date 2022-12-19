@@ -4,10 +4,10 @@
 #include "TMath.h"
 #include "TRandom.h"
 
+#include "FRSMusicMappedData.h"
 #include "FairRootManager.h"
 #include "R3BEventHeader.h"
 #include "R3BFrsMappedData.h"
-#include "FRSMusicMappedData.h"
 #include "R3BMwMappedData.h"
 #include "R3BTpcMappedData.h"
 #include "TClonesArray.h"
@@ -24,7 +24,8 @@
 #include <iostream>
 #include <stdio.h>
 
-extern "C" {
+extern "C"
+{
 #include "ext_data_client.h"
 #include "ext_h101_frs.h"
 }

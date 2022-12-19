@@ -100,8 +100,8 @@ class FrsTpcOnlineSpectra : public FairTask
     TCanvas *cTransS2, *cTransS4;
 
     // TPCs
-    TH1F* fh_tpc_csum[N_TPC_DET * 4];   // max 6 tpcs * 4DT
-    TH1F* fh_tpc_deltax[N_TPC_DET];     // max 6 tpcs
+    TH1F* fh_tpc_csum[N_TPC_DET * 4]; // max 6 tpcs * 4DT
+    TH1F* fh_tpc_deltax[N_TPC_DET];   // max 6 tpcs
     TH1F* fh_Tpc_hitx[N_TPC_DET];
     TH1F* fh_Tpc_hity[N_TPC_DET];
     TH2F* fh_Tpc_hitxy[N_TPC_DET];

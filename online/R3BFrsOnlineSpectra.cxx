@@ -81,7 +81,8 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra()
     , fOffsetSeetram(0)
     , fOffsetSeetramC(0)
     , fNEvents(0)
-{}
+{
+}
 
 R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
@@ -115,7 +116,8 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
     , fOffsetSeetram(0)
     , fOffsetSeetramC(0)
     , fNEvents(0)
-{}
+{
+}
 
 R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra()
 {
@@ -158,17 +160,20 @@ InitStatus R3BFrsOnlineSpectra::Init()
 
     // get access to Mapped data
     fMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsMappedData");
-    if (!fMappedItemsFrs) {
+    if (!fMappedItemsFrs)
+    {
         return kFATAL;
     }
     fSpillMappedItemsFrs = (TClonesArray*)mgr->GetObject("FrsSpillMappedData");
-    if (!fSpillMappedItemsFrs) {
+    if (!fSpillMappedItemsFrs)
+    {
         return kFATAL;
     }
 
     // get access to WR-Master data
     fWRItemsMaster = (TClonesArray*)mgr->GetObject("WRMasterData");
-    if (!fWRItemsMaster) {
+    if (!fWRItemsMaster)
+    {
         LOG(INFO) << "R3BCalifaOnlineSpectra::Init WRMasterData not found";
     }
 
@@ -1250,14 +1255,17 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         LOG(fatal) << "R3BFrsOnlineSpectra::Exec FairRootManager not found";
 
     // Fill wr-general-DAQ
-    if (fWRItemsMaster && fWRItemsMaster->GetEntriesFast()) {
+    if (fWRItemsMaster && fWRItemsMaster->GetEntriesFast())
+    {
         uint64_t wrm = 0;
         Int_t nHits = fWRItemsMaster->GetEntriesFast();
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BWRData* hit = (R3BWRData*)fWRItemsMaster->At(ihit);
             if (!hit)
                 continue;
-            if (fFirstWr) {
+            if (fFirstWr)
+            {
                 fFirstWr = kFALSE;
                 fFirstValueWR = hit->GetTimeStamp();
             }
@@ -1269,10 +1277,12 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill mapped data
-    if (fMappedItemsFrs && fMappedItemsFrs->GetEntriesFast()) {
+    if (fMappedItemsFrs && fMappedItemsFrs->GetEntriesFast())
+    {
         Int_t nHits = fMappedItemsFrs->GetEntriesFast();
         Double_t tofrr = 0, tofll = 0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BFrsMappedData* hit = (R3BFrsMappedData*)fMappedItemsFrs->At(ihit);
             if (!hit)
                 continue;
@@ -1312,10 +1322,12 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill cal seetram data
-    if (fCalItemsSeetram && fCalItemsSeetram->GetEntriesFast()) {
+    if (fCalItemsSeetram && fCalItemsSeetram->GetEntriesFast())
+    {
         Int_t nHits = fCalItemsSeetram->GetEntriesFast();
         // std::cout << "hit:"<<nHits << std::endl;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BSeetramCalData* hit = (R3BSeetramCalData*)fCalItemsSeetram->At(ihit);
             if (!hit)
                 continue;
@@ -1323,7 +1335,8 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
             // std::endl;
             if (hit->GetClock1seg() + fOffsetSeetram > fseetram_range)
                 for (int j = 0; j < 10000; j++)
-                    if (hit->GetClock1seg() > fseetram_range * j && hit->GetClock1seg() < fseetram_range * (j + 1)) {
+                    if (hit->GetClock1seg() > fseetram_range * j && hit->GetClock1seg() < fseetram_range * (j + 1))
+                    {
                         fOffsetSeetram = -fseetram_range * j;
                         fh_Seetram->Reset();
                         fh_Seetramt->Reset();
@@ -1335,7 +1348,8 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
                     }
             if (hit->GetClock1seg() + fOffsetSeetramC > fseetram_rangeC)
                 for (int j = 0; j < 10000; j++)
-                    if (hit->GetClock1seg() > fseetram_rangeC * j && hit->GetClock1seg() < fseetram_rangeC * (j + 1)) {
+                    if (hit->GetClock1seg() > fseetram_rangeC * j && hit->GetClock1seg() < fseetram_rangeC * (j + 1))
+                    {
                         fOffsetSeetramC = -fseetram_rangeC * j;
                         fh_TrigC->Reset();
                         fh_TrigFree->Reset();
@@ -1355,9 +1369,9 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
             Int_t maxtrig = TMath::Max(hit->GetAccTrigCounts(), hit->GetFreeTrigCounts());
             fh_TrigC->SetMaximum(maxtrig * 1.2);
             fh_TrigC->SetBinContent(hit->GetClock1seg() + fOffsetSeetramC,
-                                    hit->GetAccTrigCounts());   // FIXME: ranges!!
+                                    hit->GetAccTrigCounts()); // FIXME: ranges!!
             fh_TrigFree->SetBinContent(hit->GetClock1seg() + fOffsetSeetramC,
-                                       hit->GetFreeTrigCounts());   // FIXME: ranges!!
+                                       hit->GetFreeTrigCounts()); // FIXME: ranges!!
 
             Int_t max = TMath::Max(TMath::Max(hit->GetIcCounts(), hit->GetSci01Counts()),
                                    TMath::Max(hit->GetSeeCounts(), hit->GetDumCounts()));
@@ -1403,11 +1417,13 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
         }
     */
     // Fill hit music data
-    if (fHitItemsMusic && fHitItemsMusic->GetEntriesFast()) {
+    if (fHitItemsMusic && fHitItemsMusic->GetEntriesFast())
+    {
         Int_t nHits = fHitItemsMusic->GetEntriesFast();
         // std::cout << "hit:"<<nHits << std::endl;
         double z41 = 0, z42 = 0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             FRSMusicHitData* hit = (FRSMusicHitData*)fHitItemsMusic->At(ihit);
             if (!hit)
                 continue;
@@ -1422,11 +1438,13 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill FRS data
-    if (fAnaItemsFrs && fAnaItemsFrs->GetEntriesFast()) {
+    if (fAnaItemsFrs && fAnaItemsFrs->GetEntriesFast())
+    {
         Int_t nHits = fAnaItemsFrs->GetEntriesFast();
         // std::cout << nHits << std::endl;
 
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BFrsS4Data* hit = (R3BFrsS4Data*)fAnaItemsFrs->At(ihit);
             if (!hit)
                 continue;
@@ -1438,10 +1456,12 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
 
     // Spill ---------------
     // Fill spill data
-    if (fCalItemsSpill && fCalItemsSpill->GetEntriesFast()) {
+    if (fCalItemsSpill && fCalItemsSpill->GetEntriesFast())
+    {
         Int_t nHits = fCalItemsSpill->GetEntriesFast();
         Double_t tofrr = 0, tofll = 0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BSeetramCalData* hit = (R3BSeetramCalData*)fCalItemsSpill->At(ihit);
             if (!hit)
                 continue;
@@ -1459,22 +1479,28 @@ void R3BFrsOnlineSpectra::Exec(Option_t* option)
 
 void R3BFrsOnlineSpectra::FinishEvent()
 {
-    if (fMappedItemsFrs) {
+    if (fMappedItemsFrs)
+    {
         fMappedItemsFrs->Clear();
     }
-    if (fSpillMappedItemsFrs) {
+    if (fSpillMappedItemsFrs)
+    {
         fSpillMappedItemsFrs->Clear();
     }
-    if (fCalItemsSpill) {
+    if (fCalItemsSpill)
+    {
         fCalItemsSpill->Clear();
     }
-    if (fCalItemsMusic) {
+    if (fCalItemsMusic)
+    {
         fCalItemsMusic->Clear();
     }
-    if (fAnaItemsFrs) {
+    if (fAnaItemsFrs)
+    {
         fAnaItemsFrs->Clear();
     }
-    if (fWRItemsMaster) {
+    if (fWRItemsMaster)
+    {
         fWRItemsMaster->Clear();
     }
 }
@@ -1483,10 +1509,12 @@ void R3BFrsOnlineSpectra::FinishTask()
 {
 
     cTrigger->Write();
-    if (fWRItemsMaster) {
+    if (fWRItemsMaster)
+    {
         cWr->Write();
     }
-    if (fMappedItemsFrs) {
+    if (fMappedItemsFrs)
+    {
         cTrigCom->Write();
         cSee->Write();
         cSeeCom->Write();
@@ -1507,7 +1535,8 @@ void R3BFrsOnlineSpectra::FinishTask()
         cSCI_tof21pos->Write();
         cSCI_tof41pos->Write();
     }
-    if (fMapItemsMusic) {
+    if (fMapItemsMusic)
+    {
         // cMus1->Write();
         // cMus2->Write();
         // cMus3->Write();
@@ -1524,7 +1553,8 @@ void R3BFrsOnlineSpectra::FinishTask()
          for (Int_t i = 0; i < 3; i++)
              cMushit[i]->Write();
      }*/
-    if (fAnaItemsFrs) {
+    if (fAnaItemsFrs)
+    {
         c1ID->Write();
     }
 }

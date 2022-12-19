@@ -61,7 +61,8 @@ InitStatus FrsSciMapped2TcalPar::Init()
     LOG(INFO) << "FrsSciMapped2TcalPar: Init";
 
     FairRootManager* rm = FairRootManager::Instance();
-    if (!rm) {
+    if (!rm)
+    {
         return kFATAL;
     }
 
@@ -71,7 +72,8 @@ InitStatus FrsSciMapped2TcalPar::Init()
 
     // scintillator at S2 and S4
     fMapped = (TClonesArray*)rm->GetObject("VftxSciMappedData");
-    if (!fMapped) {
+    if (!fMapped)
+    {
         LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on VftxSciMappedData container";
         return kFATAL;
     }
@@ -81,15 +83,19 @@ InitStatus FrsSciMapped2TcalPar::Init()
     // --- --------------------------------- --- //
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
-    if (!rtdb) {
+    if (!rtdb)
+    {
         return kFATAL;
     }
 
     fTcalPar = (FrsSciTcalPar*)rtdb->getContainer("FrsSciTcalPar");
-    if (!fTcalPar) {
+    if (!fTcalPar)
+    {
         LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on FrsSciTcalPar container";
         return kFATAL;
-    } else {
+    }
+    else
+    {
         fTcalPar->SetNumDetectors(fNumDetectors);
         fTcalPar->SetNumChannels(fNumChannels);
         fTcalPar->SetNumSignals(fNumDetectors, fNumChannels);
@@ -108,8 +114,10 @@ InitStatus FrsSciMapped2TcalPar::Init()
     char name[100];
     fh_TimeFineBin = new TH1F*[fNumSignals];
     fh_TimeFineNs = new TH1F*[fNumSignals];
-    for (Int_t det = 0; det < fNumDetectors; det++) {
-        for (Int_t ch = 0; ch < fNumChannels; ch++) {
+    for (Int_t det = 0; det < fNumDetectors; det++)
+    {
+        for (Int_t ch = 0; ch < fNumChannels; ch++)
+        {
             sprintf(name, "TimeFineBin_Sci%i_Ch%i_Sig%i", det + 1, ch + 1, det * fNumChannels + ch);
             fh_TimeFineBin[det * fNumChannels + ch] =
                 new TH1F(name, name, fNumTcalParsPerSignal, 0, fNumTcalParsPerSignal);
@@ -135,13 +143,15 @@ void FrsSciMapped2TcalPar::Exec(Option_t* opt)
 
     // nHitsSci = number of hits per event
     // for the scintillator this number of hits can be very large especially for the detector at S2
-    UInt_t nHitsSci = fMapped->GetEntries();   // can be very high especially for S2 detector
+    UInt_t nHitsSci = fMapped->GetEntries(); // can be very high especially for S2 detector
     UInt_t iSignalSci;
-    for (UInt_t ihit = 0; ihit < nHitsSci; ihit++) {
+    for (UInt_t ihit = 0; ihit < nHitsSci; ihit++)
+    {
         VftxSciMappedData* hitSci = (VftxSciMappedData*)fMapped->At(ihit);
-        if (!hitSci) {
+        if (!hitSci)
+        {
             LOG(WARNING) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
-            continue;   // should not happen
+            continue; // should not happen
         }
 
         // *** ******************************************* *** //
@@ -188,7 +198,7 @@ void FrsSciMapped2TcalPar::Exec(Option_t* opt)
                        << " instead of [0," << fNumSignals << "]: det=" << hitSci->GetDetector()
                        << ",  fNumChannels = " << fNumChannels << ",  pmt = " << hitSci->GetPmt();
 
-    }   // end of loop over the number of hits per event in MappedSci
+    } // end of loop over the number of hits per event in MappedSci
 }
 
 // ---- Public method Reset   --------------------------------------------------
@@ -212,18 +222,21 @@ void FrsSciMapped2TcalPar::CalculateVftxTcalParams()
     UInt_t IntegralPartial;
     Double_t Bin2Ns[fNumTcalParsPerSignal];
 
-    for (Int_t sig = 0; sig < fNumSignals; sig++) {
-        if (fh_TimeFineBin[sig]->GetEntries() > fMinStatistics) {
+    for (Int_t sig = 0; sig < fNumSignals; sig++)
+    {
+        if (fh_TimeFineBin[sig]->GetEntries() > fMinStatistics)
+        {
             IntegralTot = fh_TimeFineBin[sig]->Integral();
             IntegralPartial = 0;
-            for (Int_t bin = 0; bin < fNumTcalParsPerSignal; bin++) {
+            for (Int_t bin = 0; bin < fNumTcalParsPerSignal; bin++)
+            {
                 IntegralPartial += fh_TimeFineBin[sig]->GetBinContent(bin + 1);
                 Bin2Ns[bin] = 5. * ((Double_t)IntegralPartial) / (Double_t)IntegralTot;
                 fh_TimeFineNs[sig]->SetBinContent(bin + 1, Bin2Ns[bin]);
                 fTcalPar->SetSignalTcalParams(Bin2Ns[bin], sig * fNumTcalParsPerSignal + bin);
             }
         }
-        fh_TimeFineNs[sig]->Write();   // empty histo if stat <fMinStatistics
+        fh_TimeFineNs[sig]->Write(); // empty histo if stat <fMinStatistics
         fh_TimeFineBin[sig]->Write();
     }
     fTcalPar->setChanged();
@@ -231,4 +244,3 @@ void FrsSciMapped2TcalPar::CalculateVftxTcalParams()
 }
 
 ClassImp(FrsSciMapped2TcalPar)
-

@@ -33,12 +33,14 @@ R3BWasaReader::R3BWasaReader(EXT_STR_h101_WASA* data, UInt_t offset)
     , fOnline(kFALSE)
     , fLogger(FairLogger::GetLogger())
     , fArrayMdcWasa(new TClonesArray("R3BMdcMappedData"))
-{}
+{
+}
 
 R3BWasaReader::~R3BWasaReader()
 {
     LOG(INFO) << "R3BWasaReader::Delete instance";
-    if (fArrayMdcWasa) {
+    if (fArrayMdcWasa)
+    {
         delete fArrayMdcWasa;
     }
 }
@@ -50,16 +52,20 @@ Bool_t R3BWasaReader::Init(ext_data_struct_info* a_struct_info)
 
     EXT_STR_h101_WASA_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_WASA, 0);
 
-    if (!ok) {
+    if (!ok)
+    {
         perror("ext_data_struct_info_item");
         LOG(error) << "R3BWasaReader::Failed to setup structure information.";
         return kFALSE;
     }
 
     // Register output array in tree
-    if (!fOnline) {
+    if (!fOnline)
+    {
         FairRootManager::Instance()->Register("MdcMappedData", "MDC", fArrayMdcWasa, kTRUE);
-    } else {
+    }
+    else
+    {
         FairRootManager::Instance()->Register("MdcMappedData", "MDC", fArrayMdcWasa, kFALSE);
     }
 
@@ -74,7 +80,8 @@ Bool_t R3BWasaReader::Read()
     LOG(DEBUG) << "R3BWasaReader::Read() Event data.";
 
     // SELECT THE FOR LOOP BASED ON THE MAPPING...
-    for (int wire = 0; wire < fData->WASA_ENE; ++wire) {
+    for (int wire = 0; wire < fData->WASA_ENE; ++wire)
+    {
 
         int channelNumber = fData->WASA_ENEI[wire];
         int energy = fData->WASA_ENEv[wire];

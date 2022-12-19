@@ -112,7 +112,7 @@ class FrsMusicOnlineSpectra : public FairTask
     // Histograms for Hit data
     TH1F* fh_music_Z;
 
-    const char* fDetectorNames[MUSDET_MAX + 1] = {"Music41", "Music42", "Music43", NULL};
+    const char* fDetectorNames[MUSDET_MAX + 1] = { "Music41", "Music42", "Music43", NULL };
 
   public:
     ClassDef(FrsMusicOnlineSpectra, 1)

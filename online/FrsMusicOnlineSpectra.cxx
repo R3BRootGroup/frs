@@ -48,7 +48,8 @@ FrsMusicOnlineSpectra::FrsMusicOnlineSpectra()
     , fHitItems(NULL)
     , fNameDet("MUSIC")
     , fNEvents(0)
-{}
+{
+}
 
 FrsMusicOnlineSpectra::FrsMusicOnlineSpectra(const TString& name, Int_t iVerbose, const TString& namedet)
     : FairTask(name, iVerbose)
@@ -57,7 +58,8 @@ FrsMusicOnlineSpectra::FrsMusicOnlineSpectra(const TString& name, Int_t iVerbose
     , fHitItems(NULL)
     , fNameDet(namedet)
     , fNEvents(0)
-{}
+{
+}
 
 FrsMusicOnlineSpectra::~FrsMusicOnlineSpectra()
 {
@@ -85,18 +87,21 @@ InitStatus FrsMusicOnlineSpectra::Init()
 
     // get access to mapped data of the Music detector
     fMapItems = (TClonesArray*)mgr->GetObject("FRSMusicMappedData");
-    if (!fMapItems) {
+    if (!fMapItems)
+    {
         return kFATAL;
     }
     // get access to Cal Music data
     fCalItems = (TClonesArray*)mgr->GetObject("FRSMusicCalData");
-    if (!fCalItems) {
+    if (!fCalItems)
+    {
         LOG(warn) << "FrsMusicOnlineSpectra: Not found object FRSMusicCalData";
     }
 
     // get access to Hit Music data
     fHitItems = (TClonesArray*)mgr->GetObject("FRSMusicHitData");
-    if (!fHitItems) {
+    if (!fHitItems)
+    {
         LOG(warn) << "FrsMusicOnlineSpectra: Not found object FRSMusicHitData";
     }
 
@@ -111,7 +116,8 @@ InitStatus FrsMusicOnlineSpectra::Init()
     cMusE = new TCanvas(Name1, Name2, 10, 10, 800, 700);
     cMusE->Divide(4, 2);
 
-    for (Int_t j = 0; j < N_ANODES; j++) {   // N_ANODES histograms per detector
+    for (Int_t j = 0; j < N_ANODES; j++)
+    { // N_ANODES histograms per detector
         Name1 = fNameDet + "_E" + j;
         Name2 = fNameDet + ": E_" + j + " (channels)";
         fh_music_energy_per_anode[j] = new TH1F(Name1, Name2, 500, 0, 4092);
@@ -134,7 +140,8 @@ InitStatus FrsMusicOnlineSpectra::Init()
     cMusT = new TCanvas(Name1, Name2, 10, 10, 800, 700);
     cMusT->Divide(4, 2);
 
-    for (Int_t j = 0; j < N_ANODES; j++) {   // N_ANODES histograms per detector
+    for (Int_t j = 0; j < N_ANODES; j++)
+    { // N_ANODES histograms per detector
         Name1 = fNameDet + "_T" + j;
         Name2 = fNameDet + ": T_" + j + " (channels)";
         fh_music_t_per_anode[j] = new TH1F(Name1, Name2, 500, 0, 4092);
@@ -158,7 +165,8 @@ InitStatus FrsMusicOnlineSpectra::Init()
     cMusECal = new TCanvas(Name1, Name2, 10, 10, 800, 700);
     cMusECal->Divide(4, 2);
 
-    for (Int_t j = 0; j < N_ANODES; j++) {   // N_ANODES histograms per detector
+    for (Int_t j = 0; j < N_ANODES; j++)
+    { // N_ANODES histograms per detector
         Name1 = fNameDet + "_ECal" + j;
         Name2 = fNameDet + ": ECal_" + j + " (channels)";
         fh_music_energy_per_anodecal[j] = new TH1F(Name1, Name2, 500, 0, 4092);
@@ -213,12 +221,14 @@ void FrsMusicOnlineSpectra::Reset_Histo()
 {
     LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Reset_Histo";
     // Map data
-    for (Int_t i = 0; i < N_ANODES; i++) {
+    for (Int_t i = 0; i < N_ANODES; i++)
+    {
         fh_music_energy_per_anode[i]->Reset();
         fh_music_t_per_anode[i]->Reset();
     }
     // Cal data
-    for (Int_t i = 0; i < N_ANODES; i++) {
+    for (Int_t i = 0; i < N_ANODES; i++)
+    {
         fh_music_energy_per_anodecal[i]->Reset();
         // fh_music_t_per_anode[i]->Reset();
     }
@@ -232,36 +242,44 @@ void FrsMusicOnlineSpectra::Exec(Option_t* option)
         LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
 
     // Fill map music data
-    if (fMapItems && fMapItems->GetEntriesFast()) {
+    if (fMapItems && fMapItems->GetEntriesFast())
+    {
         Int_t nHits = fMapItems->GetEntriesFast();
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             FRSMusicMappedData* hit = (FRSMusicMappedData*)fMapItems->At(ihit);
             if (!hit)
                 continue;
-            if (TString(fDetectorNames[hit->GetDetectorId()]).CompareTo(fNameDet) == 0) {
+            if (TString(fDetectorNames[hit->GetDetectorId()]).CompareTo(fNameDet) == 0)
+            {
                 fh_music_energy_per_anode[hit->GetAnodeId()]->Fill(hit->GetEnergy());
             }
         }
     }
 
     // Fill cal music data
-    if (fCalItems && fCalItems->GetEntriesFast()) {
+    if (fCalItems && fCalItems->GetEntriesFast())
+    {
         Int_t nHits = fCalItems->GetEntriesFast();
         // std::cout << "hit:"<<nHits << std::endl;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             FRSMusicCalData* hit = (FRSMusicCalData*)fCalItems->At(ihit);
             if (!hit)
                 continue;
-            if (TString(fDetectorNames[hit->GetDetectorId()]).CompareTo(fNameDet) == 0) {
+            if (TString(fDetectorNames[hit->GetDetectorId()]).CompareTo(fNameDet) == 0)
+            {
                 fh_music_energy_per_anodecal[hit->GetAnodeId()]->Fill(hit->GetEnergy());
             }
         }
     }
 
     // Fill hit music data
-    if (fHitItems && fHitItems->GetEntriesFast()) {
+    if (fHitItems && fHitItems->GetEntriesFast())
+    {
         Int_t nHits = fHitItems->GetEntriesFast();
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             FRSMusicHitData* hit = (FRSMusicHitData*)fHitItems->At(ihit);
             if (!hit)
                 continue;
@@ -275,27 +293,33 @@ void FrsMusicOnlineSpectra::Exec(Option_t* option)
 
 void FrsMusicOnlineSpectra::FinishEvent()
 {
-    if (fMapItems) {
+    if (fMapItems)
+    {
         fMapItems->Clear();
     }
-    if (fCalItems) {
+    if (fCalItems)
+    {
         fCalItems->Clear();
     }
-    if (fHitItems) {
+    if (fHitItems)
+    {
         fHitItems->Clear();
     }
 }
 
 void FrsMusicOnlineSpectra::FinishTask()
 {
-    if (fMapItems) {
+    if (fMapItems)
+    {
         cMusE->Write();
         cMusT->Write();
     }
-    if (fCalItems) {
+    if (fCalItems)
+    {
         cMusECal->Write();
     }
-    if (fHitItems) {
+    if (fHitItems)
+    {
         cMushit->Write();
     }
 }

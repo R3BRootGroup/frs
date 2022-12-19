@@ -47,9 +47,9 @@ class FrsTpcReader : public R3BReader
     /* FairLogger */
     FairLogger* fLogger;
 
-    Bool_t fOnline;   // Don't store data for online
+    Bool_t fOnline; // Don't store data for online
 
-    TClonesArray* fArray;   // Output array for tpc detectors.
+    TClonesArray* fArray; // Output array for tpc detectors.
 
     Int_t tpc_ae[4], tpc_le[2], tpc_re[2], tpc_dt[4], tpc_lt[2], tpc_rt[2];
 

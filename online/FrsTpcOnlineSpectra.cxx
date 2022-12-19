@@ -39,7 +39,7 @@
 #include <iostream>
 #include <sstream>
 
-double tpcpos[4] = {2960., 3985., 415., 1535.};   // FIXME
+double tpcpos[4] = { 2960., 3985., 415., 1535. }; // FIXME
 
 using namespace std;
 
@@ -48,14 +48,16 @@ FrsTpcOnlineSpectra::FrsTpcOnlineSpectra()
     , fHitItemsTpc(NULL)
     , fCalItemsTpc(NULL)
     , fNEvents(0)
-{}
+{
+}
 
 FrsTpcOnlineSpectra::FrsTpcOnlineSpectra(const char* name, Int_t iVerbose)
     : FairTask(name, iVerbose)
     , fHitItemsTpc(NULL)
     , fCalItemsTpc(NULL)
     , fNEvents(0)
-{}
+{
+}
 
 FrsTpcOnlineSpectra::~FrsTpcOnlineSpectra()
 {
@@ -110,7 +112,8 @@ InitStatus FrsTpcOnlineSpectra::Init()
     // cCalx31->Divide(2, 2);
 
     // Csum tpc data
-    for (Int_t i = 0; i < 4; i++) {   // number of TPCs
+    for (Int_t i = 0; i < 4; i++)
+    { // number of TPCs
         sprintf(Name1, "fh_tpc_deltax_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "DeltaX for TPC 2%d at S2", i + 1);
@@ -128,7 +131,8 @@ InitStatus FrsTpcOnlineSpectra::Init()
         fh_tpc_deltax[i]->SetFillColor(kGreen - 3);
         fh_tpc_deltax[i]->SetLineColor(1);
         fh_tpc_deltax[i]->Draw("");
-        for (Int_t j = 0; j < 4; j++) {   // 4 histo per detector
+        for (Int_t j = 0; j < 4; j++)
+        { // 4 histo per detector
             sprintf(Name1, "fh_tpc_csum_%d", i * 4 + j);
             if (i < 2)
                 sprintf(Name2, "CSum for TPC 2%d and DT- %d", i + 1, j);
@@ -154,7 +158,8 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cHitx->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
+    for (Int_t i = 0; i < 4; i++)
+    { // one histo per detector
         sprintf(Name1, "fh_Tpc_hitx_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "X for TPC 2%d at S2", i + 1);
@@ -187,7 +192,8 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cHity->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
+    for (Int_t i = 0; i < 4; i++)
+    { // one histo per detector
         sprintf(Name1, "fh_Tpc_hity_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "Y for TPC 2%d at S2", i + 1);
@@ -220,7 +226,8 @@ InitStatus FrsTpcOnlineSpectra::Init()
     cHitxy->Divide(2, 2);
 
     // Hit TPC data
-    for (Int_t i = 0; i < 4; i++) {   // one histo per detector
+    for (Int_t i = 0; i < 4; i++)
+    { // one histo per detector
         sprintf(Name1, "fh_Tpc_hitxy_%d", i + 1);
         if (i < 2)
             sprintf(Name2, "XY for TPC 2%d at S2", i + 1);
@@ -333,7 +340,8 @@ void FrsTpcOnlineSpectra::Reset_TPC_Histo()
 {
     LOG(INFO) << "FrsTpcOnlineSpectra::Reset_TPC_Histo";
     // Hit data
-    for (Int_t i = 0; i < 4; i++) {
+    for (Int_t i = 0; i < 4; i++)
+    {
         fh_Tpc_hitx[i]->Reset();
         fh_Tpc_hity[i]->Reset();
         fh_Tpc_hitxy[i]->Reset();
@@ -356,16 +364,21 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
 
     // Fill cal tpc data
     Int_t deltaX[10];
-    if (fCalItemsTpc && fCalItemsTpc->GetEntriesFast()) {
+    if (fCalItemsTpc && fCalItemsTpc->GetEntriesFast())
+    {
         Int_t nHits = fCalItemsTpc->GetEntriesFast();
         // std::cout << nHits << std::endl;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BTpcCalData* hit = (R3BTpcCalData*)fCalItemsTpc->At(ihit);
             if (!hit)
                 continue;
-            if (hit->GetXYId()) {
+            if (hit->GetXYId())
+            {
                 fh_tpc_csum[hit->GetDetectorId() * 4 + hit->GetSecId()]->Fill(hit->GetControlPar());
-            } else {
+            }
+            else
+            {
                 deltaX[hit->GetDetectorId() * 2 + hit->GetSecId()] = hit->GetControlPar();
             }
         }
@@ -377,7 +390,8 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
     }
 
     // Fill hit tpc data
-    if (fHitItemsTpc && fHitItemsTpc->GetEntriesFast()) {
+    if (fHitItemsTpc && fHitItemsTpc->GetEntriesFast())
+    {
         Int_t nHits = fHitItemsTpc->GetEntriesFast();
         // std::cout << nHits << std::endl;
         TVector3 master[4];
@@ -386,7 +400,8 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
         detid[1] = 0;
         detid[2] = 0;
         detid[3] = 0;
-        for (Int_t ihit = 0; ihit < nHits; ihit++) {
+        for (Int_t ihit = 0; ihit < nHits; ihit++)
+        {
             R3BTpcHitData* hit = (R3BTpcHitData*)fHitItemsTpc->At(ihit);
             if (!hit)
                 continue;
@@ -401,13 +416,14 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
             fh_ts2->Fill(master[0].Y() + (master[1] - master[0]).Phi() * 2012., (master[1] - master[0]).Phi() * 1000.);
         if (detid[2] == 1 && detid[3] == 1)
             fh_ts4->Fill(master[2].Y() + (master[3] - master[2]).Phi() * 2349., (master[3] - master[2]).Phi() * 1000.);
-        for (Int_t j = 0; j < 10; j++) {
+        for (Int_t j = 0; j < 10; j++)
+        {
             zr = gRandom->Uniform(0., 4050.);
-            if (master[0].Y() > -100. && master[0].Y() < 100. && master[1].Y() > -100. && master[1].Y() < 100.
-                && abs((master[1] - master[0]).Phi()) < 0.016 && detid[0] == 1 && detid[1] == 1)
+            if (master[0].Y() > -100. && master[0].Y() < 100. && master[1].Y() > -100. && master[1].Y() < 100. &&
+                abs((master[1] - master[0]).Phi()) < 0.016 && detid[0] == 1 && detid[1] == 1)
                 fh_tr2->Fill(zr, master[0].Y() + (master[1] - master[0]).Phi() * zr);
-            if (master[2].Y() > -100. && master[2].Y() < 100. && master[3].Y() > -100. && master[3].Y() < 100.
-                && abs((master[3] - master[2]).Phi()) < 0.016 && detid[2] == 1 && detid[3] == 1)
+            if (master[2].Y() > -100. && master[2].Y() < 100. && master[3].Y() > -100. && master[3].Y() < 100. &&
+                abs((master[3] - master[2]).Phi()) < 0.016 && detid[2] == 1 && detid[3] == 1)
                 fh_tr4->Fill(zr, master[2].Y() + (master[3] - master[2]).Phi() * zr);
         }
     }
@@ -417,23 +433,28 @@ void FrsTpcOnlineSpectra::Exec(Option_t* option)
 
 void FrsTpcOnlineSpectra::FinishEvent()
 {
-    if (fCalItemsTpc) {
+    if (fCalItemsTpc)
+    {
         fCalItemsTpc->Clear();
     }
-    if (fHitItemsTpc) {
+    if (fHitItemsTpc)
+    {
         fHitItemsTpc->Clear();
     }
 }
 
 void FrsTpcOnlineSpectra::FinishTask()
 {
-    if (fCalItemsTpc) {
+    if (fCalItemsTpc)
+    {
         cCalx->Write();
-        for (Int_t i = 0; i < 4; i++) {
+        for (Int_t i = 0; i < 4; i++)
+        {
             cTpcCal[i]->Write();
         }
     }
-    if (fHitItemsTpc) {
+    if (fHitItemsTpc)
+    {
         cHitx->Write();
         cHity->Write();
         cHitxy->Write();
