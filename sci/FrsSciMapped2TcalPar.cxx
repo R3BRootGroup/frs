@@ -49,7 +49,7 @@ InitStatus FrsSciMapped2TcalPar::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    return kFATAL;
+    return kfatal;
   }
 
   // --- ----------------- --- //
@@ -59,9 +59,9 @@ InitStatus FrsSciMapped2TcalPar::Init() {
   // scintillator at S2 and S4
   fMapped = (TClonesArray *)rm->GetObject("VftxSciMappedData");
   if (!fMapped) {
-    LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
+    LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
                   "VftxSciMappedData container";
-    return kFATAL;
+    return kfatal;
   }
 
   // --- --------------------------------- --- //
@@ -70,14 +70,14 @@ InitStatus FrsSciMapped2TcalPar::Init() {
 
   FairRuntimeDb *rtdb = FairRuntimeDb::instance();
   if (!rtdb) {
-    return kFATAL;
+    return kfatal;
   }
 
   fTcalPar = (FrsSciTcalPar *)rtdb->getContainer("FrsSciTcalPar");
   if (!fTcalPar) {
-    LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
+    LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
                   "FrsSciTcalPar container";
-    return kFATAL;
+    return kfatal;
   } else {
     fTcalPar->SetNumDetectors(fNumDetectors);
     fTcalPar->SetNumChannels(fNumChannels);
@@ -132,7 +132,7 @@ void FrsSciMapped2TcalPar::Exec(Option_t *opt) {
   for (UInt_t ihit = 0; ihit < nHitsSci; ihit++) {
     VftxSciMappedData *hitSci = (VftxSciMappedData *)fMapped->At(ihit);
     if (!hitSci) {
-      LOG(WARNING) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
+      LOG(warn) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
       continue; // should not happen
     }
 
@@ -177,7 +177,7 @@ void FrsSciMapped2TcalPar::Exec(Option_t *opt) {
     if ((0 <= iSignalSci) && (iSignalSci <= fNumSignals))
       fh_TimeFineBin[iSignalSci]->Fill(hitSci->GetTimeFine());
     else
-      LOG(ERROR)
+      LOG(error)
           << "FrsSciMapped2TcalPar::Exec() Number of signals out of range: "
           << iSignalSci << " instead of [0," << fNumSignals
           << "]: det=" << hitSci->GetDetector()

@@ -27,12 +27,12 @@ FrsSciMapped2Tcal::~FrsSciMapped2Tcal() {
 void FrsSciMapped2Tcal::SetParContainers() {
   FairRuntimeDb *rtdb = FairRuntimeDb::instance();
   if (!rtdb) {
-    LOG(ERROR) << "FairRuntimeDb not opened!";
+    LOG(error) << "FairRuntimeDb not opened!";
   }
 
   fTcalPar = (FrsSciTcalPar *)rtdb->getContainer("FrsSciTcalPar");
   if (!fTcalPar) {
-    LOG(ERROR) << "FrsSciMapped2Tcal::SetParContainers() : Could not get "
+    LOG(error) << "FrsSciMapped2Tcal::SetParContainers() : Could not get "
                   "access to FrsSciTcalPar-Container.";
     return;
   } else {
@@ -48,9 +48,9 @@ InitStatus FrsSciMapped2Tcal::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    LOG(ERROR)
+    LOG(error)
         << "FrsSciMapped2Tcal::Init() Couldn't instance the FairRootManager";
-    return kFATAL;
+    return kfatal;
   }
 
   // --- ----------------- --- //
@@ -58,9 +58,9 @@ InitStatus FrsSciMapped2Tcal::Init() {
   // --- ----------------- --- //
   fMapped = (TClonesArray *)rm->GetObject("VftxSciMappedData");
   if (!fMapped) {
-    LOG(ERROR) << "FrsSciMapped2Tcal::Couldn't get handle on VftxSciMappedData "
+    LOG(error) << "FrsSciMapped2Tcal::Couldn't get handle on VftxSciMappedData "
                   "container";
-    return kFATAL;
+    return kfatal;
   } else
     LOG(INFO) << "FrsSciMapped2Tcal::FrsSciMappedData items found";
 
@@ -80,8 +80,8 @@ InitStatus FrsSciMapped2Tcal::Init() {
   // --- CHECK THE TCALPAR VALIDITY --- //
   // --- -------------------------- --- //
   if (fTcalPar->GetNumSignals() == 0) {
-    LOG(ERROR) << "FrsSciMapped2Tcal::There are no Tcal parameters for FrsSci";
-    return kFATAL;
+    LOG(error) << "FrsSciMapped2Tcal::There are no Tcal parameters for FrsSci";
+    return kfatal;
   } else {
     LOG(INFO) << "FrsSciMapped2Tcal::Init(): fNumSignals="
               << fTcalPar->GetNumSignals();

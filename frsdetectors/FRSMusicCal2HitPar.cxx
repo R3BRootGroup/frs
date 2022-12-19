@@ -86,23 +86,23 @@ InitStatus FRSMusicCal2HitPar::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicCalData");
     if (!fMusicCalDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kFATAL;
+        return kfatal;
     }
 
     fDet_Par = (FRSMusicHitPar*)rtdb->getContainer("frsmusicHitPar");
     if (!fDet_Par) {
-        LOG(ERROR) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicHitPar container";
-        return kFATAL;
+        LOG(error) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicHitPar container";
+        return kfatal;
     }
 
     return kSUCCESS;
@@ -213,7 +213,7 @@ void FRSMusicCal2HitPar::SearchZ()
             Double_t Y[nfound];
 
             if (nfound < 2)
-                LOG(ERROR) << "FRSMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:" << nfound << "<2";
+                LOG(error) << "FRSMusicCal2HitPar::SearchZ() Couldn't get the sufficient parameters:" << nfound << "<2";
 
             nfound = TMath::Min(nfound, fNumPeaks);
 

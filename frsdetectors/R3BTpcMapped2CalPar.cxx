@@ -123,23 +123,23 @@ InitStatus R3BTpcMapped2CalPar::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fTpcMappedDataCA = (TClonesArray*)rootManager->GetObject("TpcMappedData");
     if (!fTpcMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kFATAL;
+        return kfatal;
     }
 
     fTpc_Par = (R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
     if (!fTpc_Par) {
-        LOG(ERROR) << "R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
-        return kFATAL;
+        LOG(error) << "R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
+        return kfatal;
     }
 
     return kSUCCESS;
@@ -343,7 +343,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                     Double_t Y[nfound];
 
                     if (nfound < 3)
-                        LOG(ERROR) << "R3BTpccMapped2CalPar::SearchY() Couldn't get the sufficient parameters:"
+                        LOG(error) << "R3BTpccMapped2CalPar::SearchY() Couldn't get the sufficient parameters:"
                                    << nfound << "<2";
 
                     // LOG(INFO)<<"nfound "<<nfound<<FairLogger::endl;
@@ -372,7 +372,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                 } else {
                     fTpc_Par->SetTpcCalParams(0, numPars * i + d * numPars * fNumAnodesTotal);   // dead anode
                     fTpc_Par->SetTpcCalParams(0, numPars * i + d * numPars * fNumAnodesTotal + 1);
-                    LOG(WARNING) << "R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d + 1
+                    LOG(warn) << "R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d + 1
                                  << ", anode: " << i + 1;
                 }
             } else {   // if DT_Y
@@ -398,7 +398,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                     Double_t Y[nfound];
 
                     if (nfound < 3)
-                        LOG(ERROR) << "R3BTpccMapped2CalPar::SearchX() Couldn't get the sufficient parameters:"
+                        LOG(error) << "R3BTpccMapped2CalPar::SearchX() Couldn't get the sufficient parameters:"
                                    << nfound << "<2";
 
                     nfound = TMath::Min(nfound, 3);
@@ -429,7 +429,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
 
                     fTpc_Par->SetTpcCalParams(0, numPars * i + d * numPars * fNumAnodesTotal + 1);
 
-                    LOG(WARNING) << "R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d + 1
+                    LOG(warn) << "R3BTpcMapped2CalPar: Histogram NO Fitted, detector: " << d + 1
                                  << ", anode: " << i + 1;
                 }
             }

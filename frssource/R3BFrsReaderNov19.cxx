@@ -115,7 +115,7 @@ Bool_t R3BFrsReaderNov19::Init(ext_data_struct_info* a_struct_info)
     if (!ok)
     {
         perror("ext_data_struct_info_item");
-        LOG(ERROR) << "R3BFrsReaderNov19::Failed to setup structure information.";
+        LOG(error) << "R3BFrsReaderNov19::Failed to setup structure information.";
         return kFALSE;
     }
 

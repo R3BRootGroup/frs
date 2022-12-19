@@ -88,12 +88,12 @@ void R3BFrsHit2AnaS4::SetParContainers()
     // Reading musicCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fFrs_Par = (R3BFrsAnaPar*)rtdb->getContainer("frsAnaPar");
     if (!fFrs_Par) {
-        LOG(ERROR) << "R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
+        LOG(error) << "R3BFrsHit2AnaS4Par::Init() Couldn't get handle on frsAnaPar container";
     } else {
         LOG(INFO) << "R3BFrsHit2AnaS4Par:: frsAnaPar container open";
     }
@@ -141,24 +141,24 @@ InitStatus R3BFrsHit2AnaS4::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     // fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsSciSingleTcalData");
 
     if (!fFrsMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     fTpcHitDataCA = (TClonesArray*)rootManager->GetObject("TpcHitData");
     if (!fTpcHitDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     fMusicHitDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicHitData");
     if (!fMusicHitDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA

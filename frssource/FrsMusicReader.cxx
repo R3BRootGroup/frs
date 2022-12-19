@@ -38,7 +38,7 @@ Bool_t FrsMusicReader::Init(ext_data_struct_info* a_struct_info)
     EXT_STR_h101_FRSMUSIC_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_FRSMUSIC, 0);
     if (!ok) {
         perror("ext_data_struct_info_item");
-        LOG(ERROR) << "FrsMusicReader::Failed to setup structure information.";
+        LOG(error) << "FrsMusicReader::Failed to setup structure information.";
         return kFALSE;
     }
 

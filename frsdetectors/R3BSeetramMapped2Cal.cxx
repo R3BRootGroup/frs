@@ -94,12 +94,12 @@ void R3BSeetramMapped2Cal::SetParContainers()
     // Reading seetramCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (R3BSeetramCalPar*)rtdb->getContainer("seetramCalPar");
     if (!fCal_Par) {
-        LOG(ERROR) << "R3BSeetramMapped2CalPar::Init() Couldn't get handle on seetramCalPar container";
+        LOG(error) << "R3BSeetramMapped2CalPar::Init() Couldn't get handle on seetramCalPar container";
     } else {
         LOG(INFO) << "R3BSeetramMapped2CalPar:: seetramCalPar container open";
     }
@@ -135,12 +135,12 @@ InitStatus R3BSeetramMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     if (!fFrsMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA
@@ -171,12 +171,12 @@ void R3BSeetramMapped2Cal::Exec(Option_t* option)
     Reset();
 
     if (!fCal_Par) {
-        // LOG(ERROR)<<"NO Container for Seetram detector!!";
+        // LOG(error)<<"NO Container for Seetram detector!!";
     }
 
     // Reading the Input -- Mapped Data --
     Int_t nHits = fFrsMappedDataCA->GetEntries();
-    // if(nHits==0)LOG(WARNING) << "R3BSeetramMapped2Cal: nHits=" <<nHits;
+    // if(nHits==0)LOG(warn) << "R3BSeetramMapped2Cal: nHits=" <<nHits;
     if (!nHits)
         return;
 
