@@ -1,24 +1,24 @@
-# Purpose
+# FRS GitHub repository
 --------
 
-FRS folder inside R3BRoot describes the [FRS](https://www-win.gsi.de/frs-setup/) detectors which are going to be employed for the FRS and R3B experiments.
-The R3BRoot software is based on the FairRoot framework and can be used to perform Monte Carlo simulations and experimental data analysis of the R3B (Reactions with Relativistic Radioactive Beams) nuclear physics experiments at the FAIR research center (Facility for Antiproton and Ion Research).
+## The FRS framework
+FRS folder inside R3BRoot describes the [FRS](https://wiki.gsi.de/FRS) detectors which are going to be employed for the FRS and R3B experiments.
+The FRS software is based on the FairRoot framework and can be used to perform Monte Carlo simulations and experimental data analysis of the R3B (Reactions with Relativistic Radioactive Beams) nuclear physics experiments at the FAIR research center (Facility for Antiproton and Ion Research).
 
 For the software-related user support you can post a new topic on our [forum](https://forum.gsi.de/index.php?t=index&cat=40&).
 
-# Release information
-Please see : https://github.com/R3BRootGroup/frs/releases
+## Release information
+Please visit [releases](https://github.com/R3BRootGroup/frs/releases)
 
-# Download
+## Download
 --------
 
 ~~~bash
-git clone https://github.com/R3BRootGroup/frs.git
+git clone -b dev https://github.com/R3BRootGroup/frs.git
 cd frs
-git checkout dev
 ~~~
 
-# Install
+## Step by step installation
 --------
 
 ### Required software
@@ -70,26 +70,19 @@ make -j8
 ~~~bash
 export SIMPATH=%PATH_TO_FAIRSOFT%
 export FAIRROOTPATH=%PATH_TO_FAIRROOT%
-git clone https://github.com/R3BRootGroup/R3BRoot.git
+git clone -b dev https://github.com/R3BRootGroup/R3BRoot.git
 cd R3BRoot
-git checkout dev
-git clone https://github.com/R3BRootGroup/macros.git
-cd macros
-git checkout dev
-cd ..
-git clone https://github.com/R3BRootGroup/frs.git
-cd frs
-git checkout dev
-cd ..
+git clone -b dev https://github.com/R3BRootGroup/macros.git
+git clone -b dev https://github.com/R3BRootGroup/frs.git
 cd ..
 mkdir build
 cd build
 cmake ../R3BRoot/
 . config.sh
-make -j4
+make -j8
 ~~~
 
-# Data Analysis
+## Data Analysis
 --------
 
 Data analysis is included inside the frs directory, where you can find the next subdirectories:
