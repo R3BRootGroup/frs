@@ -159,7 +159,7 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     Int_t nHitTpc = fTpcHitDataCA->GetEntries();
     // LOG(INFO) << nHitMusic << " " << nHitTpc ;
     if (!nHitMusic || !nHitFrs || nHitTpc < 4)
-        return;   // FIXME:include here warning!
+        return;   // FIXME:include here warn!
 
     R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
     FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];

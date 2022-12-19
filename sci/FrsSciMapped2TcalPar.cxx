@@ -109,7 +109,6 @@ InitStatus FrsSciMapped2TcalPar::Init() {
           new TH1F(name, name, fNumTcalParsPerSignal, 0, fNumTcalParsPerSignal);
     }
   }
-
   return kSUCCESS;
 }
 
@@ -136,55 +135,66 @@ void FrsSciMapped2TcalPar::Exec(Option_t *opt) {
       continue; // should not happen
     }
 
-    // *** ******************************************* *** //
-    // ***         Numbers of det and channel          *** //
-    // ***   in Mapped and TcalPar Data are 1-based    *** //
-    // *** ******************************************* *** //
-    // *** SofSci at S2, Pmt Right (Mapped Data)       *** //
-    // ***     * det=1                                 *** //
-    // ***     * channel=1                             *** //
-    // *** SofSci at S2, Pmt Right (Tcal Data)         *** //
-    // ***     * det=1                                 *** //
-    // ***     * channel=1                             *** //
-    // ***     * signal=0                              *** //
-    // *** ******************************************* *** //
-    // *** SofSci at S2, Pmt Left (Mapped Data)        *** //
-    // ***     * det=1                                 *** //
-    // ***     * channel=2                             *** //
-    // *** SofSci at S2, Pmt Left (Tcal Data)          *** //
-    // ***     * det=1                                 *** //
-    // ***     * channel=2                             *** //
-    // ***     * signal=1                              *** //
-    // *** ******************************************* *** //
-    // *** SofSci at S4, Pmt Right (Mapped Data)       *** //
-    // ***     * det=2                                 *** //
-    // ***     * channel=1                             *** //
-    // *** SofSci at S4, Pmt Right(Tcal Data)          *** //
-    // ***     * det=2                                 *** //
-    // ***     * channel=1                             *** //
-    // ***     * signal=3                              *** //
-    // *** ******************************************* *** //
-    // *** SofSci at S4, Pmt Left (Mapped Data)        *** //
-    // ***     * det=2                                 *** //
-    // ***     * channel=2                             *** //
-    // *** SofSci at S4, Pmt Left (Tcal Data)          *** //
-    // ***     * det=2                                 *** //
-    // ***     * channel=2                             *** //
-    // ***     * signal=4                              *** //
-    // *** ******************************************* *** //
-    iSignalSci =
-        (hitSci->GetDetector() - 1) * fNumChannels + (hitSci->GetPmt() - 1);
-    if ((0 <= iSignalSci) && (iSignalSci <= fNumSignals))
-      fh_TimeFineBin[iSignalSci]->Fill(hitSci->GetTimeFine());
-    else
-      LOG(error)
-          << "FrsSciMapped2TcalPar::Exec() Number of signals out of range: "
-          << iSignalSci << " instead of [0," << fNumSignals
-          << "]: det=" << hitSci->GetDetector()
-          << ",  fNumChannels = " << fNumChannels
-          << ",  pmt = " << hitSci->GetPmt();
+    // --- -------------------------------- --- //
+    // --- LOOP OVER MAPPED HITS FOR SofSci --- //
+    // --- -------------------------------- --- //
 
-  } // end of loop over the number of hits per event in MappedSci
+    // nHitsSci = number of hits per event
+    // for the scintillator this number of hits can be very large especially for the detector at S2
+    UInt_t nHitsSci = fMapped->GetEntries();   // can be very high especially for S2 detector
+    UInt_t iSignalSci;
+    for (UInt_t ihit = 0; ihit < nHitsSci; ihit++) {
+        VftxSciMappedData* hitSci = (VftxSciMappedData*)fMapped->At(ihit);
+        if (!hitSci) {
+            LOG(warn) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
+            continue;   // should not happen
+        }
+
+        // *** ******************************************* *** //
+        // ***         Numbers of det and channel          *** //
+        // ***   in Mapped and TcalPar Data are 1-based    *** //
+        // *** ******************************************* *** //
+        // *** SofSci at S2, Pmt Right (Mapped Data)       *** //
+        // ***     * det=1                                 *** //
+        // ***     * channel=1                             *** //
+        // *** SofSci at S2, Pmt Right (Tcal Data)         *** //
+        // ***     * det=1                                 *** //
+        // ***     * channel=1                             *** //
+        // ***     * signal=0                              *** //
+        // *** ******************************************* *** //
+        // *** SofSci at S2, Pmt Left (Mapped Data)        *** //
+        // ***     * det=1                                 *** //
+        // ***     * channel=2                             *** //
+        // *** SofSci at S2, Pmt Left (Tcal Data)          *** //
+        // ***     * det=1                                 *** //
+        // ***     * channel=2                             *** //
+        // ***     * signal=1                              *** //
+        // *** ******************************************* *** //
+        // *** SofSci at S4, Pmt Right (Mapped Data)       *** //
+        // ***     * det=2                                 *** //
+        // ***     * channel=1                             *** //
+        // *** SofSci at S4, Pmt Right(Tcal Data)          *** //
+        // ***     * det=2                                 *** //
+        // ***     * channel=1                             *** //
+        // ***     * signal=3                              *** //
+        // *** ******************************************* *** //
+        // *** SofSci at S4, Pmt Left (Mapped Data)        *** //
+        // ***     * det=2                                 *** //
+        // ***     * channel=2                             *** //
+        // *** SofSci at S4, Pmt Left (Tcal Data)          *** //
+        // ***     * det=2                                 *** //
+        // ***     * channel=2                             *** //
+        // ***     * signal=4                              *** //
+        // *** ******************************************* *** //
+        iSignalSci = (hitSci->GetDetector() - 1) * fNumChannels + (hitSci->GetPmt() - 1);
+        if ((0 <= iSignalSci) && (iSignalSci <= fNumSignals))
+            fh_TimeFineBin[iSignalSci]->Fill(hitSci->GetTimeFine());
+        else
+            LOG(error) << "FrsSciMapped2TcalPar::Exec() Number of signals out of range: " << iSignalSci
+                       << " instead of [0," << fNumSignals << "]: det=" << hitSci->GetDetector()
+                       << ",  fNumChannels = " << fNumChannels << ",  pmt = " << hitSci->GetPmt();
+
+    }   // end of loop over the number of hits per event in MappedSci
 }
 
 // ---- Public method Reset   --------------------------------------------------
