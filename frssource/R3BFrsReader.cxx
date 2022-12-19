@@ -72,7 +72,7 @@ Bool_t R3BFrsReader::Init(ext_data_struct_info* a_struct_info)
     if (!ok)
     {
         perror("ext_data_struct_info_item");
-        LOG(ERROR) << "R3BFrsReader::Failed to setup structure information.";
+        LOG(error) << "R3BFrsReader::Failed to setup structure information.";
         return kFALSE;
     }
 

@@ -72,12 +72,12 @@ void R3BTpcMapped2Cal::SetParContainers()
     // Reading tpcCalPar from FairRuntimeDb
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        LOG(ERROR) << "FairRuntimeDb not opened!";
+        LOG(error) << "FairRuntimeDb not opened!";
     }
 
     fCal_Par = (R3BTpcCalPar*)rtdb->getContainer("tpcCalPar");
     if (!fCal_Par) {
-        LOG(ERROR) << "R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
+        LOG(error) << "R3BTpcMapped2CalPar::Init() Couldn't get handle on tpcCalPar container";
     } else {
         LOG(INFO) << "R3BTpcMapped2CalPar:: tpcCalPar container open";
     }
@@ -129,12 +129,12 @@ InitStatus R3BTpcMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kFATAL;
+        return kfatal;
     }
 
     fTpcMappedDataCA = (TClonesArray*)rootManager->GetObject("TpcMappedData");
     if (!fTpcMappedDataCA) {
-        return kFATAL;
+        return kfatal;
     }
 
     // OUTPUT DATA
@@ -164,13 +164,13 @@ void R3BTpcMapped2Cal::Exec(Option_t* option)
     Reset();
 
     if (!fCal_Par) {
-        LOG(ERROR) << "NO Container Parameter!!";
+        LOG(error) << "NO Container Parameter!!";
     }
 
     // Reading the Input -- Mapped Data --
     Int_t nHits = fTpcMappedDataCA->GetEntries();
     if (nHits != NumDets && nHits > 0)
-        LOG(WARNING) << "R3BTpcMapped2Cal: nHits=" << nHits << " NumDets=" << NumDets;
+        LOG(warn) << "R3BTpcMapped2Cal: nHits=" << nHits << " NumDets=" << NumDets;
     if (!nHits)
         return;
 

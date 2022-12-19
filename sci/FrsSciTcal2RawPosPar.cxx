@@ -55,7 +55,7 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    return kFATAL;
+    return kfatal;
   }
 
   // --- --------------- --- //
@@ -65,9 +65,9 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
   // scintillator at S2 and S4
   fTcal = (TClonesArray *)rm->GetObject("FrsSciTcalData");
   if (!fTcal) {
-    LOG(ERROR) << "FrsSciTcal2RawPosPar::Couldn't get handle on FrsSciTcalData "
+    LOG(error) << "FrsSciTcal2RawPosPar::Couldn't get handle on FrsSciTcalData "
                   "container";
-    return kFATAL;
+    return kfatal;
   }
 
   // --- ---------------------------------------- --- //
@@ -76,14 +76,14 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
 
   FairRuntimeDb *rtdb = FairRuntimeDb::instance();
   if (!rtdb) {
-    return kFATAL;
+    return kfatal;
   }
 
   fRawPosPar = (FrsSciRawPosPar *)rtdb->getContainer("FrsSciRawPosPar");
   if (!fRawPosPar) {
-    LOG(ERROR) << "FrsSciTcal2RawPosPar::Couldn't get handle on "
+    LOG(error) << "FrsSciTcal2RawPosPar::Couldn't get handle on "
                   "FrsSciRawPosPar container";
-    return kFATAL;
+    return kfatal;
   }
 
   // --- ---------------------- --- //
@@ -133,7 +133,7 @@ void FrsSciTcal2RawPosPar::Exec(Option_t *opt) {
   for (UInt_t ihit = 0; ihit < nHitsSci; ihit++) {
     FrsSciTcalData *hitSci = (FrsSciTcalData *)fTcal->At(ihit);
     if (!hitSci) {
-      LOG(WARNING) << "FrsSciTcal2RawPosPar::Exec() : could not get TcalHitSci";
+      LOG(warn) << "FrsSciTcal2RawPosPar::Exec() : could not get TcalHitSci";
       continue; // should not happen
     }
     iDet = hitSci->GetDetector() - 1; // get the 0 based Det number

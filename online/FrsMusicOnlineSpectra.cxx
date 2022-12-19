@@ -77,7 +77,7 @@ InitStatus FrsMusicOnlineSpectra::Init()
 
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "Frs" + fNameDet + "OnlineSpectra::Init FairRootManager not found";
+        LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Init FairRootManager not found";
     // header = (R3BEventHeader*)mgr->GetObject("R3BEventHeader");
 
     FairRunOnline* run = FairRunOnline::Instance();
@@ -86,18 +86,18 @@ InitStatus FrsMusicOnlineSpectra::Init()
     // get access to mapped data of the Music detector
     fMapItems = (TClonesArray*)mgr->GetObject("FRSMusicMappedData");
     if (!fMapItems) {
-        return kFATAL;
+        return kfatal;
     }
     // get access to Cal Music data
     fCalItems = (TClonesArray*)mgr->GetObject("FRSMusicCalData");
     if (!fCalItems) {
-        LOG(WARNING) << "FrsMusicOnlineSpectra: Not found object FRSMusicCalData";
+        LOG(warn) << "FrsMusicOnlineSpectra: Not found object FRSMusicCalData";
     }
 
     // get access to Hit Music data
     fHitItems = (TClonesArray*)mgr->GetObject("FRSMusicHitData");
     if (!fHitItems) {
-        LOG(WARNING) << "FrsMusicOnlineSpectra: Not found object FRSMusicHitData";
+        LOG(warn) << "FrsMusicOnlineSpectra: Not found object FRSMusicHitData";
     }
 
     // Create histograms for detectors
@@ -229,7 +229,7 @@ void FrsMusicOnlineSpectra::Exec(Option_t* option)
 {
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
-        LOG(FATAL) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
+        LOG(fatal) << "Frs" + fNameDet + "OnlineSpectra::Exec FairRootManager not found";
 
     // Fill map music data
     if (fMapItems && fMapItems->GetEntriesFast()) {

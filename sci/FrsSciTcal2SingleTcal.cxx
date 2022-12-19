@@ -30,7 +30,7 @@ void FrsSciTcal2SingleTcal::SetParContainers() {
   fRawPosPar = (FrsSciRawPosPar *)FairRuntimeDb::instance()->getContainer(
       "FrsSciRawPosPar");
   if (!fRawPosPar) {
-    LOG(ERROR) << "FrsSciTcal2SingleTcal::SetParContainers() : Could not get "
+    LOG(error) << "FrsSciTcal2SingleTcal::SetParContainers() : Could not get "
                   "access to FrsSciRawPosPar-Container.";
     return;
   } else
@@ -41,7 +41,7 @@ void FrsSciTcal2SingleTcal::SetParContainers() {
   fRawTofPar = (FrsSciRawTofPar *)FairRuntimeDb::instance()->getContainer(
       "FrsSciRawTofPar");
   if (!fRawPosPar) {
-    LOG(ERROR) << "FrsSciTcal2SingleTcal::SetParContainers() : Could not get "
+    LOG(error) << "FrsSciTcal2SingleTcal::SetParContainers() : Could not get "
                   "access to FrsSciRawTofPar-Container.";
     return;
   } else
@@ -56,9 +56,9 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    LOG(ERROR)
+    LOG(error)
         << "FrsSciTcal2SingleTcal::Couldn't instance the FairRootManager";
-    return kFATAL;
+    return kfatal;
   }
 
   // --- --------------- --- //
@@ -68,9 +68,9 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
   // scintillator at S2 and cave C
   fTcal = (TClonesArray *)rm->GetObject("FrsSciTcalData");
   if (!fTcal) {
-    LOG(ERROR) << "FrsSciTcal2SingleTcal::Couldn't get handle on "
+    LOG(error) << "FrsSciTcal2SingleTcal::Couldn't get handle on "
                   "FrsSciTcalData container";
-    return kFATAL;
+    return kfatal;
   } else
     LOG(INFO) << "FrsSciTcal2SingleTcal::FrsSciTcalData items found";
 
@@ -92,14 +92,14 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
   // --- CHECK THE TCALPAR VALIDITY --- //
   // --- -------------------------- --- //
   if (fRawPosPar->GetNumSignals() == 0) {
-    LOG(ERROR) << " There are no RawPosPar Tcal parameters for FrsSci";
-    return kFATAL;
+    LOG(error) << " There are no RawPosPar Tcal parameters for FrsSci";
+    return kfatal;
   } else {
     LOG(INFO) << "  FrsSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals="
               << fRawPosPar->GetNumSignals();
   }
   if (fRawTofPar->GetNumSignals() == 0) {
-    LOG(ERROR) << " There are not RawTofPar Tcal parameters for FrsSci";
+    LOG(error) << " There are not RawTofPar Tcal parameters for FrsSci";
   } else {
     LOG(INFO) << "  R3BSofSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals="
               << fRawTofPar->GetNumSignals();
@@ -177,7 +177,7 @@ void FrsSciTcal2SingleTcal::Exec(Option_t *option) {
 
     // first selection
     if (nDets != ID_SOFSCI)
-      LOG(ERROR)
+      LOG(error)
           << "FrsSciTcal2SingleTcal::Exec() NUMBER_OF_SCI_DETECTORS != ID_SCI";
     dSta = fRawTofPar->GetFirstStart() - 1;
     dSto = nDets - 1;

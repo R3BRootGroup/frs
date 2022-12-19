@@ -179,7 +179,7 @@ void online_frs() {
   /* Initialize ------------------------------------------- */
   run->Init();
   FairLogger::GetLogger()->SetLogScreenLevel("INFO");
-  //FairLogger::GetLogger()->SetLogScreenLevel("WARNING");
+  //FairLogger::GetLogger()->SetLogScreenLevel("warn");
   //FairLogger::GetLogger()->SetLogScreenLevel("DEBUG");
   /* ------------------------------------------------------ */
 
