@@ -221,19 +221,17 @@ void FrsSciTcal2SingleTcal::Exec(Option_t *option) {
       } // end of for(multLsta)
     }   // end of for(multRsta)
 
-<<<<<<< HEAD
     // second selection : over the rest of the scintillator versus FrsSci at S4
     if (mult_selectHits[dSto] > 0) {
       for (dSta = 0; dSta < nDets - 1; dSta++) {
         if (dSta == fRawTofPar->GetFirstStart() - 1)
           continue;
-=======
+
         // first selection
         if (nDets != ID_SOFSCI)
             LOG(error) << "FrsSciTcal2SingleTcal::Exec() NUMBER_OF_SCI_DETECTORS != ID_SCI";
         dSta = fRawTofPar->GetFirstStart() - 1;
         dSto = nDets - 1;
->>>>>>> Replace LOG(ERROR) with LOG(error)
         for (UShort_t multRsta = 0; multRsta < mult[dSta * nChs]; multRsta++) {
           for (UShort_t multLsta = 0; multLsta < mult[dSta * nChs + 1];
                multLsta++) {
