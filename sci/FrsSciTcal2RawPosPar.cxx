@@ -64,7 +64,7 @@ FrsSciTcal2RawPosPar::~FrsSciTcal2RawPosPar()
 InitStatus FrsSciTcal2RawPosPar::Init()
 {
 
-    LOG(INFO) << "FrsSciTcal2RawPosPar::Init";
+    LOG(info) << "FrsSciTcal2RawPosPar::Init";
 
     FairRootManager* rm = FairRootManager::Instance();
     if (!rm)
@@ -191,7 +191,7 @@ void FrsSciTcal2RawPosPar::FinishTask()
 // ------------------------------
 void FrsSciTcal2RawPosPar::CalculateRawPosRawPosParams()
 {
-    LOG(INFO) << "FrsSciTcal2RawPosPar: CalculateRawPosRawPosParams()";
+    LOG(info) << "FrsSciTcal2RawPosPar: CalculateRawPosRawPosParams()";
 
     fRawPosPar->SetNumDetectors(fNumDetectors);
     fRawPosPar->SetNumChannels(fNumChannels);

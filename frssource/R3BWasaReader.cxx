@@ -38,7 +38,7 @@ R3BWasaReader::R3BWasaReader(EXT_STR_h101_WASA* data, UInt_t offset)
 
 R3BWasaReader::~R3BWasaReader()
 {
-    LOG(INFO) << "R3BWasaReader::Delete instance";
+    LOG(info) << "R3BWasaReader::Delete instance";
     if (fArrayMdcWasa)
     {
         delete fArrayMdcWasa;
@@ -48,7 +48,7 @@ R3BWasaReader::~R3BWasaReader()
 Bool_t R3BWasaReader::Init(ext_data_struct_info* a_struct_info)
 {
     Int_t ok;
-    LOG(INFO) << "R3BWasaReader::Init";
+    LOG(info) << "R3BWasaReader::Init";
 
     EXT_STR_h101_WASA_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_WASA, 0);
 
@@ -77,7 +77,7 @@ Bool_t R3BWasaReader::Read()
     EXT_STR_h101_WASA_onion_t* data = (EXT_STR_h101_WASA_onion_t*)fData;
 
     /* Display data */
-    LOG(DEBUG) << "R3BWasaReader::Read() Event data.";
+    LOG(debug) << "R3BWasaReader::Read() Event data.";
 
     // SELECT THE FOR LOOP BASED ON THE MAPPING...
     for (int wire = 0; wire < fData->WASA_ENE; ++wire)

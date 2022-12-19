@@ -67,7 +67,7 @@ FRSMusicCal2HitPar::FRSMusicCal2HitPar(const char* name, Int_t iVerbose)
 // FRSMusicCal2HitPar: Destructor ----------------------------------------
 FRSMusicCal2HitPar::~FRSMusicCal2HitPar()
 {
-    LOG(INFO) << "FRSMusicCal2HitPar: Delete instance";
+    LOG(info) << "FRSMusicCal2HitPar: Delete instance";
     if (fMusicCalDataCA)
         delete fMusicCalDataCA;
 }
@@ -76,7 +76,7 @@ FRSMusicCal2HitPar::~FRSMusicCal2HitPar()
 InitStatus FRSMusicCal2HitPar::Init()
 {
 
-    LOG(INFO) << "FRSMusicCal2HitPar: Init";
+    LOG(info) << "FRSMusicCal2HitPar: Init";
 
     char name[100];
 
@@ -192,7 +192,7 @@ void FRSMusicCal2HitPar::FinishTask()
 void FRSMusicCal2HitPar::SearchZ()
 {
 
-    LOG(INFO) << "FRSMusicCal2HitPar: Search atomic numbers (Z)";
+    LOG(info) << "FRSMusicCal2HitPar: Search atomic numbers (Z)";
 
     Int_t numPars = 2; // by default number of parameters=3
 
@@ -254,7 +254,7 @@ void FRSMusicCal2HitPar::SearchZ()
             {
                 fDet_Par->SetDetectorHitParams(0, numPars * i);
                 fDet_Par->SetDetectorHitParams(1, numPars * i + 1);
-                LOG(INFO) << "FRSMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1";
+                LOG(info) << "FRSMusicCal2HitPar::SearchZ() default parameters: a0=0 and a1=1";
             }
         }
     }

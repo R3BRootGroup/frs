@@ -27,7 +27,7 @@ FrsMusicReader::FrsMusicReader(EXT_STR_h101_FRSMUSIC* data, UInt_t offset)
 
 FrsMusicReader::~FrsMusicReader()
 {
-    LOG(INFO) << "FrsMusicReader::Delete instance";
+    LOG(info) << "FrsMusicReader::Delete instance";
     if (fArray)
     {
         delete fArray;
@@ -59,7 +59,7 @@ Bool_t FrsMusicReader::Read()
 {
     Reset();
     /* Display data */
-    LOG(DEBUG) << "FrsMusicReader::Read() Event data.";
+    LOG(debug) << "FrsMusicReader::Read() Event data.";
 
     EXT_STR_h101_FRSMUSIC_onion* data = (EXT_STR_h101_FRSMUSIC_onion*)fData;
 

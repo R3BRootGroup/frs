@@ -82,7 +82,7 @@ R3BSeetramMapped2Cal::R3BSeetramMapped2Cal(const char* name, Int_t iVerbose)
 // Virtual R3BSeetramMapped2Cal: Destructor
 R3BSeetramMapped2Cal::~R3BSeetramMapped2Cal()
 {
-    LOG(INFO) << "R3BSeetramMapped2Cal: Delete instance";
+    LOG(info) << "R3BSeetramMapped2Cal: Delete instance";
     if (fFrsMappedDataCA)
         delete fFrsMappedDataCA;
     if (fSeetramCalDataCA)
@@ -107,7 +107,7 @@ void R3BSeetramMapped2Cal::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "R3BSeetramMapped2CalPar:: seetramCalPar container open";
+        LOG(info) << "R3BSeetramMapped2CalPar:: seetramCalPar container open";
     }
 }
 
@@ -117,7 +117,7 @@ void R3BSeetramMapped2Cal::SetParameter()
     //--- Parameter Container ---
     NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
 
-    LOG(INFO) << "R3BSeetramMapped2Cal: Nb parameters for calibration: " << NumParams;
+    LOG(info) << "R3BSeetramMapped2Cal: Nb parameters for calibration: " << NumParams;
 
     CalParams = new TArrayF();
     Int_t array_size = NumParams;
@@ -128,7 +128,7 @@ void R3BSeetramMapped2Cal::SetParameter()
       for(Int_t d = 0; d < NumDets; d++){
       Int_t numdeadanodes=0;
       for(Int_t i = 0; i < NumAnodes; i++)if(CalParams->GetAt(NumParams*i+1+NumAnodes*d*NumParams)==-1)numdeadanodes++;
-      LOG(INFO)<<"R3BSeetramMapped2Cal: Nb of dead anodes in MUSIC " <<d+1<< ": "<< numdeadanodes;
+      LOG(info)<<"R3BSeetramMapped2Cal: Nb of dead anodes in MUSIC " <<d+1<< ": "<< numdeadanodes;
       }
     */
 }
@@ -136,7 +136,7 @@ void R3BSeetramMapped2Cal::SetParameter()
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BSeetramMapped2Cal::Init()
 {
-    LOG(INFO) << "R3BSeetramMapped2Cal: Init";
+    LOG(info) << "R3BSeetramMapped2Cal: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -339,7 +339,7 @@ void R3BSeetramMapped2Cal::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void R3BSeetramMapped2Cal::Reset()
 {
-    LOG(DEBUG) << "Clearing SeetramCalData Structure";
+    LOG(debug) << "Clearing SeetramCalData Structure";
     if (fSeetramCalDataCA)
         fSeetramCalDataCA->Clear();
 }

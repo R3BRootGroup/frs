@@ -43,14 +43,14 @@ void FRSMusicCalPar::clear()
 // ----  Method putParams ------------------------------------------------------
 void FRSMusicCalPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "FRSMusicCalPar::putParams() called";
+    LOG(info) << "FRSMusicCalPar::putParams() called";
     if (!list)
     {
         return;
     }
 
     Int_t array_size = fNumDets * fNumAnodes * fNumParamsFit;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
 
     fAnodeCalParams->Set(array_size);
 
@@ -63,7 +63,7 @@ void FRSMusicCalPar::putParams(FairParamList* list)
 // ----  Method getParams ------------------------------------------------------
 Bool_t FRSMusicCalPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "FRSMusicCalPar::getParams() called";
+    LOG(info) << "FRSMusicCalPar::getParams() called";
     if (!list)
     {
         return kFALSE;
@@ -85,12 +85,12 @@ Bool_t FRSMusicCalPar::getParams(FairParamList* list)
     }
 
     Int_t array_size = fNumDets * fNumAnodes * fNumParamsFit;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fAnodeCalParams->Set(array_size);
 
     if (!(list->fill("frsmusicCalPar", fAnodeCalParams)))
     {
-        LOG(INFO) << "---Could not initialize frsmusicCalPar";
+        LOG(info) << "---Could not initialize frsmusicCalPar";
         return kFALSE;
     }
 
@@ -100,18 +100,18 @@ Bool_t FRSMusicCalPar::getParams(FairParamList* list)
 // ----  Method printParams ----------------------------------------------------
 void FRSMusicCalPar::printParams()
 {
-    LOG(INFO) << "FRSMusicCalPar: music anode Parameters: ";
+    LOG(info) << "FRSMusicCalPar: music anode Parameters: ";
     Int_t array_size = fNumDets * fNumAnodes * fNumParamsFit;
 
     for (Int_t d = 0; d < fNumDets; d++)
     {
-        LOG(INFO) << "Music detector number: " << d;
+        LOG(info) << "Music detector number: " << d;
         for (Int_t i = 0; i < fNumAnodes; i++)
         {
-            LOG(INFO) << "Anode number: " << i;
+            LOG(info) << "Anode number: " << i;
             for (Int_t j = 0; j < fNumParamsFit; j++)
             {
-                LOG(INFO) << "FitParam(" << j
+                LOG(info) << "FitParam(" << j
                           << ") = " << fAnodeCalParams->GetAt(d * fNumParamsFit * fNumAnodes + i * fNumParamsFit + j);
             }
         }

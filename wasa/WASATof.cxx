@@ -63,11 +63,11 @@ WASATof::~WASATof()
 void WASATof::Initialize()
 {
     FairDetector::Initialize();
-    LOG(INFO) << "WASATof: initialisation";
-    // LOG(DEBUG) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog");
+    LOG(info) << "WASATof: initialisation";
+    // LOG(debug) << "WASATof: Sci. Vol. (McId) " << gMC->VolId("WASATOFLog");
 }
 
-void WASATof::SetSpecialPhysicsCuts() { LOG(INFO) << "WASATof: Adding customized Physics cut ... "; }
+void WASATof::SetSpecialPhysicsCuts() { LOG(info) << "WASATof: Adding customized Physics cut ... "; }
 
 // -----   Public method ProcessHits  --------------------------------------
 Bool_t WASATof::ProcessHits(FairVolume* vol)
@@ -187,7 +187,7 @@ TClonesArray* WASATof::GetCollection(Int_t iColl) const
 void WASATof::Print(Option_t* option) const
 {
     Int_t nHits = fTofCollection->GetEntriesFast();
-    LOG(INFO) << "WASATof: " << nHits << " points registered in this event";
+    LOG(info) << "WASATof: " << nHits << " points registered in this event";
 }
 // ----------------------------------------------------------------------------
 
@@ -203,7 +203,7 @@ void WASATof::Reset()
 void WASATof::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
 {
     Int_t nEntries = cl1->GetEntriesFast();
-    LOG(INFO) << "WASATof: " << nEntries << " entries to add";
+    LOG(info) << "WASATof: " << nEntries << " entries to add";
     TClonesArray& clref = *cl2;
     WASATofPoint* oldpoint = NULL;
     for (Int_t i = 0; i < nEntries; i++)
@@ -214,7 +214,7 @@ void WASATof::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
         new (clref[fPosIndex]) WASATofPoint(*oldpoint);
         fPosIndex++;
     }
-    LOG(INFO) << "WASATof: " << cl2->GetEntriesFast() << " merged entries";
+    LOG(info) << "WASATof: " << cl2->GetEntriesFast() << " merged entries";
 }
 
 // -----   Private method AddHit   --------------------------------------------
@@ -233,7 +233,7 @@ WASATofPoint* WASATof::AddHit(Int_t trackID,
     TClonesArray& clref = *fTofCollection;
     Int_t size = clref.GetEntriesFast();
     if (fVerboseLevel > 1)
-        LOG(INFO) << "WASATof: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
+        LOG(info) << "WASATof: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
                   << ") cm,  detector " << detID << ", copy " << CopyID << ", track " << trackID << ", energy loss "
                   << eLoss * 1e06 << " keV";
     return new (clref[size])
@@ -244,7 +244,7 @@ Bool_t WASATof::CheckIfSensitive(std::string name)
 {
     if (TString(name).Contains("WASATOFLog"))
     {
-        // LOG(INFO) << "Found Wasa-ToF geometry from ROOT file: " << name;
+        // LOG(info) << "Found Wasa-ToF geometry from ROOT file: " << name;
         return kTRUE;
     }
     return kFALSE;

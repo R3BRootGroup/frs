@@ -29,7 +29,7 @@ FrsSciMapped2Tcal::FrsSciMapped2Tcal(const char* name, Int_t iVerbose)
 // --- Destructor
 FrsSciMapped2Tcal::~FrsSciMapped2Tcal()
 {
-    LOG(INFO) << "FrsSciMapped2Tcal: Delete instance";
+    LOG(info) << "FrsSciMapped2Tcal: Delete instance";
     if (fMapped)
     {
         delete fMapped;
@@ -58,7 +58,7 @@ void FrsSciMapped2Tcal::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "FrsSciMapped2Tcal::SetParContainers() : "
+        LOG(info) << "FrsSciMapped2Tcal::SetParContainers() : "
                      "FrsSciTcalPar-Container found with "
                   << fTcalPar->GetNumSignals() << " signals";
     }
@@ -67,7 +67,7 @@ void FrsSciMapped2Tcal::SetParContainers()
 InitStatus FrsSciMapped2Tcal::Init()
 {
 
-    LOG(INFO) << "FrsSciMapped2Tcal: Init";
+    LOG(info) << "FrsSciMapped2Tcal: Init";
 
     FairRootManager* rm = FairRootManager::Instance();
     if (!rm)
@@ -87,7 +87,7 @@ InitStatus FrsSciMapped2Tcal::Init()
         return kFATAL;
     }
     else
-        LOG(INFO) << "FrsSciMapped2Tcal::FrsSciMappedData items found";
+        LOG(info) << "FrsSciMapped2Tcal::FrsSciMappedData items found";
 
     // --- ---------------- --- //
     // --- OUTPUT TCAL DATA --- //
@@ -102,7 +102,7 @@ InitStatus FrsSciMapped2Tcal::Init()
         rm->Register("FrsSciTcalData", "FrsSci", fTcal, kFALSE);
     }
 
-    LOG(INFO) << "FrsSciMapped2Tcal::Init output FrsSciTcalData ";
+    LOG(info) << "FrsSciMapped2Tcal::Init output FrsSciTcalData ";
 
     // --- -------------------------- --- //
     // --- CHECK THE TCALPAR VALIDITY --- //
@@ -114,9 +114,9 @@ InitStatus FrsSciMapped2Tcal::Init()
     }
     else
     {
-        LOG(INFO) << "FrsSciMapped2Tcal::Init(): fNumSignals=" << fTcalPar->GetNumSignals();
-        LOG(INFO) << " FrsSciMapped2Tcal::Init(): fNumDetectors=" << fTcalPar->GetNumDetectors();
-        LOG(INFO) << "  FrsSciMapped2Tcal::Init(): fNumChannels=" << fTcalPar->GetNumChannels();
+        LOG(info) << "FrsSciMapped2Tcal::Init(): fNumSignals=" << fTcalPar->GetNumSignals();
+        LOG(info) << " FrsSciMapped2Tcal::Init(): fNumDetectors=" << fTcalPar->GetNumDetectors();
+        LOG(info) << "  FrsSciMapped2Tcal::Init(): fNumChannels=" << fTcalPar->GetNumChannels();
     }
     return kSUCCESS;
 }
@@ -149,13 +149,13 @@ void FrsSciMapped2Tcal::Exec(Option_t* option)
         iTc = hit->GetTimeCoarse();
         if ((iDet < 1) || (iDet > fTcalPar->GetNumDetectors()))
         {
-            LOG(INFO) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iDet = " << iDet
+            LOG(info) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iDet = " << iDet
                       << "is out of range, item skipped ";
             continue;
         }
         if ((iCh < 1) || (iCh > fTcalPar->GetNumChannels()))
         {
-            LOG(INFO) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iCh = " << iCh
+            LOG(info) << "FrsSciMapped2Tcal::Exec() : In SofSciMappedData, iCh = " << iCh
                       << "is out of range, item skipped ";
             continue;
         }
@@ -168,7 +168,7 @@ void FrsSciMapped2Tcal::Exec(Option_t* option)
 // -----   Public method Reset ------------------------------------------------
 void FrsSciMapped2Tcal::Reset()
 {
-    LOG(DEBUG) << "Clearing TcalCalData Structure";
+    LOG(debug) << "Clearing TcalCalData Structure";
     if (fTcal)
         fTcal->Clear();
 }

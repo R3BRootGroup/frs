@@ -70,27 +70,27 @@ void WASAMdc::Initialize()
 {
     FairDetector::Initialize();
 
-    LOG(INFO) << "WASAMdc: initialisation";
-    // LOG(DEBUG) << "WASAMdc: Sens. Vol. (McId) " << gMC->VolId("TraLog") ;
+    LOG(info) << "WASAMdc: initialisation";
+    // LOG(debug) << "WASAMdc: Sens. Vol. (McId) " << gMC->VolId("TraLog") ;
 
     Char_t buffer[126];
     for (Int_t i = 0; i < 9; i++)
     {
         sprintf(buffer, "ME0%i", i + 1);
-        LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
+        LOG(debug) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
                    << gMC->VolId(buffer);
         fLayer[i] = gMC->VolId(buffer);
     }
     for (Int_t i = 9; i < 17; i++)
     {
         sprintf(buffer, "ME%i", i + 1);
-        LOG(DEBUG) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
+        LOG(debug) << "-I- R3BRpc: Layer   : " << i << " connected to (McId) ---> " << buffer << "  "
                    << gMC->VolId(buffer);
         fLayer[i] = gMC->VolId(buffer);
     }
 }
 
-void WASAMdc::SetSpecialPhysicsCuts() { LOG(INFO) << "-I- WASAMdc: Adding customized Physics cut ... "; }
+void WASAMdc::SetSpecialPhysicsCuts() { LOG(info) << "-I- WASAMdc: Adding customized Physics cut ... "; }
 
 // -----   Public method ProcessHits  --------------------------------------
 Bool_t WASAMdc::ProcessHits(FairVolume* vol)
@@ -209,7 +209,7 @@ TClonesArray* WASAMdc::GetCollection(Int_t iColl) const
 void WASAMdc::Print(Option_t* option) const
 {
     Int_t nHits = fTraCollection->GetEntriesFast();
-    LOG(INFO) << "WASAMdc: " << nHits << " points registered in this event";
+    LOG(info) << "WASAMdc: " << nHits << " points registered in this event";
 }
 // ----------------------------------------------------------------------------
 
@@ -225,7 +225,7 @@ void WASAMdc::Reset()
 void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
 {
     Int_t nEntries = cl1->GetEntriesFast();
-    LOG(INFO) << "WASAMdc: " << nEntries << " entries to add";
+    LOG(info) << "WASAMdc: " << nEntries << " entries to add";
     TClonesArray& clref = *cl2;
     WASAMdcPoint* oldpoint = NULL;
     for (Int_t i = 0; i < nEntries; i++)
@@ -236,7 +236,7 @@ void WASAMdc::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset)
         new (clref[fPosIndex]) WASAMdcPoint(*oldpoint);
         fPosIndex++;
     }
-    LOG(INFO) << "WASAMdc: " << cl2->GetEntriesFast() << " merged entries";
+    LOG(info) << "WASAMdc: " << cl2->GetEntriesFast() << " merged entries";
 }
 
 // -----   Private method AddHit   --------------------------------------------
@@ -254,7 +254,7 @@ WASAMdcPoint* WASAMdc::AddHit(Int_t trackID,
     TClonesArray& clref = *fTraCollection;
     Int_t size = clref.GetEntriesFast();
     if (fVerboseLevel > 1)
-        LOG(INFO) << "WASAMdc: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
+        LOG(info) << "WASAMdc: Adding Point at (" << posIn.X() << ", " << posIn.Y() << ", " << posIn.Z()
                   << ") cm,  detector " << detID << ", track " << trackID << ", energy loss " << eLoss * 1e06 << " keV";
     return new (clref[size]) WASAMdcPoint(trackID, detID, detCopyID, posIn, posOut, momIn, momOut, time, length, eLoss);
 }

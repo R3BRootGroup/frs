@@ -84,7 +84,7 @@ FrsRatesSpill::FrsRatesSpill(const char* name, Int_t iVerbose)
 // Virtual FrsRatesSpill: Destructor
 FrsRatesSpill::~FrsRatesSpill()
 {
-    LOG(INFO) << "FrsRatesSpill: Delete instance";
+    LOG(info) << "FrsRatesSpill: Delete instance";
     if (fFrsMappedDataCA)
         delete fFrsMappedDataCA;
     if (fSpillCalDataCA)
@@ -94,7 +94,7 @@ FrsRatesSpill::~FrsRatesSpill()
 // -----   Public method Init   --------------------------------------------
 InitStatus FrsRatesSpill::Init()
 {
-    LOG(INFO) << "FrsRatesSpill: Init";
+    LOG(info) << "FrsRatesSpill: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -373,7 +373,7 @@ void FrsRatesSpill::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void FrsRatesSpill::Reset()
 {
-    LOG(DEBUG) << "Clearing SeetramCalData Structure";
+    LOG(debug) << "Clearing SeetramCalData Structure";
     if (fSpillCalDataCA)
         fSpillCalDataCA->Clear();
 }

@@ -42,14 +42,14 @@ void FRSMusicHitPar::clear()
 // ----  Method putParams ------------------------------------------------------
 void FRSMusicHitPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "FRSMusicHitPar::putParams() called";
+    LOG(info) << "FRSMusicHitPar::putParams() called";
     if (!list)
     {
         return;
     }
 
     Int_t array_size = fNumDets * fNumParamsFit;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
 
     fDetHitParams->Set(array_size);
 
@@ -61,7 +61,7 @@ void FRSMusicHitPar::putParams(FairParamList* list)
 // ----  Method getParams ------------------------------------------------------
 Bool_t FRSMusicHitPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "FRSMusicHitPar::getParams() called";
+    LOG(info) << "FRSMusicHitPar::getParams() called";
     if (!list)
     {
         return kFALSE;
@@ -78,12 +78,12 @@ Bool_t FRSMusicHitPar::getParams(FairParamList* list)
     }
 
     Int_t array_size = fNumDets * fNumParamsFit;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fDetHitParams->Set(array_size);
 
     if (!(list->fill("frsmusicHitPar", fDetHitParams)))
     {
-        LOG(INFO) << "---Could not initialize frsmusicHitPar";
+        LOG(info) << "---Could not initialize frsmusicHitPar";
         return kFALSE;
     }
 
@@ -93,15 +93,15 @@ Bool_t FRSMusicHitPar::getParams(FairParamList* list)
 // ----  Method printParams ----------------------------------------------------
 void FRSMusicHitPar::printParams()
 {
-    LOG(INFO) << "FRSMusicHitPar: music detector Parameters: ";
+    LOG(info) << "FRSMusicHitPar: music detector Parameters: ";
     Int_t array_size = fNumDets * fNumParamsFit;
 
     for (Int_t d = 0; d < fNumDets; d++)
     {
-        LOG(INFO) << "Music detector number: " << d;
+        LOG(info) << "Music detector number: " << d;
         for (Int_t j = 0; j < fNumParamsFit; j++)
         {
-            LOG(INFO) << "FitParam(" << j << ") = " << fDetHitParams->GetAt(d * fNumParamsFit + j);
+            LOG(info) << "FitParam(" << j << ") = " << fDetHitParams->GetAt(d * fNumParamsFit + j);
         }
     }
 }

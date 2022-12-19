@@ -67,7 +67,7 @@ FRSMusicMapped2CalPar::FRSMusicMapped2CalPar(const char* name, Int_t iVerbose)
 FRSMusicMapped2CalPar::~FRSMusicMapped2CalPar()
 {
 
-    LOG(INFO) << "FRSMusicMapped2CalPar: Delete instance";
+    LOG(info) << "FRSMusicMapped2CalPar: Delete instance";
     if (fMusicMappedDataCA)
         delete fMusicMappedDataCA;
 }
@@ -75,7 +75,7 @@ FRSMusicMapped2CalPar::~FRSMusicMapped2CalPar()
 // -----   Public method Init   --------------------------------------------
 InitStatus FRSMusicMapped2CalPar::Init()
 {
-    LOG(INFO) << "FRSMusicMapped2CalPar: Init";
+    LOG(info) << "FRSMusicMapped2CalPar: Init";
 
     char name[100];
 
@@ -163,7 +163,7 @@ void FRSMusicMapped2CalPar::FinishTask()
 void FRSMusicMapped2CalPar::SearchPedestals()
 {
 
-    LOG(INFO) << "FRSMusicMapped2CalPar: Search pedestals";
+    LOG(info) << "FRSMusicMapped2CalPar: Search pedestals";
 
     Int_t numPars = 3; // by default number of parameters=3
 

@@ -115,9 +115,9 @@ void online_wasa() {
 
   /* Initialize ------------------------------------------- */
   run->Init();
-  FairLogger::GetLogger()->SetLogScreenLevel("INFO");
+  FairLogger::GetLogger()->SetLogScreenLevel("info");
   //FairLogger::GetLogger()->SetLogScreenLevel("warn");
-  //FairLogger::GetLogger()->SetLogScreenLevel("DEBUG");
+  //FairLogger::GetLogger()->SetLogScreenLevel("debug");
   /* ------------------------------------------------------ */
 
 

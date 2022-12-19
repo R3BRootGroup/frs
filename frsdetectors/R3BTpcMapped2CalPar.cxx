@@ -82,7 +82,7 @@ R3BTpcMapped2CalPar::R3BTpcMapped2CalPar(const char* name, Int_t iVerbose)
 // R3BTpcMapped2CalPar: Destructor ----------------------------------------
 R3BTpcMapped2CalPar::~R3BTpcMapped2CalPar()
 {
-    LOG(INFO) << "R3BTpcMapped2CalPar: Delete instance";
+    LOG(info) << "R3BTpcMapped2CalPar: Delete instance";
     if (fTpcMappedDataCA)
         delete fTpcMappedDataCA;
 }
@@ -91,7 +91,7 @@ R3BTpcMapped2CalPar::~R3BTpcMapped2CalPar()
 InitStatus R3BTpcMapped2CalPar::Init()
 {
 
-    LOG(INFO) << "R3BTpcMapped2CalPar: Init";
+    LOG(info) << "R3BTpcMapped2CalPar: Init";
 
     char name[100];
 
@@ -327,7 +327,7 @@ void R3BTpcMapped2CalPar::SearchMax(double* xpeaks, double* ypeaks, int nf, doub
 void R3BTpcMapped2CalPar::SearchCalParXY()
 {
 
-    LOG(INFO) << "R3BTpcMapped2CalPar: Search calibration parameters";
+    LOG(info) << "R3BTpcMapped2CalPar: Search calibration parameters";
 
     Int_t numPars = 2; // by default number of parameters=2
     fTpc_Par->SetNumDets(fNumDets);
@@ -375,7 +375,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                         LOG(error) << "R3BTpccMapped2CalPar::SearchY() Couldn't get the sufficient parameters:"
                                    << nfound << "<2";
 
-                    // LOG(INFO)<<"nfound "<<nfound<<FairLogger::endl;
+                    // LOG(info)<<"nfound "<<nfound<<FairLogger::endl;
 
                     nfound = TMath::Min(nfound, 3);
 
@@ -400,7 +400,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                     {
                         fTpc_Par->SetTpcCalParams(0, numPars * i + d * numPars * fNumAnodesTotal);
                         fTpc_Par->SetTpcCalParams(1, numPars * i + d * numPars * fNumAnodesTotal + 1);
-                        LOG(INFO) << "R3BTpccMapped2CalPar::SearchY() default parameters: a0=0 and a1=1";
+                        LOG(info) << "R3BTpccMapped2CalPar::SearchY() default parameters: a0=0 and a1=1";
                     }
                 }
                 else
@@ -463,7 +463,7 @@ void R3BTpcMapped2CalPar::SearchCalParXY()
                     {
                         fTpc_Par->SetTpcCalParams(0, numPars * i + d * numPars * fNumAnodesTotal);
                         fTpc_Par->SetTpcCalParams(1, numPars * i + d * numPars * fNumAnodesTotal + 1);
-                        LOG(INFO) << "R3BTpccMapped2CalPar::SearchX() default parameters: a0=0 and a1=1";
+                        LOG(info) << "R3BTpccMapped2CalPar::SearchX() default parameters: a0=0 and a1=1";
                     }
                 }
                 else

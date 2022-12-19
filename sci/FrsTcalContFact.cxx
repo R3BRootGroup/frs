@@ -27,7 +27,7 @@ FrsTcalContFact::FrsTcalContFact()
     fName = "FrsTcalContFact";
     fTitle = "Factory for Tcal parameter containers in libFrsTcal";
     setAllContainers();
-    LOG(INFO) << "Enter in the FrsTcalContFact constructor";
+    LOG(info) << "Enter in the FrsTcalContFact constructor";
     FairRuntimeDb::instance()->addContFactory(this);
 }
 
@@ -57,7 +57,7 @@ FairParSet* FrsTcalContFact::createContainer(FairContainer* c)
      * of this container, the name is concatinated with the context. */
 
     const char* name = c->GetName();
-    LOG(INFO) << "FrsTcalContFact: Create container name: " << name;
+    LOG(info) << "FrsTcalContFact: Create container name: " << name;
     FairParSet* p = 0;
 
     if (strcmp(name, "FrsSciTcalPar") == 0)

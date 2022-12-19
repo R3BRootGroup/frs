@@ -55,7 +55,7 @@ R3BWasaOnlineSpectra::~R3BWasaOnlineSpectra() {}
 InitStatus R3BWasaOnlineSpectra::Init()
 {
 
-    LOG(INFO) << "R3BWasaOnlineSpectra::Init ";
+    LOG(info) << "R3BWasaOnlineSpectra::Init ";
 
     // try to get a handle on the EventHeader. EventHeader may not be
     // present though and hence may be null. Take care when using.
@@ -119,7 +119,7 @@ InitStatus R3BWasaOnlineSpectra::Init()
 
 void R3BWasaOnlineSpectra::Reset_MDC_Histo()
 {
-    LOG(INFO) << "R3BWasaOnlineSpectra::Reset_MDC_Histo";
+    LOG(info) << "R3BWasaOnlineSpectra::Reset_MDC_Histo";
 
     for (Int_t i = 0; i < 192 * 2; i++)
         fh_mdc[i]->Reset();

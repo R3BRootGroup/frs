@@ -121,7 +121,7 @@ R3BFrsOnlineSpectra::R3BFrsOnlineSpectra(const char* name, Int_t iVerbose)
 
 R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Delete instance";
+    LOG(info) << "R3BFrsOnlineSpectra::Delete instance";
     if (fMappedItemsFrs)
         delete fMappedItemsFrs;
     if (fCalItemsSeetram)
@@ -145,7 +145,7 @@ R3BFrsOnlineSpectra::~R3BFrsOnlineSpectra()
 InitStatus R3BFrsOnlineSpectra::Init()
 {
 
-    LOG(INFO) << "R3BFrsOnlineSpectra::Init ";
+    LOG(info) << "R3BFrsOnlineSpectra::Init ";
 
     // try to get a handle on the EventHeader. EventHeader may not be
     // present though and hence may be null. Take care when using.
@@ -174,7 +174,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
     fWRItemsMaster = (TClonesArray*)mgr->GetObject("WRMasterData");
     if (!fWRItemsMaster)
     {
-        LOG(INFO) << "R3BCalifaOnlineSpectra::Init WRMasterData not found";
+        LOG(info) << "R3BCalifaOnlineSpectra::Init WRMasterData not found";
     }
 
     // Looking for Mw11 online
@@ -1138,7 +1138,7 @@ InitStatus R3BFrsOnlineSpectra::Init()
 
 void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_Detectors@So_Histo";
+    LOG(info) << "R3BFrsOnlineSpectra::Reset_Detectors@So_Histo";
     fh_Seetram->Reset();
     fh_Seetramt->Reset();
     fh_Ic->Reset();
@@ -1152,7 +1152,7 @@ void R3BFrsOnlineSpectra::Reset_SEETRAM_Histo()
 
 void R3BFrsOnlineSpectra::Reset_FRS_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_FRS_Histo";
+    LOG(info) << "R3BFrsOnlineSpectra::Reset_FRS_Histo";
 
     fh_Frs_Z->Reset();
     fh_Frs_Aq->Reset();
@@ -1161,7 +1161,7 @@ void R3BFrsOnlineSpectra::Reset_FRS_Histo()
 
 void R3BFrsOnlineSpectra::Reset_SCI_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_SCI_Histo";
+    LOG(info) << "R3BFrsOnlineSpectra::Reset_SCI_Histo";
     fh_Sci00->Reset();
     fh_Sci02->Reset();
     fh_sci21le->Reset();
@@ -1187,7 +1187,7 @@ void R3BFrsOnlineSpectra::Reset_SCI_Histo()
 
 void R3BFrsOnlineSpectra::Reset_MUSIC_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_MUSIC_Histo";
+    LOG(info) << "R3BFrsOnlineSpectra::Reset_MUSIC_Histo";
     // Cal data
     /*   for (Int_t i = 0; i < 24; i++)
        {
@@ -1202,7 +1202,7 @@ void R3BFrsOnlineSpectra::Reset_MUSIC_Histo()
 
 void R3BFrsOnlineSpectra::Reset_GENERAL_Histo()
 {
-    LOG(INFO) << "R3BFrsOnlineSpectra::Reset_General_Histo";
+    LOG(info) << "R3BFrsOnlineSpectra::Reset_General_Histo";
     fh_trigger->Reset();
     fh_TrigC->Reset();
     fh_TrigFree->Reset();

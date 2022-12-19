@@ -60,7 +60,7 @@ FrsMWOnlineSpectra::FrsMWOnlineSpectra(const TString& name, Int_t iVerbose, cons
 
 FrsMWOnlineSpectra::~FrsMWOnlineSpectra()
 {
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Delete instance";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Delete instance";
     if (fMapItemsMw)
         delete fMapItemsMw;
     if (fHitItemsMw)
@@ -70,7 +70,7 @@ FrsMWOnlineSpectra::~FrsMWOnlineSpectra()
 InitStatus FrsMWOnlineSpectra::Init()
 {
 
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Init ";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Init ";
 
     // try to get a handle on the EventHeader. EventHeader may not be
     // present though and hence may be null. Take care when using.
@@ -158,7 +158,7 @@ InitStatus FrsMWOnlineSpectra::Init()
 
 void FrsMWOnlineSpectra::Reset_Histo()
 {
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Reset_Histo";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Reset_Histo";
     // Map data
     fh1_mw_a->Reset();
     fh1_mw_xr->Reset();

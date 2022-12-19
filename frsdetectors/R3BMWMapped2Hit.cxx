@@ -58,7 +58,7 @@ R3BMWMapped2Hit::R3BMWMapped2Hit(const char* name, Int_t iVerbose)
 // Virtual R3BMWMapped2Hit: Destructor
 R3BMWMapped2Hit::~R3BMWMapped2Hit()
 {
-    LOG(INFO) << "R3BMWMapped2Hit: Delete instance";
+    LOG(info) << "R3BMWMapped2Hit: Delete instance";
     if (fMwHitDataCA)
         delete fMwHitDataCA;
     if (fMw11MappedDataCA)
@@ -96,7 +96,7 @@ void R3BMWMapped2Hit::SetParameter()
 
     //--- Parameter Container ---
     // fNumDets=fCal_Par->GetNumDets();//Number of Detectors
-    LOG(INFO) << "R3BMWMapped2Hit: Nb detectors: " << fNumDets;
+    LOG(info) << "R3BMWMapped2Hit: Nb detectors: " << fNumDets;
 
     x_factor[0] = 0.25;   // MW11 [mm/ns] 14.09.05 CN+AM 2ns/mm delay line
     x_factor[1] = 0.25;   // MW21
@@ -236,7 +236,7 @@ void R3BMWMapped2Hit::SetParameter()
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BMWMapped2Hit::Init()
 {
-    LOG(INFO) << "R3BMWMapped2Hit: Init";
+    LOG(info) << "R3BMWMapped2Hit: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -380,7 +380,7 @@ void R3BMWMapped2Hit::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void R3BMWMapped2Hit::Reset()
 {
-    LOG(DEBUG) << "Clearing MwHitData Structure";
+    LOG(debug) << "Clearing MwHitData Structure";
     if (fMwHitDataCA)
         fMwHitDataCA->Clear();
 }

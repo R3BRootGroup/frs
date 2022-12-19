@@ -62,7 +62,7 @@ FrsSciTcal2RawTofPar::~FrsSciTcal2RawTofPar()
 InitStatus FrsSciTcal2RawTofPar::Init()
 {
 
-    LOG(INFO) << "FrsSciTcal2RawTofPar::Init";
+    LOG(info) << "FrsSciTcal2RawTofPar::Init";
 
     FairRootManager* rm = FairRootManager::Instance();
     if (!rm)
@@ -189,7 +189,7 @@ void FrsSciTcal2RawTofPar::FinishTask()
 // ------------------------------
 void FrsSciTcal2RawTofPar::CalculateRawTofParams()
 {
-    LOG(INFO) << "FrsSciTcal2RawTofPar: CalculateRawTofParams()";
+    LOG(info) << "FrsSciTcal2RawTofPar: CalculateRawTofParams()";
 
     fRawTofPar->SetFirstStart(fFirstStaSci);
     fRawTofPar->SetNumSignals(fNumSignals);

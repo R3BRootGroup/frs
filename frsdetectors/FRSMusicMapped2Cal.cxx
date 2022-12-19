@@ -55,7 +55,7 @@ FRSMusicMapped2Cal::FRSMusicMapped2Cal(const char* name, Int_t iVerbose)
 // Virtual FRSMusicMapped2Cal: Destructor
 FRSMusicMapped2Cal::~FRSMusicMapped2Cal()
 {
-    LOG(INFO) << "FRSMusicMapped2Cal: Delete instance";
+    LOG(info) << "FRSMusicMapped2Cal: Delete instance";
     if (fMusicMappedDataCA)
         delete fMusicMappedDataCA;
     if (fMusicCalDataCA)
@@ -80,7 +80,7 @@ void FRSMusicMapped2Cal::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "FRSMusicMapped2CalPar:: frsmusicCalPar container open";
+        LOG(info) << "FRSMusicMapped2CalPar:: frsmusicCalPar container open";
     }
 }
 
@@ -92,9 +92,9 @@ void FRSMusicMapped2Cal::SetParameter()
     NumAnodes = fCal_Par->GetNumAnodes();        // Number of anodes
     NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
 
-    LOG(INFO) << "FRSMusicMapped2Cal: Nb detectors: " << NumDets;
-    LOG(INFO) << "FRSMusicMapped2Cal: Nb anodes: " << NumAnodes;
-    LOG(INFO) << "FRSMusicMapped2Cal: Nb parameters from pedestal fit: " << NumParams;
+    LOG(info) << "FRSMusicMapped2Cal: Nb detectors: " << NumDets;
+    LOG(info) << "FRSMusicMapped2Cal: Nb anodes: " << NumAnodes;
+    LOG(info) << "FRSMusicMapped2Cal: Nb parameters from pedestal fit: " << NumParams;
 
     CalParams = new TArrayF();
     Int_t array_size = NumDets * NumAnodes * NumParams;
@@ -108,14 +108,14 @@ void FRSMusicMapped2Cal::SetParameter()
         for (Int_t i = 0; i < NumAnodes; i++)
             if (CalParams->GetAt(NumParams * i + 1 + NumAnodes * d * NumParams) == -1)
                 numdeadanodes++;
-        LOG(INFO) << "FRSMusicMapped2Cal: Nb of dead anodes in MUSIC " << d + 1 << ": " << numdeadanodes;
+        LOG(info) << "FRSMusicMapped2Cal: Nb of dead anodes in MUSIC " << d + 1 << ": " << numdeadanodes;
     }
 }
 
 // -----   Public method Init   --------------------------------------------
 InitStatus FRSMusicMapped2Cal::Init()
 {
-    LOG(INFO) << "FRSMusicMapped2Cal: Init";
+    LOG(info) << "FRSMusicMapped2Cal: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -206,7 +206,7 @@ void FRSMusicMapped2Cal::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void FRSMusicMapped2Cal::Reset()
 {
-    LOG(DEBUG) << "Clearing MusicCalData Structure";
+    LOG(debug) << "Clearing MusicCalData Structure";
     if (fMusicCalDataCA)
         fMusicCalDataCA->Clear();
 }

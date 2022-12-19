@@ -46,7 +46,7 @@ R3BFrsReader::R3BFrsReader(EXT_STR_h101_FRS* data, UInt_t offset)
 
 R3BFrsReader::~R3BFrsReader()
 {
-    LOG(INFO) << "R3BFrsReader::Delete instance";
+    LOG(info) << "R3BFrsReader::Delete instance";
     if (fArray)
     {
         delete fArray;
@@ -104,7 +104,7 @@ Bool_t R3BFrsReader::Read()
     //
     Reset();
     /* Display data */
-    LOG(DEBUG) << "R3BFrsReader::Read() Event data.";
+    LOG(debug) << "R3BFrsReader::Read() Event data.";
 
     new ((*fArray)[fArray->GetEntriesFast()]) R3BFrsMappedData(fData->AccTrig,
                                                                fData->ClockhundredkHz,

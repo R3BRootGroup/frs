@@ -61,7 +61,7 @@ FrsTpcOnlineSpectra::FrsTpcOnlineSpectra(const char* name, Int_t iVerbose)
 
 FrsTpcOnlineSpectra::~FrsTpcOnlineSpectra()
 {
-    LOG(INFO) << "FrsTpcOnlineSpectra::Delete instance";
+    LOG(info) << "FrsTpcOnlineSpectra::Delete instance";
     if (fHitItemsTpc)
         delete fHitItemsTpc;
     if (fCalItemsTpc)
@@ -71,7 +71,7 @@ FrsTpcOnlineSpectra::~FrsTpcOnlineSpectra()
 InitStatus FrsTpcOnlineSpectra::Init()
 {
 
-    LOG(INFO) << "FrsTpcOnlineSpectra::Init ";
+    LOG(info) << "FrsTpcOnlineSpectra::Init ";
 
     // try to get a handle on the EventHeader. EventHeader may not be
     // present though and hence may be null. Take care when using.
@@ -338,7 +338,7 @@ InitStatus FrsTpcOnlineSpectra::Init()
 
 void FrsTpcOnlineSpectra::Reset_TPC_Histo()
 {
-    LOG(INFO) << "FrsTpcOnlineSpectra::Reset_TPC_Histo";
+    LOG(info) << "FrsTpcOnlineSpectra::Reset_TPC_Histo";
     // Hit data
     for (Int_t i = 0; i < 4; i++)
     {

@@ -49,7 +49,7 @@ FRSWasaFieldMap::~FRSWasaFieldMap() {}
 // -----------   Intialisation   ------------------------------------------
 void FRSWasaFieldMap::Init()
 {
-    LOG(INFO) << "FRSWasaFieldMap: Init";
+    LOG(info) << "FRSWasaFieldMap: Init";
     fPosX = 0.0;
     fPosY = 0.0;
     fPosZ = 0.0;

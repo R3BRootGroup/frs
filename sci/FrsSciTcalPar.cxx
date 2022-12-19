@@ -44,14 +44,14 @@ void FrsSciTcalPar::clear()
 // ----  Method putParams ------------------------------------------------------
 void FrsSciTcalPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "FrsSciTcalPar::putParams() called";
+    LOG(info) << "FrsSciTcalPar::putParams() called";
     if (!list)
     {
         return;
     }
 
     Int_t array_size = fNumSignals * fNumTcalParsPerSignal;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
 
     fAllSignalsTcalParams->Set(array_size);
 
@@ -65,7 +65,7 @@ void FrsSciTcalPar::putParams(FairParamList* list)
 // ----  Method getParams ------------------------------------------------------
 Bool_t FrsSciTcalPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "FrsSciTcalPar::getParams() called";
+    LOG(info) << "FrsSciTcalPar::getParams() called";
     if (!list)
     {
         return kFALSE;
@@ -88,12 +88,12 @@ Bool_t FrsSciTcalPar::getParams(FairParamList* list)
     }
 
     Int_t array_size = fNumSignals * fNumTcalParsPerSignal;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fAllSignalsTcalParams->Set(array_size);
 
     if (!(list->fill("TcalPar", fAllSignalsTcalParams)))
     {
-        LOG(INFO) << "---Could not initialize fAllSignalsTcalParams";
+        LOG(info) << "---Could not initialize fAllSignalsTcalParams";
         return kFALSE;
     }
 
@@ -103,7 +103,7 @@ Bool_t FrsSciTcalPar::getParams(FairParamList* list)
 // ----  Method printParams ----------------------------------------------------
 void FrsSciTcalPar::printParams()
 {
-    LOG(INFO) << "FrsSciTcalPar: SofTcal Parameters: ";
+    LOG(info) << "FrsSciTcalPar: SofTcal Parameters: ";
     Int_t array_size = fNumSignals * fNumTcalParsPerSignal;
 
     for (Int_t d = 0; d < fNumDetectors; d++)

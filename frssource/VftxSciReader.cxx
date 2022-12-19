@@ -27,7 +27,7 @@ VftxSciReader::VftxSciReader(EXT_STR_h101_frssci* data, UInt_t offset)
 
 VftxSciReader::~VftxSciReader()
 {
-    LOG(INFO) << "VftxSciReader: Delete instance";
+    LOG(info) << "VftxSciReader: Delete instance";
     if (fArray) {
         delete fArray;
     }
@@ -36,7 +36,7 @@ VftxSciReader::~VftxSciReader()
 Bool_t VftxSciReader::Init(ext_data_struct_info* a_struct_info)
 {
     Int_t ok;
-    LOG(INFO) << "VftxSciReader::Init";
+    LOG(info) << "VftxSciReader::Init";
     EXT_STR_h101_frssci_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_frssci, 0);
     if (!ok) {
         perror("ext_data_struct_info_item");

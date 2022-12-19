@@ -2,8 +2,8 @@
 {
   gSystem->Load("libGenVector");
 
-  cout << "[INFO] geometry macros for WASA@FRS" << endl;
-  cout << "[INFO] .L macro.C" << endl;
-  cout << "[INFO] macro(here options)" << endl;
+  cout << "[info] geometry macros for WASA@FRS" << endl;
+  cout << "[info] .L macro.C" << endl;
+  cout << "[info] macro(here options)" << endl;
 }
 

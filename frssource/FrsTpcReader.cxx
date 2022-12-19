@@ -36,7 +36,7 @@ FrsTpcReader::FrsTpcReader(EXT_STR_h101_TPC* data, UInt_t offset)
 
 FrsTpcReader::~FrsTpcReader()
 {
-    LOG(INFO) << "FrsTpcReader::Delete instance";
+    LOG(info) << "FrsTpcReader::Delete instance";
     if (fArray)
     {
         delete fArray;
@@ -45,7 +45,7 @@ FrsTpcReader::~FrsTpcReader()
 
 Bool_t FrsTpcReader::Init(ext_data_struct_info* a_struct_info)
 {
-    LOG(INFO) << "FrsTpcReader::Init ";
+    LOG(info) << "FrsTpcReader::Init ";
     Int_t ok;
     EXT_STR_h101_TPC_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_TPC, 0);
 
@@ -75,7 +75,7 @@ Bool_t FrsTpcReader::Read()
     //
     Reset();
     /* Display data */
-    LOG(DEBUG) << "FrsTpcReader::Read() Event data.";
+    LOG(debug) << "FrsTpcReader::Read() Event data.";
     /*
         // Times
         tpc_rt[0] = fData->TPC1RT1;

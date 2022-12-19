@@ -60,7 +60,7 @@ R3BTpcMapped2Cal::R3BTpcMapped2Cal(const char* name, Int_t iVerbose)
 // Virtual R3BTpcMapped2Cal: Destructor
 R3BTpcMapped2Cal::~R3BTpcMapped2Cal()
 {
-    LOG(INFO) << "R3BTpcMapped2Cal: Delete instance";
+    LOG(info) << "R3BTpcMapped2Cal: Delete instance";
     if (fTpcMappedDataCA)
         delete fTpcMappedDataCA;
     if (fTpcCalDataCA)
@@ -85,7 +85,7 @@ void R3BTpcMapped2Cal::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "R3BTpcMapped2CalPar:: tpcCalPar container open";
+        LOG(info) << "R3BTpcMapped2CalPar:: tpcCalPar container open";
     }
 }
 
@@ -97,9 +97,9 @@ void R3BTpcMapped2Cal::SetParameter()
     NumAnodes = fCal_Par->GetNumDT();            // Number of anodes
     NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
 
-    LOG(INFO) << "R3BTpcMapped2Cal: Nb detectors: " << NumDets;
-    LOG(INFO) << "R3BTpcMapped2Cal: Nb anodes: " << NumAnodes;
-    LOG(INFO) << "R3BTpcMapped2Cal: Nb parameters from fit: " << NumParams;
+    LOG(info) << "R3BTpcMapped2Cal: Nb detectors: " << NumDets;
+    LOG(info) << "R3BTpcMapped2Cal: Nb anodes: " << NumAnodes;
+    LOG(info) << "R3BTpcMapped2Cal: Nb parameters from fit: " << NumParams;
 
     CsumMaxParams = new TArrayF();
     Int_t array_size = NumDets * fNumAnodesY;
@@ -123,7 +123,7 @@ void R3BTpcMapped2Cal::SetParameter()
         for (Int_t i = 0; i < NumAnodes; i++)
             if (CalParams->GetAt(NumParams * i + NumAnodes * d * NumParams) == 0)
                 numdeadanodes++;
-        LOG(INFO) << "R3BTpcMapped2Cal: Nb of NO fitted sections in TPC " << d + 1 << ": " << numdeadanodes;
+        LOG(info) << "R3BTpcMapped2Cal: Nb of NO fitted sections in TPC " << d + 1 << ": " << numdeadanodes;
     }
     // fCal_Par->printParams();
 }
@@ -131,7 +131,7 @@ void R3BTpcMapped2Cal::SetParameter()
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcMapped2Cal::Init()
 {
-    LOG(INFO) << "R3BTpcMapped2Cal: Init";
+    LOG(info) << "R3BTpcMapped2Cal: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -276,7 +276,7 @@ void R3BTpcMapped2Cal::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void R3BTpcMapped2Cal::Reset()
 {
-    LOG(DEBUG) << "Clearing TpcCalData Structure";
+    LOG(debug) << "Clearing TpcCalData Structure";
     if (fTpcCalDataCA)
         fTpcCalDataCA->Clear();
 }

@@ -54,14 +54,14 @@ void R3BFrsAnaPar::clear()
 // ----  Method putParams ------------------------------------------------------
 void R3BFrsAnaPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BFrsAnaPar::putParams() called";
+    LOG(info) << "R3BFrsAnaPar::putParams() called";
     if (!list)
     {
         return;
     }
 
     Int_t array_size = fNumParams;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fAnaParams->Set(array_size);
 
     list->add("frsAnaPar", *fAnaParams);
@@ -83,7 +83,7 @@ void R3BFrsAnaPar::putParams(FairParamList* list)
 // ----  Method getParams ------------------------------------------------------
 Bool_t R3BFrsAnaPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "R3BFrsAnaPar::getParams() called";
+    LOG(info) << "R3BFrsAnaPar::getParams() called";
     if (!list)
     {
         return kFALSE;
@@ -145,12 +145,12 @@ Bool_t R3BFrsAnaPar::getParams(FairParamList* list)
     }
 
     Int_t array_size = fNumParams;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fAnaParams->Set(array_size);
 
     if (!(list->fill("frsAnaPar", fAnaParams)))
     {
-        LOG(INFO) << "---Could not initialize frsAnaPar";
+        LOG(info) << "---Could not initialize frsAnaPar";
         return kFALSE;
     }
 
@@ -160,7 +160,7 @@ Bool_t R3BFrsAnaPar::getParams(FairParamList* list)
 // ----  Method printParams ----------------------------------------------------
 void R3BFrsAnaPar::printParams()
 {
-    LOG(INFO) << "R3BFrsAnaPar: Frs Analysis Parameters: ";
+    LOG(info) << "R3BFrsAnaPar: Frs Analysis Parameters: ";
     Int_t array_size = fNumParams;
     std::cout << "Params = " << fAnaParams->GetAt(0) << "," << fAnaParams->GetAt(1) << ", " << fAnaParams->GetAt(2)
               << std::endl;

@@ -55,9 +55,9 @@ void unpack_2018_wasa_mapped() {
 
   /* Initialize ------------------------------------------- */
   run->Init();
-  FairLogger::GetLogger()->SetLogScreenLevel("INFO");
+  FairLogger::GetLogger()->SetLogScreenLevel("info");
   //FairLogger::GetLogger()->SetLogScreenLevel("warn");
-  //FairLogger::GetLogger()->SetLogScreenLevel("DEBUG");
+  //FairLogger::GetLogger()->SetLogScreenLevel("debug");
   /* ------------------------------------------------------ */
   
 

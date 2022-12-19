@@ -46,7 +46,7 @@ void FrsSciTcal2SingleTcal::SetParContainers()
         return;
     }
     else
-        LOG(INFO) << "FrsSciTcal2SingleTcal::SetParContainers() : "
+        LOG(info) << "FrsSciTcal2SingleTcal::SetParContainers() : "
                      "FrsSciRawPosPar-Container found with "
                   << fRawPosPar->GetNumSignals() << " signals";
 
@@ -58,7 +58,7 @@ void FrsSciTcal2SingleTcal::SetParContainers()
         return;
     }
     else
-        LOG(INFO) << "FrsSciTcal2SingleTcal::SetParContainers() : "
+        LOG(info) << "FrsSciTcal2SingleTcal::SetParContainers() : "
                      "FrsSciRawTofPar-Container found with "
                   << fRawTofPar->GetNumSignals() << " signals";
 }
@@ -66,7 +66,7 @@ void FrsSciTcal2SingleTcal::SetParContainers()
 InitStatus FrsSciTcal2SingleTcal::Init()
 {
 
-    LOG(INFO) << "FrsSciTcal2SingleTcal::Init";
+    LOG(info) << "FrsSciTcal2SingleTcal::Init";
 
     FairRootManager* rm = FairRootManager::Instance();
     if (!rm)
@@ -88,7 +88,7 @@ InitStatus FrsSciTcal2SingleTcal::Init()
         return kFATAL;
     }
     else
-        LOG(INFO) << "FrsSciTcal2SingleTcal::FrsSciTcalData items found";
+        LOG(info) << "FrsSciTcal2SingleTcal::FrsSciTcalData items found";
 
     // --- ----------------------- --- //
     // --- OUTPUT SINGLE TCAL DATA --- //
@@ -105,7 +105,7 @@ InitStatus FrsSciTcal2SingleTcal::Init()
         rm->Register("FrsSciSingleTcalData", "FrsSci", fSingleTcal, kFALSE);
     }
 
-    LOG(INFO) << "FrsSciTcal2SingleTcal::FrsSciSingleTcalData items created";
+    LOG(info) << "FrsSciTcal2SingleTcal::FrsSciSingleTcalData items created";
 
     // --- -------------------------- --- //
     // --- CHECK THE TCALPAR VALIDITY --- //
@@ -117,7 +117,7 @@ InitStatus FrsSciTcal2SingleTcal::Init()
     }
     else
     {
-        LOG(INFO) << "  FrsSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals=" << fRawPosPar->GetNumSignals();
+        LOG(info) << "  FrsSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals=" << fRawPosPar->GetNumSignals();
     }
     if (fRawTofPar->GetNumSignals() == 0)
     {
@@ -125,10 +125,10 @@ InitStatus FrsSciTcal2SingleTcal::Init()
     }
     else
     {
-        LOG(INFO) << "  R3BSofSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals=" << fRawTofPar->GetNumSignals();
+        LOG(info) << "  R3BSofSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals=" << fRawTofPar->GetNumSignals();
     }
 
-    LOG(INFO) << "FrsSciTcal2SingleTcal: Init DONE !";
+    LOG(info) << "FrsSciTcal2SingleTcal: Init DONE !";
 
     return kSUCCESS;
 }

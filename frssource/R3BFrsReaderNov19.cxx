@@ -55,7 +55,7 @@ R3BFrsReaderNov19::R3BFrsReaderNov19(EXT_STR_h101_FRS* data, UInt_t offset)
 
 R3BFrsReaderNov19::~R3BFrsReaderNov19()
 {
-    LOG(INFO) << "R3BFrsReaderNov19::Delete instance";
+    LOG(info) << "R3BFrsReaderNov19::Delete instance";
     if (fArray)
     {
         delete fArray;
@@ -109,7 +109,7 @@ R3BFrsReaderNov19::~R3BFrsReaderNov19()
 
 Bool_t R3BFrsReaderNov19::Init(ext_data_struct_info* a_struct_info)
 {
-    LOG(INFO) << "R3BFrsReaderNov19::Init ";
+    LOG(info) << "R3BFrsReaderNov19::Init ";
     Int_t ok;
     EXT_STR_h101_FRS_ITEMS_INFO(ok, *a_struct_info, fOffset, EXT_STR_h101_FRS, 0);
 
@@ -163,7 +163,7 @@ Bool_t R3BFrsReaderNov19::Read()
     //
     Reset();
     /* Display data */
-    LOG(DEBUG) << "R3BFrsReaderNov19::Read() Event data.";
+    LOG(debug) << "R3BFrsReaderNov19::Read() Event data.";
     /*
         new ((*fArray)[fArray->GetEntriesFast()]) R3BFrsMappedData(fData->AccTrig,
                                                                    fData->ClockhundredkHz,

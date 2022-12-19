@@ -55,7 +55,7 @@ FRSMusicCal2Hit::FRSMusicCal2Hit(const char* name, Int_t iVerbose)
 // Virtual FRSMusicCal2Hit: Destructor
 FRSMusicCal2Hit::~FRSMusicCal2Hit()
 {
-    LOG(INFO) << "FRSMusicCal2Hit: Delete instance";
+    LOG(info) << "FRSMusicCal2Hit: Delete instance";
     if (fMusicHitDataCA)
         delete fMusicHitDataCA;
     if (fMusicCalDataCA)
@@ -80,7 +80,7 @@ void FRSMusicCal2Hit::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "FRSMusicCal2HitPar:: frsmusicCalPar container open";
+        LOG(info) << "FRSMusicCal2HitPar:: frsmusicCalPar container open";
     }
 }
 
@@ -91,8 +91,8 @@ void FRSMusicCal2Hit::SetParameter()
     NumDets = fCal_Par->GetNumDets();            // Number of Detectors
     NumParams = fCal_Par->GetNumParametersFit(); // Number of Parameters
 
-    LOG(INFO) << "FRSMusicCal2Hit: Nb detectors: " << NumDets;
-    LOG(INFO) << "FRSMusicCal2Hit: Nb parameters from pedestal fit: " << NumParams;
+    LOG(info) << "FRSMusicCal2Hit: Nb detectors: " << NumDets;
+    LOG(info) << "FRSMusicCal2Hit: Nb parameters from pedestal fit: " << NumParams;
 
     CalParams = new TArrayF();
     Int_t array_size = NumDets * NumParams;
@@ -102,7 +102,7 @@ void FRSMusicCal2Hit::SetParameter()
     // Parameters detector
     for (Int_t d = 0; d < NumDets; d++)
     {
-        LOG(INFO) << "FRSMusicCal2Hit Nb detector: " << d + 1 << " Params " << CalParams->GetAt(d * NumParams) << " : "
+        LOG(info) << "FRSMusicCal2Hit Nb detector: " << d + 1 << " Params " << CalParams->GetAt(d * NumParams) << " : "
                   << CalParams->GetAt(d * NumParams + 1);
     }
 }
@@ -110,7 +110,7 @@ void FRSMusicCal2Hit::SetParameter()
 // -----   Public method Init   --------------------------------------------
 InitStatus FRSMusicCal2Hit::Init()
 {
-    LOG(INFO) << "FRSMusicCal2Hit: Init";
+    LOG(info) << "FRSMusicCal2Hit: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -213,7 +213,7 @@ void FRSMusicCal2Hit::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void FRSMusicCal2Hit::Reset()
 {
-    LOG(DEBUG) << "Clearing FRSMusicHitData Structure";
+    LOG(debug) << "Clearing FRSMusicHitData Structure";
     if (fMusicHitDataCA)
         fMusicHitDataCA->Clear();
 }

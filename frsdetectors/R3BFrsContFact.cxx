@@ -71,7 +71,7 @@ FairParSet* R3BFrsContFact::createContainer(FairContainer* c)
      * of this container, the name is concatinated with the context. */
 
     const char* name = c->GetName();
-    LOG(INFO) << "R3BFrsContFact: Create container name: " << name;
+    LOG(info) << "R3BFrsContFact: Create container name: " << name;
     FairParSet* p = 0;
     if (strcmp(name, "seetramCalPar") == 0)
     {

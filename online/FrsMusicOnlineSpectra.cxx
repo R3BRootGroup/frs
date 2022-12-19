@@ -63,7 +63,7 @@ FrsMusicOnlineSpectra::FrsMusicOnlineSpectra(const TString& name, Int_t iVerbose
 
 FrsMusicOnlineSpectra::~FrsMusicOnlineSpectra()
 {
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Delete instance";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Delete instance";
     if (fMapItems)
         delete fMapItems;
     if (fCalItems)
@@ -75,7 +75,7 @@ FrsMusicOnlineSpectra::~FrsMusicOnlineSpectra()
 InitStatus FrsMusicOnlineSpectra::Init()
 {
 
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Init ";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Init ";
 
     FairRootManager* mgr = FairRootManager::Instance();
     if (NULL == mgr)
@@ -219,7 +219,7 @@ InitStatus FrsMusicOnlineSpectra::Init()
 
 void FrsMusicOnlineSpectra::Reset_Histo()
 {
-    LOG(INFO) << "Frs" + fNameDet + "OnlineSpectra::Reset_Histo";
+    LOG(info) << "Frs" + fNameDet + "OnlineSpectra::Reset_Histo";
     // Map data
     for (Int_t i = 0; i < N_ANODES; i++)
     {

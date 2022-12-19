@@ -96,7 +96,7 @@ void rawsofsci()
   // --- Initialize --- //
   // --- ---------- --- //
   run->Init();
-  FairLogger::GetLogger()->SetLogScreenLevel("INFO");
+  FairLogger::GetLogger()->SetLogScreenLevel("info");
   //FairLogger::GetLogger()->SetLogScreenLevel("warn");
 
   // --- ------------------------------------------- --- //

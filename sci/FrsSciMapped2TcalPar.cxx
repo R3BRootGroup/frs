@@ -58,7 +58,7 @@ FrsSciMapped2TcalPar::~FrsSciMapped2TcalPar()
 InitStatus FrsSciMapped2TcalPar::Init()
 {
 
-    LOG(INFO) << "FrsSciMapped2TcalPar: Init";
+    LOG(info) << "FrsSciMapped2TcalPar: Init";
 
     FairRootManager* rm = FairRootManager::Instance();
     if (!rm)
@@ -74,7 +74,7 @@ InitStatus FrsSciMapped2TcalPar::Init()
     fMapped = (TClonesArray*)rm->GetObject("VftxSciMappedData");
     if (!fMapped)
     {
-        LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on VftxSciMappedData container";
+        LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on VftxSciMappedData container";
         return kFATAL;
     }
 
@@ -91,7 +91,7 @@ InitStatus FrsSciMapped2TcalPar::Init()
     fTcalPar = (FrsSciTcalPar*)rtdb->getContainer("FrsSciTcalPar");
     if (!fTcalPar)
     {
-        LOG(ERROR) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on FrsSciTcalPar container";
+        LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on FrsSciTcalPar container";
         return kFATAL;
     }
     else
@@ -150,7 +150,7 @@ void FrsSciMapped2TcalPar::Exec(Option_t* opt)
         VftxSciMappedData* hitSci = (VftxSciMappedData*)fMapped->At(ihit);
         if (!hitSci)
         {
-            LOG(WARNING) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
+            LOG(warn) << "FrsSciMapped2TcalPar::Exec() : could not get hitSci";
             continue; // should not happen
         }
 
@@ -194,7 +194,7 @@ void FrsSciMapped2TcalPar::Exec(Option_t* opt)
         if ((0 <= iSignalSci) && (iSignalSci <= fNumSignals))
             fh_TimeFineBin[iSignalSci]->Fill(hitSci->GetTimeFine());
         else
-            LOG(ERROR) << "FrsSciMapped2TcalPar::Exec() Number of signals out of range: " << iSignalSci
+            LOG(error) << "FrsSciMapped2TcalPar::Exec() Number of signals out of range: " << iSignalSci
                        << " instead of [0," << fNumSignals << "]: det=" << hitSci->GetDetector()
                        << ",  fNumChannels = " << fNumChannels << ",  pmt = " << hitSci->GetPmt();
 
@@ -216,7 +216,7 @@ void FrsSciMapped2TcalPar::FinishTask()
 //------------------
 void FrsSciMapped2TcalPar::CalculateVftxTcalParams()
 {
-    LOG(INFO) << "FrsSciMapped2TcalPar: CalculateVftxTcalParams()";
+    LOG(info) << "FrsSciMapped2TcalPar: CalculateVftxTcalParams()";
 
     UInt_t IntegralTot;
     UInt_t IntegralPartial;

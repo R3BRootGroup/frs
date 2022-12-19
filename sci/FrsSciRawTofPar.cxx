@@ -42,14 +42,14 @@ void FrsSciRawTofPar::clear()
 // ----  Method putParams ------------------------------------------------------
 void FrsSciRawTofPar::putParams(FairParamList* list)
 {
-    LOG(INFO) << "FrsSciRawTofPar::putParams() called";
+    LOG(info) << "FrsSciRawTofPar::putParams() called";
     if (!list)
     {
         return;
     }
 
     Int_t array_size = fNumSignals * fNumParsPerSignal;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
 
     fAllSignalsRawTofParams->Set(array_size);
 
@@ -62,7 +62,7 @@ void FrsSciRawTofPar::putParams(FairParamList* list)
 // ----  Method getParams ------------------------------------------------------
 Bool_t FrsSciRawTofPar::getParams(FairParamList* list)
 {
-    LOG(INFO) << "FrsSciRawTofPar::getParams() called";
+    LOG(info) << "FrsSciRawTofPar::getParams() called";
     if (!list)
     {
         return kFALSE;
@@ -81,12 +81,12 @@ Bool_t FrsSciRawTofPar::getParams(FairParamList* list)
     }
 
     Int_t array_size = fNumSignals * fNumParsPerSignal;
-    LOG(INFO) << "Array Size: " << array_size;
+    LOG(info) << "Array Size: " << array_size;
     fAllSignalsRawTofParams->Set(array_size);
 
     if (!(list->fill("RawTofPar", fAllSignalsRawTofParams)))
     {
-        LOG(INFO) << "---Could not initialize fAllSignalsRawTofParams";
+        LOG(info) << "---Could not initialize fAllSignalsRawTofParams";
         return kFALSE;
     }
 
@@ -96,7 +96,7 @@ Bool_t FrsSciRawTofPar::getParams(FairParamList* list)
 // ----  Method printParams ----------------------------------------------------
 void FrsSciRawTofPar::printParams()
 {
-    LOG(INFO) << "FrsSciRawTofPar: SofSciRawTof Parameters: ";
+    LOG(info) << "FrsSciRawTofPar: SofSciRawTof Parameters: ";
     Int_t array_size = fNumSignals * fNumParsPerSignal;
 
     cout << "--- --------------------------------------------" << endl;

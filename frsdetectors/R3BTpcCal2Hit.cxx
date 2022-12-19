@@ -47,7 +47,7 @@ R3BTpcCal2Hit::R3BTpcCal2Hit(const char* name, Int_t iVerbose)
 // Virtual R3BTpcCal2Hit: Destructor
 R3BTpcCal2Hit::~R3BTpcCal2Hit()
 {
-    LOG(INFO) << "R3BTpcCal2Hit: Delete instance";
+    LOG(info) << "R3BTpcCal2Hit: Delete instance";
     if (fTpcCalDataCA)
         delete fTpcCalDataCA;
     if (fTpcHitDataCA)
@@ -72,7 +72,7 @@ void R3BTpcCal2Hit::SetParContainers()
     }
     else
     {
-        LOG(INFO) << "R3BTpcCal2Hit:: tpcCalPar container open";
+        LOG(info) << "R3BTpcCal2Hit:: tpcCalPar container open";
     }
 }
 
@@ -81,13 +81,13 @@ void R3BTpcCal2Hit::SetParameter()
 
     //--- Parameter Container ---
     fNumDets = fCal_Par->GetNumDets(); // Number of Detectors
-    LOG(INFO) << "R3BTpcCal2Hit: Nb detectors: " << fNumDets;
+    LOG(info) << "R3BTpcCal2Hit: Nb detectors: " << fNumDets;
 }
 
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcCal2Hit::Init()
 {
-    LOG(INFO) << "R3BTpcCal2Hit: Init";
+    LOG(info) << "R3BTpcCal2Hit: Init";
 
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
@@ -210,7 +210,7 @@ void R3BTpcCal2Hit::Finish() {}
 // -----   Public method Reset   ------------------------------------------------
 void R3BTpcCal2Hit::Reset()
 {
-    LOG(DEBUG) << "Clearing TpcHitData Structure";
+    LOG(debug) << "Clearing TpcHitData Structure";
     if (fTpcHitDataCA)
         fTpcHitDataCA->Clear();
 }
