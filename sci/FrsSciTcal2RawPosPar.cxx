@@ -55,7 +55,7 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    return kfatal;
+    return kFATAL;
   }
 
   // --- --------------- --- //
@@ -67,7 +67,7 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
   if (!fTcal) {
     LOG(error) << "FrsSciTcal2RawPosPar::Couldn't get handle on FrsSciTcalData "
                   "container";
-    return kfatal;
+    return kFATAL;
   }
 
   // --- ---------------------------------------- --- //
@@ -76,14 +76,14 @@ InitStatus FrsSciTcal2RawPosPar::Init() {
 
   FairRuntimeDb *rtdb = FairRuntimeDb::instance();
   if (!rtdb) {
-    return kfatal;
+    return kFATAL;
   }
 
   fRawPosPar = (FrsSciRawPosPar *)rtdb->getContainer("FrsSciRawPosPar");
   if (!fRawPosPar) {
     LOG(error) << "FrsSciTcal2RawPosPar::Couldn't get handle on "
                   "FrsSciRawPosPar container";
-    return kfatal;
+    return kFATAL;
   }
 
   // --- ---------------------- --- //

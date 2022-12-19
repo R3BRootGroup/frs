@@ -86,23 +86,23 @@ InitStatus FRSMusicCal2HitPar::Init()
 
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fMusicCalDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicCalData");
     if (!fMusicCalDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     FairRuntimeDb* rtdb = FairRuntimeDb::instance();
     if (!rtdb) {
-        return kfatal;
+        return kFATAL;
     }
 
     fDet_Par = (FRSMusicHitPar*)rtdb->getContainer("frsmusicHitPar");
     if (!fDet_Par) {
         LOG(error) << "FRSMusicCal2HitPar::Init() Couldn't get handle on frsmusicHitPar container";
-        return kfatal;
+        return kFATAL;
     }
 
     return kSUCCESS;

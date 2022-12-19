@@ -129,12 +129,12 @@ InitStatus R3BTpcMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpcMappedDataCA = (TClonesArray*)rootManager->GetObject("TpcMappedData");
     if (!fTpcMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA

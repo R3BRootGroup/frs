@@ -86,7 +86,7 @@ InitStatus FrsMusicOnlineSpectra::Init()
     // get access to mapped data of the Music detector
     fMapItems = (TClonesArray*)mgr->GetObject("FRSMusicMappedData");
     if (!fMapItems) {
-        return kfatal;
+        return kFATAL;
     }
     // get access to Cal Music data
     fCalItems = (TClonesArray*)mgr->GetObject("FRSMusicCalData");

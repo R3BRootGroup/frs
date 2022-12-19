@@ -113,12 +113,12 @@ InitStatus FRSMusicMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fMusicMappedDataCA = (TClonesArray*)rootManager->GetObject("FRSMusicMappedData");
     if (!fMusicMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA

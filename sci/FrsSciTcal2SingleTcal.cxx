@@ -58,7 +58,7 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
   if (!rm) {
     LOG(error)
         << "FrsSciTcal2SingleTcal::Couldn't instance the FairRootManager";
-    return kfatal;
+    return kFATAL;
   }
 
   // --- --------------- --- //
@@ -70,7 +70,7 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
   if (!fTcal) {
     LOG(error) << "FrsSciTcal2SingleTcal::Couldn't get handle on "
                   "FrsSciTcalData container";
-    return kfatal;
+    return kFATAL;
   } else
     LOG(INFO) << "FrsSciTcal2SingleTcal::FrsSciTcalData items found";
 
@@ -93,7 +93,7 @@ InitStatus FrsSciTcal2SingleTcal::Init() {
   // --- -------------------------- --- //
   if (fRawPosPar->GetNumSignals() == 0) {
     LOG(error) << " There are no RawPosPar Tcal parameters for FrsSci";
-    return kfatal;
+    return kFATAL;
   } else {
     LOG(INFO) << "  FrsSciTcal2SingleTcal::Init() : fRawPosPar: fNumSignals="
               << fRawPosPar->GetNumSignals();

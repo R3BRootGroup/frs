@@ -135,12 +135,12 @@ InitStatus R3BSeetramMapped2Cal::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fFrsMappedDataCA = (TClonesArray*)rootManager->GetObject("FrsMappedData");
     if (!fFrsMappedDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA

@@ -86,12 +86,12 @@ InitStatus R3BTpcCal2Hit::Init()
     // INPUT DATA
     FairRootManager* rootManager = FairRootManager::Instance();
     if (!rootManager) {
-        return kfatal;
+        return kFATAL;
     }
 
     fTpcCalDataCA = (TClonesArray*)rootManager->GetObject("TpcCalData");
     if (!fTpcCalDataCA) {
-        return kfatal;
+        return kFATAL;
     }
 
     // OUTPUT DATA

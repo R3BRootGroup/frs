@@ -49,7 +49,7 @@ InitStatus FrsSciMapped2TcalPar::Init() {
 
   FairRootManager *rm = FairRootManager::Instance();
   if (!rm) {
-    return kfatal;
+    return kFATAL;
   }
 
   // --- ----------------- --- //
@@ -61,7 +61,7 @@ InitStatus FrsSciMapped2TcalPar::Init() {
   if (!fMapped) {
     LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
                   "VftxSciMappedData container";
-    return kfatal;
+    return kFATAL;
   }
 
   // --- --------------------------------- --- //
@@ -70,14 +70,14 @@ InitStatus FrsSciMapped2TcalPar::Init() {
 
   FairRuntimeDb *rtdb = FairRuntimeDb::instance();
   if (!rtdb) {
-    return kfatal;
+    return kFATAL;
   }
 
   fTcalPar = (FrsSciTcalPar *)rtdb->getContainer("FrsSciTcalPar");
   if (!fTcalPar) {
     LOG(error) << "FrsSciMapped2TcalPar::Init() Couldn't get handle on "
                   "FrsSciTcalPar container";
-    return kfatal;
+    return kFATAL;
   } else {
     fTcalPar->SetNumDetectors(fNumDetectors);
     fTcalPar->SetNumChannels(fNumChannels);
