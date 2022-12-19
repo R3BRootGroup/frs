@@ -40,7 +40,8 @@ Bool_t FRSResonanceGenerator::Init()
 Bool_t FRSResonanceGenerator::ReadEvent(FairPrimaryGenerator* primGen)
 {
     double rp = gRandom->Uniform(0., 1.0);
-    if (rp < 0.5) {
+    if (rp < 0.5)
+    {
 
         double r = gRandom->Uniform(0., 1.0);
         if (r < 0.25)
@@ -54,7 +55,9 @@ Bool_t FRSResonanceGenerator::ReadEvent(FairPrimaryGenerator* primGen)
 
                TargetExcitation2pi(primGen,massRoper,wRoper,massneutron);
         */
-    } else {
+    }
+    else
+    {
         double r = gRandom->Uniform(0., 1.0);
         if (r < 0.25 / 2.)
             ProjectileExcitation(primGen, massDelta, wDelta, massneutron);
@@ -117,7 +120,8 @@ void FRSResonanceGenerator::TargetExcitation2pi(FairPrimaryGenerator* primGen,
     TLorentzVector lvdelta;
     Double_t MR = 0., MD = 0.;
 
-    while (MR <= 0 || MD <= 0) {
+    while (MR <= 0 || MD <= 0)
+    {
         MR = gRandom->BreitWigner(massRoper, wRoper);
         MD = gRandom->BreitWigner(massDelta, wDelta);
     }

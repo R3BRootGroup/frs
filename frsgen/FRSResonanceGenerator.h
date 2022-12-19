@@ -23,10 +23,12 @@ class FRSResonanceGenerator : public FairGenerator
   public:
     FRSResonanceGenerator()
         : FairGenerator("FRSResonanceGenerator", "FRSResonanceGenerator")
-    {}
+    {
+    }
     FRSResonanceGenerator(const char* name, const char* title)
         : FairGenerator(name, title)
-    {}
+    {
+    }
 
     virtual Bool_t Init();
     virtual Bool_t ReadEvent(FairPrimaryGenerator* primGen);
