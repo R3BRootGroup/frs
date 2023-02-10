@@ -14,7 +14,7 @@
 #pragma link C++ class FrsSciRawTofPar+;
 #pragma link C++ class FrsSciTcal2RawPosPar+;
 #pragma link C++ class FrsSciTcal2RawTofPar+;
-#pragma link C++ class FrsSciTcal2RawTof+;
+//#pragma link C++ class FrsSciTcal2RawTof+;
 #pragma link C++ class FrsSciTcal2SingleTcal+;
 
 #endif
