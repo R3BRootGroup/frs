@@ -27,7 +27,6 @@ FrsSciMapped2TcalPar::FrsSciMapped2TcalPar()
     , fMinStatistics(0)
     , fMapped(NULL)
     , fTcalPar(NULL)
-    , fOutputFile(NULL)
 {
     fNumSignals = fNumDetectors * fNumChannels;
 }
@@ -41,7 +40,6 @@ FrsSciMapped2TcalPar::FrsSciMapped2TcalPar(const char* name, Int_t iVerbose)
     , fMinStatistics(0)
     , fMapped(NULL)
     , fTcalPar(NULL)
-    , fOutputFile(NULL)
 
 {
     fNumSignals = fNumDetectors * fNumChannels;
@@ -134,7 +132,7 @@ InitStatus FrsSciMapped2TcalPar::Init()
 InitStatus FrsSciMapped2TcalPar::ReInit() { return kSUCCESS; }
 
 // -----   Public method Exec   --------------------------------------------
-void FrsSciMapped2TcalPar::Exec(Option_t* opt)
+void FrsSciMapped2TcalPar::Exec(Option_t*)
 {
 
     // --- -------------------------------- --- //

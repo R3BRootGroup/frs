@@ -26,7 +26,7 @@ class FrsSciTcal2RawTofPar : public FairTask
     virtual InitStatus Init();
 
     /** Virtual method Exec **/
-    virtual void Exec(Option_t* opt);
+    virtual void Exec(Option_t*);
 
     /** Virtual method FinishEvent **/
     virtual void FinishEvent();
@@ -43,12 +43,10 @@ class FrsSciTcal2RawTofPar : public FairTask
     /** Virtual method calculate the TofRaw Single Tcal Parameters **/
     virtual void CalculateRawTofParams();
 
-    void SetOutputFile(const char* outFile);
-
     /** Accessor functions **/
-    const Int_t GetFirstStaSci() { return fFirstStaSci; }
-    const Double_t GetNumSignals() { return fNumSignals; }
-    const Int_t GetMinStatistics() { return fMinStatistics; }
+    Int_t GetFirstStaSci() const { return fFirstStaSci; }
+    Double_t GetNumSignals() const { return fNumSignals; }
+    Int_t GetMinStatistics() const { return fMinStatistics; }
 
     void SetFirstStaSci(Int_t firststa) { fFirstStaSci = firststa; }
     void SetNumSignals() { fNumSignals = fNumDetectors - 1; }

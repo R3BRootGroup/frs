@@ -33,7 +33,6 @@ FrsSciTcal2RawPosPar::FrsSciTcal2RawPosPar()
     , fMinStatistics(100)
     , fTcal(NULL)
     , fRawPosPar(NULL)
-    , fOutputFile(NULL)
 {
     fNumSignals = fNumDetectors * fNumChannels;
 }
@@ -47,8 +46,6 @@ FrsSciTcal2RawPosPar::FrsSciTcal2RawPosPar(const char* name, Int_t iVerbose)
     , fMinStatistics(100)
     , fTcal(NULL)
     , fRawPosPar(NULL)
-    , fOutputFile(NULL)
-
 {
     fNumSignals = fNumDetectors * fNumChannels;
 }
@@ -126,7 +123,7 @@ InitStatus FrsSciTcal2RawPosPar::Init()
 InitStatus FrsSciTcal2RawPosPar::ReInit() { return kSUCCESS; }
 
 // -----   Public method Exec   --------------------------------------------
-void FrsSciTcal2RawPosPar::Exec(Option_t* opt)
+void FrsSciTcal2RawPosPar::Exec(Option_t*)
 {
 
     // --- ------------------------------ --- //

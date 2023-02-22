@@ -43,13 +43,11 @@ class FrsSciTcal2RawPosPar : public FairTask
     /** Virtual method calculate the PosRaw Single Tcal Parameters **/
     virtual void CalculateRawPosRawPosParams();
 
-    void SetOutputFile(const char* outFile);
-
     /** Accessor functions **/
-    const Double_t GetNumDetectors() { return fNumDetectors; }
-    const Double_t GetNumChannels() { return fNumChannels; }
-    const Double_t GetNumSignals() { return fNumSignals; }
-    const Int_t GetMinStatistics() { return fMinStatistics; }
+    Double_t GetNumDetectors() const { return fNumDetectors; }
+    Double_t GetNumChannels() const { return fNumChannels; }
+    Double_t GetNumSignals() const { return fNumSignals; }
+    Int_t GetMinStatistics() const { return fMinStatistics; }
 
     void SetNumDetectors(Int_t n) { fNumDetectors = n; }
     void SetNumChannels(Int_t n) { fNumChannels = n; }
@@ -76,7 +74,6 @@ class FrsSciTcal2RawPosPar : public FairTask
 
     // histograms
     TH1D** fh_RawPosMult1;
-    char* fOutputFile;
 
   public:
     ClassDef(FrsSciTcal2RawPosPar, 1);

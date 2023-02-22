@@ -151,7 +151,7 @@ void FRSWasaFieldMap::SetField(Double_t Bx, Double_t By, Double_t Bz)
 // ------------------------------------------------------------------------
 
 // ---------   Screen output   --------------------------------------------
-void FRSWasaFieldMap::Print(Option_t* option) const
+void FRSWasaFieldMap::Print(Option_t*) const
 {
     cout << "======================================================" << endl;
     cout << "----  " << fTitle << " : " << fName << endl;

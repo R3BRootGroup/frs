@@ -35,9 +35,9 @@ class FrsSciRawTofPar : public FairParGenericSet
     void printParams();
 
     /** Accessor functions **/
-    const Int_t GetFirstStart() { return fFirstStaSci; }
-    const Int_t GetNumSignals() { return fNumSignals; }
-    const Double_t GetNumParsPerSignal() { return fNumParsPerSignal; }
+    Int_t GetFirstStart() const { return fFirstStaSci; }
+    Int_t GetNumSignals() const { return fNumSignals; }
+    Double_t GetNumParsPerSignal() const { return fNumParsPerSignal; }
     TArrayF* GetAllSignalsRawTofParams() { return fAllSignalsRawTofParams; }
     Double_t GetSignalRawTofParams(UInt_t rank) { return (Double_t)fAllSignalsRawTofParams->GetAt(rank); }
 

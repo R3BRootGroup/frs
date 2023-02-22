@@ -35,10 +35,10 @@ class FrsSciRawPosPar : public FairParGenericSet
     void printParams();
 
     /** Accessor functions **/
-    const Double_t GetNumDetectors() { return fNumDetectors; }
-    const Double_t GetNumChannels() { return fNumChannels; }
-    const Double_t GetNumSignals() { return fNumSignals; }
-    const Double_t GetNumParsPerSignal() { return fNumParsPerSignal; }
+    Double_t GetNumDetectors() const { return fNumDetectors; }
+    Double_t GetNumChannels() const { return fNumChannels; }
+    Double_t GetNumSignals() const { return fNumSignals; }
+    Double_t GetNumParsPerSignal() const { return fNumParsPerSignal; }
     TArrayF* GetAllSignalsTcalParams() { return fAllSignalsRawPosParams; }
     Double_t GetSignalTcalParams(UInt_t rank) { return (Double_t)fAllSignalsRawPosParams->GetAt(rank); }
 

@@ -25,7 +25,7 @@ class FrsSciMapped2TcalPar : public FairTask
     virtual InitStatus Init();
 
     /** Virtual method Exec **/
-    virtual void Exec(Option_t* opt);
+    virtual void Exec(Option_t*);
 
     /** Virtual method FinishEvent **/
     virtual void FinishEvent();
@@ -42,13 +42,11 @@ class FrsSciMapped2TcalPar : public FairTask
     /** Virtual method calculate the Vftx Tcal Parameters **/
     virtual void CalculateVftxTcalParams();
 
-    void SetOutputFile(const char* outFile);
-
     /** Accessor functions **/
-    const Double_t GetNumDetectors() { return fNumDetectors; }
-    const Double_t GetNumChannels() { return fNumChannels; }
-    const Double_t GetNumSignals() { return fNumSignals; }
-    const Int_t GetMinStatistics() { return fMinStatistics; }
+    Double_t GetNumDetectors() const { return fNumDetectors; }
+    Double_t GetNumChannels() const { return fNumChannels; }
+    Double_t GetNumSignals() const { return fNumSignals; }
+    Int_t GetMinStatistics() const { return fMinStatistics; }
 
     void SetNumDetectors(Int_t NumberOfDetectors) { fNumDetectors = NumberOfDetectors; }
     void SetNumChannels(Int_t NumberOfChannels) { fNumChannels = NumberOfChannels; }
@@ -76,7 +74,6 @@ class FrsSciMapped2TcalPar : public FairTask
     // histograms
     TH1F** fh_TimeFineBin;
     TH1F** fh_TimeFineNs;
-    char* fOutputFile;
 
   public:
     ClassDef(FrsSciMapped2TcalPar, 0);

@@ -18,7 +18,7 @@ class FrsTcalContFact : public FairContFact
     FrsTcalContFact();
     ~FrsTcalContFact() {}
     FairParSet* createContainer(FairContainer*);
-    void activateParIo(FairParIo* io);
+
     ClassDef(FrsTcalContFact, 1)
 };
 

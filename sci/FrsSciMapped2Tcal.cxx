@@ -127,7 +127,7 @@ InitStatus FrsSciMapped2Tcal::ReInit()
     return kSUCCESS;
 }
 
-void FrsSciMapped2Tcal::Exec(Option_t* option)
+void FrsSciMapped2Tcal::Exec(Option_t*)
 {
     // Reset entries in output arrays, local arrays
     Reset();

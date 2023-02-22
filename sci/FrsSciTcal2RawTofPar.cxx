@@ -119,7 +119,7 @@ InitStatus FrsSciTcal2RawTofPar::Init()
 InitStatus FrsSciTcal2RawTofPar::ReInit() { return kSUCCESS; }
 
 // -----   Public method Exec   --------------------------------------------
-void FrsSciTcal2RawTofPar::Exec(Option_t* opt)
+void FrsSciTcal2RawTofPar::Exec(Option_t*)
 {
 
     // --- ------------------------------ --- //

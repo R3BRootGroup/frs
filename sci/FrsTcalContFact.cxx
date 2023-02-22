@@ -75,10 +75,4 @@ FairParSet* FrsTcalContFact::createContainer(FairContainer* c)
     return p;
 }
 
-void FrsTcalContFact::activateParIo(FairParIo* io)
-{
-    // activates the input/output class for the parameters
-    // needed by the Sts
-}
-
 ClassImp(FrsTcalContFact)
