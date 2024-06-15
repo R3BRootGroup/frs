@@ -35,4 +35,5 @@ add_library_with_dictionary(
     ${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDENCIES
     R3BFRS
+    R3BFRSData
     R3BSource)
