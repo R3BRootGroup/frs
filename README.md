@@ -1,4 +1,6 @@
 # FRS Software [![license](https://alfa-ci.gsi.de/shields/badge/license-LGPL--3.0-orange.svg)](COPYRIGHT) 
+
+[![static analysis](https://github.com/R3BRootGroup/frs/actions/workflows/static_analysis.yml/badge.svg)](https://github.com/R3BRootGroup/frs/actions/workflows/static_analysis.yml) [![CI-CD](https://github.com/R3BRootGroup/frs/actions/workflows/main.yml/badge.svg)](https://github.com/R3BRootGroup/frs/actions/workflows/main.yml)
 --------
 
 ## The FRS Framework
