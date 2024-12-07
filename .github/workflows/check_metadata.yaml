@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: LGPL-3.0-or-later
+
+name: Check AUTHORS and CONTRIBUTORS in metadata
+
+on:
+  push:
+    paths:
+    - AUTHORS
+    - CONTRIBUTORS
+    - codemeta.json
+    - .zenodo.json
+  pull_request:
+    paths:
+    - AUTHORS
+    - CONTRIBUTORS
+    - codemeta.json
+    - .zenodo.json
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        run: git diff --exit-code
