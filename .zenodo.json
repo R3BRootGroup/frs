@@ -1,0 +1,51 @@
+{
+    "creators": [
+        {
+            "name": "Rodriguez Sanchez, Jose Luis",
+            "orcid": "0000-0002-4702-5294",
+            "affiliation": "CITENI, Industrial Campus of Ferrol, University of Coru\u00f1a, Spain",
+            "email": "j.l.rodriguez.sanchez@udc.es",
+        }
+    ],
+    "contributors": [
+        {
+            "type": "Other",
+            "name": "Kresan, Dmytro",
+            "orcid": "0000-0002-7537-2875"
+        },
+        {
+            "type": "Other",
+            "name": "Klenze, Philipp"
+        },
+        {
+            "type": "Other",
+            "name": "Wang, Yanzhao",
+            "orcid": "0000-0002-7006-7986"
+        }
+    ],
+    "description": "The FRS directory within R3BRoot contains the software for the FRS (Fragment Separator) detectors that are utilized in the FRS and R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The FRS and R3B programs are part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions.",
+    "related_identifiers": [
+        {
+            "identifier": "https://github.com/R3BRootGroup/frs/",
+            "relation": "isSupplementTo",
+            "resource_type": "software",
+            "scheme": "url"
+        }
+    ],
+    "title": "FRS Software",
+    "upload_type": "software",
+    "license": "LGPL-3.0-only",
+    "keywords": [
+        "Geant4",
+        "c-plus-plus",
+        "cmake",
+        "vmc",
+        "modular",
+        "Track reconstruction",
+        "Simulation",
+        "Data analysis",
+        "Structure and dynamics of nuclei",
+        "Nuclear reactions",
+        "Nuclear fission"
+    ]
+}

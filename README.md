@@ -1,33 +1,37 @@
-# FRS GitHub repository
+# FRS Software [![license](https://alfa-ci.gsi.de/shields/badge/license-LGPL--3.0-orange.svg)](COPYRIGHT) 
 --------
 
-## The FRS framework
-FRS folder inside R3BRoot describes the [FRS](https://wiki.gsi.de/FRS) detectors which are going to be employed for the FRS and R3B experiments.
-The FRS software is based on the FairRoot framework and can be used to perform Monte Carlo simulations and experimental data analysis of the R3B (Reactions with Relativistic Radioactive Beams) nuclear physics experiments at the FAIR research center (Facility for Antiproton and Ion Research).
+## The FRS Framework
+The FRS directory within R3BRoot contains the software for the [FRS](https://wiki.gsi.de/FRS) (Fragment Separator) detectors that are utilized in the FRS and R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The FRS and R3B programs are part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions.
 
+## License
+AsyEOS is distributed under the terms of the GNU Lesser General Public Licence version 3 (LGPLv3).
+
+## Discussion Forum
 For the software-related user support you can post a new topic on our [forum](https://forum.gsi.de/index.php?t=index&cat=40&).
 
-## Release information
-Please visit [releases](https://github.com/R3BRootGroup/frs/releases)
+## Release Information
+Please see [releases](https://github.com/R3BRootGroup/frs/releases)
 
 ## Download
 --------
 
 ~~~bash
-git clone -b dev https://github.com/R3BRootGroup/frs.git
+git clone dev https://github.com/R3BRootGroup/frs.git
 cd frs
 ~~~
 
-## Step by step installation
---------
+## Step by Step Installation
 
-### Required software
+### Required Softwares
 
-First, you will need to install FairSoft and FairRoot. For more details:
+First, you will need to install FairSoft, FairRoot and R3BRoot. For more details:
 
 1. Install [FairSoft](https://github.com/FairRootGroup/FairSoft)
 
 2. Install [FairRoot](http://fairroot.gsi.de)
+
+3. Install [R3BRoot](https://github.com/R3BRootGroup/R3BRoot)
 
 ### Installation of UCESB
 
@@ -65,15 +69,15 @@ cd frsexp/name_of_experiment
 make -j8
 ~~~
 
-### Installation of R3BRoot and FRS (as part of R3BRoot)
+### Installation of FRS as part of R3BRoot
 
 ~~~bash
 export SIMPATH=%PATH_TO_FAIRSOFT%
 export FAIRROOTPATH=%PATH_TO_FAIRROOT%
-git clone -b dev https://github.com/R3BRootGroup/R3BRoot.git
+git clone dev https://github.com/R3BRootGroup/R3BRoot.git
 cd R3BRoot
-git clone -b dev https://github.com/R3BRootGroup/macros.git
-git clone -b dev https://github.com/R3BRootGroup/frs.git
+git clone dev https://github.com/R3BRootGroup/macros.git
+git clone dev https://github.com/R3BRootGroup/frs.git
 cd ..
 mkdir build
 cd build
@@ -102,4 +106,10 @@ This directory contains all the classes for the mapping, calibration, and hit re
 ### macros
 
 This contains all the macros needed for the unpacking and analysis of data.
+
+## More Information
+
+* [Static analyzer using Clang-tidy](config/clang_tidy/README.md)
+* [CMake build system for R3BRoot/frs](doc/cmake_usage.md)
+* [How to use an unmerged pull request](doc/git_usage.md#fetch-the-update-from-an-unmerged-pull-request-pr)
 

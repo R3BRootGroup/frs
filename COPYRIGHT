@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: frs
+Upstream-Contact: Jose Luis Rodriguez Sanchez <j.l.rodriguez.sanchez@udc.es>
+Source: https://github.com/R3BRootGroup/frs
+
+Files: *
+Copyright: 2018-2024, [see AUTHORS file]
+Copyright: 2018-2024, [see CONTRIBUTORS file]
