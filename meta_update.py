@@ -3,12 +3,12 @@
 #
 # SPDX-License-Identifier: LGPL-3.0-or-later
 
-import json
 import re
+import json
 from collections import OrderedDict
 from argparse import ArgumentParser
+import os
 
-# Clase base Manipulator
 class Manipulator(object):
     def __str__(self):
         return self.__class__.__name__
@@ -16,15 +16,24 @@ class Manipulator(object):
     def load(self, filename=None):
         if filename is None:
             filename = self.default_filename
-        with open(filename, 'rb') as fp:
-            self.data = json.load(fp, object_pairs_hook=OrderedDict)
+        try:
+            with open(filename, 'r', encoding='utf8') as fp:
+                self.data = json.load(fp, object_pairs_hook=OrderedDict)
+        except FileNotFoundError as e:
+            print(f'Error: The file {filename} was not found. {e}')
+        except json.JSONDecodeError as e:
+            print(f'Error in JSON file: {e}')
+            raise  # Raise the error and stop execution
 
     def save(self, filename=None, indent=2):
         if filename is None:
             filename = self.default_filename
-        with open(filename, 'w', encoding='utf8') as fp:
-            json.dump(self.data, fp, indent=indent)
-            fp.write('\n')
+        try:
+            with open(filename, 'w', encoding='utf8') as fp:
+                json.dump(self.data, fp, indent=indent, ensure_ascii=False)
+                fp.write('\n')
+        except IOError as e:
+            print(f'Error saving the file {filename}: {e}')
 
     @staticmethod
     def _dict_entry_cmp(dict1, dict2, field1, field2=None):
@@ -32,83 +41,47 @@ class Manipulator(object):
             field2 = field1
         if (field1 in dict1) and (field2 in dict2):
             return dict1[field1] == dict2[field2]
-        else:
-            return False
+        return False
 
     def _handle_person_list_file(self, filename, field_name, **kwargs):
-        fp = open(filename, 'r', encoding='utf8')
-        person_list = self.data.setdefault(field_name, [])
-        for i, line in enumerate(fp, start=0):
-            line = line.strip()
-            m = self.findregex.match(line)
-            if m is None:
-                raise RuntimeError("Could not analyze line %r" % line)
-            found_entry = self._find_person_entry(person_list, m.groupdict())
-            entry = self.update_person_entry(found_entry, m.groupdict(), **kwargs)
-            if found_entry is None:
-                person_list.insert(i, entry)
+        # Check if the file exists before trying to open it
+        if not os.path.exists(filename):
+            print(f'File {filename} not found, skipping.')
+            return
 
-# Manipulador para el archivo `codemeta.json`
-class CodeMetaManipulator(Manipulator):
-    default_filename = 'codemeta.json'
-    # Expresión regular para capturar la nueva estructura
-    findregex = re.compile(r'^(?P<familyName>[-\w\s]*[-\w]),\s*'
-                           r'(?P<givenName>[-\w\s]*[-\w])\s*'
-                           r'(?:\[(?P<email>\S+@\S+)\])?\s*'
-                           r'(?:\[(?P<orcid>https://orcid\.org/\S+)\])?\s*'
-                           r'(?:\[(?P<affiliation>.+?)\])?$')
+        try:
+            with open(filename, 'r', encoding='utf8') as fp:
+                person_list = self.data.setdefault(field_name, [])
+                for i, line in enumerate(fp, start=0):
+                    line = line.strip()
+                    m = self.findregex.match(line)
+                    if m is None:
+                        print(f"Could not analyze line: {line}")
+                        continue  # Skip malformed lines
+                    found_entry = self._find_person_entry(person_list, m.groupdict())
+                    entry = self.update_person_entry(found_entry, m.groupdict(), **kwargs)
+                    if found_entry is None:
+                        person_list.insert(i, entry)
+        except FileNotFoundError as e:
+            print(f'Error: The file {filename} was not found. {e}')
+        except RuntimeError as e:
+            print(e)
 
-    @classmethod
-    def _find_person_entry(cls, person_list, matchdict):
-        # Se busca por orcid primero, que es único
-        for entry in person_list:
-            if cls._dict_entry_cmp(entry, matchdict, '@id', 'orcid'):
-                return entry
-        for entry in person_list:
-            if cls._dict_entry_cmp(entry, matchdict, 'email'):
-                return entry
-            if cls._dict_entry_cmp(entry, matchdict, 'familyName') \
-                    and cls._dict_entry_cmp(entry, matchdict, 'givenName'):
-                return entry
-        return None
-
-    @staticmethod
-    def update_person_entry(entry, matchdict, **kwargs):
-        if entry is None:
-            entry = OrderedDict()
-            entry['@type'] = 'Person'
-        for field in ('orcid', 'givenName', 'familyName', 'email', 'affiliation'):
-            val = matchdict.get(field, None)
-            if val is not None:
-                if field == 'orcid':
-                    entry['@id'] = val
-                else:
-                    entry[field] = val
-        return entry
-
-    def update_authors(self):
-        self._handle_person_list_file('AUTHORS', 'author')
-        self._handle_person_list_file('CONTRIBUTORS', 'contributor')
-
-    def version(self, new_version):
-        self.data['softwareVersion'] = new_version
-
-
-# Manipulador para el archivo `.zenodo.json`
 class ZenodoManipulator(Manipulator):
     default_filename = '.zenodo.json'
-    # Expresión regular para capturar la nueva estructura de ORCID, email y afiliación
-    findregex = re.compile(r'^(?P<name>[-\w\s,]*[-\w])\s*'
-                           r'(?:\[(?P<email>\S+@\S+)\])?\s*'
-                           r'(?:\[(?P<orcid>https://orcid\.org/\S+)\])?\s*'
-                           r'(?:\[(?P<affiliation>.+?)\])?$')
+    # Improved regular expression to handle different author formats
+    findregex = re.compile(r'^(?P<name>[-\w\s,]*[-\w])\s*'  # Name
+                           r'(?:\[(?P<email>\S+@\S+)\])?\s*'  # Optional email
+                           r'(\[https://orcid\.org/(?P<orcid>\S+)\])?\s*'  # Optional ORCID
+                           r'(\[(?P<affiliation>[^\]]+)\])?$')  # Optional affiliation
 
     @classmethod
     def _find_person_entry(cls, person_list, matchdict):
-        # Se busca por orcid primero
+        # First attempt to match using ORCID
         for entry in person_list:
             if cls._dict_entry_cmp(entry, matchdict, 'orcid'):
                 return entry
+        # If not, attempt to match by name
         for entry in person_list:
             if cls._dict_entry_cmp(entry, matchdict, 'name'):
                 return entry
@@ -120,13 +93,14 @@ class ZenodoManipulator(Manipulator):
             entry = OrderedDict()
             if contributor_type:
                 entry['type'] = contributor_type
-        for field in ('name', 'orcid', 'affiliation'):
+        for field in ('name', 'orcid', 'email', 'affiliation'):
             val = matchdict.get(field, None)
             if val is not None:
                 entry[field] = val
         return entry
 
     def update_authors(self):
+        # Update the authors and contributors if the files exist
         self._handle_person_list_file('AUTHORS', 'creators')
         self._handle_person_list_file('CONTRIBUTORS', 'contributors', contributor_type='Other')
 
@@ -137,18 +111,16 @@ class ZenodoManipulator(Manipulator):
         self.data['version'] = new_version
 
 
-# Función principal
 def main():
-    parser = ArgumentParser(description='Update codemeta.json and '
-                                        '.zenodo.json')
+    parser = ArgumentParser(description='Update .zenodo.json')
     parser.add_argument('--set-version', dest='newversion')
     args = parser.parse_args()
 
-    for manipulator in (CodeMetaManipulator(), ZenodoManipulator()):
+    for manipulator in (ZenodoManipulator(),):
         try:
             manipulator.load()
-        except FileNotFoundError as e:
-            print('*** Skipping {}: {}'.format(manipulator, e))
+        except Exception as e:
+            print(f'*** Error loading {manipulator}: {e}')
             continue
         if args.newversion is not None:
             manipulator.version(args.newversion)
@@ -158,4 +130,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
