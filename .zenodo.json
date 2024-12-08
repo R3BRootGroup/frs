@@ -53,7 +53,7 @@
         {
             "identifier": "https://github.com/R3BRootGroup/frs/blob/dev/README.md",
             "relation": "isDocumentedBy",
-            "resource_type": "documentation",
+            "resource_type": "publication-softwaredocumentation",
             "scheme": "url"
         }
     ],
