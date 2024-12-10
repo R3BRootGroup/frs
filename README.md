@@ -4,10 +4,10 @@
 --------
 
 ## The FRS Framework
-The FRS directory within R3BRoot contains the software for the [FRS](https://wiki.gsi.de/FRS) (Fragment Separator) detectors that are utilized in the FRS and R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The FRS and R3B programs are part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions.
+The FRS directory within [R3BRoot](https://github.com/R3BRootGroup/R3BRoot) contains the software for the [FRS](https://wiki.gsi.de/FRS) (Fragment Separator) detectors that are utilized in the FRS and R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The FRS and R3B programs are part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions. The FRS software is a source distribution with recurring releases for macOS and Linux.
 
 ## License
-FRS is distributed under the terms of the GNU Lesser General Public Licence version 3 (LGPLv3).
+FRS is distributed under the terms of the GNU Lesser General Public Licence version 3 ([GPLv3](https://github.com/R3BRootGroup/frs/blob/dev/LICENSE))
 
 ## Discussion Forum
 For the software-related user support you can post a new topic on our [forum](https://forum.gsi.de/index.php?t=index&cat=40&).
