@@ -1,4 +1,5 @@
 {
+    "access_right": "open",
     "creators": [
         {
             "name": "Rodríguez-Sánchez, Jose Luis",
@@ -28,7 +29,7 @@
             "affiliation": "Universität zu Köln, 50923 Köln, Germany"
         }
     ],
-    "description": "The FRS directory within R3BRoot contains the software for the FRS (Fragment Separator) detectors that are utilized in the FRS and R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The FRS and R3B programs are part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions.",
+    "description": "The FRS-R3B directory within R3BRoot contains the software for the FRS (Fragment Separator) detectors that are utilized in the FRS-R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The R3B experimental program is part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions. The FRS-R3B software package is a source distribution with recurring releases for macOS and Linux.",
     "maintainers": [
         {
             "name": "Rodriguez-Sánchez, Jose Luis",
@@ -39,8 +40,20 @@
     ],
     "related_identifiers": [
         {
+            "identifier": "https://github.com/FairRootGroup/FairSoft/",
+            "relation": "isDerivedFrom",
+            "resource_type": "software",
+            "scheme": "url"
+        },
+        {
             "identifier": "https://github.com/FairRootGroup/FairRoot/",
             "relation": "isDerivedFrom",
+            "resource_type": "software",
+            "scheme": "url"
+        },
+        {
+            "identifier": "https://gitlab.com/chalmers-subexp/ucesb/",
+            "relation": "isRelatedTo",
             "resource_type": "software",
             "scheme": "url"
         },
@@ -86,7 +99,7 @@
         "Structure and dynamics of nuclei",
         "Nuclear reactions",
         "Nuclear fission",
-        "Super-FRS, FRS and R3B experiments",
+        "FRS-R3B, Super-FRS-R3B experiments",
         "GSI/FAIR facility"
     ]
 }
