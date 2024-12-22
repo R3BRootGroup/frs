@@ -70,7 +70,7 @@
             "scheme": "url"
         }
     ],
-    "title": "FRS Software",
+    "title": "FRS-R3B Software",
     "upload_type": "software",
     "license": "LGPL-3.0-only",
     "softwareRequirements": [
