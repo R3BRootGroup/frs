@@ -11,72 +11,66 @@
  * @since July 29, 2018
  * */
 
-typedef struct EXT_STR_h101_t {
-  EXT_STR_h101_unpack_t unpack;
-  EXT_STR_h101_WASA_t wasa;
+typedef struct EXT_STR_h101_t
+{
+    EXT_STR_h101_unpack_t unpack;
+    EXT_STR_h101_WASA_t wasa;
 } EXT_STR_h101;
 
-void unpack_2018_wasa_mapped() {
-  TStopwatch timer;
-  timer.Start();
-  
-  //const Int_t nev = -1; /* number of events to read, -1 - until CTRL+C */
-  const Int_t nev = -1; /* number of events to read, -1 - until CTRL+C */
-  
-  /* Create source using ucesb for input ------------------ */
-  
-  TString filename = "~/lmd/mdctest0075.lmd";
-  TString outputFileName = "data_map_01.root";
-  
-  TString ntuple_options = "UNPACK:EVENTNO,UNPACK:TRIGGER,RAW";
-  TString ucesb_dir = getenv("UCESB_DIR");
-  
-  TString ucesb_path = ucesb_dir + "/../upexps/wasa/swasa";
-  
-  EXT_STR_h101 ucesb_struct;
-  
-  R3BUcesbSource* source = new R3BUcesbSource(filename, ntuple_options,
-					      ucesb_path, &ucesb_struct, sizeof(ucesb_struct));
-  source->SetMaxEvents(nev);
-  
-  source->AddReader(new R3BUnpackReader((EXT_STR_h101_unpack*)&ucesb_struct,
-					offsetof(EXT_STR_h101, unpack)));
+void unpack_2018_wasa_mapped()
+{
+    TStopwatch timer;
+    timer.Start();
 
-  R3BWasaReader* unpackwasa= new R3BWasaReader((EXT_STR_h101_WASA*)&ucesb_struct.wasa,
-					     offsetof(EXT_STR_h101, wasa));
-  source->AddReader(unpackwasa);
+    // const Int_t nev = -1; /* number of events to read, -1 - until CTRL+C */
+    const Int_t nev = -1; /* number of events to read, -1 - until CTRL+C */
 
-  
-  /* Create online run ------------------------------------ */
-  FairRunOnline* run = new FairRunOnline(source);
-  //run->SetRunId(1513078509);
-  run->SetOutputFile(outputFileName);
+    /* Create source using ucesb for input ------------------ */
 
+    TString filename = "~/lmd/mdctest0075.lmd";
+    TString outputFileName = "data_map_01.root";
 
-  /* Initialize ------------------------------------------- */
-  run->Init();
-  FairLogger::GetLogger()->SetLogScreenLevel("info");
-  //FairLogger::GetLogger()->SetLogScreenLevel("warn");
-  //FairLogger::GetLogger()->SetLogScreenLevel("debug");
-  /* ------------------------------------------------------ */
-  
+    TString ntuple_options = "UNPACK:EVENTNO,UNPACK:TRIGGER,RAW";
+    TString ucesb_dir = getenv("UCESB_DIR");
 
-  /* Runtime data base ------------------------------------ */
-  FairRuntimeDb* rtdb = run->GetRuntimeDb();
+    TString ucesb_path = ucesb_dir + "/../upexps/wasa/swasa";
 
+    EXT_STR_h101 ucesb_struct;
 
-  /* Run -------------------------------------------------- */
-  run->Run((nev < 0) ? nev : 0, (nev < 0) ? 0 : nev);
+    R3BUcesbSource* source =
+        new R3BUcesbSource(filename, ntuple_options, ucesb_path, &ucesb_struct, sizeof(ucesb_struct));
+    source->SetMaxEvents(nev);
 
+    source->AddReader(new R3BUnpackReader((EXT_STR_h101_unpack*)&ucesb_struct, offsetof(EXT_STR_h101, unpack)));
 
-  /* Finish ----------------------------------------------- */
-  timer.Stop();
-  Double_t rtime = timer.RealTime();
-  Double_t ctime = timer.CpuTime();
-  std::cout << std::endl << std::endl;
-  std::cout << "Macro finished succesfully." << std::endl;
-  std::cout << "Output file is " << outputFileName << std::endl;
-  std::cout << "Real time " << rtime << " s, CPU time " << ctime << " s"
-            << std::endl << std::endl;
-  gApplication->Terminate();
+    R3BWasaReader* unpackwasa = new R3BWasaReader((EXT_STR_h101_WASA*)&ucesb_struct.wasa, offsetof(EXT_STR_h101, wasa));
+    source->AddReader(unpackwasa);
+
+    /* Create online run ------------------------------------ */
+    FairRunOnline* run = new FairRunOnline(source);
+    // run->SetRunId(1513078509);
+    run->SetOutputFile(outputFileName);
+
+    /* Initialize ------------------------------------------- */
+    run->Init();
+    FairLogger::GetLogger()->SetLogScreenLevel("info");
+    // FairLogger::GetLogger()->SetLogScreenLevel("warn");
+    // FairLogger::GetLogger()->SetLogScreenLevel("debug");
+    /* ------------------------------------------------------ */
+
+    /* Runtime data base ------------------------------------ */
+    FairRuntimeDb* rtdb = run->GetRuntimeDb();
+
+    /* Run -------------------------------------------------- */
+    run->Run((nev < 0) ? nev : 0, (nev < 0) ? 0 : nev);
+
+    /* Finish ----------------------------------------------- */
+    timer.Stop();
+    Double_t rtime = timer.RealTime();
+    Double_t ctime = timer.CpuTime();
+    std::cout << std::endl << std::endl;
+    std::cout << "Macro finished succesfully." << std::endl;
+    std::cout << "Output file is " << outputFileName << std::endl;
+    std::cout << "Real time " << rtime << " s, CPU time " << ctime << " s" << std::endl << std::endl;
+    gApplication->Terminate();
 }

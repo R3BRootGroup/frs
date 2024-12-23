@@ -2927,7 +2927,6 @@ void create_wasa_geo(const char* geoTag = "v2020")
 
     INNER_->AddNode(target, 1, new TGeoCombiTrans(0, 0, 9., zeroRot));
 
-
     // ----------------------------
 
     TGeoRotation* rotg = new TGeoRotation();

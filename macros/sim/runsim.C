@@ -23,7 +23,7 @@ void runsim(Int_t nEvents = 1)
     TString OutFile = "sim.root"; // Output file for data
     TString ParFile = "par.root"; // Output file for params
 
-    Bool_t fVis = false;        // Store tracks for visualization
+    Bool_t fVis = false;       // Store tracks for visualization
     Bool_t fUserPList = false; // Use of R3B special physics list
     Bool_t fMagnet = true;     // Magnetic field definition
 
@@ -132,7 +132,7 @@ void runsim(Int_t nEvents = 1)
     {
         // 2- Define the BOX generator
         Double_t pdgId = 2212; // proton beam
-        Double_t theta1 = 0.; // polar angle distribution
+        Double_t theta1 = 0.;  // polar angle distribution
         Double_t theta2 = 0.;
         Double_t momentum = 2.25; // 10 GeV/c
         FairBoxGenerator* boxGen = new FairBoxGenerator(pdgId, 1);
@@ -141,7 +141,7 @@ void runsim(Int_t nEvents = 1)
         boxGen->SetPhiRange(0., 0.);
         boxGen->SetXYZ(0.0, 0.0, -20.5);
         // add the box generator
-        //primGen->AddGenerator(boxGen);
+        // primGen->AddGenerator(boxGen);
 
         FRSResonanceGenerator* resGen = new FRSResonanceGenerator();
         primGen->AddGenerator(resGen);
@@ -155,9 +155,9 @@ void runsim(Int_t nEvents = 1)
         // primGen->AddGenerator(boxGen2);
 
         // 128-Sn fragment
-         R3BIonGenerator* ionGen = new R3BIonGenerator(54, 124, 54, 1, 0., 0., 1.3);
-         ionGen->SetSpotRadius(0., -37., 0.);
-         //primGen->AddGenerator(ionGen);
+        R3BIonGenerator* ionGen = new R3BIonGenerator(54, 124, 54, 1, 0., 0., 1.3);
+        ionGen->SetSpotRadius(0., -37., 0.);
+        // primGen->AddGenerator(ionGen);
 
         // R3BIonGenerator* ionGen = new R3BIonGenerator(2, 128, 50, 1, 0., 1.3, 0);
         // ionGen->SetSpotRadius(0.1, 0., 0.);
