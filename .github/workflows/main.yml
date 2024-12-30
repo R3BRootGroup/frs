@@ -122,7 +122,7 @@ jobs:
           cd frs
           git clone https://github.com/R3BRootGroup/macros.git
           mv frs/ucesb .
-          cmake . -B build -C cmake/CI_CD/configure_options.cmake -DBUILD_GEOMETRY=OFF
+          cmake . -B build -C cmake/CI_CD/configure_options.cmake -DBUILD_GEOMETRY=OFF -DBUILD_DOXYGEN_FRS=ON
           cd build
           make -j ${NUM_THREADS}
 
