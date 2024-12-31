@@ -53,13 +53,13 @@
         },
         {
             "identifier": "https://gitlab.com/chalmers-subexp/ucesb/",
-            "relation": "isRelatedTo",
+            "relation": "isSupplementTo",
             "resource_type": "software",
             "scheme": "url"
         },
         {
             "identifier": "https://github.com/R3BRootGroup/R3BRoot/",
-            "relation": "isSupplementTo",
+            "relation": "isDerivedFrom",
             "resource_type": "software",
             "scheme": "url"
         },
