@@ -25,7 +25,7 @@ runs:
 
     - name: mount cvmfs
       run: |
-        apt-get install -y ccache
+        apt-get install -y ccache doxygen graphviz
         wget https://cernbox.cern.ch/remote.php/dav/public-files/RmnTeeOZpYjCJQb/masterkey.gsi.de.pub
         mv masterkey.gsi.de.pub /etc/cvmfs/keys
         cp .github/config/fairsoft.gsi.de.conf /etc/cvmfs/config.d
