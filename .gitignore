@@ -1,41 +1,43 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
 # Executables
 *.exe
 *.out
 *.app
 
-# ROOT specific files
-*.d
-*.pcm
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.ko
 
-# Storage files
-*.gam
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+*.lib
 
-# Generated folders and files 
-*.root
-*.par
-*.png
+# Compiled Static libraries
+*.lai
+*.la
+*.a
 
+# CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+# CTest
+Testing/
+
+# build directory & data directory
+build/
+core_dump*
+
+
+# diverse
+.DS_Store
+
+#editor tmp files
+.*.swp
