@@ -27,7 +27,7 @@ Attributes / Design:
   destructing the object. The object can be created on the stack,
   on the heap or even as a member variable of another class
   (constructors are public). That code can either be internal
-  FairRoot code or code by the user (like with the \ref FairRun
+  FRS code or code by the user (like with the \ref FairRun
   classes).
 
  */

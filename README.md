@@ -117,7 +117,7 @@ Doxygen documantation is also available online [here](http://R3BRootGroup.github
 
 ## More Information
 
-* [Static analyzer using Clang-tidy](config/clang_tidy/README.md)
-* [CMake build system for R3BRoot/frs](doc/cmake_usage.md)
-* [How to use an unmerged pull request](doc/git_usage.md#fetch-the-update-from-an-unmerged-pull-request-pr)
+* [Static analyzer using Clang-tidy](https://github.com/R3BRootGroup/R3BRoot/blob/dev/config/clang_tidy/README.md)
+* [CMake build system for R3BRoot/frs](https://github.com/R3BRootGroup/R3BRoot/tree/dev/doc/cmake_usage.md)
+* [How to use an unmerged pull request](https://github.com/R3BRootGroup/R3BRoot/tree/dev/doc/git_usage.md#fetch-the-update-from-an-unmerged-pull-request-pr)
 
