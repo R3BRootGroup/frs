@@ -41,6 +41,12 @@
   ADD_CUSTOM_TARGET(DoxygenDoc ALL
     COMMAND ${BASH} ${CMAKE_CURRENT_BINARY_DIR}/doc_makeall.sh)
 
+  message(STATUS "Current binary directory: ${CMAKE_CURRENT_BINARY_DIR}")
+  
+  set(CMAKE_INSTALL_DOCDIR ${CMAKE_CURRENT_BINARY_DIR})
+  
+  message(STATUS "DESTINATION: ${CMAKE_INSTALL_DOCDIR}")
+
   install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/html"
           DESTINATION "${CMAKE_INSTALL_DOCDIR}"
           COMPONENT Doxygen)
