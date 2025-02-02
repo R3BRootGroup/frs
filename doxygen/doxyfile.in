@@ -30,7 +30,7 @@ ABBREVIATE_BRIEF       =
 ALWAYS_DETAILED_SEC    = NO
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = YES
-STRIP_FROM_PATH        = "@CMAKE_SOURCE_DIR@"
+STRIP_FROM_PATH        = "@R3BFRS_SOURCE_DIR@"
 STRIP_FROM_INC_PATH    =
 SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = NO
@@ -109,17 +109,17 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = "@CMAKE_SOURCE_DIR@/README.md" \
-                         "@CMAKE_SOURCE_DIR@/cmake" \
-                         "@CMAKE_SOURCE_DIR@/doxygen" \
-                         "@CMAKE_SOURCE_DIR@/frssource" \
-                         "@CMAKE_SOURCE_DIR@/frsgen" \
-                         "@CMAKE_SOURCE_DIR@/frsdetectors" \
-                         "@CMAKE_SOURCE_DIR@/sci" \
-                         "@CMAKE_SOURCE_DIR@/wasa" \
-                         "@CMAKE_SOURCE_DIR@/field" \
-                         "@CMAKE_SOURCE_DIR@/frsdata" \
-                         "@CMAKE_SOURCE_DIR@/macros"
+INPUT                  = "@R3BFRS_SOURCE_DIR@/README.md" \
+                         "@R3BFRS_SOURCE_DIR@/cmake" \
+                         "@R3BFRS_SOURCE_DIR@/doxygen" \
+                         "@R3BFRS_SOURCE_DIR@/frssource" \
+                         "@R3BFRS_SOURCE_DIR@/frsgen" \
+                         "@R3BFRS_SOURCE_DIR@/frsdetectors" \
+                         "@R3BFRS_SOURCE_DIR@/sci" \
+                         "@R3BFRS_SOURCE_DIR@/wasa" \
+                         "@R3BFRS_SOURCE_DIR@/field" \
+                         "@R3BFRS_SOURCE_DIR@/frsdata" \
+                         "@R3BFRS_SOURCE_DIR@/macros"
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          =
 RECURSIVE              = YES
@@ -135,7 +135,7 @@ INPUT_FILTER           =
 FILTER_PATTERNS        =
 FILTER_SOURCE_FILES    = NO
 FILTER_SOURCE_PATTERNS =
-USE_MDFILE_AS_MAINPAGE = "@CMAKE_SOURCE_DIR@/README.md"
+USE_MDFILE_AS_MAINPAGE = "@R3BFRS_SOURCE_DIR@/README.md"
 #---------------------------------------------------------------------------
 # Configuration options related to source browsing
 #---------------------------------------------------------------------------
