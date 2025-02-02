@@ -109,6 +109,12 @@ This directory contains all the classes for the mapping, calibration, and hit re
 
 This contains all the macros needed for the unpacking and analysis of data.
 
+## Generating Doxygen documentation
+
+If the flage -DBUILD_DOXYGEN_FRS=ON is set when calling cmake, the doxygen documentation will be generated when calling make.  The generated html files can then be found in "build/doxygen/doc/html"
+
+Doxygen documantation is also available online [here](http://R3BRootGroup.github.io/frs/html/index.html)
+
 ## More Information
 
 * [Static analyzer using Clang-tidy](config/clang_tidy/README.md)
