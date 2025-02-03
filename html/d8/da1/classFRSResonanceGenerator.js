@@ -1,0 +1,28 @@
+var classFRSResonanceGenerator =
+[
+    [ "FRSResonanceGenerator", "d8/da1/classFRSResonanceGenerator.html#a535c63c98f94463beb39020691df4998", null ],
+    [ "FRSResonanceGenerator", "d8/da1/classFRSResonanceGenerator.html#a02126c52da85161dc29a9e00e8225a52", null ],
+    [ "ClassDef", "d8/da1/classFRSResonanceGenerator.html#a79afcad23e1c1e122a867b7863d27239", null ],
+    [ "DecayCM", "d8/da1/classFRSResonanceGenerator.html#ad1ec7b5a4b3dcb018b521bcc22b61a45", null ],
+    [ "Init", "d8/da1/classFRSResonanceGenerator.html#ab42a691e27db2aa585ad2b0948c372d3", null ],
+    [ "ProjectileExcitation", "d8/da1/classFRSResonanceGenerator.html#a52ffcee2e8d88b9bd40dcbb4adb31bbd", null ],
+    [ "ReadEvent", "d8/da1/classFRSResonanceGenerator.html#ab5bc2194465f6c071053c103267922b9", null ],
+    [ "SetLorentzBoost", "d8/da1/classFRSResonanceGenerator.html#aea87d3700ee3005fd3b2b0c39941f9f0", null ],
+    [ "TargetExcitation", "d8/da1/classFRSResonanceGenerator.html#ae42e2c980211a93a8f12958d137e52c9", null ],
+    [ "TargetExcitation2pi", "d8/da1/classFRSResonanceGenerator.html#a64f43a841b8495290d2a5c2ea693eb80", null ],
+    [ "boostdelta", "d8/da1/classFRSResonanceGenerator.html#af7ca71553fdcb4bcc93be509237be138", null ],
+    [ "fBeta", "d8/da1/classFRSResonanceGenerator.html#adc63e454a724c5b93c50e6ad9902e714", null ],
+    [ "fvx", "d8/da1/classFRSResonanceGenerator.html#aa87351361ae5acc23c19219bb356d146", null ],
+    [ "fvy", "d8/da1/classFRSResonanceGenerator.html#a9c016cf2ff3f47998d836e44f8d489e7", null ],
+    [ "fvz", "d8/da1/classFRSResonanceGenerator.html#ae6e6d4056fc1912f97c280bb5b09d811", null ],
+    [ "lvn", "d8/da1/classFRSResonanceGenerator.html#aa5c3f248097678eb2bc4ad45c7d6de02", null ],
+    [ "lvpion1", "d8/da1/classFRSResonanceGenerator.html#a24694a2d45a18421eff9e23a2bb6168c", null ],
+    [ "lvpion2", "d8/da1/classFRSResonanceGenerator.html#a867c47767fc9d0902b63232e61d7b4c7", null ],
+    [ "massDelta", "d8/da1/classFRSResonanceGenerator.html#a8066822b814ab6c6f1e52a805e41140a", null ],
+    [ "massneutron", "d8/da1/classFRSResonanceGenerator.html#a99096ffd12d0d7be4889ef0dbdb5e125", null ],
+    [ "masspion", "d8/da1/classFRSResonanceGenerator.html#aac3981ba379ec2691afac99021a1261a", null ],
+    [ "massproton", "d8/da1/classFRSResonanceGenerator.html#ab3f0ee97e766471d95bcb020a2ca5bca", null ],
+    [ "massRoper", "d8/da1/classFRSResonanceGenerator.html#ac107310cec4b2e9652d2b8993230ffea", null ],
+    [ "wDelta", "d8/da1/classFRSResonanceGenerator.html#a2d4def130fcc84554e3aa6c502ee0881", null ],
+    [ "wRoper", "d8/da1/classFRSResonanceGenerator.html#aa73790fa82d5749348730cf7dd4ad821", null ]
+];
