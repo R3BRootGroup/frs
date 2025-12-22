@@ -29,7 +29,7 @@
             "affiliation": "Universität zu Köln, 50923 Köln, Germany"
         }
     ],
-    "description": "The FRS-R3B directory within R3BRoot contains the software for the FRS (Fragment Separator) detectors that are utilized in the FRS-R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The R3B experimental program is part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions. The FRS-R3B software package is a source distribution with recurring releases for macOS and Linux.",
+    "description": "The FRS-R3B directory within R3BRoot contains the software for the FRS (Fragment Separator) detectors that are utilized in the FRS-R3B experiments. The FRS is a pivotal instrument for investigating nuclear reactions with relativistic radioactive beams, enabling high-precision studies of exotic nuclei and nuclear structure at the limits of stability. This software is built upon the FairRoot framework, which provides the tools necessary for both Monte Carlo simulations and data analysis of experimental results. The R3B experimental program is part of the broader nuclear physics research efforts at the FAIR (Facility for Antiproton and Ion Research), a cutting-edge international research facility that utilizes heavy-ion and antiproton beams to explore fundamental questions in nuclear physics, with a particular focus on the production and behavior of rare isotopes under extreme conditions. The FRS-R3B software package is a source distribution with recurring releases for MacOS and Linux.",
     "maintainers": [
         {
             "name": "Rodriguez-Sánchez, Jose Luis",
@@ -85,7 +85,7 @@
     ],
     "operatingSystem": [
         "Linux",
-        "macOS"
+        "MacOS"
     ],
     "keywords": [
         "Geant4",
