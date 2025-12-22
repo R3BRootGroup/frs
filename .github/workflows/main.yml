@@ -65,7 +65,7 @@ jobs:
     # tool-kits for the building, such as clang-tidy and cvmfs. For more
     # information, please visit the Docker repository at Dockerhub.
     container: 
-      image: yanzhaowang/cvmfs_clang:latest
+      image: r3bdockers/debian12
       volumes:
         - /tmp:/cvmfs
       env:
@@ -83,7 +83,7 @@ jobs:
     # another github repo or a self-defined one in .github/actions.
     steps:
       # Fetch updates from pull request branches using a public github action.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # This allows all commits of all branches to be fetched.
           fetch-depth: 0
@@ -120,9 +120,8 @@ jobs:
           mv frs R3BRoot
           mv R3BRoot frs
           cd frs
-          git clone https://github.com/R3BRootGroup/macros.git
           mv frs/ucesb .
-          cmake . -B build -C cmake/CI_CD/configure_options.cmake -DBUILD_GEOMETRY=OFF -DBUILD_DOXYGEN_FRS=ON
+          cmake . -B build -C cmake/CI_CD/configure_options.cmake -DBUILD_GEOMETRY=OFF -DBUILD_DOXYGEN_FRS=OFF
           cd build
           make -j ${NUM_THREADS}
 

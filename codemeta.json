@@ -6,11 +6,11 @@
   "contIntegration": "https://github.com/R3BRootGroup/frs/actions",
   "dateCreated": "2018-08-05",
   "datePublished": "2018-08-05",
-  "dateModified": "2024-12-08",
-  "downloadUrl": "https://github.com/R3BRootGroup/frs/archive/refs/tags/dec24.tar.gz",
+  "dateModified": "2025-12-22",
+  "downloadUrl": "https://github.com/R3BRootGroup/frs/archive/refs/tags/dec25.tar.gz",
   "issueTracker": "https://github.com/R3BRootGroup/frs/issues",
   "name": "FRS-R3B Software",
-  "softwareVersion": "dec24",
+  "softwareVersion": "dec25",
   "description": "Software for simulations and data analysis of FRS/Super-FRS/R3B experiments at GSI/FAIR",
   "readme": "https://github.com/R3BRootGroup/frs/blob/dev/README.md",
   "releaseNotes": "",
@@ -38,7 +38,7 @@
   ],
   "operatingSystem": [
     "Linux",
-    "macOS"
+    "MacOS"
   ],
   "softwareRequirements": [
     "FairRoot, FairSoft, R3BRoot"
