@@ -80,12 +80,7 @@ R3BTpcMapped2CalPar::R3BTpcMapped2CalPar(const char* name, Int_t iVerbose)
 }
 
 // R3BTpcMapped2CalPar: Destructor ----------------------------------------
-R3BTpcMapped2CalPar::~R3BTpcMapped2CalPar()
-{
-    LOG(info) << "R3BTpcMapped2CalPar: Delete instance";
-    if (fTpcMappedDataCA)
-        delete fTpcMappedDataCA;
-}
+R3BTpcMapped2CalPar::~R3BTpcMapped2CalPar() { LOG(info) << "R3BTpcMapped2CalPar: Delete instance"; }
 
 // -----   Public method Init   --------------------------------------------
 InitStatus R3BTpcMapped2CalPar::Init()
@@ -161,17 +156,15 @@ InitStatus R3BTpcMapped2CalPar::ReInit() { return kSUCCESS; }
 // -----   Public method Exec   --------------------------------------------
 void R3BTpcMapped2CalPar::Exec(Option_t* opt)
 {
-
-    Int_t nHits = fTpcMappedDataCA->GetEntries();
-    if (!nHits)
+    auto nHits = fTpcMappedDataCA->GetEntries();
+    if (nHits == 0)
         return;
 
-    R3BTpcMappedData* MapHit;
     Int_t detId;
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        MapHit = (R3BTpcMappedData*)(fTpcMappedDataCA->At(i));
+        auto MapHit = (R3BTpcMappedData*)(fTpcMappedDataCA->At(i));
         detId = MapHit->GetDetectorId();
 
         fTpcdt[0] = (MapHit->GetTpcdt())[0];

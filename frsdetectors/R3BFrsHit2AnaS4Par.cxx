@@ -159,7 +159,6 @@ InitStatus R3BFrsHit2AnaS4Par::ReInit()
 // -----   Public method Exec   --------------------------------------------
 void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
 {
-
     Double_t fZ = 0., fAq = 0.;
 
     Int_t nHitFrs = fFrsMappedDataCA->GetEntries();
@@ -169,18 +168,14 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     if (!nHitMusic || !nHitFrs || nHitTpc < 4)
         return; // FIXME:include here warn!
 
-    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
-    FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
-    R3BTpcHitData** HitTpc = new R3BTpcHitData*[nHitTpc];
-
     // Z from musics ------------------------------------
     Double_t countz = 0;
     for (Int_t i = 0; i < nHitMusic; i++)
     {
-        HitMusic[i] = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
-        if (HitMusic[i]->GetZ() > 1)
+        auto HitMusic = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
+        if (HitMusic->GetZ() > 1)
         {
-            fZ = fZ + HitMusic[i]->GetZ();
+            fZ = fZ + HitMusic->GetZ();
             countz++;
         }
     }
@@ -198,9 +193,9 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
     Int_t detID = 0;
     for (Int_t i = 0; i < nHitTpc; i++)
     {
-        HitTpc[i] = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
-        detID = HitTpc[i]->GetDetectorId();
-        tpc_x[detID] = HitTpc[i]->GetX();
+        auto HitTpc = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
+        detID = HitTpc->GetDetectorId();
+        tpc_x[detID] = HitTpc->GetX();
     }
 
     Int_t SCI24_TofRR = 0.;
@@ -208,9 +203,9 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
 
     for (Int_t i = 0; i < nHitFrs; i++)
     {
-        MapFrs[i] = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
-        SCI24_TofRR = MapFrs[i]->GetSCI41RT();
-        SCI24_TofLL = MapFrs[i]->GetSCI41LT();
+        auto MapFrs = (R3BFrsMappedData*)(fFrsMappedDataCA->At(i));
+        SCI24_TofRR = MapFrs->GetSCI41RT();
+        SCI24_TofLL = MapFrs->GetSCI41LT();
         // LOG(info) << SCI24_TofRR << " " << SCI24_TofLL ;
     }
 
@@ -242,10 +237,6 @@ void R3BFrsHit2AnaS4Par::Exec(Option_t* opt)
         fNb++;
     }
 
-    if (HitMusic)
-        delete HitMusic;
-    if (HitTpc)
-        delete HitTpc;
     return;
 }
 

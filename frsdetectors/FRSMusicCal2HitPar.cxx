@@ -128,12 +128,10 @@ InitStatus FRSMusicCal2HitPar::ReInit()
 // -----   Public method Exec   --------------------------------------------
 void FRSMusicCal2HitPar::Exec(Option_t* opt)
 {
-
-    Int_t nHits = fMusicCalDataCA->GetEntries();
-    if (!nHits)
+    auto nHits = fMusicCalDataCA->GetEntries();
+    if (nHits == 0)
         return;
 
-    FRSMusicCalData* CalDat;
     Int_t detId, anodeId;
     Double_t energyperanode[5][8]; // max 5 detectors and 8 anodes
     Int_t nbdet = 0;
@@ -144,7 +142,7 @@ void FRSMusicCal2HitPar::Exec(Option_t* opt)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        CalDat = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
+        auto CalDat = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
         detId = CalDat->GetDetectorId();
         anodeId = CalDat->GetAnodeId();
 
@@ -155,7 +153,6 @@ void FRSMusicCal2HitPar::Exec(Option_t* opt)
     /* calculate truncated dE from 8 anodes, Munich MUSIC */
     for (Int_t i = 0; i <= nbdet; i++)
     {
-
         Float_t r1 = sqrt(energyperanode[i][0] * energyperanode[i][1]);
         Float_t r2 = sqrt(energyperanode[i][2] * energyperanode[i][3]);
         Float_t r3 = sqrt(energyperanode[i][4] * energyperanode[i][5]);

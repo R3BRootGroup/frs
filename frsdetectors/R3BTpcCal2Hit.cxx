@@ -137,11 +137,9 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
         LOG(error) << "NO Container Parameter!!";
     }
 
-    Int_t nHits = fTpcCalDataCA->GetEntries();
-    if (!nHits)
+    auto nHits = fTpcCalDataCA->GetEntries();
+    if (nHits == 0)
         return;
-
-    R3BTpcCalData** CalDat = new R3BTpcCalData*[nHits];
 
     Int_t detId, secId, xyId;
     Double_t fx = -999., fy = -999.;
@@ -158,30 +156,30 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        CalDat[i] = (R3BTpcCalData*)(fTpcCalDataCA->At(i));
-        detId = CalDat[i]->GetDetectorId();
-        secId = CalDat[i]->GetSecId();
-        xyId = CalDat[i]->GetXYId();
+        auto CalDat = (R3BTpcCalData*)(fTpcCalDataCA->At(i));
+        detId = CalDat->GetDetectorId();
+        secId = CalDat->GetSecId();
+        xyId = CalDat->GetXYId();
 
         // std::cout << detId << " " << secId << " " << xyId << std::endl;
 
         if (xyId == 0)
         { // for X
-            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.)
+            if (CalDat->GetPosition() >= -100. && CalDat->GetPosition() <= 100.)
             {
                 if (tpc_x[detId] == -500)
                     tpc_x[detId] = 0.;
-                tpc_x[detId] = tpc_x[detId] + CalDat[i]->GetPosition();
+                tpc_x[detId] = tpc_x[detId] + CalDat->GetPosition();
                 count_x[detId]++;
             }
         }
         else
         { // for Y
-            if (CalDat[i]->GetPosition() >= -100. && CalDat[i]->GetPosition() <= 100.)
+            if (CalDat->GetPosition() >= -100. && CalDat->GetPosition() <= 100.)
             {
                 if (tpc_y[detId] == -500)
                     tpc_y[detId] = 0.;
-                tpc_y[detId] = tpc_y[detId] + CalDat[i]->GetPosition();
+                tpc_y[detId] = tpc_y[detId] + CalDat->GetPosition();
                 count_y[detId]++;
             }
         }
@@ -199,8 +197,6 @@ void R3BTpcCal2Hit::Exec(Option_t* option)
         }
     }
 
-    if (CalDat)
-        delete CalDat;
     return;
 }
 
