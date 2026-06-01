@@ -56,8 +56,7 @@ FRSMusicMapped2Cal::FRSMusicMapped2Cal(const char* name, Int_t iVerbose)
 FRSMusicMapped2Cal::~FRSMusicMapped2Cal()
 {
     LOG(info) << "FRSMusicMapped2Cal: Delete instance";
-    if (fMusicMappedDataCA)
-        delete fMusicMappedDataCA;
+
     if (fMusicCalDataCA)
         delete fMusicCalDataCA;
 }
@@ -132,7 +131,7 @@ InitStatus FRSMusicMapped2Cal::Init()
 
     // OUTPUT DATA
     // Calibrated data
-    fMusicCalDataCA = new TClonesArray("FRSMusicCalData", 10);
+    fMusicCalDataCA = new TClonesArray("FRSMusicCalData");
     if (!fOnline)
     {
         rootManager->Register("FRSMusicCalData", "MUSIC Cal", fMusicCalDataCA, kTRUE);
@@ -165,38 +164,35 @@ void FRSMusicMapped2Cal::Exec(Option_t* option)
     }
 
     // Reading the Input -- Mapped Data --
-    Int_t nHits = fMusicMappedDataCA->GetEntries();
+    auto nHits = fMusicMappedDataCA->GetEntries();
     if (nHits != NumAnodes * NumDets && nHits > 0)
         LOG(warn) << "FRSMusicMapped2Cal: nHits!=" << nHits << " NumAnodes:NumDets" << NumAnodes << ":" << NumDets;
     if (!nHits)
         return;
 
-    FRSMusicMappedData** mappedData = new FRSMusicMappedData*[nHits];
-    Int_t detId;
-    Int_t anodeId;
+    Int_t detId = 0;
+    Int_t anodeId = 0;
     Double_t energy;
     Double_t pedestal = 0.;
     Double_t sigma = 0.;
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        mappedData[i] = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
-        detId = mappedData[i]->GetDetectorId();
-        anodeId = mappedData[i]->GetAnodeId();
+        auto mappedData = (FRSMusicMappedData*)(fMusicMappedDataCA->At(i));
+        detId = mappedData->GetDetectorId();
+        anodeId = mappedData->GetAnodeId();
 
         pedestal = CalParams->GetAt(NumParams * anodeId + 1 + detId * NumAnodes * NumParams);
         // sigma=CalParams->GetAt(NumParams*anodeId+2+detId*NumAnodes*NumParams);
 
-        // std::cout << detId << " " << anodeId<<" "<< mappedData[i]->GetEnergy()<< " " << pedestal << std::endl;
+        // std::cout << detId << " " << anodeId<<" "<< mappedData->GetEnergy()<< " " << pedestal << std::endl;
 
-        energy = mappedData[i]->GetEnergy() - pedestal;
+        energy = mappedData->GetEnergy() - pedestal;
 
         if (pedestal != -1)
             AddCalData(detId, anodeId, energy);
     }
 
-    if (mappedData)
-        delete mappedData;
     return;
 }
 

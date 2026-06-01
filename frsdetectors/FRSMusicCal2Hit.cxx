@@ -126,7 +126,7 @@ InitStatus FRSMusicCal2Hit::Init()
     }
 
     // OUTPUT DATA
-    fMusicHitDataCA = new TClonesArray("FRSMusicHitData", 10);
+    fMusicHitDataCA = new TClonesArray("FRSMusicHitData");
     if (!fOnline)
     {
         rootManager->Register("FRSMusicHitData", "MUSIC Hit", fMusicHitDataCA, kTRUE);
@@ -158,12 +158,9 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
         LOG(error) << "NO Container Parameter!!";
     }
 
-    Int_t nHits = fMusicCalDataCA->GetEntries();
-    if (!nHits)
+    auto nHits = fMusicCalDataCA->GetEntries();
+    if (nHits == 0)
         return;
-
-    // FRSMusicCalData* CalDat;
-    FRSMusicCalData** CalDat = new FRSMusicCalData*[nHits];
 
     Int_t detId, anodeId;
     Double_t energyperanode[5][8]; // max 5 detectors and 8 anodes
@@ -175,11 +172,11 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        CalDat[i] = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
-        detId = CalDat[i]->GetDetectorId();
-        anodeId = CalDat[i]->GetAnodeId();
+        auto CalDat = (FRSMusicCalData*)(fMusicCalDataCA->At(i));
+        detId = CalDat->GetDetectorId();
+        anodeId = CalDat->GetAnodeId();
 
-        energyperanode[detId][anodeId] = CalDat[i]->GetEnergy();
+        energyperanode[detId][anodeId] = CalDat->GetEnergy();
         nbdet = detId;
     }
 
@@ -188,7 +185,6 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
     // calculate truncated dE from 8 anodes, Munich MUSIC
     for (Int_t i = 0; i <= NumDets; i++)
     {
-
         Float_t r1 = sqrt(energyperanode[i][0] * energyperanode[i][1]);
         Float_t r2 = sqrt(energyperanode[i][2] * energyperanode[i][3]);
         Float_t r3 = sqrt(energyperanode[i][4] * energyperanode[i][5]);
@@ -202,8 +198,6 @@ void FRSMusicCal2Hit::Exec(Option_t* option)
         }
     }
 
-    if (CalDat)
-        delete CalDat;
     return;
 }
 
@@ -226,3 +220,5 @@ FRSMusicHitData* FRSMusicCal2Hit::AddHitData(Int_t detid, Double_t charge)
     Int_t size = clref.GetEntriesFast();
     return new (clref[size]) FRSMusicHitData(detid, charge);
 }
+
+ClassImp(FRSMusicCal2Hit)

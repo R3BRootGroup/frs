@@ -70,18 +70,7 @@ R3BFrsHit2AnaS4::R3BFrsHit2AnaS4(const char* name, Int_t iVerbose)
 R3BFrsHit2AnaS4::~R3BFrsHit2AnaS4()
 {
     LOG(info) << "R3BFrsHit2AnaS4: Delete instance";
-    if (fFrsMappedDataCA)
-    {
-        delete fFrsMappedDataCA;
-    }
-    if (fMusicHitDataCA)
-    {
-        delete fMusicHitDataCA;
-    }
-    if (fTpcHitDataCA)
-    {
-        delete fTpcHitDataCA;
-    }
+
     if (fFrsDataCA)
     {
         delete fFrsDataCA;
@@ -176,7 +165,7 @@ InitStatus R3BFrsHit2AnaS4::Init()
     }
 
     // OUTPUT DATA
-    fFrsDataCA = new TClonesArray("R3BFrsS4Data", 10);
+    fFrsDataCA = new TClonesArray("R3BFrsS4Data");
     if (!fOnline)
     {
         rootManager->Register("FrsData", "Analysis FRS", fFrsDataCA, kTRUE);
@@ -200,10 +189,6 @@ InitStatus R3BFrsHit2AnaS4::ReInit()
 // -----   Public method Execution   --------------------------------------------
 void R3BFrsHit2AnaS4::Exec(Option_t* option)
 {
-
-    // if(++nEvents % 10000 == 0)
-    // LOG(info) << nEvents ;
-
     // Reset entries in output arrays, local arrays
     Reset();
 
@@ -216,19 +201,14 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     if (!nHitMusic || !nHitFrs || !nHitTpc)
         return; // FIXME:include here warn!
 
-    //    R3BFrsMappedData** MapFrs = new R3BFrsMappedData*[nHitFrs];
-    FrsSciSingleTcalData** MapFrs = new FrsSciSingleTcalData*[nHitFrs];
-    FRSMusicHitData** HitMusic = new FRSMusicHitData*[nHitMusic];
-    R3BTpcHitData** HitTpc = new R3BTpcHitData*[nHitTpc];
-
     // Z from musics ------------------------------------
     Double_t countz = 0;
     for (Int_t i = 0; i < nHitMusic; i++)
     {
-        HitMusic[i] = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
-        if (HitMusic[i]->GetZ() > 1)
+        auto HitMusic = (FRSMusicHitData*)(fMusicHitDataCA->At(i));
+        if (HitMusic->GetZ() > 1)
         {
-            fZ = fZ + HitMusic[i]->GetZ();
+            fZ = fZ + HitMusic->GetZ();
             countz++;
         }
     }
@@ -246,9 +226,9 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     Int_t detID = 0;
     for (Int_t i = 0; i < nHitTpc; i++)
     {
-        HitTpc[i] = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
-        detID = HitTpc[i]->GetDetectorId();
-        tpc_x[detID] = HitTpc[i]->GetX();
+        auto HitTpc = (R3BTpcHitData*)(fTpcHitDataCA->At(i));
+        detID = HitTpc->GetDetectorId();
+        tpc_x[detID] = HitTpc->GetX();
     }
 
     Double_t SCI24_TofRR = 0.;
@@ -256,9 +236,9 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
 
     for (Int_t i = 0; i < nHitFrs; i++)
     {
-        MapFrs[i] = (FrsSciSingleTcalData*)(fFrsMappedDataCA->At(i));
-        SCI24_TofRR = MapFrs[i]->GetRawTofNs(0);
-        SCI24_TofLL = MapFrs[i]->GetRawTofNs(0);
+        auto MapFrs = (FrsSciSingleTcalData*)(fFrsMappedDataCA->At(i));
+        SCI24_TofRR = MapFrs->GetRawTofNs(0);
+        SCI24_TofLL = MapFrs->GetRawTofNs(0);
         // SCI24_TofRR = MapFrs[i]->GetSCI41RT();
         // SCI24_TofLL = MapFrs[i]->GetSCI41LT();
         // LOG(info) << SCI24_TofRR << " " << SCI24_TofLL ;
@@ -290,12 +270,6 @@ void R3BFrsHit2AnaS4::Exec(Option_t* option)
     // Fill the data
     AddData(fZ + fOffsetZ, fAq + fOffsetAq, x_position_focal_S2, angle_S2_mrad, x_position_focal_S4, Beta_S2_S4);
 
-    if (HitMusic)
-        delete HitMusic;
-    if (HitTpc)
-        delete HitTpc;
-    if (MapFrs)
-        delete MapFrs;
     return;
 }
 

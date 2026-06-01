@@ -85,8 +85,7 @@ FrsRatesSpill::FrsRatesSpill(const char* name, Int_t iVerbose)
 FrsRatesSpill::~FrsRatesSpill()
 {
     LOG(info) << "FrsRatesSpill: Delete instance";
-    if (fFrsMappedDataCA)
-        delete fFrsMappedDataCA;
+
     if (fSpillCalDataCA)
         delete fSpillCalDataCA;
 }
@@ -110,7 +109,7 @@ InitStatus FrsRatesSpill::Init()
     }
 
     // OUTPUT DATA
-    fSpillCalDataCA = new TClonesArray("R3BSeetramCalData", 10);
+    fSpillCalDataCA = new TClonesArray("R3BSeetramCalData");
     if (!fOnline)
     {
         rootManager->Register("FrsSpillData", "Spill info", fSpillCalDataCA, kTRUE);
@@ -133,15 +132,13 @@ void FrsRatesSpill::Exec(Option_t* option)
     Reset();
 
     // Reading the Input -- Mapped Data --
-    Int_t nHits = fFrsMappedDataCA->GetEntries();
-    if (!nHits)
+    auto nHits = fFrsMappedDataCA->GetEntries();
+    if (nHits == 0)
         return;
-
-    FrsSpillMappedData** mappedData = new FrsSpillMappedData*[nHits];
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        mappedData[i] = (FrsSpillMappedData*)(fFrsMappedDataCA->At(i));
+        auto mappedData = (FrsSpillMappedData*)(fFrsMappedDataCA->At(i));
 
         if (firstEvt)
         {
@@ -156,59 +153,59 @@ void FrsRatesSpill::Exec(Option_t* option)
             fsci21counts = 0;
             fsci41counts = 0;
             fdumcounts = 0;
-            fclock1hz = mappedData[i]->GetClock1Hz();
-            fclock10hz = mappedData[i]->GetClock10Hz();
-            fclock100khz = mappedData[i]->GetClock100kHz();
-            faceptrigcounter = mappedData[i]->GetAccTrig();
-            ffreetrigcounter = mappedData[i]->GetFreeTrig();
-            fseecounter = mappedData[i]->GetSeetramNew();
-            fdumcounter = mappedData[i]->GetSeetramOld();
-            ficcounter = mappedData[i]->GetIc01();
-            fsci00counter = mappedData[i]->GetSCI00();
-            fsci01counter = mappedData[i]->GetSCI01();
-            fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI21L();
-            fsci41counter = mappedData[i]->GetSCI41L();
+            fclock1hz = mappedData->GetClock1Hz();
+            fclock10hz = mappedData->GetClock10Hz();
+            fclock100khz = mappedData->GetClock100kHz();
+            faceptrigcounter = mappedData->GetAccTrig();
+            ffreetrigcounter = mappedData->GetFreeTrig();
+            fseecounter = mappedData->GetSeetramNew();
+            fdumcounter = mappedData->GetSeetramOld();
+            ficcounter = mappedData->GetIc01();
+            fsci00counter = mappedData->GetSCI00();
+            fsci01counter = mappedData->GetSCI01();
+            fsci02counter = mappedData->GetSCI02();
+            fsci21counter = mappedData->GetSCI21L();
+            fsci41counter = mappedData->GetSCI41L();
             firstclock1hz = fclock1hz;
             firstclock10hz = fclock10hz;
             firstclock100khz = fclock100khz;
-            fstart = mappedData[i]->GetStartExt();
+            fstart = mappedData->GetStartExt();
             firststart = fstart;
-            fstop = mappedData[i]->GetStopExt();
+            fstop = mappedData->GetStopExt();
             firststop = fstop;
         }
 
-        if (mappedData[i]->GetStartExt() == fstart && mappedData[i]->GetStopExt() == fstop)
+        if (mappedData->GetStartExt() == fstart && mappedData->GetStopExt() == fstop)
         { // nothing
         }
-        else if (mappedData[i]->GetStartExt() > fstart && mappedData[i]->GetStopExt() == fstop)
+        else if (mappedData->GetStartExt() > fstart && mappedData->GetStopExt() == fstop)
         {
-            faceptrigcounts = faceptrigcounts + (mappedData[i]->GetAccTrig() - faceptrigcounter);
-            ffreetrigcounts = ffreetrigcounts + (mappedData[i]->GetFreeTrig() - ffreetrigcounter);
-            fseecounts = fseecounts + (mappedData[i]->GetSeetramNew() - fseecounter);
-            ficcounts = ficcounts + (mappedData[i]->GetIc01() - ficcounter);
-            fdumcounts = fdumcounts + (mappedData[i]->GetSeetramOld() - fdumcounter);
-            fsci00counts = fsci00counts + (mappedData[i]->GetSCI00() - fsci00counter);
-            fsci01counts = fsci01counts + (mappedData[i]->GetSCI01() - fsci01counter);
-            fsci02counts = fsci02counts + (mappedData[i]->GetSCI02() - fsci02counter);
+            faceptrigcounts = faceptrigcounts + (mappedData->GetAccTrig() - faceptrigcounter);
+            ffreetrigcounts = ffreetrigcounts + (mappedData->GetFreeTrig() - ffreetrigcounter);
+            fseecounts = fseecounts + (mappedData->GetSeetramNew() - fseecounter);
+            ficcounts = ficcounts + (mappedData->GetIc01() - ficcounter);
+            fdumcounts = fdumcounts + (mappedData->GetSeetramOld() - fdumcounter);
+            fsci00counts = fsci00counts + (mappedData->GetSCI00() - fsci00counter);
+            fsci01counts = fsci01counts + (mappedData->GetSCI01() - fsci01counter);
+            fsci02counts = fsci02counts + (mappedData->GetSCI02() - fsci02counter);
 
-            fsci21counts = fsci21counts + (mappedData[i]->GetSCI21L() - fsci21counter);
-            fsci41counts = fsci41counts + (mappedData[i]->GetSCI41L() - fsci41counter);
+            fsci21counts = fsci21counts + (mappedData->GetSCI21L() - fsci21counter);
+            fsci41counts = fsci41counts + (mappedData->GetSCI41L() - fsci41counter);
 
-            faceptrigcounter = mappedData[i]->GetAccTrig();
-            ffreetrigcounter = mappedData[i]->GetFreeTrig();
-            fseecounter = mappedData[i]->GetSeetramNew();
-            fdumcounter = mappedData[i]->GetSeetramOld();
-            ficcounter = mappedData[i]->GetIc01();
-            fsci00counter = mappedData[i]->GetSCI00();
-            fsci01counter = mappedData[i]->GetSCI01();
-            fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI21L();
-            fsci41counter = mappedData[i]->GetSCI41L();
+            faceptrigcounter = mappedData->GetAccTrig();
+            ffreetrigcounter = mappedData->GetFreeTrig();
+            fseecounter = mappedData->GetSeetramNew();
+            fdumcounter = mappedData->GetSeetramOld();
+            ficcounter = mappedData->GetIc01();
+            fsci00counter = mappedData->GetSCI00();
+            fsci01counter = mappedData->GetSCI01();
+            fsci02counter = mappedData->GetSCI02();
+            fsci21counter = mappedData->GetSCI21L();
+            fsci41counter = mappedData->GetSCI41L();
         }
         else
         {
-            // std::cout<<"spill " << mappedData[i]->GetStopExt() <<" " <<fstop <<std::endl;
+            // std::cout<<"spill " << mappedData->GetStopExt() <<" " <<fstop <<std::endl;
             AddCalData(faceptrigcounts,
                        ffreetrigcounts,
                        fseecounts,
@@ -220,7 +217,7 @@ void FrsRatesSpill::Exec(Option_t* option)
                        fspill);
             fspill++;
 
-            fclock1hz = mappedData[i]->GetClock1Hz();
+            fclock1hz = mappedData->GetClock1Hz();
             faceptrigcounts = 0;
             ffreetrigcounts = 0;
             fseecounts = 0;
@@ -231,83 +228,79 @@ void FrsRatesSpill::Exec(Option_t* option)
             fsci02counts = 0;
             fsci21counts = 0;
             fsci41counts = 0;
-            faceptrigcounts = faceptrigcounts + (mappedData[i]->GetAccTrig() - faceptrigcounter);
-            ffreetrigcounts = ffreetrigcounts + (mappedData[i]->GetFreeTrig() - ffreetrigcounter);
-            fseecounts = fseecounts + (mappedData[i]->GetSeetramNew() - fseecounter);
-            ficcounts = ficcounts + (mappedData[i]->GetIc01() - ficcounter);
-            fdumcounts = fdumcounts + (mappedData[i]->GetSeetramOld() - fdumcounter);
-            fsci00counts = fsci00counts + (mappedData[i]->GetSCI00() - fsci00counter);
-            fsci01counts = fsci01counts + (mappedData[i]->GetSCI01() - fsci01counter);
-            fsci02counts = fsci02counts + (mappedData[i]->GetSCI02() - fsci02counter);
+            faceptrigcounts = faceptrigcounts + (mappedData->GetAccTrig() - faceptrigcounter);
+            ffreetrigcounts = ffreetrigcounts + (mappedData->GetFreeTrig() - ffreetrigcounter);
+            fseecounts = fseecounts + (mappedData->GetSeetramNew() - fseecounter);
+            ficcounts = ficcounts + (mappedData->GetIc01() - ficcounter);
+            fdumcounts = fdumcounts + (mappedData->GetSeetramOld() - fdumcounter);
+            fsci00counts = fsci00counts + (mappedData->GetSCI00() - fsci00counter);
+            fsci01counts = fsci01counts + (mappedData->GetSCI01() - fsci01counter);
+            fsci02counts = fsci02counts + (mappedData->GetSCI02() - fsci02counter);
 
-            fsci21counts = fsci21counts + (mappedData[i]->GetSCI21L() - fsci21counter);
-            fsci41counts = fsci41counts + (mappedData[i]->GetSCI41L() - fsci41counter);
+            fsci21counts = fsci21counts + (mappedData->GetSCI21L() - fsci21counter);
+            fsci41counts = fsci41counts + (mappedData->GetSCI41L() - fsci41counter);
 
-            faceptrigcounter = mappedData[i]->GetAccTrig();
-            ffreetrigcounter = mappedData[i]->GetFreeTrig();
-            fseecounter = mappedData[i]->GetSeetramNew();
-            fdumcounter = mappedData[i]->GetSeetramOld();
-            ficcounter = mappedData[i]->GetIc01();
-            fsci00counter = mappedData[i]->GetSCI00();
-            fsci01counter = mappedData[i]->GetSCI01();
-            fsci02counter = mappedData[i]->GetSCI02();
-            fsci21counter = mappedData[i]->GetSCI21L();
-            fsci41counter = mappedData[i]->GetSCI41L();
-            fstart = mappedData[i]->GetStartExt();
-            fstop = mappedData[i]->GetStopExt();
+            faceptrigcounter = mappedData->GetAccTrig();
+            ffreetrigcounter = mappedData->GetFreeTrig();
+            fseecounter = mappedData->GetSeetramNew();
+            fdumcounter = mappedData->GetSeetramOld();
+            ficcounter = mappedData->GetIc01();
+            fsci00counter = mappedData->GetSCI00();
+            fsci01counter = mappedData->GetSCI01();
+            fsci02counter = mappedData->GetSCI02();
+            fsci21counter = mappedData->GetSCI21L();
+            fsci41counter = mappedData->GetSCI41L();
+            fstart = mappedData->GetStartExt();
+            fstop = mappedData->GetStopExt();
         }
     }
 
     /*
-
-
-
-
-            if (mappedData[i]->GetClock1Hz() < fclock1hz)
+            if (mappedData->GetClock1Hz() < fclock1hz)
             {
-                // firstclock1hz=-1*(fclock1hz-firstclock1hz)+mappedData[i]->GetClock1Hz();
-                firstclock1hz = -(4294967295 - firstclock1hz) + mappedData[i]->GetClock1Hz();
-                firstclock10hz = -(4294967295 - firstclock10hz) + mappedData[i]->GetClock10Hz();
-                firstclock100khz = -(4294967295 - firstclock100khz) + mappedData[i]->GetClock100kHz();
-                fclock1hz = mappedData[i]->GetClock1Hz();
-                fclock10hz = mappedData[i]->GetClock10Hz();
-                fclock100khz = mappedData[i]->GetClock100kHz();
-                faceptrigcounter = mappedData[i]->GetAccTrig();
-                ffreetrigcounter = mappedData[i]->GetFreeTrig();
-                fseecounter = mappedData[i]->GetSeetramNew();
-                fdumcounter = mappedData[i]->GetSeetramOld();
-                ficcounter = mappedData[i]->GetIc();
-                fsci00counter = mappedData[i]->GetSCI00();
-                fsci01counter = mappedData[i]->GetSCI01();
-                fsci02counter = mappedData[i]->GetSCI02();
-                fsci21counter = mappedData[i]->GetSCI00(); // FIXME
-                fsci41counter = mappedData[i]->GetSCI02();
+                // firstclock1hz=-1*(fclock1hz-firstclock1hz)+mappedData->GetClock1Hz();
+                firstclock1hz = -(4294967295 - firstclock1hz) + mappedData->GetClock1Hz();
+                firstclock10hz = -(4294967295 - firstclock10hz) + mappedData->GetClock10Hz();
+                firstclock100khz = -(4294967295 - firstclock100khz) + mappedData->GetClock100kHz();
+                fclock1hz = mappedData->GetClock1Hz();
+                fclock10hz = mappedData->GetClock10Hz();
+                fclock100khz = mappedData->GetClock100kHz();
+                faceptrigcounter = mappedData->GetAccTrig();
+                ffreetrigcounter = mappedData->GetFreeTrig();
+                fseecounter = mappedData->GetSeetramNew();
+                fdumcounter = mappedData->GetSeetramOld();
+                ficcounter = mappedData->GetIc();
+                fsci00counter = mappedData->GetSCI00();
+                fsci01counter = mappedData->GetSCI01();
+                fsci02counter = mappedData->GetSCI02();
+                fsci21counter = mappedData->GetSCI00(); // FIXME
+                fsci41counter = mappedData->GetSCI02();
             }
 
-            if (mappedData[i]->GetClock1Hz() == fclock1hz)
+            if (mappedData->GetClock1Hz() == fclock1hz)
             {
-                faceptrigcounts = faceptrigcounts + (mappedData[i]->GetAccTrig() - faceptrigcounter);
-                ffreetrigcounts = ffreetrigcounts + (mappedData[i]->GetFreeTrig() - ffreetrigcounter);
-                fseecounts = fseecounts + (mappedData[i]->GetSeetramNew() - fseecounter);
-                ficcounts = ficcounts + (mappedData[i]->GetIc() - ficcounter);
-                fdumcounts = fdumcounts + (mappedData[i]->GetSeetramOld() - fdumcounter);
-                fsci00counts = fsci00counts + (mappedData[i]->GetSCI00() - fsci00counter);
-                fsci01counts = fsci01counts + (mappedData[i]->GetSCI01() - fsci01counter);
-                fsci02counts = fsci02counts + (mappedData[i]->GetSCI02() - fsci02counter);
+                faceptrigcounts = faceptrigcounts + (mappedData->GetAccTrig() - faceptrigcounter);
+                ffreetrigcounts = ffreetrigcounts + (mappedData->GetFreeTrig() - ffreetrigcounter);
+                fseecounts = fseecounts + (mappedData->GetSeetramNew() - fseecounter);
+                ficcounts = ficcounts + (mappedData->GetIc() - ficcounter);
+                fdumcounts = fdumcounts + (mappedData->GetSeetramOld() - fdumcounter);
+                fsci00counts = fsci00counts + (mappedData->GetSCI00() - fsci00counter);
+                fsci01counts = fsci01counts + (mappedData->GetSCI01() - fsci01counter);
+                fsci02counts = fsci02counts + (mappedData->GetSCI02() - fsci02counter);
 
-                fsci21counts = fsci21counts + (mappedData[i]->GetSCI00() - fsci21counter); // FIXME
-                fsci41counts = fsci41counts + (mappedData[i]->GetSCI02() - fsci41counter);
+                fsci21counts = fsci21counts + (mappedData->GetSCI00() - fsci21counter); // FIXME
+                fsci41counts = fsci41counts + (mappedData->GetSCI02() - fsci41counter);
 
-                faceptrigcounter = mappedData[i]->GetAccTrig();
-                ffreetrigcounter = mappedData[i]->GetFreeTrig();
-                fseecounter = mappedData[i]->GetSeetramNew();
-                fdumcounter = mappedData[i]->GetSeetramOld();
-                ficcounter = mappedData[i]->GetIc();
-                fsci00counter = mappedData[i]->GetSCI00();
-                fsci01counter = mappedData[i]->GetSCI01();
-                fsci02counter = mappedData[i]->GetSCI02();
-                fsci21counter = mappedData[i]->GetSCI00(); // FIXME
-                fsci41counter = mappedData[i]->GetSCI02();
+                faceptrigcounter = mappedData->GetAccTrig();
+                ffreetrigcounter = mappedData->GetFreeTrig();
+                fseecounter = mappedData->GetSeetramNew();
+                fdumcounter = mappedData->GetSeetramOld();
+                ficcounter = mappedData->GetIc();
+                fsci00counter = mappedData->GetSCI00();
+                fsci01counter = mappedData->GetSCI01();
+                fsci02counter = mappedData->GetSCI02();
+                fsci21counter = mappedData->GetSCI00(); // FIXME
+                fsci41counter = mappedData->GetSCI02();
             }
             else
             {
@@ -324,7 +317,7 @@ void FrsRatesSpill::Exec(Option_t* option)
                            fsci01counts,
                            fsci41counts,
                            fclock1hz - firstclock1hz);
-                fclock1hz = mappedData[i]->GetClock1Hz();
+                fclock1hz = mappedData->GetClock1Hz();
                 faceptrigcounts = 0;
                 ffreetrigcounts = 0;
                 fseecounts = 0;
@@ -335,35 +328,32 @@ void FrsRatesSpill::Exec(Option_t* option)
                 fsci02counts = 0;
                 fsci21counts = 0;
                 fsci41counts = 0;
-                faceptrigcounts = faceptrigcounts + (mappedData[i]->GetAccTrig() - faceptrigcounter);
-                ffreetrigcounts = ffreetrigcounts + (mappedData[i]->GetFreeTrig() - ffreetrigcounter);
-                fseecounts = fseecounts + (mappedData[i]->GetSeetramNew() - fseecounter);
-                ficcounts = ficcounts + (mappedData[i]->GetIc() - ficcounter);
-                fdumcounts = fdumcounts + (mappedData[i]->GetSeetramOld() - fdumcounter);
-                fsci00counts = fsci00counts + (mappedData[i]->GetSCI00() - fsci00counter);
-                fsci01counts = fsci01counts + (mappedData[i]->GetSCI01() - fsci01counter);
-                fsci02counts = fsci02counts + (mappedData[i]->GetSCI02() - fsci02counter);
+                faceptrigcounts = faceptrigcounts + (mappedData->GetAccTrig() - faceptrigcounter);
+                ffreetrigcounts = ffreetrigcounts + (mappedData->GetFreeTrig() - ffreetrigcounter);
+                fseecounts = fseecounts + (mappedData->GetSeetramNew() - fseecounter);
+                ficcounts = ficcounts + (mappedData->GetIc() - ficcounter);
+                fdumcounts = fdumcounts + (mappedData->GetSeetramOld() - fdumcounter);
+                fsci00counts = fsci00counts + (mappedData->GetSCI00() - fsci00counter);
+                fsci01counts = fsci01counts + (mappedData->GetSCI01() - fsci01counter);
+                fsci02counts = fsci02counts + (mappedData->GetSCI02() - fsci02counter);
 
-                fsci21counts = fsci21counts + (mappedData[i]->GetSCI00() - fsci21counter);
-                fsci41counts = fsci41counts + (mappedData[i]->GetSCI02() - fsci41counter);
+                fsci21counts = fsci21counts + (mappedData->GetSCI00() - fsci21counter);
+                fsci41counts = fsci41counts + (mappedData->GetSCI02() - fsci41counter);
 
-                faceptrigcounter = mappedData[i]->GetAccTrig();
-                ffreetrigcounter = mappedData[i]->GetFreeTrig();
-                fseecounter = mappedData[i]->GetSeetramNew();
-                fdumcounter = mappedData[i]->GetSeetramOld();
-                ficcounter = mappedData[i]->GetIc();
-                fsci00counter = mappedData[i]->GetSCI00();
-                fsci01counter = mappedData[i]->GetSCI01();
-                fsci02counter = mappedData[i]->GetSCI02();
-                fsci21counter = mappedData[i]->GetSCI00(); // FIXME
-                fsci41counter = mappedData[i]->GetSCI02();
+                faceptrigcounter = mappedData->GetAccTrig();
+                ffreetrigcounter = mappedData->GetFreeTrig();
+                fseecounter = mappedData->GetSeetramNew();
+                fdumcounter = mappedData->GetSeetramOld();
+                ficcounter = mappedData->GetIc();
+                fsci00counter = mappedData->GetSCI00();
+                fsci01counter = mappedData->GetSCI01();
+                fsci02counter = mappedData->GetSCI02();
+                fsci21counter = mappedData->GetSCI00(); // FIXME
+                fsci41counter = mappedData->GetSCI02();
             }
         }
-        if (mappedData)
-            delete mappedData;
     */
-    if (mappedData)
-        delete mappedData;
+
     return;
 }
 

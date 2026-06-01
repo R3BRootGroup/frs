@@ -61,22 +61,6 @@ R3BMWMapped2Hit::~R3BMWMapped2Hit()
     LOG(info) << "R3BMWMapped2Hit: Delete instance";
     if (fMwHitDataCA)
         delete fMwHitDataCA;
-    if (fMw11MappedDataCA)
-        delete fMw11MappedDataCA;
-    if (fMw21MappedDataCA)
-        delete fMw21MappedDataCA;
-    if (fMw22MappedDataCA)
-        delete fMw22MappedDataCA;
-    if (fMw31MappedDataCA)
-        delete fMw31MappedDataCA;
-    if (fMw51MappedDataCA)
-        delete fMw51MappedDataCA;
-    if (fMw71MappedDataCA)
-        delete fMw71MappedDataCA;
-    if (fMw81MappedDataCA)
-        delete fMw81MappedDataCA;
-    if (fMw82MappedDataCA)
-        delete fMw82MappedDataCA;
 }
 
 void R3BMWMapped2Hit::SetParContainers()
@@ -287,7 +271,7 @@ InitStatus R3BMWMapped2Hit::Init()
 
     // OUTPUT DATA
     // Hit data
-    fMwHitDataCA = new TClonesArray("R3BMwHitData", 10);
+    fMwHitDataCA = new TClonesArray("R3BMwHitData");
     if (!fOnline)
     {
         rootManager->Register("MwHitData", "MW Hit", fMwHitDataCA, kTRUE);
@@ -335,23 +319,23 @@ void R3BMWMapped2Hit::Exec(Option_t* option)
 void R3BMWMapped2Hit::MakeHit(TClonesArray* fMwMappedData)
 {
 
-    Int_t nHits = fMwMappedData->GetEntries();
-    if (!nHits)
+    auto nHits = fMwMappedData->GetEntries();
+    if (nHits == 0)
         return;
-    R3BMwMappedData** MapDat = new R3BMwMappedData*[nHits];
+
     Int_t detId;
     Double_t fx, fy;
     Double_t an, xr, xl, yu, yd, xsum = 0, ysum = 0;
 
     for (Int_t i = 0; i < nHits; i++)
     {
-        MapDat[i] = (R3BMwMappedData*)(fMwMappedData->At(i));
-        detId = MapDat[i]->GetDetId();
-        an = MapDat[i]->GetAn();
-        xr = MapDat[i]->GetXr();
-        xl = MapDat[i]->GetXl();
-        yu = MapDat[i]->GetYu();
-        yd = MapDat[i]->GetYd();
+        auto MapDat = (R3BMwMappedData*)(fMwMappedData->At(i));
+        detId = MapDat->GetDetId();
+        an = MapDat->GetAn();
+        xr = MapDat->GetXr();
+        xl = MapDat->GetXl();
+        yu = MapDat->GetYu();
+        yd = MapDat->GetYd();
 
         // std::cout<< gain_tdc[1][detId] <<" "<<gain_tdc[2][detId] <<std::endl;
         // std::cout<< nHits <<" " << detId <<std::endl;
@@ -369,8 +353,7 @@ void R3BMWMapped2Hit::MakeHit(TClonesArray* fMwMappedData)
             AddHitData(detId, fx, fy);
         }
     }
-    if (MapDat)
-        delete MapDat;
+
     return;
 }
 
