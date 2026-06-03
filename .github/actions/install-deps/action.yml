@@ -40,6 +40,11 @@ runs:
       run: |
         echo "ucesb directory is set as ${UCESB_DIR}"
         export LD_LIBRARY_PATH="${SIMPATH}/lib/:${LD_LIBRARY_PATH}"
-        git clone https://git.chalmers.se/expsubphys/ucesb.git ${UCESB_DIR}
+        if [ -d "${UCESB_DIR}/.git" ]; then
+           echo "UCESB already exists, updating..."
+           git -C "${UCESB_DIR}" pull --ff-only
+        else
+           git clone https://git.chalmers.se/expsubphys/ucesb.git "${UCESB_DIR}"
+        fi
         cd ${UCESB_DIR} && make -j${NUM_THREADS} empty/empty
       shell: bash
