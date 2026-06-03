@@ -34,6 +34,5 @@ runs:
         echo "CVMFS_USER=$(whoami)" >> /etc/cvmfs/config.d/fairsoft.gsi.de.conf
         mkdir -p ${CVMDIR}
         mount -t cvmfs fairsoft.gsi.de ${CVMDIR}
-        mkdir -p ${UCESB_DIR}
         mkdir -p ${CCACHE_DIR}
       shell: bash
