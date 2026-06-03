@@ -32,7 +32,7 @@ class R3BFrsReader : public R3BReader
     ~R3BFrsReader();
 
     Bool_t Init(ext_data_struct_info*);
-    Bool_t Read();
+    Bool_t R3BRead();
     void Reset();
 
     /** Accessor to select online mode **/

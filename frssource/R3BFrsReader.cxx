@@ -99,7 +99,7 @@ Bool_t R3BFrsReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t R3BFrsReader::Read()
+Bool_t R3BFrsReader::R3BRead()
 {
     //
     Reset();

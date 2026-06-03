@@ -70,7 +70,7 @@ Bool_t FrsTpcReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t FrsTpcReader::Read()
+Bool_t FrsTpcReader::R3BRead()
 {
     //
     Reset();

@@ -15,7 +15,7 @@ class VftxSciReader : public R3BReader
     ~VftxSciReader();
 
     Bool_t Init(ext_data_struct_info*);
-    Bool_t Read();
+    Bool_t R3BRead();
     void Reset();
 
     /** Accessor to select online mode **/

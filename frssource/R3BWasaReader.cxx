@@ -72,7 +72,7 @@ Bool_t R3BWasaReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t R3BWasaReader::Read()
+Bool_t R3BWasaReader::R3BRead()
 {
     EXT_STR_h101_WASA_onion_t* data = (EXT_STR_h101_WASA_onion_t*)fData;
 

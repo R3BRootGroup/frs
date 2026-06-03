@@ -55,7 +55,7 @@ Bool_t FrsMusicReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t FrsMusicReader::Read()
+Bool_t FrsMusicReader::R3BRead()
 {
     Reset();
     /* Display data */
