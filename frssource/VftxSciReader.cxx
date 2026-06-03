@@ -67,7 +67,7 @@ Bool_t VftxSciReader::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t VftxSciReader::Read()
+Bool_t VftxSciReader::R3BRead()
 {
     // Convert plain raw data to multi-dimensional array
     EXT_STR_h101_frssci_onion* data = (EXT_STR_h101_frssci_onion*)fData;

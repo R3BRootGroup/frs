@@ -30,7 +30,7 @@ class FrsMusicReader : public R3BReader
     Bool_t Init(ext_data_struct_info*);
 
     /** Data reader **/
-    Bool_t Read();
+    Bool_t R3BRead();
 
     /** Virtual method Reset **/
     void Reset();
