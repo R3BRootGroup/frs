@@ -158,7 +158,7 @@ Bool_t R3BFrsReaderNov19::Init(ext_data_struct_info* a_struct_info)
     return kTRUE;
 }
 
-Bool_t R3BFrsReaderNov19::Read()
+Bool_t R3BFrsReaderNov19::R3BRead()
 {
     //
     Reset();
